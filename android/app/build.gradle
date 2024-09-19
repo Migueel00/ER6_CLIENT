@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+classpath 'com.google.gms:google-services:4.3.10' // Actualiza la versión según sea necesario
 
 /**
  * This is the configuration block to customize your React Native Android app.

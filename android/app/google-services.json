@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946196140711",
+    "project_id": "er6client-f6c7f",
+    "storage_bucket": "er6client-f6c7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946196140711:android:f6e5911feaebc201900182",
+        "android_client_info": {
+          "package_name": "com.er6"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH0bA4RII-C9oKHAmReY6SHrQvA2Lazgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
