@@ -1,6 +1,6 @@
 import SplashScreen from 'react-native-splash-screen';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
@@ -35,6 +35,11 @@ type SectionProps = PropsWithChildren<{
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [userEmail, setUserEmail] = useState("");
+  const [profileData, setProfileData] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -45,11 +50,16 @@ function App(): React.JSX.Element {
 
   const handleButtonPress = async () => {
     try {
+      
+      setLoading(true);
+      setError(null);
+
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('User Info: ', userInfo);
       const userEmail = userInfo.data?.user.email;
-      console.log('User e-mail: ' + userEmail);
+      setUserEmail(`${userEmail}`);
+      console.log(`User e-mail: ${userEmail}`);
       
       // Construir la URL con el email del alumno
       const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${userEmail}`;
@@ -64,6 +74,8 @@ function App(): React.JSX.Element {
 
       const stringProfileData = JSON.stringify(profileData, null,2);
 
+      setProfileData(`${stringProfileData}`);
+      
       console.log(`Profile data:${stringProfileData}`);
       
       // Maneja el inicio de sesión exitoso aquí
