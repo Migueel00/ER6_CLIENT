@@ -69,6 +69,11 @@ function App(): React.JSX.Element {
       if(!response.ok) {
         throw new Error('Error en la solicitud a la API');
       }
+      else
+      {
+        console.log("Succesfully connected with Kaotika API");
+        
+      }
 
       const profileData = await response.json();
 
