@@ -9,7 +9,6 @@ import {
   Text,
   useColorScheme,
   View,
-  Button,
 } from 'react-native';
 
 import {
@@ -19,6 +18,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import SignInButton from './SignInButton'; // Importa el componente SignInButton
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -59,11 +60,8 @@ function App(): React.JSX.Element {
           {/* Texto añadido aquí */}
           <Text style={styles.welcomeText}>Welcome</Text>
           
-          {/* Botón añadido aquí */}
-          <Button
-            title="Google sign in"
-            onPress={handleButtonPress}
-          />
+          {/* Usa el componente SignInButton */}
+          <SignInButton onPress={handleButtonPress} />
           
         </View>
 
