@@ -20,11 +20,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import SignInButton from './SignInButton'; // Importa el componente SignInButton
+import SignInButton from './SignInButton'; 
 
 
 GoogleSignin.configure({
-  webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Cliente web de Firebase
+  webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
   offlineAccess: true,
 });
 
