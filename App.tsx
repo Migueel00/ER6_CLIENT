@@ -1,4 +1,5 @@
 import SplashScreen from 'react-native-splash-screen';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import React, { useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
@@ -20,6 +21,12 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import SignInButton from './SignInButton'; // Importa el componente SignInButton
+
+
+GoogleSignin.configure({
+  webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Cliente web de Firebase
+  offlineAccess: true,
+});
 
 type SectionProps = PropsWithChildren<{
   title: string;
