@@ -43,8 +43,24 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const handleButtonPress = () => {
-    console.log('Button pressed');
+  const handleButtonPress = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('User Info:', userInfo);
+      // Maneja el inicio de sesión exitoso aquí
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // Usuario canceló el inicio de sesión
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // Inicio de sesión en progreso
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // Google Play Services no está disponible
+      } else {
+        // Otro error
+        console.error(error);
+      }
+    }
   };
 
   return (
