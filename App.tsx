@@ -47,7 +47,25 @@ function App(): React.JSX.Element {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('User Info:', userInfo);
+      console.log('User Info: ', userInfo);
+      const userEmail = userInfo.data?.user.email;
+      console.log('User e-mail: ' + userEmail);
+      
+      // Construir la URL con el email del alumno
+      const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${userEmail}`;
+
+      const response = await fetch(kaotikaApiUrl);
+
+      if(!response.ok) {
+        throw new Error('Error en la solicitud a la API');
+      }
+
+      const profileData = await response.json();
+
+      const stringProfileData = JSON.stringify(profileData, null,2);
+
+      console.log(`Profile data:${stringProfileData}`);
+      
       // Maneja el inicio de sesión exitoso aquí
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -58,7 +76,7 @@ function App(): React.JSX.Element {
         // Google Play Services no está disponible
       } else {
         // Otro error
-        console.error(error);
+        console.error('Error general: ', error);
       }
     }
   };
