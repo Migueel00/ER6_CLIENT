@@ -57,12 +57,12 @@ function App(): React.JSX.Element {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('User Info: ', userInfo);
-      const userEmail = userInfo.data?.user.email;
-      setUserEmail(`${userEmail}`);
-      console.log(`User e-mail: ${userEmail}`);
+      const email = userInfo.data?.user.email;
+      setUserEmail(`${email}`);
+      console.log(`User e-mail: ${email}`);
       
       // Construir la URL con el email del alumno
-      const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${userEmail}`;
+      const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
 
       const response = await fetch(kaotikaApiUrl);
 
