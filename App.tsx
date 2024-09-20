@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -95,6 +96,9 @@ function App(): React.JSX.Element {
           </Section>
           <LearnMoreLinks />
         </View>
+        <View style={styles.container}>
+            <ActivityIndicator size={'large'} color={'blue'}/>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -117,6 +121,12 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
 });
 
 export default App;
