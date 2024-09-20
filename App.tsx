@@ -2,6 +2,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import React, { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
+import HomeScreen from './homeScreen';
 import {
   SafeAreaView,
   ScrollView,
@@ -56,14 +57,6 @@ function App(): React.JSX.Element {
   useEffect(() => {
     setProfileAttributes(profileAttributes);
     }, [profileAttributes]);
-
-  function HomeScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
   
   function ProfileScreen() {
     return (
