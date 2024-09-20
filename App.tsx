@@ -13,9 +13,9 @@ import {
   ActivityIndicator
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import HomeScreen from './homeScreen';
-import SettingsScreen from './settingsScreen';
-import ProfileScreen, { ProfileAttributes } from './profileScreen';
+import HomeScreen from './components/homeScreen';
+import SettingsScreen from './components/settingsScreen';
+import ProfileScreen, { ProfileAttributes } from './components/profileScreen';
 
 import {
   Colors
@@ -24,7 +24,7 @@ import {
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import SignInButton from './SignInButton';
+import SignInButton from './components/SignInButton';
 
 
 GoogleSignin.configure({
