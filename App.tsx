@@ -17,14 +17,14 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
 import SettingsScreen from './components/settingsScreen';
-import ProfileScreen, { ProfileAttributes } from './components/profileScreen';
+import { ProfileAttributes } from './components/profileScreen';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 
@@ -75,7 +75,7 @@ function App(): React.JSX.Element {
     );
   }
 
-  const Tab = createBottomTabNavigator();
+  const Tab = createMaterialTopTabNavigator();
 
 
   useEffect(() => {
@@ -157,49 +157,28 @@ function App(): React.JSX.Element {
         <NavigationContainer>
           <Tab.Navigator>
             <Tab.Screen 
-              name="Home" 
-              component={HomeScreen} 
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <Icon name="home-outline" color={color} size={size} />
-                ),
-              }} 
+              name="Home"
+              component={HomeScreen}
+              options={{ tabBarLabel: "Home" }}
             />
-            <Tab.Screen 
+            <Tab.Screen
               name="Profile" 
-              component={ProfileScreen} 
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <Icon name="person-outline" color={color} size={size} />
-                ),
-              }} 
+              component={ProfileScreen}
+              options={{ tabBarLabel: 'Profile' }}
             />
             <Tab.Screen 
-              name="Settings" 
-              component={SettingsScreen} 
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <Icon name="settings-outline" color={color} size={size} />
-                ),
-              }} 
+              name="Settings"
+              component={SettingsScreen}
+              options={{ tabBarLabel: 'Settings' }}
             />
           </Tab.Navigator>
         </NavigationContainer>
       ) : (
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}
-        > 
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (
-              <LoadSpinner /> 
+            <LoadSpinner /> 
           ) : (
-            <View
-              style={{
-                backgroundColor: isDarkMode ? 'black' : 'white',
-                padding: 20,
-                alignItems: 'center',
-              }}
-            > 
+            <View style={{ padding: 20, alignItems: 'center', backgroundColor: isDarkMode ? 'black' : 'white' }}>
               <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
               <SignInButton onPress={handleButtonPress} />
             </View>
