@@ -1,3 +1,4 @@
+import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -9,6 +10,7 @@ import {
   Text,
   useColorScheme,
   View,
+  ActivityIndicator
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './homeScreen';
@@ -22,6 +24,7 @@ import {
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import SignInButton from './SignInButton';
 
 
 GoogleSignin.configure({
@@ -49,6 +52,7 @@ function App(): React.JSX.Element {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
+  const [isSpinner, setIsSpinner]   = useState(false);
 
   // Simular obtener los datos del perfil
   useEffect(() => {
@@ -84,6 +88,7 @@ function App(): React.JSX.Element {
     try {
       
       setLoading(true);
+      setIsSpinner(true);
       setError(null);
 
       await GoogleSignin.hasPlayServices();
@@ -121,7 +126,9 @@ function App(): React.JSX.Element {
       
       setIsLoggedIn(true);
       // Maneja el inicio de sesión exitoso aquí
+      setIsSpinner(false);
     } catch (error: any) {
+
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // Usuario canceló el inicio de sesión
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -132,32 +139,58 @@ function App(): React.JSX.Element {
         // Otro error
         console.error('Error general: ', error);
       }
+
+      setIsSpinner(false);
       setIsLoggedIn(false);
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {isLoggedIn ? (
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Profile">
-              {() => <ProfileScreen profileAttributes={profileAttributes} />}
-            </Tab.Screen>
-            <Tab.Screen name="Settings" component={SettingsScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      ) : (
-        // Contenido de bienvenida...
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <View style={{ padding: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
-            {/* Botón de inicio de sesión */}
-          </View>
-        </ScrollView>
-      )}
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      {
+        // Uso de la expresión ternaria para condicionar el contenido basado en isLoggedIn
+        isLoggedIn ? (
+          // Si está loggeado, renderiza el Tab Navigation dentro de un NavigationContainer
+          <NavigationContainer>
+            <Tab.Navigator>
+              <Tab.Screen name="Home" component={HomeScreen} />
+              <Tab.Screen name="Profile" component={ProfileScreen} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        ) : (
+          
+          
+          // Si no está loggeado, renderiza el contenido de bienvenida y el botón de login
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={backgroundStyle}
+          > 
+            {isSpinner ? (
+                <LoadSpinner/> 
+            ) : (
+              
+                <View
+                  style={{
+                    backgroundColor: isDarkMode ? 'black' : 'white',
+                    padding: 20,
+                    alignItems: 'center',  // Centra el contenido horizontalmente
+                  }}
+                > 
+                  {/* Texto añadido aquí */}
+                  <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
+                  
+                  {/* Usa el componente SignInButton */}
+                  <SignInButton onPress={handleButtonPress} />
+                </View>)}
+            
+          </ScrollView>
+        )
+      }
     </SafeAreaView>
   );
 }
