@@ -2,6 +2,8 @@ import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -151,46 +153,59 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {
-        // Uso de la expresión ternaria para condicionar el contenido basado en isLoggedIn
-        isLoggedIn ? (
-          // Si está loggeado, renderiza el Tab Navigation dentro de un NavigationContainer
-          <NavigationContainer>
-            <Tab.Navigator>
-              <Tab.Screen name="Home" component={HomeScreen} />
-              <Tab.Screen name="Profile" component={ProfileScreen} />
-              <Tab.Screen name="Settings" component={SettingsScreen} />
-            </Tab.Navigator>
-          </NavigationContainer>
-        ) : (
-          
-          
-          // Si no está loggeado, renderiza el contenido de bienvenida y el botón de login
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={backgroundStyle}
-          > 
-            {isSpinner ? (
-                <LoadSpinner/> 
-            ) : (
-              
-                <View
-                  style={{
-                    backgroundColor: isDarkMode ? 'black' : 'white',
-                    padding: 20,
-                    alignItems: 'center',  // Centra el contenido horizontalmente
-                  }}
-                > 
-                  {/* Texto añadido aquí */}
-                  <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
-                  
-                  {/* Usa el componente SignInButton */}
-                  <SignInButton onPress={handleButtonPress} />
-                </View>)}
-            
-          </ScrollView>
-        )
-      }
+      {isLoggedIn ? (
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen 
+              name="Home" 
+              component={HomeScreen} 
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <Icon name="home-outline" color={color} size={size} />
+                ),
+              }} 
+            />
+            <Tab.Screen 
+              name="Profile" 
+              component={ProfileScreen} 
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <Icon name="person-outline" color={color} size={size} />
+                ),
+              }} 
+            />
+            <Tab.Screen 
+              name="Settings" 
+              component={SettingsScreen} 
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <Icon name="settings-outline" color={color} size={size} />
+                ),
+              }} 
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      ) : (
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}
+        > 
+          {isSpinner ? (
+              <LoadSpinner /> 
+          ) : (
+            <View
+              style={{
+                backgroundColor: isDarkMode ? 'black' : 'white',
+                padding: 20,
+                alignItems: 'center',
+              }}
+            > 
+              <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
+              <SignInButton onPress={handleButtonPress} />
+            </View>
+          )}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
