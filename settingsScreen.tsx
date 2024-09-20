@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const HomeScreen = () => {
+const SettingsScreen = () => {
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Kaotika!</Text>
+        <Text style={styles.title}>Your are in settings!</Text>
         {/* Agrega más contenido o componentes aquí */}
         </View>
     );
@@ -15,7 +15,7 @@ const HomeScreen = () => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightcoral', // Personaliza el fondo
+        backgroundColor: 'blue', // Personaliza el fondo
     },
     title: {
         fontSize: 30,
@@ -24,4 +24,4 @@ const HomeScreen = () => {
     },
 });
 
-export default HomeScreen;
+export default SettingsScreen;

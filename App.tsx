@@ -3,6 +3,7 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import React, { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import HomeScreen from './homeScreen';
+import SettingsScreen from './settingsScreen';
 import {
   SafeAreaView,
   ScrollView,
@@ -71,15 +72,6 @@ function App(): React.JSX.Element {
       </View>
     );
   }
-
-  function SettingScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings</Text>
-      </View>
-    );
-  }
-
 
   const Tab = createBottomTabNavigator();
 
@@ -162,7 +154,7 @@ function App(): React.JSX.Element {
             <Tab.Navigator>
               <Tab.Screen name="Home" component={HomeScreen} />
               <Tab.Screen name="Profile" component={ProfileScreen} />
-              <Tab.Screen name="Settings" component={SettingScreen} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
           </NavigationContainer>
         ) : (
