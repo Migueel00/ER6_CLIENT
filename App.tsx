@@ -1,9 +1,6 @@
-import SplashScreen from 'react-native-splash-screen';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import React, { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
-import HomeScreen from './homeScreen';
-import SettingsScreen from './settingsScreen';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,19 +10,18 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import HomeScreen from './homeScreen';
+import SettingsScreen from './settingsScreen';
+import ProfileScreen, { ProfileAttributes } from './profileScreen';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 
-import SignInButton from './SignInButton'; 
 
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 GoogleSignin.configure({
@@ -42,13 +38,13 @@ function App(): React.JSX.Element {
 
   const [userEmail, setUserEmail] = useState("");
   const [profileData, setProfileData] = useState("");
-  const [profileAttributes, setProfileAttributes] = useState({
+  const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
     dexterity: 0,
     insanity: 0,
     charisma: 0,
     constitution: 0,
-    strength: 0
+    strength: 0,
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -142,43 +138,26 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      {
-        // Uso de la expresión ternaria para condicionar el contenido basado en isLoggedIn
-        isLoggedIn ? (
-          // Si está loggeado, renderiza el Tab Navigation dentro de un NavigationContainer
-          <NavigationContainer>
-            <Tab.Navigator>
-              <Tab.Screen name="Home" component={HomeScreen} />
-              <Tab.Screen name="Profile" component={ProfileScreen} />
-              <Tab.Screen name="Settings" component={SettingsScreen} />
-            </Tab.Navigator>
-          </NavigationContainer>
-        ) : (
-          // Si no está loggeado, renderiza el contenido de bienvenida y el botón de login
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={backgroundStyle}
-          >
-            <View
-              style={{
-                backgroundColor: isDarkMode ? 'black' : 'white',
-                padding: 20,
-                alignItems: 'center',  // Centra el contenido horizontalmente
-              }}
-            >
-              {/* Texto añadido aquí */}
-              <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
-              
-              {/* Usa el componente SignInButton */}
-              <SignInButton onPress={handleButtonPress} />
-            </View>
-          </ScrollView>
-        )
-      }
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      {isLoggedIn ? (
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Profile">
+              {() => <ProfileScreen profileAttributes={profileAttributes} />}
+            </Tab.Screen>
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      ) : (
+        // Contenido de bienvenida...
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <View style={{ padding: 20, alignItems: 'center' }}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
+            {/* Botón de inicio de sesión */}
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
