@@ -40,9 +40,22 @@ function App(): React.JSX.Element {
 
   const [userEmail, setUserEmail] = useState("");
   const [profileData, setProfileData] = useState("");
+  const [profileAttributes, setProfileAttributes] = useState({
+    intelligence: 0,
+    dexterity: 0,
+    insanity: 0,
+    charisma: 0,
+    constitution: 0,
+    strength: 0
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
+
+  // Simular obtener los datos del perfil
+  useEffect(() => {
+    setProfileAttributes(profileAttributes);
+    }, [profileAttributes]);
 
   function HomeScreen() {
     return (
@@ -54,8 +67,14 @@ function App(): React.JSX.Element {
   
   function ProfileScreen() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Profile</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={styles.profileText}>Character Profile</Text>
+        <Text style={styles.profileText}>Intelligence: {profileAttributes.intelligence}</Text>
+        <Text style={styles.profileText}>Dexterity: {profileAttributes.dexterity}</Text>
+        <Text style={styles.profileText}>Insanity: {profileAttributes.insanity}</Text>
+        <Text style={styles.profileText}>Charisma: {profileAttributes.charisma}</Text>
+        <Text style={styles.profileText}>Constitution: {profileAttributes.constitution}</Text>
+        <Text style={styles.profileText}>Strength: {profileAttributes.strength}</Text>
       </View>
     );
   }
@@ -110,10 +129,14 @@ function App(): React.JSX.Element {
       const profileData = await response.json();
 
       const stringProfileData = JSON.stringify(profileData, null,2);
+      const profileDataAttr = profileData.data.attributes
+      const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
 
       setProfileData(`${stringProfileData}`);
-      
-      console.log(`Profile data:${stringProfileData}`);
+      setProfileAttributes(profileDataAttr);
+
+
+      console.log(`Profile data:${profileDataAttr}`);
       
       setIsLoggedIn(true);
       // Maneja el inicio de sesión exitoso aquí
@@ -196,6 +219,10 @@ const styles = StyleSheet.create({
     fontSize: 24,         // Tamaño de la fuente del texto
     fontWeight: 'bold',  // Negrita
     marginBottom: 20,    // Espacio entre el texto y el botón
+  },
+  profileText: {
+    color: 'black',
+    fontSize: 24,
   },
 });
 
