@@ -42,7 +42,7 @@ function App(): React.JSX.Element {
   const [profileData, setProfileData] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);  // Aquí controlas el login
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
 
   function HomeScreen() {
     return (
@@ -115,6 +115,7 @@ function App(): React.JSX.Element {
       
       console.log(`Profile data:${stringProfileData}`);
       
+      setIsLoggedIn(true);
       // Maneja el inicio de sesión exitoso aquí
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -127,6 +128,7 @@ function App(): React.JSX.Element {
         // Otro error
         console.error('Error general: ', error);
       }
+      setIsLoggedIn(false);
     }
   };
 
