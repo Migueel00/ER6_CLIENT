@@ -1,37 +1,30 @@
+
+import auth from '@react-native-firebase/auth';
+import axios from 'axios';
 import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  ActivityIndicator
-} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
 import SettingsScreen from './components/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
-
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
+import { initializeApp } from '@react-native-firebase/app';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
   offlineAccess: true,
 });
+
+// Importa la configuración de Firebase
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -87,25 +80,47 @@ function App(): React.JSX.Element {
 
   const handleButtonPress = async () => {
     try {
-      
+    
+
       setLoading(true);
       setIsSpinner(true);
       setError(null);
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+
       //console.log('User Info: ', userInfo);
       const email = userInfo.data?.user.email;
-      const idToken = userInfo.data?.idToken;
+      const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
       console.log(`User e-mail: ${email}`);
-      console.log(`User Token: ${idToken}`);
+      console.log(`User Token: ${googleIdToken}`);
       
-      // Construir la URL con el email del alumno
-      const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
+      // Create a Google credential with the token
+      const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
+      console.log('GOOGLE CREDENTIAL');
+      console.log(googleCredential);
+
+      // Sign-in the user with the credential
+      const signInWithCredential = await  auth().signInWithCredential(
+        googleCredential,
+      );
+      console.log('SIGN IN WITH CREDENTIAL');
+      console.log(signInWithCredential);
+
+      //http://10.70.0.58:3000/verify-token
+
+      //Get the token from the current User
+      const idTokenResult = await auth().currentUser?.getIdTokenResult();
+      console.log('USER JWT');
+      console.log(idTokenResult);
+
+      const idToken = idTokenResult?.token;
+
+      console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.34.61:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,6 +136,9 @@ function App(): React.JSX.Element {
       } else {
         throw new Error(fireBaseResult.error || 'Error al verificar el token');
       }
+
+      // Construir la URL con el email del alumno
+      const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
 
       const response = await fetch(kaotikaApiUrl);
 
