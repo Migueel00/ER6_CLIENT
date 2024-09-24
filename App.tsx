@@ -94,13 +94,33 @@ function App(): React.JSX.Element {
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('User Info: ', userInfo);
+      //console.log('User Info: ', userInfo);
       const email = userInfo.data?.user.email;
+      const idToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
       console.log(`User e-mail: ${email}`);
+      console.log(`User Token: ${idToken}`);
       
       // Construir la URL con el email del alumno
       const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
+
+      // Envía el idToken al servidor
+      const fireBaseResponse = await fetch('http://192.168.34.61:3000/verify-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }), // Envía el token en el cuerpo de la petición
+      });
+
+      const fireBaseResult = await fireBaseResponse.json();
+
+      if (fireBaseResponse.ok) {
+        console.log('Respuesta del servidor:', fireBaseResult);
+        setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
+      } else {
+        throw new Error(fireBaseResult.error || 'Error al verificar el token');
+      }
 
       const response = await fetch(kaotikaApiUrl);
 
