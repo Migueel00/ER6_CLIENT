@@ -7,6 +7,7 @@ import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
@@ -78,8 +79,6 @@ function App(): React.JSX.Element {
     const VILLAIN_EMAIL = "classcraft.daw2@aeg.eus";
     const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
 
-    console.log("El ACOLYTE email es: " + ACOLYTE_EMAIL)
-
     switch (authenticatedEmail) {
         case ISTVAN_EMAIL:
             role = "ISTVAN";
@@ -117,10 +116,28 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const storeData = async (value: string) => {
+    try {
+      await AsyncStorage.setItem('my-role', value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('my-role');
+      if (value !== null) {
+        console.log("El rol es: " + value);
+        
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
   const handleButtonPress = async () => {
     try {
-    
-
       setLoading(true);
       setIsSpinner(true);
       setError(null);
@@ -196,9 +213,13 @@ function App(): React.JSX.Element {
       const profileDataAttr = profileData.data.attributes
       const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
 
-      const profileRole = setRole(email as string);
+      const profileRole = setRole(email as string); 
       console.log("EL ROL ASIGNADO ES: " + profileRole);
-      setUserRole(profileRole)
+      setUserRole(profileRole);
+
+      //Async storage
+      storeData(userRole);
+      getData();
       
 
       setProfileData(`${stringProfileData}`);
@@ -208,8 +229,8 @@ function App(): React.JSX.Element {
       console.log(`Profile data:${profileDataAttr}`);
       
       setIsLoggedIn(true);
-      // Maneja el inicio de sesión exitoso aquí
       setIsSpinner(false);
+
     } catch (error: any) {
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
