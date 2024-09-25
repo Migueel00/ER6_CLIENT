@@ -1,11 +1,9 @@
 
 import auth from '@react-native-firebase/auth';
-import axios from 'axios';
 import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator} from 'react-native';
@@ -18,7 +16,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
-import { initializeApp } from '@react-native-firebase/app';
+import io from 'socket.io-client';
 
 
 GoogleSignin.configure({
@@ -31,6 +29,8 @@ GoogleSignin.configure({
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+export const socket = io('http://192.168.1.150:3000');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -136,6 +136,25 @@ function App(): React.JSX.Element {
     }
   };
 
+  useEffect(() => {
+    // Conectar al socket
+    socket.on('connect', () => {
+      console.log('Conectado al servidor de Socket.IO');
+    });
+
+    // Manejo de la desconexión
+    socket.on('disconnect', () => {
+      console.log('Desconectado del servidor de Socket.IO');
+    });
+
+    // Limpiar la conexión al desmontar el componente
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.disconnect();
+    };
+  }, []);
+
   const handleButtonPress = async () => {
     try {
       setLoading(true);
@@ -176,7 +195,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://192.168.1.150:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
