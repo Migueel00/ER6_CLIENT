@@ -19,6 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import { initializeApp } from '@react-native-firebase/app';
 
+
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
   offlineAccess: true,
@@ -71,10 +72,10 @@ function App(): React.JSX.Element {
     let role = "";
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
-    const ISTVAN_EMAIL = process.env.ISTVAN_EMAIL;
-    const MORTIMER_EMAIL = process.env.MORTIMER_EMAIL;
-    const VILLAIN_EMAIL = process.env.VILLAIN_EMAIL;
-    const ACOLYTE_EMAIL = process.env.ACOLYTE_EMAIL;
+    const ISTVAN_EMAIL = "oskar.calvo@aeg.eus";
+    const MORTIMER_EMAIL = "ozarate@aeg.eus";
+    const VILLAIN_EMAIL = "classcraft.daw2@aeg.eus";
+    const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
 
     console.log("El ACOLYTE email es: " + ACOLYTE_EMAIL)
 
