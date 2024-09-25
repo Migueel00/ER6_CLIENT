@@ -35,6 +35,7 @@ function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [userEmail, setUserEmail] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [profileData, setProfileData] = useState("");
   const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
@@ -197,6 +198,7 @@ function App(): React.JSX.Element {
 
       const profileRole = setRole(email as string);
       console.log("EL ROL ASIGNADO ES: " + profileRole);
+      setUserRole(profileRole)
       
 
       setProfileData(`${stringProfileData}`);
@@ -237,7 +239,7 @@ function App(): React.JSX.Element {
           <Tab.Navigator>
             <Tab.Screen 
               name="Home"
-              component={HomeScreen}
+              children={() => <HomeScreen role={userRole} />}
             />
             <Tab.Screen
               name="Profile" 

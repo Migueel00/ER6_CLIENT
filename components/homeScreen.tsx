@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const HomeScreen = () => {
+type HomeScreenProps = {
+    role: string;
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = ({ role }) => {
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Kaotika!</Text>
+        <Text style={styles.title}>Welcome to Kaotika, {role}</Text>
         {/* Agrega más contenido o componentes aquí */}
         </View>
     );
