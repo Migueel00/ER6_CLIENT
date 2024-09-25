@@ -69,11 +69,14 @@ function App(): React.JSX.Element {
 
   function setRole(authenticatedEmail: string): string {
     let role = "";
-
+    console.log("El email del usuario autenticado es: " + authenticatedEmail);
+    
     const ISTVAN_EMAIL = process.env.ISTVAN_EMAIL;
     const MORTIMER_EMAIL = process.env.MORTIMER_EMAIL;
     const VILLAIN_EMAIL = process.env.VILLAIN_EMAIL;
     const ACOLYTE_EMAIL = process.env.ACOLYTE_EMAIL;
+
+    console.log("El ACOLYTE email es: " + ACOLYTE_EMAIL)
 
     switch (authenticatedEmail) {
         case ISTVAN_EMAIL:
@@ -190,6 +193,10 @@ function App(): React.JSX.Element {
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
       const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
+
+      const profileRole = setRole(email as string);
+      console.log("EL ROL ASIGNADO ES: " + profileRole);
+      
 
       setProfileData(`${stringProfileData}`);
       setProfileAttributes(profileDataAttr);
