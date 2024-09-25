@@ -67,6 +67,40 @@ function App(): React.JSX.Element {
     );
   }
 
+  function setRole(authenticatedEmail: string): string {
+    let role = "";
+
+    const ISTVAN_EMAIL = process.env.ISTVAN_EMAIL;
+    const MORTIMER_EMAIL = process.env.MORTIMER_EMAIL;
+    const VILLAIN_EMAIL = process.env.VILLAIN_EMAIL;
+    const ACOLYTE_EMAIL = process.env.ACOLYTE_EMAIL;
+
+    switch (authenticatedEmail) {
+        case ISTVAN_EMAIL:
+            role = "ISTVAN";
+            break;
+
+        case VILLAIN_EMAIL:
+            role = "VILLANO";
+            break;
+
+        case MORTIMER_EMAIL:
+            role = "MORTIMER";
+            break;
+
+        default:
+            // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
+            if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
+                role = "ACÓLITO";
+            } else {
+                role = "UNKNOWN ROLE";
+            }
+            break;
+    }
+
+    return role;
+}
+
   const Tab = createMaterialTopTabNavigator();
 
 
