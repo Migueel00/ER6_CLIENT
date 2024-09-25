@@ -95,7 +95,7 @@ function App(): React.JSX.Element {
         default:
             // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
             if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-                role = "ACÓLITO";
+                role = "ACOLITO";
             } else {
                 role = "UNKNOWN ROLE";
             }
@@ -118,21 +118,25 @@ function App(): React.JSX.Element {
 
   const storeData = async (value: string) => {
     try {
-      await AsyncStorage.setItem('my-role', value);
-    } catch (e) {
-      // saving error
+      await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
+      console.log("Se va a insertar el siguiente rol: " + value);
+      await AsyncStorage.setItem("my-role", value);
+      console.log("Rol almacenado correctamente");
+    } catch (error) {
+      console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
     }
   };
-
+  
   const getData = async () => {
     try {
-      const value = await AsyncStorage.getItem('my-role');
-      if (value !== null) {
+      const value = await AsyncStorage.getItem("my-role");
+      if (value) {
         console.log("El rol es: " + value);
-        
+      } else {
+        console.log("No se encontró ningún rol en AsyncStorage");
       }
-    } catch (e) {
-      // error reading value
+    } catch (error) {
+      console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
     }
   };
 
@@ -218,8 +222,8 @@ function App(): React.JSX.Element {
       setUserRole(profileRole);
 
       //Async storage
-      storeData(userRole);
-      getData();
+      await storeData(profileRole);
+      await getData();
       
 
       setProfileData(`${stringProfileData}`);
