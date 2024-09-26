@@ -30,7 +30,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.79:3000');
+export const socket = io("https://er6-staging-server.onrender.com");
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -195,7 +195,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.79:3000/verify-token', {
+      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
