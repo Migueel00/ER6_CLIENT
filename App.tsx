@@ -15,6 +15,7 @@ import SettingsScreen from './components/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
 import ProfileScreen2 from './components/profileScreen2';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AcolyteScreens from './components/acolyteScreens';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -261,22 +262,7 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen 
-              name="Home"
-              children={() => <HomeScreen role={userRole} />}
-            />
-            <Tab.Screen
-              name="Profile" 
-              children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
-            />
-            <Tab.Screen 
-              name="Settings"
-              component={SettingsScreen}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} /> // Replacing navigation with AcolyteScreens
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (
