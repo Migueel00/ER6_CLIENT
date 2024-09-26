@@ -15,7 +15,7 @@ const LabScreen: React.FC<LabScreenProps> = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
             <TouchableOpacity onPress={toggleModal} style={styles.button}>
-                <Text style={styles.buttonText}>Open QR</Text>
+                <Text style={styles.buttonText}>Lab Entry</Text>
             </TouchableOpacity>
             
             <Modal
