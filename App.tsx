@@ -95,7 +95,7 @@ function App(): React.JSX.Element {
         default:
             // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
             if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-                role = "ACOLITO";
+                role = "ACOLYTE";
             } else {
                 role = "UNKNOWN ROLE";
             }
@@ -180,7 +180,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://192.168.1.89:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
