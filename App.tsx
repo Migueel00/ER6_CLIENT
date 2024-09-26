@@ -17,6 +17,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
+import { searchAndIfDontExistPost } from './src/fetch/get&post';
 
 
 GoogleSignin.configure({
@@ -95,7 +96,7 @@ function App(): React.JSX.Element {
         default:
             // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
             if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-                role = "ACÓLITO";
+                role = "ACOLYTE";
             } else {
                 role = "UNKNOWN ROLE";
             }
@@ -195,7 +196,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.79:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://192.168.1.134:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -228,6 +229,7 @@ function App(): React.JSX.Element {
 
       const profileData = await response.json();
 
+      
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
       const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
@@ -246,6 +248,12 @@ function App(): React.JSX.Element {
 
 
       console.log(`Profile data:${profileDataAttr}`);
+
+      const playerDataToPost = profileData.data;
+      console.log(playerDataToPost.email)
+      console.log(playerDataToPost.nickname)
+      searchAndIfDontExistPost(playerDataToPost);
+
       
       setIsLoggedIn(true);
       setIsSpinner(false);
