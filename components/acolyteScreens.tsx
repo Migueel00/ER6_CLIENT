@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settingsScreen';
+import LabScreen from './labScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,6 +29,10 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttri
             <Tab.Screen 
               name="Settings"
               component={SettingsScreen}
+            />
+            <Tab.Screen 
+              name="LAB"
+              component={LabScreen}
             />
           </Tab.Navigator>
         </NavigationContainer>

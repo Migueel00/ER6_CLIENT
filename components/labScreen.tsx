@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 type LabScreenProps = {
-    role: string;
+
 }
 
-const LabScreen: React.FC<LabScreenProps> = ({ role }) => {
+const LabScreen: React.FC<LabScreenProps> = () => {
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Kaotika, {role}</Text>
+        <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
         {/* Agrega más contenido o componentes aquí */}
         </View>
     );
@@ -19,7 +19,7 @@ const LabScreen: React.FC<LabScreenProps> = ({ role }) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightcoral', // Personaliza el fondo
+        backgroundColor: 'gray', // Personaliza el fondo
     },
     title: {
         fontSize: 30,
