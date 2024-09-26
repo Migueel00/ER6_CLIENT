@@ -11,7 +11,9 @@ import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
 import SettingsScreen from './components/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
+import ProfileScreen2 from './components/profileScreen2';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AcolyteScreens from './components/acolyteScreens';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -31,7 +33,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.79:3000');
+export const socket = io('https://er6-staging-server.onrender.com');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -119,21 +121,25 @@ function App(): React.JSX.Element {
 
   const storeData = async (value: string) => {
     try {
-      await AsyncStorage.setItem('my-role', value);
-    } catch (e) {
-      // saving error
+      await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
+      console.log("Se va a insertar el siguiente rol: " + value);
+      await AsyncStorage.setItem("my-role", value);
+      console.log("Rol almacenado correctamente");
+    } catch (error) {
+      console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
     }
   };
-
+  
   const getData = async () => {
     try {
-      const value = await AsyncStorage.getItem('my-role');
-      if (value !== null) {
+      const value = await AsyncStorage.getItem("my-role");
+      if (value) {
         console.log("El rol es: " + value);
-        
+      } else {
+        console.log("No se encontró ningún rol en AsyncStorage");
       }
-    } catch (e) {
-      // error reading value
+    } catch (error) {
+      console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
     }
   };
 
@@ -196,7 +202,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.1.134:3000/verify-token', {
+      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -239,8 +245,8 @@ function App(): React.JSX.Element {
       setUserRole(profileRole);
 
       //Async storage
-      storeData(userRole);
-      getData();
+      await storeData(profileRole);
+      await getData();
       
 
       setProfileData(`${stringProfileData}`);
@@ -283,22 +289,7 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen 
-              name="Home"
-              children={() => <HomeScreen role={userRole} />}
-            />
-            <Tab.Screen
-              name="Profile" 
-              component={ProfileScreen}
-            />
-            <Tab.Screen 
-              name="Settings"
-              component={SettingsScreen}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} /> // Replacing navigation with AcolyteScreens
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (

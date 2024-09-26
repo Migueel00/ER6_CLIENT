@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-type LabScreenProps = {
+type ConnectionScreenProps = {
 
 }
 
-const LabScreen: React.FC<LabScreenProps> = () => {
+const ConnectionScreen: React.FC<ConnectionScreenProps> = () => {
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
+        <Text style={styles.title}>I salute you mortimer! Check out what your acolytes are doing here!</Text>
         {/* Agrega más contenido o componentes aquí */}
         </View>
     );
@@ -19,7 +19,7 @@ const LabScreen: React.FC<LabScreenProps> = () => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'gray', // Personaliza el fondo
+        backgroundColor: 'green', // Personaliza el fondo
     },
     title: {
         fontSize: 30,
@@ -28,4 +28,4 @@ const LabScreen: React.FC<LabScreenProps> = () => {
     },
 });
 
-export default LabScreen;
+export default ConnectionScreen;

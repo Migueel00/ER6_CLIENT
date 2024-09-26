@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const SettingsScreen = () => {
+
+type SettingScreenProps = {
+
+}
+
+const SettingsScreen: React.FC<SettingScreenProps> = () => {
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Your are in settings!</Text>
