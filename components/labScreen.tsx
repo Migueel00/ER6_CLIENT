@@ -7,6 +7,7 @@ type LabScreenProps = {}
 const LabScreen: React.FC<LabScreenProps> = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
+    //Se controlara cuando se muestra o no el modal
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     }
