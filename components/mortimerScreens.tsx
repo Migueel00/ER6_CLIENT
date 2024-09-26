@@ -9,12 +9,12 @@ import ConnectionScreen from './connectionsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
-type AcolyteScreensProps = {
+type MortimerScreensProps = {
     userRole: string;
     profileAttributes: any;
 }
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttributes}) => {
+const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes}) => {
     return (
         <NavigationContainer>
           <Tab.Navigator>
@@ -53,4 +53,4 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttri
     },
 });
 
-export default AcolyteScreens;
+export default MortimerScreens;
