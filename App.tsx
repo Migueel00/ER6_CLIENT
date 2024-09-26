@@ -13,6 +13,7 @@ import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
 import SettingsScreen from './components/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
+import ProfileScreen2 from './components/profileScreen2';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -268,7 +269,7 @@ function App(): React.JSX.Element {
             />
             <Tab.Screen
               name="Profile" 
-              component={ProfileScreen}
+              children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
             />
             <Tab.Screen 
               name="Settings"
