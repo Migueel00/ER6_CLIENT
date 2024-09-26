@@ -27,7 +27,7 @@ const LabScreen: React.FC<LabScreenProps> = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <QRCode
-                            value="" // El valor del qr sera el que queramos
+                            value="No value right now" // El valor del qr sera el que queramos
                             size={200}
                         />
                         <View style={styles.buttonContainer}>
