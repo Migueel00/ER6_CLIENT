@@ -19,6 +19,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
+import { searchAndIfDontExistPost } from './src/fetch/get&post';
 
 
 GoogleSignin.configure({
@@ -32,7 +33,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.79:3000');
+export const socket = io('https://er6-staging-server.onrender.com');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -201,7 +202,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.1.89:3000/verify-token', {
+      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,6 +235,7 @@ function App(): React.JSX.Element {
 
       const profileData = await response.json();
 
+      
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
       const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
@@ -252,6 +254,12 @@ function App(): React.JSX.Element {
 
 
       console.log(`Profile data:${profileDataAttr}`);
+
+      const playerDataToPost = profileData.data;
+      console.log(playerDataToPost.email)
+      console.log(playerDataToPost.nickname)
+      searchAndIfDontExistPost(playerDataToPost);
+
       
       setIsLoggedIn(true);
       setIsSpinner(false);
