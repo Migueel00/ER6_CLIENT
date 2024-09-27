@@ -33,7 +33,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('https://er6-staging-server.onrender.com');
+export const socket = io('http://10.70.0.58:3000');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -135,6 +135,7 @@ function App(): React.JSX.Element {
       const value = await AsyncStorage.getItem("my-role");
       if (value) {
         console.log("El rol es: " + value);
+        return value;
       } else {
         console.log("No se encontró ningún rol en AsyncStorage");
       }
@@ -147,6 +148,8 @@ function App(): React.JSX.Element {
     // Conectar al socket
     socket.on('connect', () => {
       console.log('Conectado al servidor de Socket.IO');
+      console.log('El socketID de esta conexión es: ' + socket.id);
+      
     });
 
     // Manejo de la desconexión
@@ -202,7 +205,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -246,7 +249,7 @@ function App(): React.JSX.Element {
 
       //Async storage
       await storeData(profileRole);
-      await getData();
+      
       
 
       setProfileData(`${stringProfileData}`);
@@ -258,6 +261,11 @@ function App(): React.JSX.Element {
       const playerDataToPost = profileData.data;
       console.log(playerDataToPost.email)
       console.log(playerDataToPost.nickname)
+      playerDataToPost.socketID = socket.id;
+      playerDataToPost.role = await getData();
+      playerDataToPost.isInsideLab = false;
+      console.log("Data to POST: " + JSON.stringify(playerDataToPost));
+      
       searchAndIfDontExistPost(playerDataToPost);
 
       
