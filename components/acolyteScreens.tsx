@@ -6,6 +6,7 @@ import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settingsScreen';
 import LabScreen from './labScreen';
+import CameraScreen from './cameraScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -33,6 +34,10 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttri
             <Tab.Screen 
               name="LAB"
               component={LabScreen}
+            />
+            <Tab.Screen 
+              name="CAM"
+              component={CameraScreen}
             />
           </Tab.Navigator>
         </NavigationContainer>

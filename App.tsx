@@ -38,28 +38,6 @@ export const socket = io('http://10.70.0.58:3000');
 
 function App(): React.JSX.Element {
 
-  const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
-
-  useEffect(() => {
-      const handlePermissions = async () => {
-          if (!hasCameraPermission) {
-              const granted = await requestCameraPermission();
-              if (!granted) {
-                  Alert.alert(
-                      'Camera Permission Needed',
-                      'This app needs camera access to function properly. Please enable it in settings.',
-                      [
-                          { text: 'Cancel' },
-                          { text: 'Open Settings', onPress: () => Linking.openSettings() }
-                      ]
-                  );
-              }
-          }
-      };
-
-      handlePermissions();
-  }, [hasCameraPermission]);
-
   const isDarkMode = useColorScheme() === 'dark';
 
   const [userEmail, setUserEmail] = useState("");
