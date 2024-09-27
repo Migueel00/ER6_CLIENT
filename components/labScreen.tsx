@@ -6,13 +6,15 @@ type LabScreenProps = {
     userEmail: any
 }
 
-const LabScreen: React.FC<LabScreenProps> = (userEmail) => {
+const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     //Se controlara cuando se muestra o no el modal
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     }
+
+    console.log("El email del QR es: " + userEmail);
 
     return (
         <View style={styles.container}>
@@ -30,7 +32,7 @@ const LabScreen: React.FC<LabScreenProps> = (userEmail) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <QRCode
-                            value={userEmail || "No email available"} // Usa el email del usuario autenticado
+                            value={userEmail || "No email available"} // Se insertara el valor que queramos al QR
                             size={200}
                         />
                         <View style={styles.buttonContainer}>
