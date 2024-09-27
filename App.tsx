@@ -6,7 +6,8 @@ import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator, Alert, Linking} from 'react-native';
+import { useCameraPermission } from 'react-native-vision-camera';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
 import SettingsScreen from './components/settingsScreen';
@@ -36,6 +37,29 @@ type SectionProps = PropsWithChildren<{
 export const socket = io('http://10.70.0.58:3000');
 
 function App(): React.JSX.Element {
+
+  const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
+
+  useEffect(() => {
+      const handlePermissions = async () => {
+          if (!hasCameraPermission) {
+              const granted = await requestCameraPermission();
+              if (!granted) {
+                  Alert.alert(
+                      'Camera Permission Needed',
+                      'This app needs camera access to function properly. Please enable it in settings.',
+                      [
+                          { text: 'Cancel' },
+                          { text: 'Open Settings', onPress: () => Linking.openSettings() }
+                      ]
+                  );
+              }
+          }
+      };
+
+      handlePermissions();
+  }, [hasCameraPermission]);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const [userEmail, setUserEmail] = useState("");
