@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, Button, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-type LabScreenProps = {}
+type LabScreenProps = {
+    userEmail: any
+}
 
-const LabScreen: React.FC<LabScreenProps> = () => {
+const LabScreen: React.FC<LabScreenProps> = (userEmail) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     //Se controlara cuando se muestra o no el modal
@@ -28,7 +30,7 @@ const LabScreen: React.FC<LabScreenProps> = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <QRCode
-                            value="No value right now" // El valor del qr sera el que queramos
+                            value={userEmail || "No email available"} // Usa el email del usuario autenticado
                             size={200}
                         />
                         <View style={styles.buttonContainer}>

@@ -12,9 +12,10 @@ const Tab = createMaterialTopTabNavigator();
 type AcolyteScreensProps = {
     userRole: string;
     profileAttributes: any;
+    userEmail: String;
 }
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttributes}) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttributes, userEmail}) => {
     return (
         <NavigationContainer>
           <Tab.Navigator>
@@ -32,7 +33,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole , profileAttri
             />
             <Tab.Screen 
               name="LAB"
-              component={LabScreen}
+              children={() => <LabScreen userEmail={userEmail} />}
             />
           </Tab.Navigator>
         </NavigationContainer>
