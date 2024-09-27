@@ -261,7 +261,7 @@ function App(): React.JSX.Element {
       const playerDataToPost = profileData.data;
       console.log(playerDataToPost.email)
       console.log(playerDataToPost.nickname)
-      playerDataToPost.socketID = socket.id;
+      playerDataToPost.socketId = socket.id;
       playerDataToPost.role = await getData();
       playerDataToPost.isInsideLab = false;
       console.log("Data to POST: " + JSON.stringify(playerDataToPost));
