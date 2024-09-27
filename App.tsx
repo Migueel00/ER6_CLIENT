@@ -19,6 +19,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
+import { searchAndIfDontExistPost } from './src/fetch/get&post';
 
 
 GoogleSignin.configure({
@@ -32,7 +33,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('https://er6-staging-server.onrender.com');
+export const socket = io('http://10.70.0.58:3000');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -134,6 +135,7 @@ function App(): React.JSX.Element {
       const value = await AsyncStorage.getItem("my-role");
       if (value) {
         console.log("El rol es: " + value);
+        return value;
       } else {
         console.log("No se encontró ningún rol en AsyncStorage");
       }
@@ -146,6 +148,8 @@ function App(): React.JSX.Element {
     // Conectar al socket
     socket.on('connect', () => {
       console.log('Conectado al servidor de Socket.IO');
+      console.log('El socketID de esta conexión es: ' + socket.id);
+      
     });
 
     // Manejo de la desconexión
@@ -201,7 +205,7 @@ function App(): React.JSX.Element {
       console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,6 +238,7 @@ function App(): React.JSX.Element {
 
       const profileData = await response.json();
 
+      
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
       const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
@@ -244,7 +249,7 @@ function App(): React.JSX.Element {
 
       //Async storage
       await storeData(profileRole);
-      await getData();
+      
       
 
       setProfileData(`${stringProfileData}`);
@@ -252,6 +257,17 @@ function App(): React.JSX.Element {
 
 
       console.log(`Profile data:${profileDataAttr}`);
+
+      const playerDataToPost = profileData.data;
+      console.log(playerDataToPost.email)
+      console.log(playerDataToPost.nickname)
+      playerDataToPost.socketId = socket.id;
+      playerDataToPost.role = await getData();
+      playerDataToPost.isInsideLab = false;
+      console.log("Data to POST: " + JSON.stringify(playerDataToPost));
+      
+      searchAndIfDontExistPost(playerDataToPost);
+
       
       setIsLoggedIn(true);
       setIsSpinner(false);
