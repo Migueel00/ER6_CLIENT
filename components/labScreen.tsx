@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, Button, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { socket } from '../App';
 
 //const kaotikaImage = require('../assets/png/DUCK-LOGO-RESIZED.png');
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
@@ -12,12 +13,20 @@ type LabScreenProps = {
 const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
+    useEffect(() => {
+
+        // Escuchar el evento 'ScanSuccess' desde el servidor
+        socket.on('ScanSuccess', (message: string) => {
+            console.log("Mensaje del servidor:", message);
+
+            setModalVisible(false)
+        });
+    }, []);
+
     //Se controlara cuando se muestra o no el modal
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     }
-
-    console.log("El email del QR es: " + userEmail);
 
     return (
         <View style={styles.container}>
