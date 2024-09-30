@@ -1,5 +1,5 @@
 import { Camera } from 'react-native-vision-camera';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
 import { codeScanner } from './hooks/codeScannerHook';
@@ -32,9 +32,22 @@ const codeScanner2: CodeScanner = {
   }
 
 
-  
+
 const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
+
+  const [isScanned, setIsScanned] = useState(false); // Estado para saber si ya se escaneó un código
+
+  const handleCodeScanned = (codes: any) => {
+    if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
+      setIsScanned(true); // Marca como escaneado
+      console.log(`Scanned ${codes.length} codes!`);
+      Alert.alert('QR Code Scanned', `Scanned code: ${codes[0]?.content}`, [
+        { text: 'OK', onPress: () => console.log('OK Pressed') }
+      ]);
+      // Aquí podrías hacer alguna acción adicional, como enviar los datos a una API
+    }
+  };
 
   useEffect(() => {
     const handlePermissions = async () => {
