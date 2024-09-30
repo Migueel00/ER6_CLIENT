@@ -1,18 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 
-type ConnectionScreenProps = {
-
+interface Player {
+    socketId:       String,
+    email:          String,
+    nickname:       String,
+    isInsideLab:    Boolean
 }
 
-const ConnectionScreen: React.FC<ConnectionScreenProps> = () => {
+
+type ConnectionScreenProps = {
+    players: [Player]
+}
+
+const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players}) => {
     return (
         <View style={styles.container}>
         <Text style={styles.title}>I salute you mortimer! Check out what your acolytes are doing here!</Text>
         {/* Agrega más contenido o componentes aquí */}
+        {players.map((player) => <Text>{player.nickname} - {player.isInsideLab ? "inside"  : "out" }</Text>)}
         </View>
     );
-    };
+};
 
     const styles = StyleSheet.create({
     container: {

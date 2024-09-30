@@ -2,19 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import HomeScreen from './homeScreen';
-import ProfileScreen2 from './profileScreen2';
-import SettingsScreen from './settingsScreen';
+import HomeScreen from '../homeScreen';
+import ProfileScreen2 from '../profileScreen2';
+import SettingsScreen from '../settingsScreen';
 import ConnectionScreen from './connectionsScreen';
+import { getAllPlayers } from '../../src/API/getAllPlayers'
 
 const Tab = createMaterialTopTabNavigator();
 
 type MortimerScreensProps = {
     userRole: string;
     profileAttributes: any;
+    players: any
 }
 
-const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes}) => {
+const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players}) => {
     return (
         <NavigationContainer>
           <Tab.Navigator>
@@ -32,7 +34,8 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen 
               name="Connections"
-              component={ConnectionScreen}
+              children={() => <ConnectionScreen players={players} />}
+
             />
           </Tab.Navigator>
         </NavigationContainer>

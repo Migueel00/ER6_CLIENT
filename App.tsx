@@ -19,7 +19,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
-import { searchAndIfDontExistPost } from './src/fetch/get&post';
+import { searchAndIfDontExistPost } from './src/API/get&post';
+import MortimerScreens from './components/mortimerScreen/mortimerScreens';
+import { getAllPlayers } from './src/API/getAllPlayers';
 
 
 GoogleSignin.configure({
@@ -33,7 +35,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.58:3000');
+export const socket = io('http://10.70.0.139:3000');
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -53,6 +55,16 @@ function App(): React.JSX.Element {
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
+
+  interface Player {
+    socketId:     String,
+    email:        String,
+    nickname:     String,
+    isInsideLab:  Boolean,
+    avatar:       String
+  }
+
+  const [players, setPlayers]       = useState<Player[]>([]);
 
   // Simular obtener los datos del perfil
   useEffect(() => {
@@ -171,6 +183,9 @@ function App(): React.JSX.Element {
       setIsSpinner(true);
       setError(null);
 
+
+      await getDataAndAsign();
+
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
@@ -178,31 +193,31 @@ function App(): React.JSX.Element {
       const email = userInfo.data?.user.email;
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
-      console.log(`User e-mail: ${email}`);
-      console.log(`User Token: ${googleIdToken}`);
+      // console.log(`User e-mail: ${email}`);
+      // console.log(`User Token: ${googleIdToken}`);
       
       // Create a Google credential with the token
       const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
-      console.log('GOOGLE CREDENTIAL');
-      console.log(googleCredential);
+      // console.log('GOOGLE CREDENTIAL');
+      // console.log(googleCredential);
 
       // Sign-in the user with the credential
       const signInWithCredential = await  auth().signInWithCredential(
         googleCredential,
       );
-      console.log('SIGN IN WITH CREDENTIAL');
-      console.log(signInWithCredential);
+      // console.log('SIGN IN WITH CREDENTIAL');
+      // console.log(signInWithCredential);
 
       //http://10.70.0.58:3000/verify-token
 
       //Get the token from the current User
       const idTokenResult = await auth().currentUser?.getIdTokenResult();
-      console.log('USER JWT');
-      console.log(idTokenResult);
+      // console.log('USER JWT');
+      // console.log(idTokenResult);
 
       const idToken = idTokenResult?.token;
 
-      console.log('Token de ID:', idTokenResult);
+      // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
       const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
@@ -256,15 +271,12 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
-      console.log(`Profile data:${profileDataAttr}`);
+      // console.log(`Profile data:${profileDataAttr}`);
 
       const playerDataToPost = profileData.data;
-      console.log(playerDataToPost.email)
-      console.log(playerDataToPost.nickname)
       playerDataToPost.socketId = socket.id;
       playerDataToPost.role = await getData();
       playerDataToPost.isInsideLab = false;
-      console.log("Data to POST: " + JSON.stringify(playerDataToPost));
       
       searchAndIfDontExistPost(playerDataToPost);
 
@@ -288,7 +300,37 @@ function App(): React.JSX.Element {
       setIsSpinner(false);
       setIsLoggedIn(false);
     }
+
   };
+  
+  const getDataAndAsign = async () => {
+    const players      = await getAllPlayers();
+    const playersData  = players.data;
+    const newPlayers = [];
+    for(let i = 0; i < playersData.length; i++){
+
+      const nickname    = playersData[i].nickname;
+      const email       = playersData[i].email;
+      const isInsideLab = playersData[i].isInsideLab;
+      const socketId    = playersData[i].socketId;
+      const avatar      = playersData[i].avatar;
+
+      const player  = {
+
+        nickname:       nickname,
+        email:          email,
+        isInsideLab:    isInsideLab,
+        socketId:       socketId,
+        avatar:         avatar
+      };
+
+      newPlayers.push(player);    
+  }
+
+  setPlayers(newPlayers);
+}
+
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -297,7 +339,8 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} /> // Replacing navigation with AcolyteScreens
+        //<AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} /> // Replacing navigation with AcolyteScreens
+        <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (
