@@ -1,6 +1,7 @@
 const searchAndIfDontExistPost = async (playerData) => {
 
-
+    //IP DE CLASE IKAS A3: 10.70.0.58
+    //IP ASIER: 192.168.1.89
     
     const email = playerData.email;
 
