@@ -1,7 +1,8 @@
 import { Camera } from 'react-native-vision-camera';
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
-import { useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
+import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
+import { codeScanner } from './hooks/codeScannerHook';
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
@@ -23,6 +24,15 @@ const NoCameraDeviceError: React.FC = () => (
   </View>
 );
 
+const codeScanner2: CodeScanner = {
+    codeTypes: ['qr', 'ean-13'],
+    onCodeScanned: (codes) => {
+      console.log(`Scanned ${codes.length} codes!`)
+    }
+  }
+
+
+  
 const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
 
@@ -53,12 +63,18 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   if (device == null) return <NoCameraDeviceError />;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, overflow: 'hidden' }}>
       <Camera
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={true}
+        codeScanner={codeScanner2}
+        
       />
+
+    <View style={styles.scanAreaContainer}>
+        <View style={styles.scanArea} />
+      </View>
       <Button title="Close Scanner" onPress={onClose} />
     </View>
   );
@@ -75,6 +91,19 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  scanAreaContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scanArea: {
+    width: 250, // Ancho del área de escaneo
+    height: 250, // Altura del área de escaneo
+    borderWidth: 2,
+    borderColor: 'red',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 0, 0, 0.2)', // Semitransparente para el fondo
   },
 });
 
