@@ -32,6 +32,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
 
   const [isScanned, setIsScanned] = useState(false); // Estado para saber si ya se escaneó un código
+  const [cameraRef, setCameraRef] = useState<Camera | null>(null);
 
   const handleCodeScanned = (codes: any) => {
     if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
@@ -84,6 +85,26 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const devices = Camera.getAvailableCameraDevices();
   const device = useCameraDevice('back');
 
+  const handleFocus = async (event: any) => {
+    if (!cameraRef) return;
+
+    const { pageX, pageY } = event.nativeEvent;
+
+    // const previewWidth = cameraRef.getWidth();
+    // const previewHeight = cameraRef.getHeight();
+
+    // // Convert tap coordinates to normalized focus coordinates
+    // const x = pageX / previewWidth;
+    // const y = pageY / previewHeight;
+
+    try {
+      await cameraRef.focus({ x: 0.5, y: 0.5 }); // Use normalized coordinates
+      console.log('Focus set at: ');
+    } catch (error) {
+      console.error('Failed to set focus:', error);
+    }
+  };
+
   if (!hasCameraPermission) return <PermissionsPage />;
   if (device == null) return <NoCameraDeviceError />;
 
@@ -94,7 +115,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
         device={device}
         isActive={true}
         codeScanner={codeScanner2}
-        
+        ref={(ref) => setCameraRef(ref)}
       />
 
     <View style={styles.scanAreaContainer}>
