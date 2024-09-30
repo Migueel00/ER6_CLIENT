@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
 import { codeScanner } from './hooks/codeScannerHook';
+import { socket } from '../App';
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
@@ -47,8 +48,10 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
             onPress: () => {
               setIsScanned(false); // Permitir escanear otro código al presionar "OK"
               console.log('OK Pressed');
-              console.log(codes[0].value);
+              const qrValue = codes[0].value;
               
+              //Emit del valor del QR escaneado
+              socket.emit("qrScanned", qrValue)
             }
           }
         ]
