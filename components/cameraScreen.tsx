@@ -24,12 +24,7 @@ const NoCameraDeviceError: React.FC = () => (
   </View>
 );
 
-const codeScanner2: CodeScanner = {
-    codeTypes: ['qr', 'ean-13'],
-    onCodeScanned: (codes) => {
-      console.log(`Scanned ${codes.length} codes!`)
-    }
-  }
+
 
 
 
@@ -42,12 +37,27 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
     if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
       setIsScanned(true); // Marca como escaneado
       console.log(`Scanned ${codes.length} codes!`);
-      Alert.alert('QR Code Scanned', `Scanned code: ${codes[0]?.content}`, [
-        { text: 'OK', onPress: () => console.log('OK Pressed') }
-      ]);
+      Alert.alert(
+        'QR Code Scanned', 
+        `Scanned code: ${codes[0]?.content}`, 
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setIsScanned(false); // Permitir escanear otro código al presionar "OK"
+              console.log('OK Pressed');
+            }
+          }
+        ]
+      );
       // Aquí podrías hacer alguna acción adicional, como enviar los datos a una API
     }
   };
+
+  const codeScanner2: CodeScanner = {
+    codeTypes: ['qr', 'ean-13'],
+    onCodeScanned: handleCodeScanned,
+  }
 
   useEffect(() => {
     const handlePermissions = async () => {
