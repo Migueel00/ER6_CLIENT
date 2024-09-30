@@ -59,7 +59,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
         device={device}
         isActive={true}
       />
-      <Button title="Close Camera" onPress={onClose} />
+      <Button title="Close Scanner" onPress={onClose} />
     </View>
   );
 };

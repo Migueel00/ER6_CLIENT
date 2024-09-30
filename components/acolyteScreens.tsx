@@ -52,7 +52,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           name="CAM"
           children={() => (
             <View style={styles.container}>
-              <Text style={styles.title}>Camera Screen</Text>
+              <Text style={styles.title}>Epic Scanner</Text>
               <Button title="Open Camera" onPress={openCameraModal} />
               {/* Modal de la cámara */}
               <Modal
