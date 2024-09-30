@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Modal, Button, TouchableOpacity } from 'react-n
 import QRCode from 'react-native-qrcode-svg';
 import { socket } from '../App';
 
-//const kaotikaImage = require('../assets/png/DUCK-LOGO-RESIZED.png');
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 
 type LabScreenProps = {
@@ -12,18 +11,20 @@ type LabScreenProps = {
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [buttonVisible, setButtonVisible] = useState(true);
 
     useEffect(() => {
-
         // Escuchar el evento 'ScanSuccess' desde el servidor
         socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
 
-            setModalVisible(false)
+            //Desapareceran el modal y el boton
+            setModalVisible(false);
+            setButtonVisible(false);
         });
     }, []);
 
-    //Se controlara cuando se muestra o no el modal
+    // Se controlará cuando se muestra o no el modal
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     }
@@ -31,9 +32,11 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
-            <TouchableOpacity onPress={toggleModal} style={styles.button}>
-                <Text style={styles.buttonText}>Lab Entry</Text>
-            </TouchableOpacity>
+            {buttonVisible && (
+                <TouchableOpacity onPress={toggleModal} style={styles.button}>
+                    <Text style={styles.buttonText}>Lab Entry</Text>
+                </TouchableOpacity>
+            )}
             
             <Modal
                 visible={modalVisible}
@@ -44,7 +47,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <QRCode
-                            value={userEmail || "No email available"} // Se insertara el valor que queramos al QR
+                            value={userEmail || "No email available"} // Se insertará el valor que queramos al QR
                             size={280}
                             logo={kaotikaImage}
                             logoSize={250}
