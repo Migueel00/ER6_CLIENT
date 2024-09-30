@@ -8,7 +8,7 @@ const searchAndIfDontExistPost = async (playerData) => {
     console.log("El email recibido es: " + email);
 
     try {
-        const response = await fetch(`http://10.70.0.139:3000/api/players/${email}`);
+        const response = await fetch(`http://10.70.0.58:3000/api/players/${email}`);
 
         console.log("Respuesta del primer fetch: " + JSON.stringify(response));
         
@@ -27,7 +27,7 @@ const searchAndIfDontExistPost = async (playerData) => {
             console.log("PlayerData: " +  JSON.stringify(playerData));
             
 
-            const res   = await fetch('http://10.70.0.139:3000/api/players', {
+            const res   = await fetch('http://10.70.0.58:3000/api/players', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, Button, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
+const kaotikaImage = require('../assets/png/DUCK-LOGO-RESIZED.png');
+
 type LabScreenProps = {
     userEmail: any
 }
@@ -34,6 +36,9 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
                         <QRCode
                             value={userEmail || "No email available"} // Se insertara el valor que queramos al QR
                             size={200}
+                            logo={kaotikaImage}
+                            logoSize={40}
+                            
                         />
                         <View style={styles.buttonContainer}>
                             <Button title="Close" onPress={toggleModal} />
