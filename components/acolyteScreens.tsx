@@ -13,9 +13,10 @@ const Tab = createMaterialTopTabNavigator();
 type AcolyteScreensProps = {
   userRole: string;
   profileAttributes: any;
+    userEmail: String;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes }) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail}) => {
   // Estado para manejar el modal de la cámara
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -46,7 +47,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
         />
         <Tab.Screen
           name="LAB"
-          component={LabScreen}
+          children={() => <LabScreen userEmail={userEmail} />}
         />
         <Tab.Screen
           name="CAM"
