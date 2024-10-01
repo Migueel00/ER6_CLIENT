@@ -209,7 +209,7 @@ function App(): React.JSX.Element {
       const email = userInfo.data?.user.email;
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
-      getPlayerAndSet();
+      getPlayerAndSet(`${email}`);
       // console.log(`User e-mail: ${email}`);
       // console.log(`User Token: ${googleIdToken}`);
       
@@ -354,16 +354,14 @@ function App(): React.JSX.Element {
   setPlayers(newPlayers);
   }
 
-  const getPlayerAndSet = async () => {
+  const getPlayerAndSet = async (email: string) => {
 
-    const response  = await searchByEmail(userEmail);
-    const player    = response.data;
+    const player  = await searchByEmail(email);
     
     setPlayer(player);
     console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
 
-    const newID = player[0]._id;
-    console.log("NEW ID: " + newID);
+    //console.log("NEW ID: " + newID);
     
   }
 

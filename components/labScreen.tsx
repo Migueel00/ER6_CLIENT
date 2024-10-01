@@ -38,8 +38,10 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const qrValue = {
         userEmail: userEmail,
         socketId: socketID,
-        playerID: player[0].id
+        playerID: player._id
     };
+    
+    console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));
     
 
     return (

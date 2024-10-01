@@ -64,7 +64,7 @@ export const searchAndChangeIsInsideLabState = async (id) => {
     console.log("El id recibido es: " + id);
 
     const json = {
-        "isInsideLab" : false
+        "isInsideLab" : true
     }
 
     try {

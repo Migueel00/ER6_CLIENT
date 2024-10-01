@@ -2,6 +2,9 @@ import { URL } from "./urls";
 
 export const searchByEmail = async (playerEmail) => {
 
+    console.log("PLAYEREMAIL IN SEARCH BY EMAIL: " + playerEmail);
+    
+
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${playerEmail}`);
 
@@ -11,8 +14,13 @@ export const searchByEmail = async (playerEmail) => {
         }
 
         const player = await response.json();
-    
-        return player;
+
+        console.log("PLAYER IN SEARCH BY EMAIL: " + JSON.stringify(player.data));
+        
+        
+
+        
+        return player.data;
     }
     catch (error){
 
