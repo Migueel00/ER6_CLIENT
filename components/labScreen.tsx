@@ -29,6 +29,12 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
         setModalVisible(!modalVisible);
     }
 
+    const qrValue = {
+        userEmail: userEmail,
+        socketId: socket.id
+    };
+    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
@@ -47,7 +53,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <QRCode
-                            value={userEmail || "No email available"} // Se insertará el valor que queramos al QR
+                            value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
                             size={280}
                             logo={kaotikaImage}
                             logoSize={250}
