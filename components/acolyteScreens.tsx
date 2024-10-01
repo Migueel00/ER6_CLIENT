@@ -49,7 +49,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
         />
         <Tab.Screen
           name="LAB"
-          children={() => <LabScreen userEmail={userEmail} playerId={2} socketID={socketID}/>}
+          children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID}/>}
         />
         <Tab.Screen
           name="CAM"
@@ -63,7 +63,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
                 animationType="slide"
                 onRequestClose={closeCameraModal}
               >
-                <CameraScreen onClose={closeCameraModal} />
+                <CameraScreen onClose={closeCameraModal}/>
               </Modal>
             </View>
           )}
