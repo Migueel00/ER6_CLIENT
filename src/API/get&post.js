@@ -68,29 +68,12 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
     console.log("El email recibido es: " + userEmail);
 
     try {
-        // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
-        const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
 
-        if (!playerResponse.ok) {
-            console.log('Failed to fetch player. Status:', playerResponse.status);
-            return;
-        }
-
-        const playerData = await playerResponse.json();
-        console.log('Player data fetched:', playerData);
-
-        console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
-
-
-        
+        const insideLabState = await getPlayerInsideLabState(userEmail);
+ 
         // Cambiamos el estado de isInsideLab
         const json = {
-            "isInsideLab": !playerData.data.isInsideLab
+            "isInsideLab": !insideLabState
         };
 
         // Ahora hacemos la petición PATCH para actualizar el estado
@@ -116,6 +99,27 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
     }
 }
 
+export const getPlayerInsideLabState = async (userEmail) => {
+     // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
+     const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!playerResponse.ok) {
+        console.log('Failed to fetch player. Status:', playerResponse.status);
+        return;
+    }
+
+    const playerData = await playerResponse.json();
+    console.log('Player data fetched:', playerData);
+
+    console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
+
+    return playerData.data.isInsideLab;
+}
 
 module.exports = {
     searchAndIfDontExistPost,
