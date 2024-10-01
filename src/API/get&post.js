@@ -1,4 +1,6 @@
-const searchAndIfDontExistPost = async (playerData) => {
+import { URL } from "./urls";
+
+export const searchAndIfDontExistPost = async (playerData) => {
 
     //IP DE CLASE IKAS A3: 10.70.0.58
     //IP ASIER: 192.168.1.89
@@ -8,9 +10,9 @@ const searchAndIfDontExistPost = async (playerData) => {
     console.log("El email recibido es: " + email);
 
     try {
-        const response = await fetch(`http://10.70.0.58:3000/api/players/${email}`);
+        const response = await fetch(`${URL.API_PLAYERS}/${email}`);
 
-        console.log("Respuesta del primer fetch: " + JSON.stringify(response));
+        // console.log("Respuesta del primer fetch: " + JSON.stringify(response));
         
 
         if(response.ok){
@@ -27,7 +29,7 @@ const searchAndIfDontExistPost = async (playerData) => {
             console.log("PlayerData: " +  JSON.stringify(playerData));
             
 
-            const res   = await fetch('http://10.70.0.58:3000/api/players', {
+            const res   = await fetch(`${URL.API_PLAYERS}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

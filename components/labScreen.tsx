@@ -6,7 +6,9 @@ import QRCode from 'react-native-qrcode-svg';
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 
 type LabScreenProps = {
-    userEmail: any
+    userEmail: any,
+    playerId:  Number,
+    
 }
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {

@@ -20,9 +20,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
-import { searchAndIfDontExistPost } from './src/API/get&post';
+import { searchAndIfDontExistPost } from "./src/API/get&post";
 import MortimerScreens from './components/mortimerScreen/mortimerScreens';
 import { getAllPlayers } from './src/API/getAllPlayers';
+import { searchByEmail } from './src/API/searchByEmail';
 
 
 GoogleSignin.configure({
@@ -36,7 +37,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.58:3000');
+export const socket = io('http://10.70.0.139:3000');
 
 function App(): React.JSX.Element {
 
@@ -58,15 +59,19 @@ function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
 
+
   interface Player {
     socketId:     String,
     email:        String,
     nickname:     String,
     isInsideLab:  Boolean,
-    avatar:       String
+    avatar:       String,
+    id:           String
   }
 
   const [players, setPlayers]       = useState<Player[]>([]);
+  const [player, setPlayer]         = useState<Player>();
+
 
   // Simular obtener los datos del perfil
   useEffect(() => {
@@ -195,6 +200,7 @@ function App(): React.JSX.Element {
       const email = userInfo.data?.user.email;
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
+      getPlayerAndSet();
       // console.log(`User e-mail: ${email}`);
       // console.log(`User Token: ${googleIdToken}`);
       
@@ -222,7 +228,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.139:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -316,6 +322,7 @@ function App(): React.JSX.Element {
       const isInsideLab = playersData[i].isInsideLab;
       const socketId    = playersData[i].socketId;
       const avatar      = playersData[i].avatar;
+      const id          = playersData[i]._id;
 
       const player  = {
 
@@ -323,15 +330,24 @@ function App(): React.JSX.Element {
         email:          email,
         isInsideLab:    isInsideLab,
         socketId:       socketId,
-        avatar:         avatar
+        avatar:         avatar,
+        id:             id
+
       };
 
       newPlayers.push(player);    
   }
 
   setPlayers(newPlayers);
-}
+  }
 
+  const getPlayerAndSet = async () => {
+
+    const response  = await searchByEmail(userEmail);
+    const player    = response.data;
+    
+    setPlayer(player);
+  }
 
 
   return (
@@ -341,7 +357,7 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail}/> // Replacing navigation with AcolyteScreens
+        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} player={player}/> // Replacing navigation with AcolyteScreens
         // <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
