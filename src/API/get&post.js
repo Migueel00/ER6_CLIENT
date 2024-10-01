@@ -127,5 +127,7 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
 
 module.exports = {
     searchAndIfDontExistPost,
-    searchAndChangeIsInsideLabState
+    searchAndChangeIsInsideLabState,
+    patchPlayerWithUserID,
+    getPlayerInsideLabState,
 } 
