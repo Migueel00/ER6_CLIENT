@@ -7,7 +7,9 @@ const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 
 type LabScreenProps = {
     userEmail: any,
-    socketID: String
+    socketID: String,
+    playerId:  Number,
+    
 }
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID}) => {

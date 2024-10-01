@@ -15,9 +15,10 @@ type AcolyteScreensProps = {
   profileAttributes: any;
     userEmail: String;
     socketID: String
+  player: any
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID}) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player}) => {
   // Estado para manejar el modal de la cámara
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -48,7 +49,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
         />
         <Tab.Screen
           name="LAB"
-          children={() => <LabScreen userEmail={userEmail} socketID={socketID}/>}
+          children={() => <LabScreen userEmail={userEmail} playerId={2} socketID={socketID}/>}
         />
         <Tab.Screen
           name="CAM"
