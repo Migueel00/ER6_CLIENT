@@ -59,39 +59,63 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
 }
 
-export const searchAndChangeIsInsideLabState = async (id) => {
-    
-    console.log("El id recibido es: " + id);
+export const searchAndChangeIsInsideLabState = async (qrValue) => {
 
-    const json = {
-        "isInsideLab" : true
-    }
+    const userEmail = qrValue.userEmail;
+    const userID = qrValue.playerID;
+
+    console.log("El id recibido es: " + userID);
+    console.log("El email recibido es: " + userEmail);
 
     try {
-        const response = await fetch(`${URL.API_PLAYERS}/${id}`, {
-            method: 'PATCH',
+        // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
+        const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
+            method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(json), // Envía el token en el cuerpo de la petición
-          });
-        
-          console.log('Response:' + JSON.stringify(response));
-          
-          if(response.ok) {
-            const updatedPlayer = await response.json();
-            console.log('Player updated:', updatedPlayer);
-        } else {
-            console.log('Failed to update player. Status:', response.status);
+        });
+
+        if (!playerResponse.ok) {
+            console.log('Failed to fetch player. Status:', playerResponse.status);
+            return;
         }
 
-    } 
-    catch (error){
+        const playerData = await playerResponse.json();
+        console.log('Player data fetched:', playerData);
 
+        console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
+
+
+        
+        // Cambiamos el estado de isInsideLab
+        const json = {
+            "isInsideLab": !playerData.data.isInsideLab
+        };
+
+        // Ahora hacemos la petición PATCH para actualizar el estado
+        const updateResponse = await fetch(`${URL.API_PLAYERS}/${userID}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(json),
+        });
+
+        console.log('Update Response:', JSON.stringify(updateResponse));
+
+        if (updateResponse.ok) {
+            const updatedPlayer = await updateResponse.json();
+            console.log('Player updated:', updatedPlayer);
+        } else {
+            console.log('Failed to update player. Status:', updateResponse.status);
+        }
+
+    } catch (error) {
         console.error(error.message);
     }
-
 }
+
 
 module.exports = {
     searchAndIfDontExistPost,

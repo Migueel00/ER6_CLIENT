@@ -60,7 +60,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
               console.log('QR PARSED VALUE IS: ' + parsedQrValue);
               console.log('QR NOT PARSED VALUE IS: ' + qrValue);
               
-              searchAndChangeIsInsideLabState(parsedQrValue.playerID)
+              searchAndChangeIsInsideLabState(parsedQrValue)
             }
           }
         ]
