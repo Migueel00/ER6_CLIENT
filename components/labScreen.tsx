@@ -6,10 +6,11 @@ import { socket } from '../App';
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 
 type LabScreenProps = {
-    userEmail: any
+    userEmail: any,
+    socketID: String
 }
 
-const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
+const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [buttonVisible, setButtonVisible] = useState(true);
 
@@ -31,7 +32,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail}) => {
 
     const qrValue = {
         userEmail: userEmail,
-        socketId: socket.id
+        socketId: socketID
     };
     
 

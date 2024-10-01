@@ -17,7 +17,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AcolyteScreens from './components/acolyteScreens';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useScrollToTop } from '@react-navigation/native';
 import SignInButton from './components/SignInButton';
 import io from 'socket.io-client';
 import { searchAndIfDontExistPost } from './src/API/get&post';
@@ -36,12 +36,14 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://192.168.1.150:3000');
+export const socket = io('http://10.70.0.58:3000');
+
+
 
 function App(): React.JSX.Element {
 
   const isDarkMode = useColorScheme() === 'dark';
-
+  const [userSocket, setUserSocket] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userRole, setUserRole] = useState("");
   const [profileData, setProfileData] = useState("");
@@ -162,6 +164,13 @@ function App(): React.JSX.Element {
     // Conectar al socket
     socket.on('connect', () => {
       console.log('Conectado al servidor de Socket.IO');
+      console.log('El SOCKET DE ESTA CONEXION ES:' + socket);
+
+      const userSocketID : any = socket.id;
+      
+      setUserSocket(userSocketID);
+      console.log("NEW USER SOCKET ID IS: " + userSocketID);
+      
       console.log('El socketID de esta conexión es: ' + socket.id);
       
     });
@@ -222,7 +231,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.1.150:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -341,7 +350,7 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail}/> // Replacing navigation with AcolyteScreens
+        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket}/> // Replacing navigation with AcolyteScreens
         // <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
