@@ -76,23 +76,7 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
             "isInsideLab": !insideLabState
         };
 
-        // Ahora hacemos la petición PATCH para actualizar el estado
-        const updateResponse = await fetch(`${URL.API_PLAYERS}/${userID}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(json),
-        });
-
-        console.log('Update Response:', JSON.stringify(updateResponse));
-
-        if (updateResponse.ok) {
-            const updatedPlayer = await updateResponse.json();
-            console.log('Player updated:', updatedPlayer);
-        } else {
-            console.log('Failed to update player. Status:', updateResponse.status);
-        }
+        await patchPlayerWithUserID(userID, json);
 
     } catch (error) {
         console.error(error.message);
@@ -119,6 +103,26 @@ export const getPlayerInsideLabState = async (userEmail) => {
     console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
 
     return playerData.data.isInsideLab;
+}
+
+export const patchPlayerWithUserID = async (userID, patchJSON) => {
+    // Ahora hacemos la petición PATCH para actualizar el estado
+    const updateResponse = await fetch(`${URL.API_PLAYERS}/${userID}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patchJSON),
+    });
+
+    console.log('Update Response:', JSON.stringify(updateResponse));
+
+    if (updateResponse.ok) {
+        const updatedPlayer = await updateResponse.json();
+        console.log('Player updated:', updatedPlayer);
+    } else {
+        console.log('Failed to update player. Status:', updateResponse.status);
+    }
 }
 
 module.exports = {
