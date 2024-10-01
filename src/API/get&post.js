@@ -12,22 +12,18 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
-
-        // console.log("Respuesta del primer fetch: " + JSON.stringify(response));
         
-
         if(response.ok){
 
             const existingPlayer = await response.json();
 
             if(existingPlayer){
-
                 console.log(`El correo ${email} ya está registrado`);
+                await updatePlayerByEmail(playerData);
             }
 
         }else if(response.status === 400){
 
-            console.log("PlayerData: " +  JSON.stringify(playerData));
             
 
             const res   = await fetch(`${URL.API_PLAYERS}`, {
@@ -59,13 +55,41 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
 }
 
+export const updatePlayerByEmail = async (data) => {
+    const email = data.email;
+
+    try {
+        const response = await fetch(`${URL.UPDATE_PLAYER_BY_EMAIL}/${email}`, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({data})
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text(); // Obtener la respuesta como texto
+            throw new Error(`Error ${response.status}: ${errorText}`); // Lanzar un error con el código y texto de la respuesta
+        }
+
+        // Parsear la respuesta JSON solo si fue exitosa
+        const jsonResponse  = await response.json();
+        const player        = jsonResponse.data;
+
+        console.log("PLAYER UPDATEADO: " + JSON.stringify(player));
+        
+
+    } catch (error) {
+        
+        console.error("Error al actualizar el player", error);
+        throw error;
+    }
+}
+
 export const searchAndChangeIsInsideLabState = async (qrValue) => {
 
     const userEmail = qrValue.userEmail;
     const userID = qrValue.playerID;
-
-    console.log("El id recibido es: " + userID);
-    console.log("El email recibido es: " + userEmail);
 
     try {
 
@@ -93,14 +117,14 @@ export const getPlayerInsideLabState = async (userEmail) => {
     });
 
     if (!playerResponse.ok) {
-        console.log('Failed to fetch player. Status:', playerResponse.status);
+        // console.log('Failed to fetch player. Status:', playerResponse.status);
         return;
     }
 
     const playerData = await playerResponse.json();
-    console.log('Player data fetched:', playerData);
+    // console.log('Player data fetched:', playerData);
 
-    console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
+    // console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
 
     return playerData.data.isInsideLab;
 }
@@ -115,13 +139,13 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
         body: JSON.stringify(patchJSON),
     });
 
-    console.log('Update Response:', JSON.stringify(updateResponse));
+    // console.log('Update Response:', JSON.stringify(updateResponse));
 
     if (updateResponse.ok) {
         const updatedPlayer = await updateResponse.json();
-        console.log('Player updated:', updatedPlayer);
+        // console.log('Player updated:', updatedPlayer);
     } else {
-        console.log('Failed to update player. Status:', updateResponse.status);
+        // console.log('Failed to update player. Status:', updateResponse.status);
     }
 }
 

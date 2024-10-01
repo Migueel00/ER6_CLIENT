@@ -37,7 +37,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.58:3000');
+export const socket = io('http://192.168.1.134:3000');
 
 
 
@@ -225,7 +225,7 @@ function App(): React.JSX.Element {
       // console.log('SIGN IN WITH CREDENTIAL');
       // console.log(signInWithCredential);
 
-      //http://10.70.0.58:3000/verify-token
+      //http://192.168.1.134:3000/verify-token
 
       //Get the token from the current User
       const idTokenResult = await auth().currentUser?.getIdTokenResult();
@@ -237,7 +237,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://192.168.1.134:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
