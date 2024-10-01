@@ -62,29 +62,30 @@ const searchAndChangeIsInsideLabState = async (email) => {
     console.log("El email recibido es: " + email);
 
     try {
-        const response = await fetch('http://10.70.0.58:3000/api/players', {
+        const response = await fetch(`http://10.70.0.58:3000/api/players/${email}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: {'isInsideLab': true}, // Envía el token en el cuerpo de la petición
+            body: JSON.stringify({ isInsideLab: true }), // Envía el token en el cuerpo de la petición
           });
         
+          console.log('Response:' + JSON.stringify(response));
+          
+        // if(response.ok){
 
-        if(response.ok){
+        //     const existingPlayer = await response.json();
 
-            const existingPlayer = await response.json();
-
-            if(existingPlayer){
+        //     if(existingPlayer){
                 
-                console.log(`El correo ${email} tiene el estado de insideLab como ${existingPlayer.isInsideLab}`);
-            }
+        //         console.log(`El correo ${email} tiene el estado de insideLab como ${existingPlayer.isInsideLab}`);
+        //     }
 
-        }
-        else {
+        // }
+        // else {
 
-            throw new Error("Error al comprobar el correo");
-        }
+        //     throw new Error("Error al comprobar el correo");
+        // }
 
     } 
     catch (error){

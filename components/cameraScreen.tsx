@@ -50,13 +50,17 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
               setIsScanned(false); // Permitir escanear otro código al presionar "OK"
               console.log('OK Pressed');
               const qrValue = codes[0].value;
-              
+
+              const parsedQrValue = JSON.parse(qrValue);
+
               //Emit del valor del QR escaneado
               socket.emit("qrScanned", qrValue);
 
-              console.log("QR VALUE IS THE NEXT ONE: " + qrValue);
+
+              console.log('QR PARSED VALUE IS: ' + parsedQrValue);
+              console.log('QR NOT PARSED VALUE IS: ' + qrValue);
               
-              //searchAndChangeIsInsideLabState(qrValue)
+              searchAndChangeIsInsideLabState(parsedQrValue.userEmail)
             }
           }
         ]
