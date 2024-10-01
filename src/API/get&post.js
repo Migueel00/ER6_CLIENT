@@ -59,12 +59,12 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
 }
 
-const searchAndChangeIsInsideLabState = async (email) => {
+export const searchAndChangeIsInsideLabState = async (email) => {
     
     console.log("El email recibido es: " + email);
 
     try {
-        const response = await fetch(`http://10.70.0.58:3000/api/players/${email}`, {
+        const response = await fetch(`${URL.API_PLAYERS}/${email}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

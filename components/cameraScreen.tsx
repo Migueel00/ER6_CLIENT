@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
 import { codeScanner } from './hooks/codeScannerHook';
 import { socket } from '../App';
-import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
+import { searchAndIfDontExistPost, searchAndChangeIsInsideLabState } from '../src/API/get&post';
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
