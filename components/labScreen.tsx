@@ -16,6 +16,9 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [buttonVisible, setButtonVisible] = useState(true);
 
+
+        //console.log("PLAYER ID IN LAB:" + player.id);
+        
     useEffect(() => {
         // Escuchar el evento 'ScanSuccess' desde el servidor
         socket.on('ScanSuccess', (message: string) => {
@@ -35,7 +38,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const qrValue = {
         userEmail: userEmail,
         socketId: socketID,
-        playerID: player.id
+        playerID: player[0].id
     };
     
 

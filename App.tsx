@@ -324,6 +324,8 @@ function App(): React.JSX.Element {
     const players      = await getAllPlayers();
     const playersData  = players.data;
     const newPlayers = [];
+
+    
     for(let i = 0; i < playersData.length; i++){
 
       const nickname    = playersData[i].nickname;
@@ -345,6 +347,8 @@ function App(): React.JSX.Element {
       };
 
       newPlayers.push(player);    
+
+      
   }
 
   setPlayers(newPlayers);
@@ -356,6 +360,11 @@ function App(): React.JSX.Element {
     const player    = response.data;
     
     setPlayer(player);
+    console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
+
+    const newID = player[0]._id;
+    console.log("NEW ID: " + newID);
+    
   }
 
 

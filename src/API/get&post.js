@@ -63,31 +63,27 @@ export const searchAndChangeIsInsideLabState = async (id) => {
     
     console.log("El id recibido es: " + id);
 
+    const json = {
+        "isInsideLab" : false
+    }
+
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${id}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ isInsideLab: true }), // Envía el token en el cuerpo de la petición
+            body: JSON.stringify(json), // Envía el token en el cuerpo de la petición
           });
         
           console.log('Response:' + JSON.stringify(response));
           
-        // if(response.ok){
-
-        //     const existingPlayer = await response.json();
-
-        //     if(existingPlayer){
-                
-        //         console.log(`El correo ${email} tiene el estado de insideLab como ${existingPlayer.isInsideLab}`);
-        //     }
-
-        // }
-        // else {
-
-        //     throw new Error("Error al comprobar el correo");
-        // }
+          if(response.ok) {
+            const updatedPlayer = await response.json();
+            console.log('Player updated:', updatedPlayer);
+        } else {
+            console.log('Failed to update player. Status:', response.status);
+        }
 
     } 
     catch (error){
