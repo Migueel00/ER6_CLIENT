@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
 import { codeScanner } from './hooks/codeScannerHook';
 import { socket } from '../App';
+import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
@@ -51,7 +52,11 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
               const qrValue = codes[0].value;
               
               //Emit del valor del QR escaneado
-              socket.emit("qrScanned", qrValue)
+              socket.emit("qrScanned", qrValue);
+
+              console.log("QR VALUE IS THE NEXT ONE: " + qrValue);
+              
+              //searchAndChangeIsInsideLabState(qrValue)
             }
           }
         ]
