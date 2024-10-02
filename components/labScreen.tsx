@@ -16,7 +16,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
     
-    console.log("Player is insideLab? " + player.isInsideLab);
+    console.log("Player is insideLab? " + isInsideLab);
     
     useEffect(() => {
         // Escuchar el evento 'ScanSuccess' desde el servidor
@@ -27,7 +27,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                 setIsInsideLab(!isInsideLab);
                 setModalVisible(false); // Cerrar el modal cuando se reciba el mensaje
         });
-    }, []);
+    }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
     const toggleModal = () => {
