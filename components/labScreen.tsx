@@ -15,18 +15,29 @@ type LabScreenProps = {
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
+    const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry")
     
     console.log("Player is insideLab? " + isInsideLab);
     
     useEffect(() => {
-        // Escuchar el evento 'ScanSuccess' desde el servidor
+
+        // Cambiar isInsideLab cuando se recibe OK! desde el servidor
         socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
 
                 // Cambiar el estado de isInsideLab
                 setIsInsideLab(!isInsideLab);
-                setModalVisible(false); // Cerrar el modal cuando se reciba el mensaje
+                setModalVisible(false);
         });
+
+        return () => {
+            socket.off('ScanSuccess')
+        }
+    }, [isInsideLab]);
+
+    // Actualiza el texto del botón según el estado
+    useEffect(() => {
+        setButtonText(isInsideLab ? "Lab Exit" : "Lab Entry");
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
@@ -37,11 +48,9 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     // Función para gestionar la acción del botón
     const handleButtonPress = () => {
         if (isInsideLab) {
-            console.log("Lab Exit");
             setModalVisible(!modalVisible)
             // Aquí puedes manejar la salida del laboratorio si es necesario
         } else {
-            console.log("Lab Entry");
             toggleModal(); // Abrir el modal solo si es "Lab Entry"
         }
     };
@@ -60,7 +69,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
             <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
             
             <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
-                <Text style={styles.buttonText}>{isInsideLab ? "Lab Exit" : "Lab Entry"}</Text>
+                <Text style={styles.buttonText}>{buttonText}</Text>
             </TouchableOpacity>
             
             <Modal
