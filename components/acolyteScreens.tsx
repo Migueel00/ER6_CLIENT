@@ -7,18 +7,30 @@ import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settingsScreen';
 import LabScreen from './labScreen';
 import CameraScreen from './cameraScreen';
+import ConnectionScreen from './mortimerScreen/connectionsScreen';
 
 const Tab = createMaterialTopTabNavigator();
+interface Player {
+  socketId:     string,
+  email:        string,
+  nickname:     string,
+  isInsideLab:  boolean,
+  avatar:       string,
+  id:           string
+}
+
 
 type AcolyteScreensProps = {
   userRole: string;
   profileAttributes: any;
     userEmail: String;
-    socketID: String
-  player: any
+    socketID: String;
+  player: any;
+  players:  Player[];
+  setPlayers: (players: Player[]) => void;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player}) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, players, setPlayers}) => {
   // Estado para manejar el modal de la cámara
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -67,6 +79,10 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
               </Modal>
             </View>
           )}
+        />
+        <Tab.Screen 
+          name="Connections"
+          children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
         />
       </Tab.Navigator>
     </NavigationContainer>

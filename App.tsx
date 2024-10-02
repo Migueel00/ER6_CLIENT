@@ -373,8 +373,8 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        // <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player}/> // Replacing navigation with AcolyteScreens
-        <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
+        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers}/> // Replacing navigation with AcolyteScreens
+        // <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (

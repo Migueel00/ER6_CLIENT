@@ -23,7 +23,7 @@ interface Player {
 type MortimerScreensProps = {
     userRole: string;
     profileAttributes: any;
-    players: any;
+    players: Player[];
     setPlayers: (players: Player[]) => void;
 }
 
@@ -47,7 +47,6 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             <Tab.Screen 
               name="Connections"
               children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
-
             />
           </Tab.Navigator>
         </NavigationContainer>
