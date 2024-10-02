@@ -10,13 +10,25 @@ import { getAllPlayers } from '../../src/API/getAllPlayers'
 
 const Tab = createMaterialTopTabNavigator();
 
+interface Player {
+  socketId:     string,
+  email:        string,
+  nickname:     string,
+  isInsideLab:  boolean,
+  avatar:       string,
+  id:           string
+}
+
+
 type MortimerScreensProps = {
     userRole: string;
     profileAttributes: any;
-    players: any
+    players: any;
+    setPlayers: (players: Player[]) => void;
 }
 
-const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players}) => {
+const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players, setPlayers
+}) => {
     return (
         <NavigationContainer>
           <Tab.Navigator>
@@ -34,7 +46,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen 
               name="Connections"
-              children={() => <ConnectionScreen players={players} />}
+              children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
 
             />
           </Tab.Navigator>

@@ -58,13 +58,15 @@ export const searchAndIfDontExistPost = async (playerData) => {
 export const updatePlayerByEmail = async (data) => {
     const email = data.email;
 
+    const { _id, ...updateData } = data;
+
     try {
         const response = await fetch(`${URL.UPDATE_PLAYER_BY_EMAIL}/${email}`, {
             method: "PATCH",
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify({data})
+            body: JSON.stringify(updateData)
         });
 
         if (!response.ok) {

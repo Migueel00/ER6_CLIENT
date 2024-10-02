@@ -37,7 +37,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://192.168.1.134:3000');
+export const socket = io('http://192.168.1.133:3000');
 
 
 
@@ -63,12 +63,12 @@ function App(): React.JSX.Element {
 
 
   interface Player {
-    socketId:     String,
-    email:        String,
-    nickname:     String,
-    isInsideLab:  Boolean,
-    avatar:       String,
-    id:           String
+    socketId:     string,
+    email:        string,
+    nickname:     string,
+    isInsideLab:  boolean,
+    avatar:       string,
+    id:           string
   }
 
   const [players, setPlayers]       = useState<Player[]>([]);
@@ -237,7 +237,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.1.134:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://192.168.1.133:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -373,8 +373,8 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player}/> // Replacing navigation with AcolyteScreens
-        // <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players}/>
+        // <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player}/> // Replacing navigation with AcolyteScreens
+        <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (
