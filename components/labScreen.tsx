@@ -15,7 +15,10 @@ type LabScreenProps = {
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
-    const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry")
+    const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry");
+
+    //TEMPORAL SE CAMBIARA EL FONDO EN VEZ DEL TEXTO
+    const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
     
     console.log("Player is insideLab? " + isInsideLab);
     
@@ -38,6 +41,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     // Actualiza el texto del botón según el estado
     useEffect(() => {
         setButtonText(isInsideLab ? "Lab Exit" : "Lab Entry");
+        setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
@@ -66,7 +70,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
+            <Text style={styles.title}>{screenText}</Text>
             
             <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
                 <Text style={styles.buttonText}>{buttonText}</Text>
