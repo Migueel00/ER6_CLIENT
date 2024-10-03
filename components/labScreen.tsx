@@ -43,7 +43,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     // Actualiza el texto del botón según el estado
     useEffect(() => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Lab Entry");
-        setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
+        setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory entrance");
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
@@ -124,10 +124,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        flex: 1, 
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: 'transparent', // Personaliza el fondo
+        width: '100%', 
+        height: '100%', 
+        paddingTop: 20
+        //opacity: 0.1
     },
     title: {
         fontSize: 30,
@@ -137,6 +140,7 @@ const styles = StyleSheet.create({
     button: {
         //backgroundColor: '#007bff',
         padding: 10,
+        paddingTop: 480,
         borderRadius: 5,
     },
     buttonImageBackground: {
