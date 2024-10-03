@@ -5,8 +5,13 @@ export const searchAndIfDontExistPost = async (playerData) => {
     //IP DE CLASE IKAS A3: 10.70.0.58
     //IP ASIER: 192.168.1.89
     //IP LANDER: 192.168.1.150
+
     
     const email = playerData.email;
+
+    const playerInsideLab = await getPlayerInsideLabState(email);
+
+    playerData.isInsideLab = playerInsideLab;
 
     console.log("El email recibido es: " + email);
 
