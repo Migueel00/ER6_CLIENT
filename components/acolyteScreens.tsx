@@ -41,7 +41,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarStyle: {
               backgroundColor: 'black',
               height: height * 0.10, // Incremento en la altura para más espacio
-              paddingBottom: 10, // Añade espacio en la parte inferior de la barra
+              paddingBottom: 1, // Añade espacio en la parte inferior de la barra
             },
             tabBarIconStyle: {
               justifyContent: 'center',
@@ -55,6 +55,10 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             },
             tabBarItemStyle: {
               justifyContent: 'center', // Asegura que los íconos se centren
+              borderRightWidth: 0.2,  // Agrega un borde entre pestañas
+              borderRightColor: 'white', // Color del borde
+              paddingHorizontal: 10,
+              height: '100%'
             },
           })}
         >
