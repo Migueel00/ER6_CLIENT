@@ -25,7 +25,7 @@ import MortimerScreens from './components/mortimerScreen/mortimerScreens';
 import { getAllPlayers } from './src/API/getAllPlayers';
 import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
-
+import { LogBox } from 'react-native';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -423,5 +423,8 @@ const styles = StyleSheet.create({
     fontSize: 20
   }
 });
+
+//Warning hide
+LogBox.ignoreLogs(['Warning: A props object containing a "key" prop is being spread into JSX']);
 
 export default App;
