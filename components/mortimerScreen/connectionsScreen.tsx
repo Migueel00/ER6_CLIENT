@@ -36,8 +36,11 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
             socket.off('update');
         }
     }, [players, setPlayers]);
-
+    // circle-dot
+    
     return (
+        
+
         <View style={styles.container}>
         <Text style={styles.title}>I salute you mortimer! Check out what your acolytes are doing here!</Text>
         {/* Agrega más contenido o componentes aquí */}
