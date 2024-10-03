@@ -31,19 +31,7 @@ type AcolyteScreensProps = {
   setIsLoggedIn: any;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, players, setPlayers, setIsLoggedIn}) => {
-  // Estado para manejar el modal de la cámara
-  const [isCameraModalVisible, setCameraModalVisible] = useState(false);
-
-  // Función para abrir el modal de la cámara
-  const openCameraModal = () => {
-    setCameraModalVisible(true);
-  };
-
-  // Función para cerrar el modal de la cámara
-  const closeCameraModal = () => {
-    setCameraModalVisible(false);
-  };
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, setIsLoggedIn}) => {
 
   return (
     <NavigationContainer>
@@ -64,27 +52,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           name="LAB"
           children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID}/>}
         />
-        <Tab.Screen
-          name="CAM"
-          children={() => (
-            <View style={styles.container}>
-              <Text style={styles.title}>Epic Scanner</Text>
-              <Button title="Open Camera" onPress={openCameraModal} />
-              {/* Modal de la cámara */}
-              <Modal
-                visible={isCameraModalVisible}
-                animationType="slide"
-                onRequestClose={closeCameraModal}
-              >
-                <CameraScreen onClose={closeCameraModal}/>
-              </Modal>
-            </View>
-          )}
-        />
-        <Tab.Screen 
-          name="Connections"
-          children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
-        />
+
       </Tab.Navigator>
     </NavigationContainer>
   );
