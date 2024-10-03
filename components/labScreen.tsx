@@ -4,6 +4,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { socket } from '../App';
 
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
+const buttonImage = require('../assets/png/button1.png');
 
 type LabScreenProps = {
     userEmail: any,
@@ -79,9 +80,16 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
             <Text style={styles.kaotikaFont}>{screenText}</Text>
             
             <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
-                <Text style={styles.buttonText}>{buttonText}</Text>
+                <ImageBackground
+                    source={buttonImage} // Ruta a tu imagen de fondo
+                    style={styles.buttonImageBackground}
+                    resizeMode="cover"
+                >
+                    <Text style={styles.kaotikaButton}>{buttonText}</Text>
+                </ImageBackground>
             </TouchableOpacity>
-            
+
+
             <Modal
                 visible={modalVisible}
                 transparent={true}
@@ -110,7 +118,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 };
 
 const styles = StyleSheet.create({
-    background: {
+        background: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -127,9 +135,22 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     button: {
-        backgroundColor: '#007bff',
+        //backgroundColor: '#007bff',
         padding: 10,
         borderRadius: 5,
+    },
+    buttonImageBackground: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 310,  // Ajusta estos valores según el tamaño del botón
+        height: 80,     // Por ejemplo, podrías ajustar el alto aquí
+    },
+    kaotikaButton: {
+        backgroundColor: 'transparent',
+        //padding: 10,
+        //borderRadius: 5,
+        fontFamily: 'KochAltschrift',
+        fontSize: 40
     },
     buttonText: {
         color: 'white',
