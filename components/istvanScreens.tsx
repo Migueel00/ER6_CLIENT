@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ImageBackground, Modal, StyleSheet, View } from 'react-native';
+import { Button, Dimensions, Image, ImageBackground, Modal, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
@@ -26,6 +26,7 @@ type IstvanScreensProps = {
 };
 
 const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes, setIsLoggedIn}) => {
+    const {height} = Dimensions.get('window')
     // Estado para manejar el modal de la cámara
     const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -55,19 +56,56 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
 
     return (
         <NavigationContainer>
-            <Tab.Navigator>
+        <Tab.Navigator screenOptions={{tabBarStyle: {
+            backgroundColor: "black",
+            height: height*0.09,
+        },
+        tabBarIndicatorStyle: {
+            backgroundColor: "orange"
+        }}}>
                 <Tab.Screen
-                    name="Home"
-                    children={() => <HomeScreen role={userRole} />}
+            name='home'
+            children={() => <HomeScreen role={userRole} />}
+            options={{
+                
+                tabBarIcon: ({}) => (
+                <Image
+                    source={require('../assets/icons/home-icon.png')}
+                    style={{ width: 38, height: 38}}
                 />
-                <Tab.Screen
-                    name="Profile"
-                    children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+                ),
+                tabBarLabel: ({}) => null,
+    
+            }} 
+            />
+            <Tab.Screen
+            name="Proe"
+            children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+            options={{
+                tabBarIcon: ({}) => (
+                    <Image
+                    source={require('../assets/icons/profile-icon.png')}
+                    style={{width: 38, height: 38}}
+                    />
+                ),
+                tabBarLabel: ({}) => null,
+            }}
+            />
+            <Tab.Screen
+            name="Settings"
+            children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
+            options={{
+                
+                tabBarIcon: ({}) => (
+                <Image
+                    source={require('../assets/icons/settings-icon.png')}
+                    style={{ width: 38, height: 38}}
                 />
-                <Tab.Screen
-                    name="Settings"
-                    children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
-                />
+                ),
+                tabBarLabel: ({}) => null,
+    
+            }}
+        />
                 <Tab.Screen
                     name="CAM"
                     children={() => (
