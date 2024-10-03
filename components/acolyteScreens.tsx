@@ -36,22 +36,26 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
 
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{tabBarStyle: {
-        backgroundColor: "black",
-        height: height*0.09,
-      },
-      tabBarIndicatorStyle: {
-        backgroundColor: "white"
+      <Tab.Navigator 
+        screenOptions={
+        {tabBarStyle: 
+          {
+            backgroundColor: "black",
+            height: height*0.09,
+          },
+        tabBarIndicatorStyle: {
+        backgroundColor: "orange"
       }}}>
         <Tab.Screen
-          name='home'
+          
+          name='Home'
           children={() => <HomeScreen role={userRole} />}
           options={{
             
             tabBarIcon: ({}) => (
               <Image
                 source={require('../assets/icons/home-icon.png')}
-                style={{ width: 38, height: 38}}
+                style={{ width: 38, height: 38, resizeMode: 'contain',  margin: 0}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -59,7 +63,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           }} 
         />
         <Tab.Screen
-          name="Proe"
+          name="Profile"
           children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
           options={{
               tabBarIcon: ({}) => (
