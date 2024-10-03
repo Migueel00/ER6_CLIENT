@@ -18,17 +18,12 @@ interface Player {
 }
 
 
-type AcolyteScreensProps = {
+type IstvanScreensProps = {
     userRole: string;
     profileAttributes: any;
-    userEmail: String;
-    socketID: String;
-    player: any;
-    players:  Player[];
-    setPlayers: (players: Player[]) => void;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes}) => {
+const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes}) => {
     // Estado para manejar el modal de la cámara
     const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -93,4 +88,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AcolyteScreens;
+export default IstvanScreens;

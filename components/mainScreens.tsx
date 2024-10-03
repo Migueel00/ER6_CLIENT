@@ -1,6 +1,7 @@
 import AcolyteScreens from "./acolyteScreens";
 import MortimerScreens from "./mortimerScreen/mortimerScreens";
-import React from 'react';
+import IstvanScreens from "./istvanScreens";
+import React from "react";
 import { Text } from 'react-native';
 
 interface Player {
@@ -43,6 +44,14 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                 profileAttributes={profileAttributes}
                 players={players}
                 setPlayers={setPlayers}
+                />
+            );
+
+        case 'ISTVAN':
+            return (
+                <IstvanScreens
+                userRole={userRole}
+                profileAttributes={profileAttributes}
                 />
             );
         default:
