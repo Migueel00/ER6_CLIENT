@@ -37,7 +37,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://10.70.0.58:3000');
+export const socket = io('http://10.70.0.82:3000');
 
 
 
@@ -237,7 +237,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://10.70.0.58:3000/verify-token', {
+      const fireBaseResponse = await fetch('http://10.70.0.82:3000/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -374,7 +374,7 @@ function App(): React.JSX.Element {
       />
       {isLoggedIn ? (
         <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers}/> // Replacing navigation with AcolyteScreens
-        // <MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
+        //<MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (
