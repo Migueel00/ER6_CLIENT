@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Modal } from 'react-native';
+import { View, Text, StyleSheet, Button, Modal, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
@@ -55,42 +55,52 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
 
     return (
         <NavigationContainer>
-        <Tab.Navigator>
-            <Tab.Screen
-            name="Home"
-            children={() => <HomeScreen role={userRole} />}
-            />
-            <Tab.Screen
-            name="Profile"
-            children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
-            />
-            <Tab.Screen
-            name="Settings"
-            children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
-            />
-            <Tab.Screen
-            name="CAM"
-            children={() => (
-                <View style={styles.container}>
-                <Text style={styles.title}>Epic Scanner</Text>
-                <Button title="Open Camera" onPress={openCameraModal} />
-                {/* Modal de la cámara */}
-                <Modal
-                    visible={isCameraModalVisible}
-                    animationType="slide"
-                    onRequestClose={closeCameraModal}
-                >
-                    <CameraScreen onClose={closeCameraModal}/>
-                </Modal>
-                </View>
-            )}
-            />
-        </Tab.Navigator>
+            <Tab.Navigator>
+                <Tab.Screen
+                    name="Home"
+                    children={() => <HomeScreen role={userRole} />}
+                />
+                <Tab.Screen
+                    name="Profile"
+                    children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+                />
+                <Tab.Screen
+                    name="Settings"
+                    children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
+                />
+                <Tab.Screen
+                    name="CAM"
+                    children={() => (
+                        <ImageBackground
+                            source={require('../assets/png/cameraScreenEye.png')}
+                            style={styles.background}
+                            resizeMode="cover"
+                        >
+                            <View style={styles.container}>
+                                <Button title="Open Camera" onPress={openCameraModal} />
+                                {/* Modal de la cámara */}
+                                <Modal
+                                    visible={isCameraModalVisible}
+                                    animationType="slide"
+                                    onRequestClose={closeCameraModal}
+                                >
+                                    <CameraScreen onClose={closeCameraModal} />
+                                </Modal>
+                            </View>
+                        </ImageBackground>
+                    )}
+                />
+            </Tab.Navigator>
         </NavigationContainer>
     );
 };
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
