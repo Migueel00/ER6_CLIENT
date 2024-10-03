@@ -6,6 +6,7 @@ export const searchAndIfDontExistPost = async (playerData) => {
     //IP ASIER: 192.168.1.89
     //IP LANDER: 192.168.1.150
 
+    console.log("PlayerData received:" + JSON.stringify(playerData));
     
     const email = playerData.email;
 
@@ -14,9 +15,12 @@ export const searchAndIfDontExistPost = async (playerData) => {
     playerData.isInsideLab = playerInsideLab;
 
     console.log("El email recibido es: " + email);
+    console.log("Player inside lab?: " + playerInsideLab);
+    
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
+        console.log("REspuesta del fetch del email: " + JSON.stringify(response));
         
         if(response.ok){
 
@@ -115,16 +119,24 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
 }
 
 export const getPlayerInsideLabState = async (userEmail) => {
+
+    console.log("Email used to get insideLab state: " + userEmail);
+    
+
         // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
-        const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
+        const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, 
+        {
+            method: 'GET',  
+            headers: {
+                'Content-Type': 'application/json',
         },
     });
 
+    console.log("PLAYER RESPONSE WHEN RETRIEVING INSIDELABSTATE:" + JSON.stringify(playerResponse));
+    
+
     if (!playerResponse.ok) {
-        // console.log('Failed to fetch player. Status:', playerResponse.status);
+        console.log('Failed to fetch player. Status:', playerResponse.status);
         return;
     }
 

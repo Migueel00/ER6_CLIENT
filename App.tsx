@@ -38,7 +38,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://192.168.1.89:3000');
+export const socket = io('https://er6-staging-server.onrender.com');
 
 
 
@@ -238,7 +238,7 @@ function App(): React.JSX.Element {
       // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('http://192.168.1.89:3000/verify-token', {
+      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -296,7 +296,7 @@ function App(): React.JSX.Element {
       playerDataToPost.role = await getData();
       playerDataToPost.isInsideLab = false;
       
-      searchAndIfDontExistPost(playerDataToPost);
+      await searchAndIfDontExistPost(playerDataToPost);
 
       
       setIsLoggedIn(true);
