@@ -381,7 +381,7 @@ function App(): React.JSX.Element {
             <LoadSpinner /> 
           ) : (
             <View style={{ padding: 20, alignItems: 'center', backgroundColor: isDarkMode ? 'black' : 'white' }}>
-              <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
+              <Text style={styles.roboto}>Welcome</Text>
               <Button onPress={handleButtonPress} title='Sign in'/>
             </View>
           )}
@@ -417,6 +417,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 24,
   },
+  roboto: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 20
+  }
 });
 
 export default App;
