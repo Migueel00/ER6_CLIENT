@@ -63,27 +63,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           name="LAB"
           children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID}/>}
         />
-        <Tab.Screen
-          name="CAM"
-          children={() => (
-            <View style={styles.container}>
-              <Text style={styles.title}>Epic Scanner</Text>
-              <Button title="Open Camera" onPress={openCameraModal} />
-              {/* Modal de la cámara */}
-              <Modal
-                visible={isCameraModalVisible}
-                animationType="slide"
-                onRequestClose={closeCameraModal}
-              >
-                <CameraScreen onClose={closeCameraModal}/>
-              </Modal>
-            </View>
-          )}
-        />
-        <Tab.Screen 
-          name="Connections"
-          children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
-        />
+
       </Tab.Navigator>
     </NavigationContainer>
   );
