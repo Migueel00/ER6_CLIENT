@@ -27,7 +27,9 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
             resizeMode="cover"
         >
             <View style={styles.container}>
-                <Text style={styles.titleText}>Character Profile</Text>
+            <View style={styles.titleContainer}>
+                    <Text style={styles.titleText}>Character Profile</Text>
+                </View>
 
                 <View style={styles.progressContainer}>
                     <View style={styles.column}>
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', // Cambiado a flex-start para que el contenido comience desde la parte superior
         alignItems: 'center',
         backgroundColor: 'transparent',
-        padding: 30, // Agregado padding para mejorar el espaciado
+        padding: 30,
     },
     background: {
         flex: 1,
@@ -98,24 +100,32 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'KochAltschrift',
         fontSize: 40,
-        marginBottom: 20, // Añadido margen inferior para espaciado
+       
     },
     profileText: {
         color: 'white',
         fontFamily: 'KochAltschrift',
-        fontSize: 30, // Puedes ajustar el tamaño para que se vea mejor
+        fontSize: 30,
         padding: 5,
         
     },
+    titleContainer: {
+      borderColor: 'orange', 
+      borderWidth: 2,
+      borderRadius: 10, 
+      padding: 5, 
+      marginBottom: 20, 
+       backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
     progressContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-between', // Espacia uniformemente las columnas
-      width: '100%', // Ajusta el ancho según sea necesario
+      justifyContent: 'space-between',
+      width: '100%', 
       paddingBottom: 30,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo negro con opacidad
-      borderColor: 'orange', // Color del borde
-      borderWidth: 2, // Ancho del borde
-      borderRadius: 10, // Esquinas redondeadas (opcional)
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+      borderColor: 'orange', 
+      borderWidth: 2, 
+      borderRadius: 10,
   },
     column: {
         flex: 1, // Cada columna ocupa el mismo espacio
