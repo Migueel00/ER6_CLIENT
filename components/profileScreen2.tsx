@@ -4,7 +4,7 @@ import * as Progress from 'react-native-progress';
 
 type ProfileScreenProps = {
     profileAttributesToPrint: any;
-}
+};
 
 const convertAttributesToPercentage = (profileAttributesToPrint: any) => {
     return {
@@ -22,54 +22,60 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
 
     return (
         <ImageBackground 
-            source={require('../assets/png/profileBackground.png')} // Cambia esta ruta a la imagen que desees
+            source={require('../assets/png/profileBackground.png')}
             style={styles.background}
-            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            resizeMode="cover"
         >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={styles.profileText}>Character Profile</Text>
+            <View style={styles.container}>
+                <Text style={styles.titleText}>Character Profile</Text>
 
-                <Text style={styles.profileText}>Intelligence</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.intelligence} 
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                <View style={styles.progressContainer}>
+                    <View style={styles.column}>
+                        <Text style={styles.profileText}>Intelligence</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.intelligence} 
+                            width={100} 
+                            color='orange' 
+                        />
 
-                <Text style={styles.profileText}>Dexterity</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.dexterity} // Corrige el atributo aquí
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                        <Text style={styles.profileText}>Dexterity</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.dexterity} 
+                            width={100} 
+                            color='orange' 
+                        />
 
-                <Text style={styles.profileText}>Insanity</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.insanity} // Asegúrate de que el valor esté aquí
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                        <Text style={styles.profileText}>Insanity</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.insanity} 
+                            width={100} 
+                            color='orange' 
+                        />
+                    </View>
 
-                <Text style={styles.profileText}>Charisma</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.charisma} // Asegúrate de que el valor esté aquí
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                    <View style={styles.column}>
+                        <Text style={styles.profileText}>Charisma</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.charisma} 
+                            width={100} 
+                            color='orange' 
+                        />
 
-                <Text style={styles.profileText}>Constitution</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.constitution} // Asegúrate de que el valor esté aquí
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                        <Text style={styles.profileText}>Constitution</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.constitution} 
+                            width={100} 
+                            color='orange' 
+                        />
 
-                <Text style={styles.profileText}>Strength</Text>
-                <Progress.Bar 
-                    progress={attributesForProgressBar.strength} // Asegúrate de que el valor esté aquí
-                    width={100} 
-                    color='orange' // Cambia el color aquí
-                />
+                        <Text style={styles.profileText}>Strength</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.strength} 
+                            width={100} 
+                            color='orange' 
+                        />
+                    </View>
+                </View>
             </View>
         </ImageBackground>
     );
@@ -78,19 +84,39 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between', // Cambiado a flex-start para que el contenido comience desde la parte superior
         alignItems: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        padding: 30, // Agregado padding para mejorar el espaciado
     },
     background: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    profileText: {
+    titleText: {
         color: 'white',
         fontFamily: 'KochAltschrift',
         fontSize: 40,
+        marginBottom: 20, // Añadido margen inferior para espaciado
+    },
+    profileText: {
+        color: 'white',
+        fontFamily: 'KochAltschrift',
+        fontSize: 30, // Puedes ajustar el tamaño para que se vea mejor
+        padding: 5,
+        
+    },
+    progressContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Espacia uniformemente las columnas
+        width: '100%', // Ajusta el ancho según sea necesario
+        paddingBottom: 30,
+        backgroundColor: 'gray',
+    },
+    column: {
+        flex: 1, // Cada columna ocupa el mismo espacio
+        alignItems: 'center', // Centra los elementos dentro de cada columna
     },
 });
 
