@@ -1,40 +1,136 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 type ProfileScreenProps = {
     profileAttributesToPrint: any;
-}
+};
+
+const convertAttributesToPercentage = (profileAttributesToPrint: any) => {
+    return {
+        intelligence: profileAttributesToPrint.intelligence / 100,
+        dexterity: profileAttributesToPrint.dexterity / 100,
+        insanity: profileAttributesToPrint.insanity / 100,
+        charisma: profileAttributesToPrint.charisma / 100,
+        constitution: profileAttributesToPrint.constitution / 100,
+        strength: profileAttributesToPrint.strength / 100,
+    };
+};
 
 const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint }) => {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={styles.title}>Character Profile</Text>
-        <Text style={styles.profileText}>Intelligence: {profileAttributesToPrint.intelligence}</Text>
-        <Text style={styles.profileText}>Dexterity: {profileAttributesToPrint.dexterity}</Text>
-        <Text style={styles.profileText}>Insanity: {profileAttributesToPrint.insanity}</Text>
-        <Text style={styles.profileText}>Charisma: {profileAttributesToPrint.charisma}</Text>
-        <Text style={styles.profileText}>Constitution: {profileAttributesToPrint.constitution}</Text>
-        <Text style={styles.profileText}>Strength: {profileAttributesToPrint.strength}</Text>
-      </View>
-    );
-    };
+    const attributesForProgressBar = convertAttributesToPercentage(profileAttributesToPrint);
 
-    const styles = StyleSheet.create({
+    return (
+        <ImageBackground 
+            source={require('../assets/png/profileBackground.png')}
+            style={styles.background}
+            resizeMode="cover"
+        >
+            <View style={styles.container}>
+            <View style={styles.titleContainer}>
+                    <Text style={styles.titleText}>Character Profile</Text>
+                </View>
+
+                <View style={styles.progressContainer}>
+                    <View style={styles.column}>
+                        <Text style={styles.profileText}>Intelligence</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.intelligence} 
+                            width={100} 
+                            color='orange' 
+                        />
+
+                        <Text style={styles.profileText}>Dexterity</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.dexterity} 
+                            width={100} 
+                            color='orange' 
+                        />
+
+                        <Text style={styles.profileText}>Insanity</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.insanity} 
+                            width={100} 
+                            color='orange' 
+                        />
+                    </View>
+
+                    <View style={styles.column}>
+                        <Text style={styles.profileText}>Charisma</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.charisma} 
+                            width={100} 
+                            color='orange' 
+                        />
+
+                        <Text style={styles.profileText}>Constitution</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.constitution} 
+                            width={100} 
+                            color='orange' 
+                        />
+
+                        <Text style={styles.profileText}>Strength</Text>
+                        <Progress.Bar 
+                            progress={attributesForProgressBar.strength} 
+                            width={100} 
+                            color='orange' 
+                        />
+                    </View>
+                </View>
+            </View>
+        </ImageBackground>
+    );
+};
+
+const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        justifyContent: 'space-between', // Cambiado a flex-start para que el contenido comience desde la parte superior
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+        padding: 30,
+    },
+    background: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightcoral', // Personaliza el fondo
     },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20,
+    titleText: {
+        color: 'white',
+        fontFamily: 'KochAltschrift',
+        fontSize: 40,
+       
     },
     profileText: {
-        color: 'black',
-        fontSize: 24,
-      },
+        color: 'white',
+        fontFamily: 'KochAltschrift',
+        fontSize: 30,
+        padding: 5,
+        
+    },
+    titleContainer: {
+      borderColor: 'orange', 
+      borderWidth: 2,
+      borderRadius: 10, 
+      padding: 5, 
+      marginBottom: 20, 
+       backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+    progressContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%', 
+      paddingBottom: 30,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+      borderColor: 'orange', 
+      borderWidth: 2, 
+      borderRadius: 10,
+  },
+    column: {
+        flex: 1, // Cada columna ocupa el mismo espacio
+        alignItems: 'center', // Centra los elementos dentro de cada columna
+    },
 });
 
 export default ProfileScreen2;
