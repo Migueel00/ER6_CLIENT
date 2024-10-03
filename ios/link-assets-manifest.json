@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/KochAltschrift.ttf",
+      "sha1": "1cfea23dca9999875359ba8250ab0a61d744f1df"
+    },
+    {
       "path": "assets/fonts/Roboto-Black.ttf",
       "sha1": "77f9fac05293485120799e83c16225a1af961f25"
     },
