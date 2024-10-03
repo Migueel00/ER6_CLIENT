@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox } from 'react-native';
+import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox, ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { socket } from '../App';
 
@@ -19,7 +19,8 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     //TEMPORAL SE CAMBIARA EL FONDO EN VEZ DEL TEXTO
     const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
-    
+    const [labBackgroundImage, setLabBackgroundImage] = useState(isInsideLab ? require('../assets/png/insideLab.png') : require('../assets/png/LabEntrance.png'))
+
     console.log("Player is insideLab? " + isInsideLab);
     
     useEffect(() => {
@@ -40,7 +41,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     // Actualiza el texto del botón según el estado
     useEffect(() => {
-        setButtonText(isInsideLab ? "Lab Exit" : "Lab Entry");
+        setButtonText(isInsideLab ? "Exit from the LAB" : "Lab Entry");
         setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
     }, [isInsideLab]);
 
@@ -69,8 +70,13 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     
 
     return (
+        <ImageBackground
+            source={labBackgroundImage} // Cambia esta ruta a la imagen que desees
+            style={styles.background}
+            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            >
         <View style={styles.container}>
-            <Text style={styles.title}>{screenText}</Text>
+            <Text style={styles.kaotikaFont}>{screenText}</Text>
             
             <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
                 <Text style={styles.buttonText}>{buttonText}</Text>
@@ -99,15 +105,21 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                 </View>
             </Modal>
         </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'gray', // Personaliza el fondo
+        backgroundColor: 'transparent', // Personaliza el fondo
     },
     title: {
         fontSize: 30,
@@ -134,6 +146,12 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         alignItems: 'center',
+    },
+    kaotikaFont: {
+        paddingTop: 20,
+        fontFamily: 'KochAltschrift',
+        fontSize: 40,
+        color: 'white', // Color blanco para el texto principal
     },
     buttonContainer: {
         marginTop: 10, // Esto mueve el botón más abajo
