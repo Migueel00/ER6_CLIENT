@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
-import SettingsScreen from './settingsScreen';
+import SettingsScreen from './settings/settingsScreen';
 import LabScreen from './labScreen';
 import CameraScreen from './cameraScreen';
 import ConnectionScreen from './mortimerScreen/connectionsScreen';
@@ -28,9 +28,10 @@ type AcolyteScreensProps = {
   player: any;
   players:  Player[];
   setPlayers: (players: Player[]) => void;
+  setIsLoggedIn: any;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player}) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, setIsLoggedIn}) => {
 
   return (
     <NavigationContainer>
@@ -45,7 +46,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
+          children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
         />
         <Tab.Screen
           name="LAB"

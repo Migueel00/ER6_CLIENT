@@ -101,7 +101,7 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
     try {
 
         const insideLabState = await getPlayerInsideLabState(userEmail);
- 
+
         // Cambiamos el estado de isInsideLab
         const json = {
             "isInsideLab": !insideLabState
@@ -115,8 +115,8 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
 }
 
 export const getPlayerInsideLabState = async (userEmail) => {
-     // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
-     const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
+        // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
+        const playerResponse = await fetch(`${URL.API_PLAYERS}/${userEmail}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

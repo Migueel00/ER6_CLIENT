@@ -10,7 +10,7 @@ import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, V
 import { useCameraPermission } from 'react-native-vision-camera';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
-import SettingsScreen from './components/settingsScreen';
+import SettingsScreen from './components/settings/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
 import ProfileScreen2 from './components/profileScreen2';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -18,7 +18,7 @@ import AcolyteScreens from './components/acolyteScreens';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer, useScrollToTop } from '@react-navigation/native';
-import SignInButton from './components/SignInButton';
+import Button from './components/button';
 import io from 'socket.io-client';
 import { searchAndIfDontExistPost } from "./src/API/get&post";
 import MortimerScreens from './components/mortimerScreen/mortimerScreens';
@@ -224,7 +224,7 @@ function App(): React.JSX.Element {
         googleCredential,
       );
       // console.log('SIGN IN WITH CREDENTIAL');
-      // console.log(signInWithCredential);
+      console.log(signInWithCredential);
 
       //http://192.168.1.134:3000/verify-token
 
@@ -374,7 +374,7 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <MainScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers}
+        <MainScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers} setIsLoggedIn={setIsLoggedIn}
       />
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
@@ -382,8 +382,8 @@ function App(): React.JSX.Element {
             <LoadSpinner /> 
           ) : (
             <View style={{ padding: 20, alignItems: 'center', backgroundColor: isDarkMode ? 'black' : 'white' }}>
-              <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome</Text>
-              <SignInButton onPress={handleButtonPress} />
+              <Text style={styles.roboto}>Welcome</Text>
+              <Button onPress={handleButtonPress} title='Sign in'/>
             </View>
           )}
         </ScrollView>
@@ -418,6 +418,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 24,
   },
+  roboto: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 20
+  }
 });
 
 export default App;

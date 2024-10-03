@@ -11,7 +11,7 @@ interface SignInButtonProps {
     textStyle?: TextStyle;
     }
 
-    const SignInButton: React.FC<SignInButtonProps> = ({ onPress, title = 'Google sign in', style, textStyle }) => {
+    const button: React.FC<SignInButtonProps> = ({ onPress, title, style, textStyle }) => {
     return (
         <TouchableOpacity
         style={[styles.button, style]}
@@ -36,4 +36,4 @@ interface SignInButtonProps {
     },
 });
 
-export default SignInButton;
+export default button;

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
-import SettingsScreen from './settingsScreen';
+import SettingsScreen from './settings/settingsScreen';
 import CameraScreen from './cameraScreen';
 
 const Tab = createMaterialTopTabNavigator();
@@ -21,9 +21,10 @@ interface Player {
 type IstvanScreensProps = {
     userRole: string;
     profileAttributes: any;
+    setIsLoggedIn: any;
 };
 
-const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes}) => {
+const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes, setIsLoggedIn}) => {
     // Estado para manejar el modal de la cámara
     const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -50,7 +51,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
             />
             <Tab.Screen
             name="Settings"
-            component={SettingsScreen}
+            children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
             />
             <Tab.Screen
             name="CAM"

@@ -21,9 +21,10 @@ interface MainScreenProps {
     player: any;
     players:  Player[];
     setPlayers: (players: Player[]) => void;
+    setIsLoggedIn: any
 }
 
-const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers }) => {
+const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn }) => {
     switch (userRole) {
         case 'ACOLYTE':
             return (
@@ -35,6 +36,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                     player={player}
                     players={players}
                     setPlayers={setPlayers}
+                    setIsLoggedIn={setIsLoggedIn}
                 />
             );
         case 'MORTIMER':
@@ -44,6 +46,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                 profileAttributes={profileAttributes}
                 players={players}
                 setPlayers={setPlayers}
+                setIsLoggedIn={setIsLoggedIn}
                 />
             );
 
@@ -52,6 +55,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                 <IstvanScreens
                 userRole={userRole}
                 profileAttributes={profileAttributes}
+                setIsLoggedIn={setIsLoggedIn}
                 />
             );
         default:
