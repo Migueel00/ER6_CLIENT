@@ -30,19 +30,7 @@ type AcolyteScreensProps = {
   setPlayers: (players: Player[]) => void;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, players, setPlayers}) => {
-  // Estado para manejar el modal de la cámara
-  const [isCameraModalVisible, setCameraModalVisible] = useState(false);
-
-  // Función para abrir el modal de la cámara
-  const openCameraModal = () => {
-    setCameraModalVisible(true);
-  };
-
-  // Función para cerrar el modal de la cámara
-  const closeCameraModal = () => {
-    setCameraModalVisible(false);
-  };
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player}) => {
 
   return (
     <NavigationContainer>
