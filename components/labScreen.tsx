@@ -5,6 +5,7 @@ import { socket } from '../App';
 
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 const buttonImage = require('../assets/png/button1.png');
+const qrImage = require('../assets/png/epicQR3.png');
 
 type LabScreenProps = {
     userEmail: any,
@@ -97,19 +98,22 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                 onRequestClose={toggleModal}
             >
                 <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
+                    <ImageBackground 
+                        source={qrImage}
+                        style={styles.qrBackground}
+                        resizeMode="cover" 
+                        >
                         <QRCode
                             value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={280}
+                            size={90}
                             //logo={kaotikaImage}
                             logoSize={250}
                             logoBackgroundColor='transparent'
                             color='cyan'
                         />
-                        <View style={styles.buttonContainer}>
-                            <Button title="Close" onPress={toggleModal} />
-                        </View>
-                    </View>
+                        <Button title="Close" onPress={toggleModal} />
+
+                    </ImageBackground>
                 </View>
             </Modal>
         </View>
@@ -122,6 +126,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    qrBackground: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 430,
+        width: 430,
+        paddingTop: 0,
+        //backgroundColor: 'transparent'
     },
     container: {
         flex: 1, 
@@ -162,14 +174,12 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'center',  // Centrar el contenido verticalmente
+        alignItems: 'center',       // Centrar el contenido horizontalmente
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
     },
     modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
+        justifyContent: 'center',  // Centrar el contenido dentro del modal
         alignItems: 'center',
     },
     kaotikaFont: {
@@ -179,7 +189,7 @@ const styles = StyleSheet.create({
         color: 'white', // Color blanco para el texto principal
     },
     buttonContainer: {
-        marginTop: 10, // Esto mueve el botón más abajo
+        //marginTop: 10, // Esto mueve el botón más abajo
     },
 });
 
