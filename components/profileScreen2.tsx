@@ -5,7 +5,22 @@ type ProfileScreenProps = {
     profileAttributesToPrint: any;
 }
 
+const convertAttributesToPercentage = (profileAttributesToPrint: any) => {
+  return {
+      intelligence: `${(profileAttributesToPrint.intelligence / 100) * 100}`,
+      dexterity: `${(profileAttributesToPrint.dexterity / 100) * 100}`,
+      insanity: `${(profileAttributesToPrint.insanity / 100) * 100}`,
+      charisma: `${(profileAttributesToPrint.charisma / 100) * 100}`,
+      constitution: `${(profileAttributesToPrint.constitution / 100) * 100}`,
+      strength: `${(profileAttributesToPrint.strength / 100) * 100}`,
+  };
+};
+
+
 const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint }) => {
+
+  const attributesForProgressBar = convertAttributesToPercentage(profileAttributesToPrint);
+
     return (
       <ImageBackground 
       source={require('../assets/png/profileBackground.png')} // Cambia esta ruta a la imagen que desees
@@ -14,7 +29,7 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={styles.profileText}>Character Profile</Text>
-        <Text style={styles.profileText}>Intelligence: {profileAttributesToPrint.intelligence}</Text>
+        <Text style={styles.profileText}>Intelligence: {attributesForProgressBar.intelligence}</Text>
         <Text style={styles.profileText}>Dexterity: {profileAttributesToPrint.dexterity}</Text>
         <Text style={styles.profileText}>Insanity: {profileAttributesToPrint.insanity}</Text>
         <Text style={styles.profileText}>Charisma: {profileAttributesToPrint.charisma}</Text>
