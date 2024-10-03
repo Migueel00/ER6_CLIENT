@@ -43,8 +43,8 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     // Actualiza el texto del botón según el estado
     useEffect(() => {
-        setButtonText(isInsideLab ? "Exit from the LAB" : "Lab Entry");
-        setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory entrance");
+        setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
+        setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
@@ -80,7 +80,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
         <View style={styles.container}>
             <Text style={styles.kaotikaFont}>{screenText}</Text>
             
-            <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
+            <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
                 <ImageBackground
                     source={buttonImage} // Ruta a tu imagen de fondo
                     style={styles.buttonImageBackground}
@@ -105,11 +105,13 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                         >
                         <QRCode
                             value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={110}
+                            size={120}
                             //logo={kaotikaImage}
-                            logoSize={250}
+                            //logoSize={250}
                             logoBackgroundColor='transparent'
-                            color='cyan'
+                            color='#00BFAE'
+                            backgroundColor='black'
+                            //logoBorderRadius={100}
                         />
 
 
@@ -139,12 +141,11 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1, 
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%', 
         height: '100%', 
         paddingTop: 20
-        //opacity: 0.1
     },
     title: {
         fontSize: 30,
@@ -152,23 +153,25 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     button: {
+        backgroundColor: '#007bff',
+        padding: 10,
+        borderRadius: 5,
+    },
+    permissionButton: {
         //backgroundColor: '#007bff',
         padding: 10,
-        paddingTop: 480,
         borderRadius: 5,
     },
     buttonImageBackground: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 310,  // Ajusta estos valores según el tamaño del botón
-        height: 80,     // Por ejemplo, podrías ajustar el alto aquí
+        width: 310,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
+        height: 80,     // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
     },
     kaotikaButton: {
         backgroundColor: 'transparent',
-        //padding: 10,
-        //borderRadius: 5,
         fontFamily: 'KochAltschrift',
-        fontSize: 40
+        fontSize: 30
     },
     buttonText: {
         color: 'white',
@@ -176,22 +179,22 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',  // Centrar el contenido verticalmente
-        alignItems: 'center',       // Centrar el contenido horizontalmente
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
+        justifyContent: 'center',  
+        alignItems: 'center',     
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
     },
     modalContent: {
-        justifyContent: 'center',  // Centrar el contenido dentro del modal
+        justifyContent: 'center', 
         alignItems: 'center',
     },
     kaotikaFont: {
         paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: 40,
-        color: 'white', // Color blanco para el texto principal
+        color: 'white', 
     },
     buttonContainer: {
-        //marginTop: 10, // Esto mueve el botón más abajo
+
     },
 });
 
