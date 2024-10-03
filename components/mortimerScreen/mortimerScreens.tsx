@@ -7,6 +7,7 @@ import ProfileScreen2 from '../profileScreen2';
 import SettingsScreen from '../settings/settingsScreen';
 import ConnectionScreen from './connectionsScreen';
 import { getAllPlayers } from '../../src/API/getAllPlayers'
+import { Dimensions , Image} from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,14 +29,22 @@ type MortimerScreensProps = {
     setIsLoggedIn: any;
 }
 
-const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players, setPlayers, setIsLoggedIn
-}) => {
+const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players, setPlayers, setIsLoggedIn}) => {
+    const {width, height} = Dimensions.get('window');
+
+
     return (
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator screenOptions={{tabBarStyle: {
+              backgroundColor: "black",
+              height: height*0.09,
+            },
+            tabBarIndicatorStyle: {
+              backgroundColor: "white"
+            }}}>
             <Tab.Screen 
               name="Home"
-              children={() => <HomeScreen role={userRole} />}
+              children={() => <HomeScreen role={userRole} />}  
             />
             <Tab.Screen
               name="Profile" 
