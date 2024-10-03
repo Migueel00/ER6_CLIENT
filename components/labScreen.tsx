@@ -105,15 +105,17 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                         >
                         <QRCode
                             value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={90}
+                            size={110}
                             //logo={kaotikaImage}
                             logoSize={250}
                             logoBackgroundColor='transparent'
                             color='cyan'
                         />
-                        <Button title="Close" onPress={toggleModal} />
+
 
                     </ImageBackground>
+
+                    <Button title="Hide your medalion" onPress={toggleModal} />
                 </View>
             </Modal>
         </View>
