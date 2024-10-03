@@ -5,6 +5,7 @@ import { socket } from '../App';
 
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 const buttonImage = require('../assets/png/button1.png');
+const darkButtonImage = require('../assets/png/button2.png');
 const qrImage = require('../assets/png/epicQR3.png');
 
 type LabScreenProps = {
@@ -117,7 +118,16 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
                     </ImageBackground>
 
-                    <Button title="Hide your medalion" onPress={toggleModal} />
+                    <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
+                        <ImageBackground
+                            source={buttonImage} // Ruta a tu imagen de fondo
+                            style={styles.buttonImageBackground}
+                            resizeMode="cover"
+                        >
+                            <Text style={styles.kaotikaButton}>Hide your medalion</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
+
                 </View>
             </Modal>
         </View>
@@ -165,7 +175,7 @@ const styles = StyleSheet.create({
     buttonImageBackground: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 310,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
+        width: 315,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
         height: 80,     // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
     },
     kaotikaButton: {
@@ -181,7 +191,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',  
         alignItems: 'center',     
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', 
     },
     modalContent: {
         justifyContent: 'center', 
