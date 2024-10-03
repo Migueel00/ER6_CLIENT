@@ -36,22 +36,42 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
 
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{tabBarStyle: {
-        backgroundColor: "black",
-        height: height*0.09,
-      },
-      tabBarIndicatorStyle: {
-        backgroundColor: "white"
-      }}}>
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarStyle: {
+              backgroundColor: 'black',
+              height: height * 0.10, // Incremento en la altura para más espacio
+              paddingBottom: 1, // Añade espacio en la parte inferior de la barra
+            },
+            tabBarIconStyle: {
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 50,  // Puedes ajustar el ancho de los íconos
+              height: 50, // Ajusta el alto para dar más espacio
+            },
+            tabBarIndicatorStyle: {
+              backgroundColor: 'orange',
+              height: 3, // Ajusta el grosor del indicador de la pestaña
+            },
+            tabBarItemStyle: {
+              justifyContent: 'center', // Asegura que los íconos se centren
+              borderRightWidth: 0.2,  // Agrega un borde entre pestañas
+              borderRightColor: 'white', // Color del borde
+              paddingHorizontal: 10,
+              height: '100%'
+            },
+          })}
+        >
         <Tab.Screen
-          name='home'
+          
+          name='Home'
           children={() => <HomeScreen role={userRole} />}
           options={{
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/home-icon.png')}
-                style={{ width: 38, height: 38}}
+                source={require('../assets/icons/fixed/homeIcon.png')}
+                style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -59,13 +79,13 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           }} 
         />
         <Tab.Screen
-          name="Proe"
+          name="Profile"
           children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
           options={{
               tabBarIcon: ({}) => (
                 <Image
-                  source={require('../assets/icons/profile-icon.png')}
-                  style={{width: 38, height: 38}}
+                  source={require('../assets/icons/fixed/profileIcon.png')}
+                  style={{width: 70, height: 70}}
                 />
               ),
               tabBarLabel: ({}) => null,
@@ -78,8 +98,8 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/settings-icon.png')}
-                style={{ width: 38, height: 38}}
+                source={require('../assets/icons/fixed/settingsIcon.png')}
+                style={{ width: 70, height: 70}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -93,8 +113,8 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/lab-icon.png')}
-                style={{ width: 38, height: 38}}
+                source={require('../assets/icons/fixed/potionIcon.png')}
+                style={{ width: 70, height: 70}}
               />
             ),
             tabBarLabel: ({}) => null,

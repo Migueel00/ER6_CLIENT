@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, Modal } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -6,6 +6,7 @@ import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settings/settingsScreen';
 import CameraScreen from './cameraScreen';
+import { socket } from '../App';
 
 const Tab = createMaterialTopTabNavigator();
 interface Player {
@@ -37,6 +38,20 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
     const closeCameraModal = () => {
         setCameraModalVisible(false);
     };
+
+    useEffect(() => {
+
+        // Cambiar isInsideLab cuando se recibe OK! desde el servidor
+        socket.on('ScanSuccess', (message: string) => {
+            console.log("Mensaje del servidor:", message);
+
+            setCameraModalVisible(false);
+        });
+
+        return () => {
+            socket.off('ScanSuccess')
+        }
+    }, []);
 
     return (
         <NavigationContainer>

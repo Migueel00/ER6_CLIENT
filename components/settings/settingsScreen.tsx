@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import Button from '../button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -26,20 +26,61 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
     }
 
     return (
+        <ImageBackground 
+            source={require('../../assets/png/settingsBackground1.png')} // Cambia esta ruta a la imagen que desees
+            style={styles.background}
+            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+        >
         <View style={styles.container}>
-        <Text style={styles.title}>Your are in settings!</Text>
-        {/* Agrega más contenido o componentes aquí */}
-        <Button onPress={onPress} title='Log out'></Button>
+            <ImageBackground 
+                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
+                style={styles.buttonImageBackground}
+                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            >
+                <Text style={styles.kaotikaFont2}>SETTINGS</Text>
+            </ImageBackground>
+            {/* Agrega más contenido o componentes aquí */}
+                <ImageBackground 
+                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
+                style={styles.buttonImageBackground}
+                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+                >
+                <TouchableOpacity onPress={onPress}>
+                    <Text style={styles.kaotikaFont2}>LOG OUT</Text>
+                </TouchableOpacity>
+            </ImageBackground>
         </View>
+        </ImageBackground>
     );
     };
 
     const styles = StyleSheet.create({
-    container: {
+    buttonImageBackground: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 315,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
+        height: 80,     // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
+    },
+    background: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'blue', // Personaliza el fondo
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'transparent', // Personaliza el fondo
+        width: '100%', 
+        height: '100%', 
+        paddingTop: 20,
+        paddingBottom: 50
+    },
+    kaotikaFont2: {
+        //paddingTop: 20,
+        fontFamily: 'KochAltschrift',
+        fontSize: 40,
+        color: 'white', // Color blanco para el texto principal
     },
     title: {
         fontSize: 30,
