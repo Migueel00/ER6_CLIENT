@@ -8,7 +8,7 @@ type HomeScreenProps = {
 const HomeScreen: React.FC<HomeScreenProps> = ({ role }) => {
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Kaotika, {role}</Text>
+        <Text style={styles.roboto}>Welcome to Kaotika, {role}</Text>
         {/* Agrega más contenido o componentes aquí */}
         </View>
     );
@@ -25,7 +25,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ role }) => {
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 20,
+        fontFamily: 'Roboto-Thin'
     },
+    roboto: {
+        fontFamily: 'Roboto-thin',
+        fontSize: 20
+    }
 });
 
 export default HomeScreen;

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../homeScreen';
 import ProfileScreen2 from '../profileScreen2';
-import SettingsScreen from '../settingsScreen';
+import SettingsScreen from '../settings/settingsScreen';
 import ConnectionScreen from './connectionsScreen';
 import { getAllPlayers } from '../../src/API/getAllPlayers'
 
@@ -25,9 +25,10 @@ type MortimerScreensProps = {
     profileAttributes: any;
     players: Player[];
     setPlayers: (players: Player[]) => void;
+    setIsLoggedIn: any;
 }
 
-const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players, setPlayers
+const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAttributes, players, setPlayers, setIsLoggedIn
 }) => {
     return (
         <NavigationContainer>
@@ -42,7 +43,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen 
               name="Settings"
-              component={SettingsScreen}
+              children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn}></SettingsScreen>}
             />
             <Tab.Screen 
               name="Connections"
