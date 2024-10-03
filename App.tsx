@@ -24,6 +24,7 @@ import { searchAndIfDontExistPost } from "./src/API/get&post";
 import MortimerScreens from './components/mortimerScreen/mortimerScreens';
 import { getAllPlayers } from './src/API/getAllPlayers';
 import { searchByEmail } from './src/API/searchByEmail';
+import MainScreens from './components/mainScreens';
 
 
 GoogleSignin.configure({
@@ -278,7 +279,7 @@ function App(): React.JSX.Element {
       const profileRole = setRole(email as string); 
       console.log("EL ROL ASIGNADO ES: " + profileRole);
       setUserRole(profileRole);
-
+      
       //Async storage
       await storeData(profileRole);
       
@@ -373,8 +374,8 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <AcolyteScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers}/> // Replacing navigation with AcolyteScreens
-        //<MortimerScreens userRole={userRole} profileAttributes={profileAttributes} players={players} setPlayers={setPlayers}/>
+        <MainScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers}
+      />
       ) : (
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           {isSpinner ? (

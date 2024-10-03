@@ -24,7 +24,7 @@ interface MainScreenProps {
 
 const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers }) => {
     switch (userRole) {
-        case 'acolyte':
+        case 'ACOLYTE':
             return (
                 <AcolyteScreens
                     userRole={userRole}
