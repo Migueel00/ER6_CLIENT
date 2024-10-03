@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Modal, ImageBackground } from 'react-native';
+import { Button, ImageBackground, Modal, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
@@ -77,8 +77,9 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                             resizeMode="cover"
                         >
                             <View style={styles.container}>
-                                <Button title="Open Camera" onPress={openCameraModal} />
-                                {/* Modal de la cámara */}
+                                <View style={styles.button}>
+                                    <Button title="Open Camera" onPress={openCameraModal} />
+                                </View>
                                 <Modal
                                     visible={isCameraModalVisible}
                                     animationType="slide"
@@ -105,10 +106,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightcoral', // Personaliza el fondo
+    },
+    button: {
+        height: 115,
+        width: 75,
+        opacity: 0, // Aplica la opacidad al contenedor del botón
     },
     title: {
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 20,
     },
