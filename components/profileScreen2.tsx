@@ -108,12 +108,15 @@ const styles = StyleSheet.create({
         
     },
     progressContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between', // Espacia uniformemente las columnas
-        width: '100%', // Ajusta el ancho según sea necesario
-        paddingBottom: 30,
-        backgroundColor: 'gray',
-    },
+      flexDirection: 'row',
+      justifyContent: 'space-between', // Espacia uniformemente las columnas
+      width: '100%', // Ajusta el ancho según sea necesario
+      paddingBottom: 30,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo negro con opacidad
+      borderColor: 'orange', // Color del borde
+      borderWidth: 2, // Ancho del borde
+      borderRadius: 10, // Esquinas redondeadas (opcional)
+  },
     column: {
         flex: 1, // Cada columna ocupa el mismo espacio
         alignItems: 'center', // Centra los elementos dentro de cada columna
