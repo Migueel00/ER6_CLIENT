@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Modal } from 'react-native';
+import { View, Text, StyleSheet, Button, Modal, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
@@ -32,25 +32,74 @@ type AcolyteScreensProps = {
 };
 
 const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, setIsLoggedIn}) => {
+  const {width, height} = Dimensions.get('window');
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{tabBarStyle: {
+        backgroundColor: "black",
+        height: height*0.09,
+      },
+      tabBarIndicatorStyle: {
+        backgroundColor: "white"
+      }}}>
         <Tab.Screen
-          name="Home"
+          name='home'
           children={() => <HomeScreen role={userRole} />}
+          options={{
+            
+            tabBarIcon: ({}) => (
+              <Image
+                source={require('../assets/icons/home-icon.png')}
+                style={{ width: 38, height: 38}}
+              />
+            ),
+            tabBarLabel: ({}) => null,
+  
+          }} 
         />
         <Tab.Screen
-          name="Profile"
+          name="Proe"
           children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+          options={{
+              tabBarIcon: ({}) => (
+                <Image
+                  source={require('../assets/icons/profile-icon.png')}
+                  style={{width: 38, height: 38}}
+                />
+              ),
+              tabBarLabel: ({}) => null,
+          }}
         />
         <Tab.Screen
           name="Settings"
           children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
+          options={{
+            
+            tabBarIcon: ({}) => (
+              <Image
+                source={require('../assets/icons/settings-icon.png')}
+                style={{ width: 38, height: 38}}
+              />
+            ),
+            tabBarLabel: ({}) => null,
+  
+          }} 
         />
         <Tab.Screen
           name="LAB"
           children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID}/>}
+          options={{
+            
+            tabBarIcon: ({}) => (
+              <Image
+                source={require('../assets/icons/lab-icon.png')}
+                style={{ width: 38, height: 38}}
+              />
+            ),
+            tabBarLabel: ({}) => null,
+  
+          }} 
         />
 
       </Tab.Navigator>
@@ -70,6 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+
 });
 
 export default AcolyteScreens;
