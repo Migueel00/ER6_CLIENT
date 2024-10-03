@@ -28,7 +28,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
             return (
                 <AcolyteScreens
                     userRole={userRole}
-                    profileAttributes={profileAttributes} 
+                    profileAttributes={profileAttributes}
                     userEmail={userEmail}
                     socketID={socketID}
                     player={player}
@@ -36,8 +36,15 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                     setPlayers={setPlayers}
                 />
             );
-        case 'mortimer':
-
+        case 'MORTIMER':
+            return (
+                <MortimerScreens
+                userRole={userRole}
+                profileAttributes={profileAttributes}
+                players={players}
+                setPlayers={setPlayers}
+                />
+            );
         default:
             return <Text>No role assigned</Text>;
     }

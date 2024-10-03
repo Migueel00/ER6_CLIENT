@@ -100,7 +100,7 @@ function App(): React.JSX.Element {
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
     const ISTVAN_EMAIL = "oskar.calvo@aeg.eus";
-    const MORTIMER_EMAIL = "ozarate@aeg.eus";
+    const MORTIMER_EMAIL = "lander.labaka@ikasle.aeg.eus";
     const VILLAIN_EMAIL = "classcraft.daw2@aeg.eus";
     const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
 
