@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { socket } from '../App';
 
@@ -14,26 +14,50 @@ type LabScreenProps = {
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [buttonVisible, setButtonVisible] = useState(true);
+    const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
+    const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry");
 
-
-        //console.log("PLAYER ID IN LAB:" + player.id);
-        
+    //TEMPORAL SE CAMBIARA EL FONDO EN VEZ DEL TEXTO
+    const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
+    
+    console.log("Player is insideLab? " + isInsideLab);
+    
     useEffect(() => {
-        // Escuchar el evento 'ScanSuccess' desde el servidor
+
+        // Cambiar isInsideLab cuando se recibe OK! desde el servidor
         socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
 
-            //Desapareceran el modal y el boton
-            setModalVisible(false);
-            setButtonVisible(false);
+                // Cambiar el estado de isInsideLab
+                setIsInsideLab(!isInsideLab);
+                setModalVisible(false);
         });
-    }, []);
+
+        return () => {
+            socket.off('ScanSuccess')
+        }
+    }, [isInsideLab]);
+
+    // Actualiza el texto del botón según el estado
+    useEffect(() => {
+        setButtonText(isInsideLab ? "Lab Exit" : "Lab Entry");
+        setScreenText(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
+    }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
     const toggleModal = () => {
         setModalVisible(!modalVisible);
-    }
+    };
+
+    // Función para gestionar la acción del botón
+    const handleButtonPress = () => {
+        if (isInsideLab) {
+            setModalVisible(!modalVisible)
+            // Aquí puedes manejar la salida del laboratorio si es necesario
+        } else {
+            toggleModal(); // Abrir el modal solo si es "Lab Entry"
+        }
+    };
 
     const qrValue = {
         userEmail: userEmail,
@@ -46,12 +70,11 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to Kaotika's Laboratory</Text>
-            {buttonVisible && (
-                <TouchableOpacity onPress={toggleModal} style={styles.button}>
-                    <Text style={styles.buttonText}>Lab Entry</Text>
-                </TouchableOpacity>
-            )}
+            <Text style={styles.title}>{screenText}</Text>
+            
+            <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
+                <Text style={styles.buttonText}>{buttonText}</Text>
+            </TouchableOpacity>
             
             <Modal
                 visible={modalVisible}
