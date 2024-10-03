@@ -36,16 +36,28 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
 
   return (
     <NavigationContainer>
-      <Tab.Navigator 
-        screenOptions={
-        {tabBarStyle: 
-          {
-            backgroundColor: "black",
-            height: height*0.09,
-          },
-        tabBarIndicatorStyle: {
-        backgroundColor: "orange"
-      }}}>
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarStyle: {
+              backgroundColor: 'black',
+              height: height * 0.10, // Incremento en la altura para más espacio
+              paddingBottom: 10, // Añade espacio en la parte inferior de la barra
+            },
+            tabBarIconStyle: {
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 50,  // Puedes ajustar el ancho de los íconos
+              height: 50, // Ajusta el alto para dar más espacio
+            },
+            tabBarIndicatorStyle: {
+              backgroundColor: 'orange',
+              height: 3, // Ajusta el grosor del indicador de la pestaña
+            },
+            tabBarItemStyle: {
+              justifyContent: 'center', // Asegura que los íconos se centren
+            },
+          })}
+        >
         <Tab.Screen
           
           name='Home'
@@ -55,7 +67,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarIcon: ({}) => (
               <Image
                 source={require('../assets/icons/home-icon.png')}
-                style={{ width: 38, height: 38, resizeMode: 'contain',  margin: 0}}
+                style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
               />
             ),
             tabBarLabel: ({}) => null,
