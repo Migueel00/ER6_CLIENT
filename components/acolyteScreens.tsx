@@ -66,7 +66,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/home-icon.png')}
+                source={require('../assets/icons/fixed/homeIcon.png')}
                 style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
               />
             ),
@@ -80,8 +80,8 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
           options={{
               tabBarIcon: ({}) => (
                 <Image
-                  source={require('../assets/icons/profile-icon.png')}
-                  style={{width: 38, height: 38}}
+                  source={require('../assets/icons/fixed/profileIcon.png')}
+                  style={{width: 70, height: 70}}
                 />
               ),
               tabBarLabel: ({}) => null,
@@ -94,8 +94,8 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/settings-icon.png')}
-                style={{ width: 38, height: 38}}
+                source={require('../assets/icons/fixed/settingsIcon.png')}
+                style={{ width: 70, height: 70}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -109,8 +109,8 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             
             tabBarIcon: ({}) => (
               <Image
-                source={require('../assets/icons/lab-icon.png')}
-                style={{ width: 38, height: 38}}
+                source={require('../assets/icons/fixed/potionIcon.png')}
+                style={{ width: 70, height: 70}}
               />
             ),
             tabBarLabel: ({}) => null,
