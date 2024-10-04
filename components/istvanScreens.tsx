@@ -128,6 +128,17 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                             </View>
                         </ImageBackground>
                     )}
+                    options={{
+                
+                        tabBarIcon: ({}) => (
+                        <Image
+                            source={require('../assets/icons/istvanScannerIcon.png')}
+                            style={{ width: 38, height: 38}}
+                        />
+                        ),
+                        tabBarLabel: ({}) => null,
+            
+                    }}
                 />
             </Tab.Navigator>
         </NavigationContainer>
