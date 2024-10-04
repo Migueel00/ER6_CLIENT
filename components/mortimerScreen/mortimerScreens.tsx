@@ -35,28 +35,88 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
 
     return (
         <NavigationContainer>
-          <Tab.Navigator screenOptions={{tabBarStyle: {
-              backgroundColor: "black",
-              height: height*0.09,
-            },
-            tabBarIndicatorStyle: {
-              backgroundColor: "white"
-            }}}>
+          <Tab.Navigator 
+            screenOptions={({ route }) => ({
+              tabBarStyle: {
+                backgroundColor: 'black',
+                height: height * 0.10, // Incremento en la altura para más espacio
+                paddingBottom: 1, // Añade espacio en la parte inferior de la barra
+              },
+              tabBarIconStyle: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 50,  // Puedes ajustar el ancho de los íconos
+                height: 50, // Ajusta el alto para dar más espacio
+              },
+              tabBarIndicatorStyle: {
+                backgroundColor: 'orange',
+                height: 3, 
+              },
+              tabBarItemStyle: {
+                justifyContent: 'center', 
+                borderRightWidth: 0.2,  
+                borderRightColor: 'white', 
+                paddingHorizontal: 10,
+                height: '100%'
+              },
+            })}>
             <Tab.Screen 
               name="Home"
-              children={() => <HomeScreen role={userRole} />}  
+              children={() => <HomeScreen role={userRole} />}
+              options={{
+            
+                tabBarIcon: ({}) => (
+                  <Image
+                    source={require('../../assets/icons/fixed/homeIcon.png')}
+                    style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
+                  />
+                ),
+                tabBarLabel: ({}) => null,
+      
+              }} 
             />
             <Tab.Screen
               name="Profile" 
               children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+              options={{
+                tabBarIcon: ({}) => (
+                  <Image
+                    source={require('../../assets/icons/fixed/profileIcon.png')}
+                    style={{width: 70, height: 70}}
+                  />
+                ),
+                tabBarLabel: ({}) => null,
+            }}
             />
             <Tab.Screen 
               name="Settings"
               children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn}></SettingsScreen>}
+              options={{
+            
+                tabBarIcon: ({}) => (
+                  <Image
+                    source={require('../../assets/icons/fixed/settingsIcon.png')}
+                    style={{ width: 70, height: 70}}
+                  />
+                ),
+                tabBarLabel: ({}) => null,
+      
+              }}
             />
             <Tab.Screen 
               name="Connections"
               children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
+              options={{
+            
+                tabBarIcon: ({}) => (
+                  <Image
+                    source={require('../../assets/icons/conections-icon.png')}
+                    style={{ width: 70, height: 70}}
+                  />
+                ),
+                tabBarLabel: ({}) => null,
+      
+              }}
             />
           </Tab.Navigator>
         </NavigationContainer>
