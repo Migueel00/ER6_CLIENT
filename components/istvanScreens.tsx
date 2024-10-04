@@ -56,13 +56,31 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
 
     return (
         <NavigationContainer>
-        <Tab.Navigator screenOptions={{tabBarStyle: {
-            backgroundColor: "black",
-            height: height*0.09,
-        },
-        tabBarIndicatorStyle: {
-            backgroundColor: "orange"
-        }}}>
+        <Tab.Navigator 
+        screenOptions={({ route }) => ({
+            tabBarStyle: {
+                backgroundColor: 'black',
+                height: height * 0.10, // Incremento en la altura para más espacio
+                paddingBottom: 1, // Añade espacio en la parte inferior de la barra
+            },
+            tabBarIconStyle: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 50,  // Puedes ajustar el ancho de los íconos
+                height: 50, // Ajusta el alto para dar más espacio
+            },
+            tabBarIndicatorStyle: {
+                backgroundColor: 'orange',
+                height: 3, // Ajusta el grosor del indicador de la pestaña
+            },
+            tabBarItemStyle: {
+                justifyContent: 'center', // Asegura que los íconos se centren
+                borderRightWidth: 0.2,  // Agrega un borde entre pestañas
+                borderRightColor: 'white', // Color del borde
+                paddingHorizontal: 10,
+                height: '100%'
+            },
+        })}>
                 <Tab.Screen
             name='home'
             children={() => <HomeScreen role={userRole} />}
@@ -70,8 +88,8 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                 
                 tabBarIcon: ({}) => (
                 <Image
-                    source={require('../assets/icons/home-icon.png')}
-                    style={{ width: 38, height: 38}}
+                    source={require('../assets/icons/fixed/homeIcon.png')}
+                    style={{ width: 70, height: 70}}
                 />
                 ),
                 tabBarLabel: ({}) => null,
@@ -84,8 +102,8 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
             options={{
                 tabBarIcon: ({}) => (
                     <Image
-                    source={require('../assets/icons/profile-icon.png')}
-                    style={{width: 38, height: 38}}
+                    source={require('../assets/icons/fixed/profileIcon.png')}
+                    style={{width: 70, height: 70}}
                     />
                 ),
                 tabBarLabel: ({}) => null,
@@ -98,8 +116,8 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                 
                 tabBarIcon: ({}) => (
                 <Image
-                    source={require('../assets/icons/settings-icon.png')}
-                    style={{ width: 38, height: 38}}
+                    source={require('../assets/icons/fixed/settingsIcon.png')}
+                    style={{ width: 70, height: 70}}
                 />
                 ),
                 tabBarLabel: ({}) => null,
@@ -133,7 +151,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                         tabBarIcon: ({}) => (
                         <Image
                             source={require('../assets/icons/istvanScannerIcon.png')}
-                            style={{ width: 38, height: 38}}
+                            style={{ width: 70, height: 70}}
                         />
                         ),
                         tabBarLabel: ({}) => null,
