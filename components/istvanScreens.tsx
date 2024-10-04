@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dimensions, Image, ImageBackground, Modal, StyleSheet, View } from 'react-native';
+import { Button, Dimensions, Image, ImageBackground, Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
@@ -133,9 +133,9 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                             resizeMode="cover"
                         >
                             <View style={styles.container}>
-                                <View style={styles.button}>
-                                    <Button title="Open Camera" onPress={openCameraModal} />
-                                </View>
+                                <Text style={styles.kaotikaFont}>Touch the eye to use</Text>
+                                <Text style={styles.kaotikaFont}>Morghul's Sight</Text>
+
                                 <Modal
                                     visible={isCameraModalVisible}
                                     animationType="slide"
@@ -144,6 +144,11 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                                     <CameraScreen onClose={closeCameraModal} />
                                 </Modal>
                             </View>
+
+
+                            <TouchableOpacity onPress={openCameraModal} style={styles.eyeButton}>
+
+                            </TouchableOpacity>
                         </ImageBackground>
                     )}
                     options={{
@@ -171,18 +176,32 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    button: {
-        height: 115,
-        width: 75,
+    eyeButton: {
+        height: 135,
+        width: 135,
         opacity: 0, // Aplica la opacidad al contenedor del botón
+        backgroundColor: 'purple',
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',  // Para centrarlo en la pantalla
+        top: '42.5%',  // Centrado verticalmente
+        left: '45%',  // Centrado horizontalmente
+        transform: [{ translateX: -50 }, { translateY: -50 }],  // Ajuste para centrar el botón
     },
     title: {
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    kaotikaFont: {
+        paddingTop: 20,
+        fontFamily: 'KochAltschrift',
+        fontSize: 40,
+        color: 'white', 
     },
 });
 
