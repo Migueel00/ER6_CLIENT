@@ -6,7 +6,7 @@ import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator, Alert, Linking} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator, Alert, Linking, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import { useCameraPermission } from 'react-native-vision-camera';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/homeScreen';
@@ -40,7 +40,7 @@ type SectionProps = PropsWithChildren<{
 
 export const socket = io('https://er6-staging-server.onrender.com');
 
-
+const {width, height} = Dimensions.get('window');
 
 function App(): React.JSX.Element {
 
@@ -374,53 +374,99 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <MainScreens userRole={userRole} profileAttributes={profileAttributes} userEmail={userEmail} socketID={userSocket} player={player} players={players} setPlayers={setPlayers} setIsLoggedIn={setIsLoggedIn}
-      />
+        <MainScreens 
+          userRole={userRole} 
+          profileAttributes={profileAttributes} 
+          userEmail={userEmail} 
+          socketID={userSocket} 
+          player={player} 
+          players={players} 
+          setPlayers={setPlayers} 
+          setIsLoggedIn={setIsLoggedIn} 
+        />
       ) : (
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
+        <ImageBackground 
+        source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees
+        style={styles.imageBackground} // Usamos flex para que ocupe toda la pantalla
+        resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+        >
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
           {isSpinner ? (
-            <LoadSpinner /> 
+            <LoadSpinner />
           ) : (
-            <View style={{ padding: 20, alignItems: 'center', backgroundColor: isDarkMode ? 'black' : 'white' }}>
-              <Text style={styles.roboto}>Welcome</Text>
-              <Button onPress={handleButtonPress} title='Sign in'/>
-            </View>
+
+              <View style={styles.container}>
+                <View style={styles.overlayText}>
+
+                  <Text style={styles.kaotikaFont}>
+                      <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
+                  </Text>
+
+                  <Text style={styles.kaotikaFont}>The Dark Age</Text>
+                  
+                </View>
+
+                  <TouchableOpacity onPress={handleButtonPress} style={styles.overlayButton}>
+                      <Text style={styles.kaotikaFont}>Sign in with google</Text>
+                  </TouchableOpacity>
+
+              </View>
+
+              
+
           )}
         </ScrollView>
+        </ImageBackground>
       )}
     </SafeAreaView>
   );
+  
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'transparent', // Personaliza el fondo
+    width: '100%', 
+    height: '100%', 
+    paddingTop: 20,
+    paddingBottom: 50
+},
+  kaotika: {
+    color: 'white', // Color blanco para "Kati" y "ka"
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  o: {
+      color: 'orange', // Color naranja para la "o"
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  overlayText: { 
+    padding: 20,
   },
-  highlight: {
-    fontWeight: '700',
+  overlayButton: {
+    padding: 20,
+    backgroundColor: 'rgba(230, 140, 0, 0.7)',
+    marginTop: height * 0.55,
+    borderRadius: 20
   },
-  welcomeText: {
-    fontSize: 24,         // Tamaño de la fuente del texto
-    fontWeight: 'bold',  // Negrita
-    marginBottom: 20,    // Espacio entre el texto y el botón
+  imageBackground: {
+    flex: 1, // Esto hace que el ImageBackground ocupe todo el espacio
+    justifyContent: 'space-between', // Centra el contenido verticalmente
+    alignItems: 'center', // Centra el contenido horizontalmente
   },
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
   profileText: {
     color: 'black',
     fontSize: 24,
   },
-  roboto: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 20
+  kaotikaFont: {
+    fontFamily: 'KochAltschrift',
+    fontSize: 40,
+    color: 'white',
   }
 });
 
