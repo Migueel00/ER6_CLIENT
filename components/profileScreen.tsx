@@ -1,6 +1,6 @@
 // ProfileScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 
 export interface ProfileAttributes {
   intelligence: number;
@@ -17,6 +17,11 @@ interface ProfileScreenProps {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ profileAttributes }) => {
   return (
+    <ImageBackground 
+    source={require('../../assets/png/settingsBackground1.png')} // Cambia esta ruta a la imagen que desees
+    style={styles.background}
+    resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+  >
     <View style={styles.container}>
       <Text style={styles.profileText}>Character Profile</Text>
       <Text style={styles.profileText}>Intelligence: {profileAttributes.intelligence}</Text>
@@ -25,7 +30,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ profileAttributes }) => {
       <Text style={styles.profileText}>Charisma: {profileAttributes.charisma}</Text>
       <Text style={styles.profileText}>Constitution: {profileAttributes.constitution}</Text>
       <Text style={styles.profileText}>Strength: {profileAttributes.strength}</Text>
+      <Text style={styles.profileText}>Strength: {profileAttributes.strength}</Text>
     </View>
+    </ImageBackground>
   );
 };
 
@@ -34,7 +41,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent'
   },
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
   profileText: {
     color: 'black',
     fontSize: 24,
