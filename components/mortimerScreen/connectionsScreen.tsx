@@ -46,7 +46,9 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
             resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
             >
                 <View style={styles.container}>
-                <Text style={styles.kaotikaFontHeads}>I salute you mortimer! Check out what your acolytes are doing here!</Text>
+                <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
+                <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
+                <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
                 <View style={styles.playersList}>
                     {players.map((player) => 
                     <View key={player.id} style={styles.playerItem}> 
@@ -97,7 +99,14 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         fontFamily: 'KochAltschrift',
         fontSize: 40,
         color: 'white',
-        marginBottom: 20, 
+        marginBottom: 0, 
+    },
+    kaotikaFontHeads2: {
+        //paddingTop: 20,
+        fontFamily: 'KochAltschrift',
+        fontSize: 40,
+        color: 'red',
+        marginBottom: 0, 
     },
     playersList: {
         flex: 1,
