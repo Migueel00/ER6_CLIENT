@@ -46,6 +46,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     useEffect(() => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
+        setLabBackgroundImage(isInsideLab ? require('../assets/png/insideLab.png') : require('../assets/png/LabEntrance.png'));
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
