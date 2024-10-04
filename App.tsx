@@ -6,22 +6,14 @@ import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ActivityIndicator, Alert, Linking, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
-import { useCameraPermission } from 'react-native-vision-camera';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import HomeScreen from './components/homeScreen';
-import SettingsScreen from './components/settings/settingsScreen';
 import { ProfileAttributes } from './components/profileScreen';
-import ProfileScreen2 from './components/profileScreen2';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import AcolyteScreens from './components/acolyteScreens';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer, useScrollToTop } from '@react-navigation/native';
-import Button from './components/button';
 import io from 'socket.io-client';
 import { searchAndIfDontExistPost } from "./src/API/get&post";
-import MortimerScreens from './components/mortimerScreen/mortimerScreens';
 import { getAllPlayers } from './src/API/getAllPlayers';
 import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
