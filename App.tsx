@@ -18,6 +18,7 @@ import { getAllPlayers } from './src/API/getAllPlayers';
 import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
+import AppContext from './helpers/context';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -360,6 +361,9 @@ function App(): React.JSX.Element {
 
 
   return (
+    <AppContext.Provider value={{userRole:{userRole} , profileAttributes:{profileAttributes}, userEmail:{userEmail}, 
+                                socketID:{userSocket}, player:{player}, players:{players}, setPlayers:{setPlayers},setIsLoggedIn:{setIsLoggedIn}}}>
+
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -411,6 +415,7 @@ function App(): React.JSX.Element {
         </ImageBackground>
       )}
     </SafeAreaView>
+    </AppContext.Provider>
   );
   
 }

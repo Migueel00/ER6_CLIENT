@@ -3,6 +3,7 @@ import MortimerScreens from "./mortimerScreen/mortimerScreens";
 import IstvanScreens from "./istvanScreens";
 import React from "react";
 import { Text } from 'react-native';
+import AppContext from "../helpers/context";
 
 interface Player {
     socketId:     string,
@@ -25,9 +26,10 @@ interface MainScreenProps {
 }
 
 const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn }) => {
-    switch (userRole) {
-        case 'ACOLYTE':
-            return (
+
+    return (
+        <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
+            {userRole === 'ACOLYTE' ? (
                 <AcolyteScreens
                     userRole={userRole}
                     profileAttributes={profileAttributes}
@@ -38,29 +40,25 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                     setPlayers={setPlayers}
                     setIsLoggedIn={setIsLoggedIn}
                 />
-            );
-        case 'MORTIMER':
-            return (
+            ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens
-                userRole={userRole}
-                profileAttributes={profileAttributes}
-                players={players}
-                setPlayers={setPlayers}
-                setIsLoggedIn={setIsLoggedIn}
+                    userRole={userRole}
+                    profileAttributes={profileAttributes}
+                    players={players}
+                    setPlayers={setPlayers}
+                    setIsLoggedIn={setIsLoggedIn}
                 />
-            );
-
-        case 'ISTVAN':
-            return (
+            ) : userRole === 'ISTVAN' ? (
                 <IstvanScreens
-                userRole={userRole}
-                profileAttributes={profileAttributes}
-                setIsLoggedIn={setIsLoggedIn}
+                    userRole={userRole}
+                    profileAttributes={profileAttributes}
+                    setIsLoggedIn={setIsLoggedIn}
                 />
-            );
-        default:
-            return <Text>No role assigned</Text>;
-    }
-};
+            ) : (
+                <Text>No role assigned</Text>
+            )}
+        </AppContext.Provider>
+    );
+}
 
 export default MainScreens;
