@@ -9,11 +9,7 @@ export const searchAndIfDontExistPost = async (playerData) => {
     
     const email = playerData.email;
 
-    const playerInsideLab = await getPlayerInsideLabState(email);
 
-    playerData.isInsideLab = playerInsideLab;
-
-    console.log("El email recibido es: " + email);
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
@@ -23,6 +19,13 @@ export const searchAndIfDontExistPost = async (playerData) => {
             const existingPlayer = await response.json();
 
             if(existingPlayer){
+                
+                const playerInsideLab = await getPlayerInsideLabState(email);
+
+                playerData.isInsideLab = playerInsideLab;
+            
+                console.log("El email recibido es: " + email);
+
                 console.log(`El correo ${email} ya está registrado`);
                 await updatePlayerByEmail(playerData);
             }
