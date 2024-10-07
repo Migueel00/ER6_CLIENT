@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Platform, ImageBackground, Dimensions} from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Dimensions, Image} from 'react-native';
 import { socket } from '../../App';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -38,12 +38,14 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         }
     }, [players, setPlayers]);
     // circle-dot
-    
+
+    const {width, height} = Dimensions.get('window');
+
     return (
         <ImageBackground
-            source={require('../../assets/png/connectionsBackground.png')} // Cambia esta ruta a la imagen que desees
+            source={require('../../assets/png/connectionsBackground.png')} 
             style={styles.background}
-            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            resizeMode="cover" 
             >
                 <View style={styles.container}>
                 <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
@@ -52,25 +54,21 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
                 <View style={styles.playersList}>
                     {players.map((player) => 
                     <View key={player.id} style={styles.playerItem}> 
-                        <Icon 
-                            name="user" 
-                            size={20} 
-                            color="white" 
-                            style={styles.userIcon} 
-                        />
+                        
+                        <Image source={{uri: player.avatar }} style={{width: width*0.10, height: height*0.05}}></Image>
                         <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
                         <Icon 
                                 name={player.isInsideLab ? 'circle' : 'circle-o'} 
-                                size={20} 
+                                size={width*0.07} 
                                 color={player.isInsideLab ? 'green' : 'grey'}
                             />
                     </View>)}
                 </View>
-                {/* Agrega más contenido o componentes aquí */}
                 </View>
         </ImageBackground>
     );
 };  
+    const {width, height} = Dimensions.get('window');
 
     const styles = StyleSheet.create({
     container: {
@@ -85,9 +83,8 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         alignItems: 'center',
     },
     kaotikaFont2: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
-        fontSize: 20,
+        fontSize: width*0.06,
         color: 'white', 
         marginVertical: 5,
         textAlign: 'left',
@@ -95,14 +92,12 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         width: '90%'
     },
     kaotikaFontHeads: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: 40,
         color: 'white',
         marginBottom: 0, 
     },
     kaotikaFontHeads2: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: 40,
         color: 'red',
@@ -122,9 +117,6 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         alignItems: 'center',
         marginVertical: 5,
         marginLeft: 10
-    },
-    userIcon: {
-        marginRight: 10, // Espacio entre el ícono de estado y el ícono de usuario
     },
 });
 

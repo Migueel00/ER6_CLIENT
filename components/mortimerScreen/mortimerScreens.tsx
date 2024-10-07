@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../homeScreen';
 import ProfileScreen2 from '../profileScreen2';
 import SettingsScreen from '../settings/settingsScreen';
 import ConnectionScreen from './connectionsScreen';
-import { getAllPlayers } from '../../src/API/getAllPlayers'
 import { Dimensions , Image} from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
@@ -124,17 +123,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
     };
 
     const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'lightcoral', // Personaliza el fondo
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
+      
 });
 
 export default MortimerScreens;

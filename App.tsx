@@ -92,8 +92,8 @@ function App(): React.JSX.Element {
     let role = "";
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
-    const ISTVAN_EMAIL = "lander.labaka@ikasle.aeg.eus";
-    const MORTIMER_EMAIL = "oskar.calvo@aeg.eus";
+    const ISTVAN_EMAIL = "classcraft.daw2@aeg.eus";
+    const MORTIMER_EMAIL = "miguelangel.rojas@ikasle.aeg.eus";
     const VILLAIN_EMAIL = "ozarate@aeg.eus";
     const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
 
@@ -199,36 +199,25 @@ function App(): React.JSX.Element {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      //console.log('User Info: ', userInfo);
       const email = userInfo.data?.user.email;
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
       getPlayerAndSet(`${email}`);
-      // console.log(`User e-mail: ${email}`);
-      // console.log(`User Token: ${googleIdToken}`);
       
       // Create a Google credential with the token
       const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
-      // console.log('GOOGLE CREDENTIAL');
-      // console.log(googleCredential);
 
       // Sign-in the user with the credential
       const signInWithCredential = await  auth().signInWithCredential(
         googleCredential,
       );
-      // console.log('SIGN IN WITH CREDENTIAL');
       console.log(signInWithCredential);
 
-      //http://192.168.1.134:3000/verify-token
 
       //Get the token from the current User
       const idTokenResult = await auth().currentUser?.getIdTokenResult();
-      // console.log('USER JWT');
-      // console.log(idTokenResult);
 
       const idToken = idTokenResult?.token;
-
-      // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
       const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
@@ -282,7 +271,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
-      // console.log(`Profile data:${profileDataAttr}`);
+     
 
       const playerDataToPost = profileData.data;
       playerDataToPost.socketId = socket.id;
@@ -352,11 +341,7 @@ function App(): React.JSX.Element {
 
     const player  = await searchByEmail(email);
     
-    setPlayer(player);
-    console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
-
-    //console.log("NEW ID: " + newID);
-    
+    setPlayer(player);    
   }
 
 
