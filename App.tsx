@@ -199,36 +199,25 @@ function App(): React.JSX.Element {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      //console.log('User Info: ', userInfo);
       const email = userInfo.data?.user.email;
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
       getPlayerAndSet(`${email}`);
-      // console.log(`User e-mail: ${email}`);
-      // console.log(`User Token: ${googleIdToken}`);
       
       // Create a Google credential with the token
       const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
-      // console.log('GOOGLE CREDENTIAL');
-      // console.log(googleCredential);
 
       // Sign-in the user with the credential
       const signInWithCredential = await  auth().signInWithCredential(
         googleCredential,
       );
-      // console.log('SIGN IN WITH CREDENTIAL');
       console.log(signInWithCredential);
 
-      //http://192.168.1.134:3000/verify-token
 
       //Get the token from the current User
       const idTokenResult = await auth().currentUser?.getIdTokenResult();
-      // console.log('USER JWT');
-      // console.log(idTokenResult);
 
       const idToken = idTokenResult?.token;
-
-      // console.log('Token de ID:', idTokenResult);
 
       // Envía el idToken al servidor
       const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
@@ -282,7 +271,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
-      // console.log(`Profile data:${profileDataAttr}`);
+     
 
       const playerDataToPost = profileData.data;
       playerDataToPost.socketId = socket.id;
@@ -346,18 +335,13 @@ function App(): React.JSX.Element {
   }
 
   setPlayers(newPlayers);
-  console.log(JSON.stringify(players));
   }
 
   const getPlayerAndSet = async (email: string) => {
 
     const player  = await searchByEmail(email);
     
-    setPlayer(player);
-    console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
-
-    //console.log("NEW ID: " + newID);
-    
+    setPlayer(player);    
   }
 
 

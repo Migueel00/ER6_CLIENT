@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Modal, Image, Dimensions } from 'react-native';
+import React from 'react';
+import { StyleSheet, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settings/settingsScreen';
 import LabScreen from './labScreen';
-import CameraScreen from './cameraScreen';
 
 const Tab = createMaterialTopTabNavigator();
 interface Player {

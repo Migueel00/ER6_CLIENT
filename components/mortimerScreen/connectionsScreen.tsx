@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Platform, ImageBackground, Dimensions, Image, useWindowDimensions} from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Dimensions, Image} from 'react-native';
 import { socket } from '../../App';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -43,9 +43,9 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
 
     return (
         <ImageBackground
-            source={require('../../assets/png/connectionsBackground.png')} // Cambia esta ruta a la imagen que desees
+            source={require('../../assets/png/connectionsBackground.png')} 
             style={styles.background}
-            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            resizeMode="cover" 
             >
                 <View style={styles.container}>
                 <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
@@ -64,7 +64,6 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
                             />
                     </View>)}
                 </View>
-                {/* Agrega más contenido o componentes aquí */}
                 </View>
         </ImageBackground>
     );
@@ -84,7 +83,6 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         alignItems: 'center',
     },
     kaotikaFont2: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: width*0.06,
         color: 'white', 
@@ -94,14 +92,12 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         width: '90%'
     },
     kaotikaFontHeads: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: 40,
         color: 'white',
         marginBottom: 0, 
     },
     kaotikaFontHeads2: {
-        //paddingTop: 20,
         fontFamily: 'KochAltschrift',
         fontSize: 40,
         color: 'red',
@@ -121,9 +117,6 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
         alignItems: 'center',
         marginVertical: 5,
         marginLeft: 10
-    },
-    userIcon: {
-        marginRight: 10, // Espacio entre el ícono de estado y el ícono de usuario
     },
 });
 
