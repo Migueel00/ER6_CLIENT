@@ -7,6 +7,8 @@ const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 const buttonImage = require('../assets/png/button1.png');
 const darkButtonImage = require('../assets/png/button2.png');
 const qrImage = require('../assets/png/epicQR3.png');
+const insideLabImage = require('../assets/png/insideLab.png');
+const outsideLabImage = require('../assets/png/LabEntrance.png');
 
 type LabScreenProps = {
     userEmail: any,
@@ -22,7 +24,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
 
     //TEMPORAL SE CAMBIARA EL FONDO EN VEZ DEL TEXTO
     const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
-    const [labBackgroundImage, setLabBackgroundImage] = useState(isInsideLab ? require('../assets/png/insideLab.png') : require('../assets/png/LabEntrance.png'))
+    const [labBackgroundImage, setLabBackgroundImage] = useState(isInsideLab ? insideLabImage : outsideLabImage)
 
     console.log("Player is insideLab? " + isInsideLab);
     
@@ -46,6 +48,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     useEffect(() => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
+        setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
     }, [isInsideLab]);
 
     // Se controlará cuando se muestra o no el modal
