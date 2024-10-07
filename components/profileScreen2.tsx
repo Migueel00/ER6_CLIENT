@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 type ProfileScreenProps = {
@@ -18,15 +18,15 @@ const convertAttributesToPercentage = (profileAttributesToPrint: any) => {
 };
 
 const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint }) => {
+    const {height, width} = Dimensions.get('window')
     const attributesForProgressBar = convertAttributesToPercentage(profileAttributesToPrint);
 
     return (
         <ImageBackground 
             source={require('../assets/png/profileBackground.png')}
-            style={styles.background}
-            resizeMode="cover"
+            style={[styles.background, { width: width, height: height }]}
         >
-            <View style={styles.container}>
+            <View style={[styles.container, { padding: height * 0.04 }]}>
             <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>Character Profile</Text>
                 </View>
@@ -36,21 +36,21 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
                         <Text style={styles.profileText}>Intelligence</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.intelligence} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Dexterity</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.dexterity} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Insanity</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.insanity} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
                     </View>
@@ -59,21 +59,21 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
                         <Text style={styles.profileText}>Charisma</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.charisma} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Constitution</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.constitution} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Strength</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.strength} 
-                            width={100} 
+                            width={width * 0.13} 
                             color='orange' 
                         />
                     </View>
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'KochAltschrift',
         fontSize: 40,
-       
     },
     profileText: {
         color: 'white',
@@ -109,24 +108,24 @@ const styles = StyleSheet.create({
         padding: 5,
         
     },
-    titleContainer: {
-      borderColor: 'orange', 
-      borderWidth: 2,
-      borderRadius: 10, 
-      padding: 5, 
-      marginBottom: 20, 
-       backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  },
+        titleContainer: {
+        borderColor: 'orange', 
+        borderWidth: 2,
+        borderRadius: 10, 
+        padding: 5, 
+        marginBottom: 20, 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+},
     progressContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%', 
-      paddingBottom: 30,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-      borderColor: 'orange', 
-      borderWidth: 2, 
-      borderRadius: 10,
-  },
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%', 
+        paddingBottom: 30,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        borderColor: 'orange', 
+        borderWidth: 2, 
+        borderRadius: 10,
+    },
     column: {
         flex: 1, // Cada columna ocupa el mismo espacio
         alignItems: 'center', // Centra los elementos dentro de cada columna
