@@ -19,6 +19,12 @@
        android:insetTop="@dimen/abc_edit_text_inset_top_material"
        android:insetBottom="@dimen/abc_edit_text_inset_bottom_material"
        >
+    <item>
+        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+    </item>
+    <item>
+        <bitmap android:gravity="fill" android:src="@drawable/splash"/>
+    </item>
 
     <selector>
         <!--
