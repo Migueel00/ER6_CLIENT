@@ -15,7 +15,7 @@ export const searchByEmail = async (playerEmail) => {
 
         const player = await response.json();
 
-        console.log("PLAYER IN SEARCH BY EMAIL: " + JSON.stringify(player.data));
+        // console.log("PLAYER IN SEARCH BY EMAIL: " + JSON.stringify(player.data));
         
         
 

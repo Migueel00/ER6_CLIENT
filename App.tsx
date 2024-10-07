@@ -88,39 +88,39 @@ function App(): React.JSX.Element {
     );
   }
 
-  function setRole(authenticatedEmail: string): string {
-    let role = "";
+  const manageRole = (authenticatedEmail: string) => {
+    console.log("ENTRA A LA FUNCION SETROLE");
+
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
-    const ISTVAN_EMAIL = "classcraft.daw2@aeg.eus";
-    const MORTIMER_EMAIL = "miguelangel.rojas@ikasle.aeg.eus";
-    const VILLAIN_EMAIL = "ozarate@aeg.eus";
-    const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
+    const ISTVAN_EMAIL    = "classcraft.daw2@aeg.eus";
+    const MORTIMER_EMAIL  = "miguelangel.rojas@ikasle.aeg.eus";
+    const VILLAIN_EMAIL   = "ozarate@aeg.eus";
+    const ACOLYTE_EMAIL   = "@ikasle.aeg.eus";
 
     switch (authenticatedEmail) {
         case ISTVAN_EMAIL:
-            role = "ISTVAN";
+            setUserRole("ISTVAN");
             break;
 
         case VILLAIN_EMAIL:
-            role = "VILLANO";
+            setUserRole("VILLANO");
             break;
 
         case MORTIMER_EMAIL:
-            role = "MORTIMER";
+            console.log("CASE MORTIMER EMAIL")
+            setUserRole("MORTIMER");
             break;
 
         default:
             // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
             if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-                role = "ACOLYTE";
+                setUserRole("ACOLYTE");
             } else {
-                role = "UNKNOWN ROLE";
+                setUserRole("UNKNOWN ROLE");
             }
             break;
     }
-
-    return role;
 }
 
   const Tab = createMaterialTopTabNavigator();
@@ -194,7 +194,6 @@ function App(): React.JSX.Element {
       setError(null);
 
 
-      await getDataAndAsign();
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -203,6 +202,8 @@ function App(): React.JSX.Element {
       const googleIdToken = userInfo.data?.idToken;
       setUserEmail(`${email}`);
       getPlayerAndSet(`${email}`);
+
+      manageRole(email as string);
       
       // Create a Google credential with the token
       const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
@@ -256,14 +257,14 @@ function App(): React.JSX.Element {
       
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
-      const profileDataAttrString = JSON.stringify(profileDataAttr, null, 2);
 
-      const profileRole = setRole(email as string); 
-      console.log("EL ROL ASIGNADO ES: " + profileRole);
-      setUserRole(profileRole);
+      
+      console.log("EL ROL ASIGNADO ES: " + userRole);
+      
+
       
       //Async storage
-      await storeData(profileRole);
+      await storeData(userRole);
       
       
 
@@ -271,8 +272,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
-     
-
+    
       const playerDataToPost = profileData.data;
       playerDataToPost.socketId = socket.id;
       playerDataToPost.role = await getData();
@@ -280,9 +280,15 @@ function App(): React.JSX.Element {
       
       searchAndIfDontExistPost(playerDataToPost);
 
+      console.log("role" + userRole)
+      if(userRole === 'MORTIMER'){
+        await getDataAndAsign();
+      }
       
       setIsLoggedIn(true);
       setIsSpinner(false);
+
+    
 
     } catch (error: any) {
 
@@ -304,6 +310,8 @@ function App(): React.JSX.Element {
   };
   
   const getDataAndAsign = async () => {
+    console.log("EJECUTA LA FUNCION GET DATA & ASIGN");
+
     const players      = await getAllPlayers();
     const playersData  = players.data;
     const newPlayers = [];
