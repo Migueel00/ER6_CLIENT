@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import Button from '../button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -9,6 +9,7 @@ type SettingScreenProps = {
 }
 
 const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
+    const {height, width} = Dimensions.get('window')
     const signOut = async () => {
         try {
             await GoogleSignin.signOut();
@@ -27,23 +28,20 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
 
     return (
         <ImageBackground 
-            source={require('../../assets/png/settingsBackground1.png')} // Cambia esta ruta a la imagen que desees
-            style={styles.background}
-            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            source={require('../../assets/png/settingsBackground1.png')}
+            style={[styles.background, { width: width, height: height }]}
         >
         <View style={styles.container}>
             <ImageBackground 
-                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
-                style={styles.buttonImageBackground}
-                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+                source={require('../../assets/png/button1.png')}
+                style={[styles.buttonImageBackground, { width: width * 0.6, height: height * 0.1 }]}
             >
                 <Text style={styles.kaotikaFont2}>SETTINGS</Text>
             </ImageBackground>
             {/* Agrega más contenido o componentes aquí */}
                 <ImageBackground 
-                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
-                style={styles.buttonImageBackground}
-                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+                source={require('../../assets/png/button1.png')}
+                style={[styles.buttonImageBackground, { width: width * 0.6, height: height * 0.1 }]} 
                 >
                 <TouchableOpacity onPress={onPress}>
                     <Text style={styles.kaotikaFont2}>LOG OUT</Text>
@@ -58,8 +56,6 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
     buttonImageBackground: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 315,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
-        height: 80,     // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
     },
     background: {
         flex: 1,
