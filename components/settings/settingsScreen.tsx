@@ -28,20 +28,23 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
 
     return (
         <ImageBackground 
-            source={require('../../assets/png/settingsBackground1.png')}
+            source={require('../../assets/png/settingsBackground1.png')} // Cambia esta ruta a la imagen que desees
             style={[styles.background, { width: width, height: height }]}
+            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
         >
         <View style={styles.container}>
             <ImageBackground 
-                source={require('../../assets/png/button1.png')}
-                style={[styles.buttonImageBackground, { width: width * 0.6, height: height * 0.1 }]}
+                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
+                style={styles.buttonImageBackground}
+                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
             >
                 <Text style={styles.kaotikaFont2}>SETTINGS</Text>
             </ImageBackground>
             {/* Agrega más contenido o componentes aquí */}
                 <ImageBackground 
-                source={require('../../assets/png/button1.png')}
-                style={[styles.buttonImageBackground, { width: width * 0.6, height: height * 0.1 }]} 
+                source={require('../../assets/png/button1.png')} // Cambia esta ruta a la imagen que desees
+                style={styles.buttonImageBackground}
+                resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
                 >
                 <TouchableOpacity onPress={onPress}>
                     <Text style={styles.kaotikaFont2}>LOG OUT</Text>
@@ -56,6 +59,8 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
     buttonImageBackground: {
         justifyContent: 'center',
         alignItems: 'center',
+        width: 315,  // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
+        height: 80,     // Tamaño real en pixeles del botón (habrá que refactorizar a full responsive?)
     },
     background: {
         flex: 1,
