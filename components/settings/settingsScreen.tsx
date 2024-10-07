@@ -18,10 +18,10 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
         }
     }
 
-    const onPress = () => {
-        setIsLoggedIn(false);
-        AsyncStorage.clear();
-        signOut();
+    const onPress = async () => {
+        await setIsLoggedIn(false);
+        await AsyncStorage.clear();
+        await signOut();
     }
 
     return (

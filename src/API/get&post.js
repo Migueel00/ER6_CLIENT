@@ -83,7 +83,7 @@ export const updatePlayerByEmail = async (data) => {
         const jsonResponse  = await response.json();
         const player        = jsonResponse.data;
 
-        // console.log("PLAYER UPDATEADO: " + JSON.stringify(player));
+        //console.log("PLAYER UPDATEADO: " + JSON.stringify(player));
         
 
     } catch (error) {
