@@ -86,6 +86,22 @@ function App(): React.JSX.Element {
   useEffect(() => {
     SplashScreen.hide();
     }, []);
+
+  useEffect(() => {
+
+    const executeRoleFunctions = async () => {
+      console.log('User role is:', userRole);
+      if(userRole === 'MORTIMER'){
+        console.log("HA ENTRADO PARA HACER EL FETCH");
+        await getDataAndAsign();
+      }
+    }
+    
+    executeRoleFunctions();
+
+  }, [userRole]);
+    
+
   // Simular obtener los datos del perfil
   useEffect(() => {
     setProfileAttributes(profileAttributes);
@@ -98,33 +114,40 @@ function App(): React.JSX.Element {
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
     const ISTVAN_EMAIL    = "classcraft.daw2@aeg.eus";
-    const MORTIMER_EMAIL  = "miguelangel.rojas@ikasle.aeg.eus";
+    const MORTIMER_EMAIL  = "asier.arguinchona@ikasle.aeg.eus";
     const VILLAIN_EMAIL   = "ozarate@aeg.eus";
     const ACOLYTE_EMAIL   = "@ikasle.aeg.eus";
 
     switch (authenticatedEmail) {
         case ISTVAN_EMAIL:
-            setUserRole("ISTVAN");
+          console.log('CASE ACOLYTE EMAIL')
+            setUserRole('ISTVAN');
             break;
 
         case VILLAIN_EMAIL:
-            setUserRole("VILLANO");
+          console.log('CASE VILLAIN EMAIL')
+            setUserRole('VILLANO');
             break;
 
         case MORTIMER_EMAIL:
-            console.log("CASE MORTIMER EMAIL")
-            setUserRole("MORTIMER");
+            console.log('CASE MORTIMER EMAIL')
+            setUserRole('MORTIMER');
+
+            
             break;
 
         default:
             // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
             if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-                setUserRole("ACOLYTE");
+              console.log('CASE ACOLYTE EMAIL')
+                setUserRole('ACOLYTE');
             } else {
                 setUserRole("UNKNOWN ROLE");
             }
             break;
     }
+
+    console.log(`User roleeeeee is: ${userRole}`);
 }
 
   const Tab = createMaterialTopTabNavigator();
@@ -258,7 +281,7 @@ function App(): React.JSX.Element {
 
       await checkLoginStatus();
 
-      await getDataAndAsign();
+      //await getDataAndAsign();
 
       const isVerified = await AsyncStorage.getItem('isVerified');
 
@@ -325,10 +348,12 @@ function App(): React.JSX.Element {
       
       searchAndIfDontExistPost(playerDataToPost);
 
-      console.log("role" + userRole)
-      if(userRole === 'MORTIMER'){
-        await getDataAndAsign();
-      }
+      // console.log("role" + userRole)
+      // if(userRole === 'MORTIMER'){
+      //   console.log("HA ENTRADO PARA HACER EL FETCH");
+        
+      //   await getDataAndAsign();
+      // }
       
       setIsLoggedIn(true);
       setIsSpinner(false);
