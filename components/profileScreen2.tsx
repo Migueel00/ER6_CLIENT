@@ -36,21 +36,21 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
                         <Text style={styles.profileText}>Intelligence</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.intelligence} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Dexterity</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.dexterity} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Insanity</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.insanity} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
                     </View>
@@ -59,21 +59,21 @@ const ProfileScreen2: React.FC<ProfileScreenProps> = ({ profileAttributesToPrint
                         <Text style={styles.profileText}>Charisma</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.charisma} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Constitution</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.constitution} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
 
                         <Text style={styles.profileText}>Strength</Text>
                         <Progress.Bar 
                             progress={attributesForProgressBar.strength} 
-                            width={width * 0.13} 
+                            width={width * 0.20} 
                             color='orange' 
                         />
                     </View>
