@@ -37,6 +37,7 @@ const {width, height} = Dimensions.get('window');
 
 function App(): React.JSX.Element {
 
+  const [isVerified, setIsVerified] = useState(false);
   const isDarkMode = useColorScheme() === 'dark';
   const [userSocket, setUserSocket] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -68,25 +69,32 @@ function App(): React.JSX.Element {
   const [players, setPlayers]       = useState<Player[]>([]);
   const [player, setPlayer]         = useState<Player>();
 
+  const checkLoginStatus = async () => {
+    const email = await AsyncStorage.getItem('email');
+    if (email !== null) {
+      // El item existe en AsyncStorage
+      await setIsVerified(true);
+      console.log('El item existe:', email);
+  } else {
+      // El item no existe en AsyncStorage
+      await setIsVerified(false);
+      console.log('El item no existe');
+  }
+
+    SplashScreen.hide();
+  };
 
   // Simular obtener los datos del perfil
   useEffect(() => {
     setProfileAttributes(profileAttributes);
     }, [profileAttributes]);
-  
-  function ProfileScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={styles.profileText}>Character Profile</Text>
-        <Text style={styles.profileText}>Intelligence: {profileAttributes.intelligence}</Text>
-        <Text style={styles.profileText}>Dexterity: {profileAttributes.dexterity}</Text>
-        <Text style={styles.profileText}>Insanity: {profileAttributes.insanity}</Text>
-        <Text style={styles.profileText}>Charisma: {profileAttributes.charisma}</Text>
-        <Text style={styles.profileText}>Constitution: {profileAttributes.constitution}</Text>
-        <Text style={styles.profileText}>Strength: {profileAttributes.strength}</Text>
-      </View>
-    );
-  }
+
+    useEffect(() => {
+      
+    
+      checkLoginStatus();
+    }, []);
+    
 
   function setRole(authenticatedEmail: string): string {
     let role = "";
@@ -126,19 +134,21 @@ function App(): React.JSX.Element {
   const Tab = createMaterialTopTabNavigator();
 
 
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+  // useEffect(() => {
+  //   SplashScreen.hide();
+  // }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const storeData = async (value: string) => {
+  const storeData = async (value: string, email: any) => {
     try {
-      await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
-      console.log("Se va a insertar el siguiente rol: " + value);
+      //await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
+      //console.log("Se va a insertar el siguiente rol: " + value);
       await AsyncStorage.setItem("my-role", value);
+      await AsyncStorage.setItem('isVerified', 'true');
+      await AsyncStorage.setItem('email', email);
       console.log("Rol almacenado correctamente");
     } catch (error) {
       console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
@@ -158,6 +168,63 @@ function App(): React.JSX.Element {
       console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
     }
   };
+
+  const verifyUser = async () => {
+    console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+
+    //console.log('User Info: ', userInfo);
+    const email = userInfo.data?.user.email;
+    const googleIdToken = userInfo.data?.idToken;
+
+    // console.log(`User e-mail: ${email}`);
+    // console.log(`User Token: ${googleIdToken}`);
+    
+    // Create a Google credential with the token
+    const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
+    // console.log('GOOGLE CREDENTIAL');
+    // console.log(googleCredential);
+
+    // Sign-in the user with the credential
+    const signInWithCredential = await  auth().signInWithCredential(
+      googleCredential,
+    );
+    // console.log('SIGN IN WITH CREDENTIAL');
+    console.log(signInWithCredential);
+
+    //http://192.168.1.134:3000/verify-token
+
+    //Get the token from the current User
+    const idTokenResult = await auth().currentUser?.getIdTokenResult();
+    // console.log('USER JWT');
+    // console.log(idTokenResult);
+
+    const idToken = idTokenResult?.token;
+
+    // console.log('Token de ID:', idTokenResult);
+
+    // Envía el idToken al servidor
+    const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken }), // Envía el token en el cuerpo de la petición
+    });
+
+    const fireBaseResult = await fireBaseResponse.json();
+
+    if (fireBaseResponse.ok) {
+      console.log('Respuesta del servidor:', fireBaseResult);
+      setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
+            //Async storage
+      const profileRole = setRole(email as string); 
+      await storeData(profileRole, email);
+    } else {
+      throw new Error(fireBaseResult.error || 'Error al verificar el token');
+    }
+  }
 
   useEffect(() => {
     // Conectar al socket
@@ -193,49 +260,27 @@ function App(): React.JSX.Element {
       setIsSpinner(true);
       setError(null);
 
+      await checkLoginStatus();
 
       await getDataAndAsign();
 
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
+      const isVerified = await AsyncStorage.getItem('isVerified');
 
-      const email = userInfo.data?.user.email;
-      const googleIdToken = userInfo.data?.idToken;
+      console.log("IS VERIFIED?" + isVerified);
+      
+
+
+      if(!isVerified)
+      {
+        await verifyUser();
+      }
+     
+      const email = await AsyncStorage.getItem('email');;
+
+      console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
+      
       setUserEmail(`${email}`);
       getPlayerAndSet(`${email}`);
-      
-      // Create a Google credential with the token
-      const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
-
-      // Sign-in the user with the credential
-      const signInWithCredential = await  auth().signInWithCredential(
-        googleCredential,
-      );
-      console.log(signInWithCredential);
-
-
-      //Get the token from the current User
-      const idTokenResult = await auth().currentUser?.getIdTokenResult();
-
-      const idToken = idTokenResult?.token;
-
-      // Envía el idToken al servidor
-      const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idToken }), // Envía el token en el cuerpo de la petición
-      });
-
-      const fireBaseResult = await fireBaseResponse.json();
-
-      if (fireBaseResponse.ok) {
-        console.log('Respuesta del servidor:', fireBaseResult);
-        setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
-      } else {
-        throw new Error(fireBaseResult.error || 'Error al verificar el token');
-      }
 
       // Construir la URL con el email del alumno
       const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
@@ -263,7 +308,7 @@ function App(): React.JSX.Element {
       setUserRole(profileRole);
       
       //Async storage
-      await storeData(profileRole);
+      await storeData(profileRole, email);
       
       
 
@@ -341,7 +386,11 @@ function App(): React.JSX.Element {
 
     const player  = await searchByEmail(email);
     
-    setPlayer(player);    
+    setPlayer(player);
+    //console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
+
+    //console.log("NEW ID: " + newID);
+    
   }
 
 
