@@ -1,10 +1,9 @@
 import { Camera } from 'react-native-vision-camera';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
-import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
-import { codeScanner } from './hooks/codeScannerHook';
+import { useCameraDevice, useCameraPermission, CodeScanner} from 'react-native-vision-camera';
 import { socket } from '../App';
-import { searchAndIfDontExistPost, searchAndChangeIsInsideLabState } from '../src/API/get&post';
+import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
@@ -94,28 +93,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
     handlePermissions();
   }, [hasCameraPermission]);
 
-  const devices = Camera.getAvailableCameraDevices();
   const device = useCameraDevice('back');
-
-  const handleFocus = async (event: any) => {
-    if (!cameraRef) return;
-
-    const { pageX, pageY } = event.nativeEvent;
-
-    // const previewWidth = cameraRef.getWidth();
-    // const previewHeight = cameraRef.getHeight();
-
-    // // Convert tap coordinates to normalized focus coordinates
-    // const x = pageX / previewWidth;
-    // const y = pageY / previewHeight;
-
-    try {
-      await cameraRef.focus({ x: 0.5, y: 0.5 }); // Use normalized coordinates
-      console.log('Focus set at: ');
-    } catch (error) {
-      console.error('Failed to set focus:', error);
-    }
-  };
 
   if (!hasCameraPermission) return <PermissionsPage />;
   if (device == null) return <NoCameraDeviceError />;

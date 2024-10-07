@@ -101,7 +101,7 @@ function App(): React.JSX.Element {
     console.log("El email del usuario autenticado es: " + authenticatedEmail);
     
     const ISTVAN_EMAIL = "classcraft.daw2@aeg.eus";
-    const MORTIMER_EMAIL = "oskar.calvo@aeg.eus";
+    const MORTIMER_EMAIL = "miguelangel.rojas@ikasle.aeg.eus";
     const VILLAIN_EMAIL = "ozarate@aeg.eus";
     const ACOLYTE_EMAIL = "@ikasle.aeg.eus";
 
@@ -316,7 +316,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
-      // console.log(`Profile data:${profileDataAttr}`);
+     
 
       const playerDataToPost = profileData.data;
       playerDataToPost.socketId = socket.id;

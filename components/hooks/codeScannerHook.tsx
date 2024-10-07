@@ -1,4 +1,4 @@
-import { useCameraDevice, useCameraPermission, CodeScanner, useCodeScanner } from 'react-native-vision-camera';
+import {useCodeScanner } from 'react-native-vision-camera';
 
 export const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],

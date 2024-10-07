@@ -124,14 +124,11 @@ export const getPlayerInsideLabState = async (userEmail) => {
     });
 
     if (!playerResponse.ok) {
-        // console.log('Failed to fetch player. Status:', playerResponse.status);
+
         return;
     }
 
     const playerData = await playerResponse.json();
-    // console.log('Player data fetched:', playerData);
-
-    // console.log("IS THE PLAYER INSIDE LAB? " + playerData.data.isInsideLab);
 
     return playerData.data.isInsideLab;
 }
@@ -145,15 +142,6 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
         },
         body: JSON.stringify(patchJSON),
     });
-
-    // console.log('Update Response:', JSON.stringify(updateResponse));
-
-    if (updateResponse.ok) {
-        const updatedPlayer = await updateResponse.json();
-        // console.log('Player updated:', updatedPlayer);
-    } else {
-        // console.log('Failed to update player. Status:', updateResponse.status);
-    }
 }
 
 module.exports = {
