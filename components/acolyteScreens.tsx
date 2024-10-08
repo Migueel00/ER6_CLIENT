@@ -45,12 +45,12 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarIconStyle: {
               justifyContent: 'center',
               alignItems: 'center',
-              width: 50,  // Puedes ajustar el ancho de los íconos
-              height: 50, // Ajusta el alto para dar más espacio
+              width: width * 0.2,  // Puedes ajustar el ancho de los íconos
+              height: height * 0.074, // Ajusta el alto para dar más espacio
             },
             tabBarIndicatorStyle: {
               backgroundColor: 'orange',
-              height: 3, // Ajusta el grosor del indicador de la pestaña
+              height: height * 0.002, // Ajusta el grosor del indicador de la pestaña
             },
             tabBarItemStyle: {
               justifyContent: 'center', // Asegura que los íconos se centren
@@ -70,7 +70,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarIcon: ({}) => (
               <Image
                 source={require('../assets/icons/fixed/homeIcon.png')}
-                style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
+                style={{width: width * 0.17, height: height * 0.1}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -84,7 +84,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
               tabBarIcon: ({}) => (
                 <Image
                   source={require('../assets/icons/fixed/profileIcon.png')}
-                  style={{width: 70, height: 70}}
+                  style={{width: width * 0.17, height: height * 0.1}}
                 />
               ),
               tabBarLabel: ({}) => null,
@@ -98,7 +98,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarIcon: ({}) => (
               <Image
                 source={require('../assets/icons/fixed/settingsIcon.png')}
-                style={{ width: 70, height: 70}}
+                style={{width: width * 0.17, height: height * 0.1}}
               />
             ),
             tabBarLabel: ({}) => null,
@@ -113,7 +113,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
             tabBarIcon: ({}) => (
               <Image
                 source={require('../assets/icons/fixed/potionIcon.png')}
-                style={{ width: 70, height: 70}}
+                style={{width: width * 0.17, height: height * 0.1}}
               />
             ),
             tabBarLabel: ({}) => null,
