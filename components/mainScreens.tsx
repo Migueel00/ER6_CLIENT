@@ -11,7 +11,8 @@ interface Player {
     nickname:     string,
     isInsideLab:  boolean,
     avatar:       string,
-    id:           string
+    id:           string,
+    role:         string
 }
 
 interface MainScreenProps {
@@ -45,6 +46,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                     userRole={userRole}
                     profileAttributes={profileAttributes}
                     players={players}
+                    
                     setPlayers={setPlayers}
                     setIsLoggedIn={setIsLoggedIn}
                 />

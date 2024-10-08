@@ -31,7 +31,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('https://er6-staging-server.onrender.com');
+export const socket = io('http://192.168.1.132:3000');
 
 const {width, height} = Dimensions.get('window');
 
@@ -63,7 +63,8 @@ function App(): React.JSX.Element {
     nickname:     string,
     isInsideLab:  boolean,
     avatar:       string,
-    id:           string
+    id:           string,
+    role:         string
   }
 
   const [players, setPlayers]       = useState<Player[]>([]);
@@ -87,19 +88,19 @@ function App(): React.JSX.Element {
     SplashScreen.hide();
     }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const executeRoleFunctions = async () => {
-      console.log('User role is:', userRole);
-      if(userRole === 'MORTIMER'){
-        console.log("HA ENTRADO PARA HACER EL FETCH");
-        await getDataAndAsign();
-      }
-    }
+  //   const executeRoleFunctions = async () => {
+  //     console.log('User role is:', userRole);
+  //     if(userRole === 'MORTIMER'){
+  //       console.log("HA ENTRADO PARA HACER EL FETCH");
+  //       await getDataAndAsign();
+  //     }
+  //   }
     
-    executeRoleFunctions();
+  //   executeRoleFunctions();
 
-  }, [userRole]);
+  // }, [userRole]);
     
 
   // Simular obtener los datos del perfil
@@ -107,48 +108,6 @@ function App(): React.JSX.Element {
     setProfileAttributes(profileAttributes);
     }, [profileAttributes]);
 
-
-  const manageRole = async (authenticatedEmail: string) => {
-    console.log("ENTRA A LA FUNCION SETROLE");
-
-    console.log("El email del usuario autenticado es: " + authenticatedEmail);
-    
-    const ISTVAN_EMAIL    = "classcraft.daw2@aeg.eus";
-    const MORTIMER_EMAIL  = "asier.arguinchona@ikasle.aeg.eus";
-    const VILLAIN_EMAIL   = "ozarate@aeg.eus";
-    const ACOLYTE_EMAIL   = "@ikasle.aeg.eus";
-
-    switch (authenticatedEmail) {
-        case ISTVAN_EMAIL:
-          console.log('CASE ACOLYTE EMAIL')
-            setUserRole('ISTVAN');
-            break;
-
-        case VILLAIN_EMAIL:
-          console.log('CASE VILLAIN EMAIL')
-            setUserRole('VILLANO');
-            break;
-
-        case MORTIMER_EMAIL:
-            console.log('CASE MORTIMER EMAIL')
-            setUserRole('MORTIMER');
-
-            
-            break;
-
-        default:
-            // Asegúrate de que ACOLYTE_EMAIL no sea undefined antes de usar endsWith
-            if (ACOLYTE_EMAIL && authenticatedEmail.endsWith(ACOLYTE_EMAIL)) {
-              console.log('CASE ACOLYTE EMAIL')
-                setUserRole('ACOLYTE');
-            } else {
-                setUserRole("UNKNOWN ROLE");
-            }
-            break;
-    }
-
-    console.log(`User roleeeeee is: ${userRole}`);
-}
 
   const Tab = createMaterialTopTabNavigator();
 
@@ -167,26 +126,26 @@ function App(): React.JSX.Element {
       //console.log("Se va a insertar el siguiente rol: " + value);
       await AsyncStorage.setItem("my-role", value);
       await AsyncStorage.setItem('isVerified', 'true');
-      await AsyncStorage.setItem('email', email);
+      // await AsyncStorage.setItem('email', email);
       console.log("Rol almacenado correctamente");
     } catch (error) {
       console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
     }
   };
   
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("my-role");
-      if (value) {
-        console.log("El rol es: " + value);
-        return value;
-      } else {
-        console.log("No se encontró ningún rol en AsyncStorage");
-      }
-    } catch (error) {
-      console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("my-role");
+  //     if (value) {
+  //       console.log("El rol es: " + value);
+  //       return value;
+  //     } else {
+  //       console.log("No se encontró ningún rol en AsyncStorage");
+  //     }
+  //   } catch (error) {
+  //     console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
+  //   }
+  // };
 
   const verifyUser = async () => {
     console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
@@ -224,7 +183,7 @@ function App(): React.JSX.Element {
     // console.log('Token de ID:', idTokenResult);
 
     // Envía el idToken al servidor
-    const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
+    const fireBaseResponse = await fetch('http://192.168.1.132:3000/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -238,8 +197,9 @@ function App(): React.JSX.Element {
       console.log('Respuesta del servidor:', fireBaseResult);
       setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
             //Async storage
-      await manageRole(email as string); 
-      await storeData(userRole, email);
+      // await manageRole(email as string);ç
+      await AsyncStorage.setItem('email', email as string);
+      
     } else {
       throw new Error(fireBaseResult.error || 'Error al verificar el token');
     }
@@ -296,14 +256,12 @@ function App(): React.JSX.Element {
       
       
       const email = await AsyncStorage.getItem('email');;
-      
-      manageRole(email as string);
-
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
       
       setUserEmail(`${email}`);
-      getPlayerAndSet(`${email}`);
+
+  
 
 
       // Construir la URL con el email del alumno
@@ -325,40 +283,32 @@ function App(): React.JSX.Element {
       
       const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
-
       
-      console.log("EL ROL ASIGNADO ES: " + userRole);
-      
-
-      
-      //Async storage
-      await storeData(userRole, email);
-      
-      
-
       setProfileData(`${stringProfileData}`);
       setProfileAttributes(profileDataAttr);
 
 
     
-      const playerDataToPost = profileData.data;
+      const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket.id;
-      playerDataToPost.role = await getData();
-      playerDataToPost.isInsideLab = false;
       
-      searchAndIfDontExistPost(playerDataToPost);
 
-      // console.log("role" + userRole)
-      // if(userRole === 'MORTIMER'){
-      //   console.log("HA ENTRADO PARA HACER EL FETCH");
+      const player = await searchAndIfDontExistPost(playerDataToPost);
+
+      player.role = "MORTIMER";
+      setPlayer(player);
+      setUserRole(player.role);
+      await AsyncStorage.setItem("my-role", player.role);
+      console.log("EL ROL ASIGNADO ES: " + player.role);
+
+      if(player.role === 'MORTIMER'){
+        console.log("HA ENTRADO PARA HACER EL FETCH");
         
-      //   await getDataAndAsign();
-      // }
+        await getDataAndAsign();
+      }
       
       setIsLoggedIn(true);
       setIsSpinner(false);
-
-    
 
     } catch (error: any) {
 
@@ -394,6 +344,7 @@ function App(): React.JSX.Element {
       const isInsideLab = playersData[i].isInsideLab;
       const socketId    = playersData[i].socketId;
       const avatar      = playersData[i].avatar;
+      const role        = playersData[i].role;
       const id          = playersData[i]._id;
 
       const player  = {
@@ -403,7 +354,8 @@ function App(): React.JSX.Element {
         isInsideLab:    isInsideLab,
         socketId:       socketId,
         avatar:         avatar,
-        id:             id
+        id:             id,
+        role:           role
 
       };
 

@@ -26,7 +26,7 @@ type IstvanScreensProps = {
 };
 
 const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes, setIsLoggedIn}) => {
-    const {height} = Dimensions.get('window')
+    const {height, width} = Dimensions.get('window')
     // Estado para manejar el modal de la cámara
     const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -129,10 +129,9 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
                     children={() => (
                         <ImageBackground
                             source={require('../assets/png/cameraScreenEye.png')}
-                            style={styles.background}
-                            resizeMode="cover"
+                            style={[styles.background, { width: width, height: height }]}
                         >
-                            <View style={styles.container}>
+                            <View style={styles.container}> 
                                 <Text style={styles.kaotikaFont}>Touch the eye to use</Text>
                                 <Text style={styles.kaotikaFont}>Morghul's Sight</Text>
 

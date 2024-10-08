@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { socket } from '../App';
 
@@ -18,6 +18,7 @@ type LabScreenProps = {
 }
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
+    const {height, width} = Dimensions.get('window')
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
     const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry");
@@ -78,8 +79,7 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     return (
         <ImageBackground
             source={labBackgroundImage} // Cambia esta ruta a la imagen que desees
-            style={styles.background}
-            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+            style={[styles.background, { width: width, height: height }]}
             >
         <View style={styles.container}>
             <Text style={styles.kaotikaFont}>{screenText}</Text>
@@ -104,18 +104,15 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                 <View style={styles.modalContainer}>
                     <ImageBackground 
                         source={qrImage}
-                        style={styles.qrBackground}
+                        style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4}]}
                         resizeMode="cover" 
                         >
                         <QRCode
                             value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={120}
-                            //logo={kaotikaImage}
-                            //logoSize={250}
+                            size={width * 0.23}
                             logoBackgroundColor='transparent'
                             color='#00BFAE'
                             backgroundColor='black'
-                            //logoBorderRadius={100}
                         />
 
 
@@ -147,9 +144,6 @@ const styles = StyleSheet.create({
     qrBackground: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 430,
-        width: 430,
-        paddingTop: 0,
         //backgroundColor: 'transparent'
     },
     container: {

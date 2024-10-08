@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import Button from '../button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
@@ -8,6 +9,7 @@ type SettingScreenProps = {
 }
 
 const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
+    const {height, width} = Dimensions.get('window')
     const signOut = async () => {
         try {
             await GoogleSignin.signOut();
@@ -27,7 +29,7 @@ const SettingsScreen: React.FC<SettingScreenProps> = ({setIsLoggedIn}) => {
     return (
         <ImageBackground 
             source={require('../../assets/png/settingsBackground1.png')} // Cambia esta ruta a la imagen que desees
-            style={styles.background}
+            style={[styles.background, { width: width, height: height }]}
             resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
         >
         <View style={styles.container}>

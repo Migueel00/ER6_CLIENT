@@ -5,15 +5,8 @@ export const searchAndIfDontExistPost = async (playerData) => {
     //IP DE CLASE IKAS A3: 10.70.0.58
     //IP ASIER: 192.168.1.89
     //IP LANDER: 192.168.1.150
-
-    
     const email = playerData.email;
-
-    const playerInsideLab = await getPlayerInsideLabState(email);
-
-    playerData.isInsideLab = playerInsideLab;
-
-    console.log("El email recibido es: " + email);
+    const { _id, ...data } = playerData;
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
@@ -24,32 +17,39 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
             if(existingPlayer){
                 console.log(`El correo ${email} ya está registrado`);
-                await updatePlayerByEmail(playerData);
+                // const playerInsideLab = await getPlayerInsideLabState(email);
+
+                // playerData.isInsideLab = playerInsideLab;
+                const player  = await updatePlayerByEmail(playerData);
+                return player;
             }
 
         }else if(response.status === 400){
-
-            
 
             const res   = await fetch(`${URL.API_PLAYERS}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(playerData)
+                body: JSON.stringify(data)
             });
-        
+            
             if(!res.ok){
         
                 throw new Error('Error al insertar el player');
             }else{
                 
-                console.log("Player insertado correctamente");
+                const resJson = await res.json();
+                const player  = resJson.data;
+                console.log("Player insertado correctamente" + JSON.stringify(player));
+
+                return player;    
             }
 
         }else {
 
             throw new Error("Error al comprobar el correo");
+        
         }
 
     } 
@@ -83,8 +83,7 @@ export const updatePlayerByEmail = async (data) => {
         const jsonResponse  = await response.json();
         const player        = jsonResponse.data;
 
-        //console.log("PLAYER UPDATEADO: " + JSON.stringify(player));
-        
+        return player;
 
     } catch (error) {
         

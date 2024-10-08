@@ -16,7 +16,8 @@ interface Player {
   nickname:     string,
   isInsideLab:  boolean,
   avatar:       string,
-  id:           string
+  id:           string,
+  role:         string
 }
 
 

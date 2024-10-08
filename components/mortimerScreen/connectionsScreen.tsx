@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Dimensions, Image} from 'react-native';
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { socket } from '../../App';
-import Icon from 'react-native-vector-icons/FontAwesome'
 
 interface Player {
     socketId:     string,
@@ -9,7 +9,8 @@ interface Player {
     nickname:     string,
     isInsideLab:  boolean,
     avatar:       string,
-    id:           string
+    id:           string,
+    role:         string
 }
 
 
@@ -19,6 +20,7 @@ type ConnectionScreenProps = {
 }
 
 const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}) => {
+    const {height, width} = Dimensions.get('window')
     useEffect(() => {
 
         // Escuchar el evento
@@ -39,13 +41,10 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
     }, [players, setPlayers]);
     // circle-dot
 
-    const {width, height} = Dimensions.get('window');
-
     return (
         <ImageBackground
             source={require('../../assets/png/connectionsBackground.png')} 
-            style={styles.background}
-            resizeMode="cover" 
+            style={[styles.background, { width: width, height: height }]}
             >
                 <View style={styles.container}>
                 <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
@@ -115,8 +114,11 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
     playerItem: {
         flexDirection:  'row',
         alignItems: 'center',
-        marginVertical: 5,
-        marginLeft: 10
+        marginLeft: 10,
+        borderBottomColor: 'orange',
+        paddingBottom: 20,
+        borderBottomWidth: 2,
+        marginBottom: 20
     },
 });
 
