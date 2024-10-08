@@ -31,7 +31,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export const socket = io('http://192.168.1.132:3000');
+export const socket = io('http://10.70.0.139:3000');
 
 const {width, height} = Dimensions.get('window');
 
@@ -87,20 +87,6 @@ function App(): React.JSX.Element {
   useEffect(() => {
     SplashScreen.hide();
     }, []);
-
-  // useEffect(() => {
-
-  //   const executeRoleFunctions = async () => {
-  //     console.log('User role is:', userRole);
-  //     if(userRole === 'MORTIMER'){
-  //       console.log("HA ENTRADO PARA HACER EL FETCH");
-  //       await getDataAndAsign();
-  //     }
-  //   }
-    
-  //   executeRoleFunctions();
-
-  // }, [userRole]);
     
 
   // Simular obtener los datos del perfil
@@ -110,11 +96,6 @@ function App(): React.JSX.Element {
 
 
   const Tab = createMaterialTopTabNavigator();
-
-
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -132,20 +113,6 @@ function App(): React.JSX.Element {
       console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
     }
   };
-  
-  // const getData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem("my-role");
-  //     if (value) {
-  //       console.log("El rol es: " + value);
-  //       return value;
-  //     } else {
-  //       console.log("No se encontró ningún rol en AsyncStorage");
-  //     }
-  //   } catch (error) {
-  //     console.log("ERROR EN EL RECIBIMIENTO DE ASYNCSTORAGE: " + error);
-  //   }
-  // };
 
   const verifyUser = async () => {
     console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
@@ -155,35 +122,24 @@ function App(): React.JSX.Element {
     //console.log('User Info: ', userInfo);
     const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
-
-    // console.log(`User e-mail: ${email}`);
-    // console.log(`User Token: ${googleIdToken}`);
     
     // Create a Google credential with the token
     const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
-    // console.log('GOOGLE CREDENTIAL');
-    // console.log(googleCredential);
 
     // Sign-in the user with the credential
     const signInWithCredential = await  auth().signInWithCredential(
       googleCredential,
     );
-    // console.log('SIGN IN WITH CREDENTIAL');
-    console.log(signInWithCredential);
 
-    //http://192.168.1.134:3000/verify-token
+    console.log(signInWithCredential);
 
     //Get the token from the current User
     const idTokenResult = await auth().currentUser?.getIdTokenResult();
-    // console.log('USER JWT');
-    // console.log(idTokenResult);
 
     const idToken = idTokenResult?.token;
 
-    // console.log('Token de ID:', idTokenResult);
-
     // Envía el idToken al servidor
-    const fireBaseResponse = await fetch('http://192.168.1.132:3000/verify-token', {
+    const fireBaseResponse = await fetch('http://10.70.0.139:3000/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -197,7 +153,7 @@ function App(): React.JSX.Element {
       console.log('Respuesta del servidor:', fireBaseResult);
       setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
             //Async storage
-      // await manageRole(email as string);ç
+      // await manageRole(email as string);
       await AsyncStorage.setItem('email', email as string);
       
     } else {
@@ -241,8 +197,6 @@ function App(): React.JSX.Element {
 
       await checkLoginStatus();
 
-      //await getDataAndAsign();
-
       const isVerified = await AsyncStorage.getItem('isVerified');
 
       console.log("IS VERIFIED?" + isVerified);
@@ -254,14 +208,13 @@ function App(): React.JSX.Element {
         await verifyUser();
       }
       
-      
+      await AsyncStorage.setItem('isVerified', 'true');
+
       const email = await AsyncStorage.getItem('email');;
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
       
       setUserEmail(`${email}`);
-
-  
 
 
       // Construir la URL con el email del alumno
@@ -295,7 +248,6 @@ function App(): React.JSX.Element {
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
-      player.role = "MORTIMER";
       setPlayer(player);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
@@ -366,18 +318,6 @@ function App(): React.JSX.Element {
 
   setPlayers(newPlayers);
   }
-
-  const getPlayerAndSet = async (email: string) => {
-
-    const player  = await searchByEmail(email);
-    
-    setPlayer(player);
-    //console.log("SET PLAYER NEW PLAYER: " + JSON.stringify(player));
-
-    //console.log("NEW ID: " + newID);
-    
-  }
-
 
   return (
     <AppContext.Provider value={{userRole:{userRole} , profileAttributes:{profileAttributes}, userEmail:{userEmail}, 
