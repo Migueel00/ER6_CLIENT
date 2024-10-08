@@ -104,12 +104,11 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
                 <View style={styles.modalContainer}>
                     <ImageBackground 
                         source={qrImage}
-                        style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4}]}
-                        resizeMode="cover" 
+                        style={[styles.qrBackground, { width: width * 1, height: height * 0.56}]} 
                         >
                         <QRCode
                             value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={width * 0.23}
+                            size={width * 0.35}
                             logoBackgroundColor='transparent'
                             color='#00BFAE'
                             backgroundColor='black'
@@ -178,7 +177,8 @@ const styles = StyleSheet.create({
     kaotikaButton: {
         backgroundColor: 'transparent',
         fontFamily: 'KochAltschrift',
-        fontSize: 30
+        fontSize: 30,
+        color: 'white'
     },
     buttonText: {
         color: 'white',
