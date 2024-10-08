@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { socket } from '../App';
+import App, { socket } from '../App';
+import AppContext from '../helpers/context';
+import {ContextInterface} from '../interfaces/contextInterface';
 
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 const buttonImage = require('../assets/png/button1.png');
@@ -18,6 +20,12 @@ type LabScreenProps = {
 }
 
 const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
+    
+    const context = useContext(AppContext);
+
+    console.log("CONTEXT IS: " + JSON.stringify(context));
+    
+
     const {height, width} = Dimensions.get('window')
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
@@ -77,61 +85,65 @@ const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
     
 
     return (
-        <ImageBackground
-            source={labBackgroundImage} // Cambia esta ruta a la imagen que desees
-            style={[styles.background, { width: width, height: height }]}
-            >
-        <View style={styles.container}>
-            <Text style={styles.kaotikaFont}>{screenText}</Text>
-            
-            <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
-                <ImageBackground
-                    source={buttonImage} // Ruta a tu imagen de fondo
-                    style={styles.buttonImageBackground}
-                    resizeMode="cover"
+
+
+            <ImageBackground
+                source={labBackgroundImage} // Cambia esta ruta a la imagen que desees
+                style={[styles.background, { width: width, height: height }]}
                 >
-                    <Text style={styles.kaotikaButton}>{buttonText}</Text>
-                </ImageBackground>
-            </TouchableOpacity>
-
-
-            <Modal
-                visible={modalVisible}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={toggleModal}
-            >
-                <View style={styles.modalContainer}>
-                    <ImageBackground 
-                        source={qrImage}
-                        style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4}]}
-                        resizeMode="cover" 
-                        >
-                        <QRCode
-                            value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
-                            size={width * 0.23}
-                            logoBackgroundColor='transparent'
-                            color='#00BFAE'
-                            backgroundColor='black'
-                        />
-
-
-                    </ImageBackground>
-
-                    <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
+                <View style={styles.container}>
+                    <Text style={styles.kaotikaFont}>{screenText}</Text>
+                    
+                    <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
                         <ImageBackground
                             source={buttonImage} // Ruta a tu imagen de fondo
                             style={styles.buttonImageBackground}
                             resizeMode="cover"
                         >
-                            <Text style={styles.kaotikaButton}>Hide your medalion</Text>
+                            <Text style={styles.kaotikaButton}>{buttonText}</Text>
                         </ImageBackground>
                     </TouchableOpacity>
 
+
+                    <Modal
+                        visible={modalVisible}
+                        transparent={true}
+                        animationType="fade"
+                        onRequestClose={toggleModal}
+                    >
+                        <View style={styles.modalContainer}>
+                            <ImageBackground 
+                                source={qrImage}
+                                style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4}]}
+                                resizeMode="cover" 
+                                >
+                                <QRCode
+                                    value={qrValue ? JSON.stringify(qrValue) : "No email available"} // Convierte a cadena JSON
+                                    size={width * 0.23}
+                                    logoBackgroundColor='transparent'
+                                    color='#00BFAE'
+                                    backgroundColor='black'
+                                />
+
+
+                            </ImageBackground>
+
+                            <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
+                                <ImageBackground
+                                    source={buttonImage} // Ruta a tu imagen de fondo
+                                    style={styles.buttonImageBackground}
+                                    resizeMode="cover"
+                                >
+                                    <Text style={styles.kaotikaButton}>Hide your medalion</Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+
+                        </View>
+                    </Modal>
                 </View>
-            </Modal>
-        </View>
-        </ImageBackground>
+            </ImageBackground>
+
+
     );
 };
 
