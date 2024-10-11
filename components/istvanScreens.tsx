@@ -6,53 +6,14 @@ import HomeScreen from './homeScreen';
 import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settings/settingsScreen';
 import CameraScreen from './cameraScreen';
+import ScannerScreen from './ScannerScreen';
 import { socket } from '../App';
 
 const Tab = createMaterialTopTabNavigator();
-interface Player {
-    socketId:     string,
-    email:        string,
-    nickname:     string,
-    isInsideLab:  boolean,
-    avatar:       string,
-    id:           string
-}
 
-
-type IstvanScreensProps = {
-    userRole: string;
-    profileAttributes: any;
-    setIsLoggedIn: any;
-};
-
-const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttributes, setIsLoggedIn}) => {
+const IstvanScreens = () => {
     const {height, width} = Dimensions.get('window')
     // Estado para manejar el modal de la cámara
-    const [isCameraModalVisible, setCameraModalVisible] = useState(false);
-
-    // Función para abrir el modal de la cámara
-    const openCameraModal = () => {
-        setCameraModalVisible(true);
-    };
-
-    // Función para cerrar el modal de la cámara
-    const closeCameraModal = () => {
-        setCameraModalVisible(false);
-    };
-
-    useEffect(() => {
-
-        // Cambiar isInsideLab cuando se recibe OK! desde el servidor
-        socket.on('ScanSuccess', (message: string) => {
-            console.log("Mensaje del servidor:", message);
-
-            setCameraModalVisible(false);
-        });
-
-        return () => {
-            socket.off('ScanSuccess')
-        }
-    }, []);
 
     return (
         <NavigationContainer>
@@ -126,30 +87,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
         />
                 <Tab.Screen
                     name="CAM"
-                    children={() => (
-                        <ImageBackground
-                            source={require('../assets/png/cameraScreenEye.png')}
-                            style={[styles.background, { width: width, height: height }]}
-                        >
-                            <View style={styles.container}> 
-                                <Text style={styles.kaotikaFont}>Touch the eye to use</Text>
-                                <Text style={styles.kaotikaFont}>Morghul's Sight</Text>
-
-                                <Modal
-                                    visible={isCameraModalVisible}
-                                    animationType="slide"
-                                    onRequestClose={closeCameraModal}
-                                >
-                                    <CameraScreen onClose={closeCameraModal} />
-                                </Modal>
-                            </View>
-
-
-                            <TouchableOpacity onPress={openCameraModal} style={styles.eyeButton}>
-
-                            </TouchableOpacity>
-                        </ImageBackground>
-                    )}
+                    component={ScannerScreen}
                     options={{
                 
                         tabBarIcon: ({}) => (
