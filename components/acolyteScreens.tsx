@@ -71,7 +71,7 @@ const AcolyteScreens = () => {
             />
             <Tab.Screen
               name="Settings"
-              children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
+              component={SettingsScreen}
               options={{
                 tabBarIcon: () => (
                   <Image
