@@ -105,7 +105,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen 
               name="Connections"
-              children={() => <ConnectionScreen players={players} setPlayers={setPlayers}/>}
+              component={ConnectionScreen}
               options={{
             
                 tabBarIcon: ({}) => (
