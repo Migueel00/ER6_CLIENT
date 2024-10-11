@@ -26,7 +26,7 @@ interface MainScreenProps {
     setIsLoggedIn: any
 }
 
-const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn }) => {
+const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, player, players, setPlayers, setIsLoggedIn }) => {
 
     return (
         <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
