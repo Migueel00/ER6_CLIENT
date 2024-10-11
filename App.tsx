@@ -248,7 +248,6 @@ function App(): React.JSX.Element {
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
-      player.role = 'MORTIMER'
       setPlayer(player);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);

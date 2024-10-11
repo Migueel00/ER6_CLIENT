@@ -8,7 +8,7 @@ const HomeScreen = () => {
 
     return (
         <AppContext.Consumer>
-            {({role}: any) => (
+            {({userRole}: any) => (
                 <ImageBackground 
                     source={require('../assets/png/HomeScreen.png')} // Cambia esta ruta a la imagen que desees
                     style={[styles.background, { width: width, height: height }]}
@@ -18,7 +18,7 @@ const HomeScreen = () => {
                             Welcome to <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
                             </Text>
                             <Text style={styles.kaotikaFont2}>
-                                {role}
+                                {userRole}
                             </Text>
                         </View>
                 </ImageBackground>
