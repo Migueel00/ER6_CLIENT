@@ -62,7 +62,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             })}>
             <Tab.Screen 
               name="Home"
-              children={() => <HomeScreen role={userRole} />}
+              component={HomeScreen}
               options={{
             
                 tabBarIcon: ({}) => (
@@ -77,7 +77,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen
               name="Profile" 
-              children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+              component={ProfileScreen2}
               options={{
                 tabBarIcon: ({}) => (
                   <Image
@@ -90,7 +90,7 @@ const MortimerScreens: React.FC<MortimerScreensProps> = ({ userRole , profileAtt
             />
             <Tab.Screen 
               name="Settings"
-              children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn}></SettingsScreen>}
+              component={SettingsScreen}
               options={{
             
                 tabBarIcon: ({}) => (
