@@ -32,29 +32,12 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
         <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
             {userRole === 'ACOLYTE' ? (
                 <AcolyteScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    userEmail={userEmail}
-                    socketID={socketID}
-                    player={player}
-                    players={players}
-                    setPlayers={setPlayers}
-                    setIsLoggedIn={setIsLoggedIn}
                 />
             ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    players={players}
-                    
-                    setPlayers={setPlayers}
-                    setIsLoggedIn={setIsLoggedIn}
                 />
             ) : userRole === 'ISTVAN' ? (
                 <IstvanScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    setIsLoggedIn={setIsLoggedIn}
                 />
             ) : (
                 <Text>No role assigned</Text>
