@@ -1,30 +1,32 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import AppContext from '../helpers/context';
 
-type HomeScreenProps = {
-    role: string;
-}
+const HomeScreen = () => {
+    const {height, width} = Dimensions.get('window');
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ role }) => {
-    const {height, width} = Dimensions.get('window')
     return (
-        <ImageBackground 
-            source={require('../assets/png/HomeScreen.png')} // Cambia esta ruta a la imagen que desees
-            style={[styles.background, { width: width, height: height }]}
-        >
-            <View style={styles.container}>
-                <Text style={styles.kaotikaFont}>
-                    Welcome to <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
-                </Text>
-                <Text style={styles.kaotikaFont2}>
-                    {role}
-                </Text>
-            </View>
-        </ImageBackground>
-    );
-};
+        <AppContext.Consumer>
+            {({role}: any) => (
+                <ImageBackground 
+                    source={require('../assets/png/HomeScreen.png')} // Cambia esta ruta a la imagen que desees
+                    style={[styles.background, { width: width, height: height }]}
+            >
+                        <View style={styles.container}>
+                            <Text style={styles.kaotikaFont}>
+                            Welcome to <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
+                            </Text>
+                            <Text style={styles.kaotikaFont2}>
+                                {role}
+                            </Text>
+                        </View>
+                </ImageBackground>
+            )}
 
+        </AppContext.Consumer>
+    )
+}
 const styles = StyleSheet.create({
     background: {
         flex: 1,
