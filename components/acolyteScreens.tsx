@@ -15,7 +15,7 @@ const AcolyteScreens = () => {
 
   return (
     <AppContext.Consumer>
-      {({ userRole, profileAttributes, userEmail, socketID, player, setIsLoggedIn }: any) => (
+      {({ setIsLoggedIn }: any) => (
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -45,7 +45,7 @@ const AcolyteScreens = () => {
           >
             <Tab.Screen
               name="Home"
-              children={() => <HomeScreen role={userRole} />}
+              component={HomeScreen}
               options={{
                 tabBarIcon: () => (
                   <Image
@@ -58,7 +58,7 @@ const AcolyteScreens = () => {
             />
             <Tab.Screen
               name="Profile"
-              children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+              component={ProfileScreen2}
               options={{
                 tabBarIcon: () => (
                   <Image
@@ -84,7 +84,7 @@ const AcolyteScreens = () => {
             />
             <Tab.Screen
               name="LAB"
-              children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID} />}
+              component={LabScreen}
               options={{
                 tabBarIcon: () => (
                   <Image
