@@ -83,7 +83,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
         })}>
                 <Tab.Screen
             name='home'
-            children={() => <HomeScreen role={userRole} />}
+            component={HomeScreen}
             options={{
                 
                 tabBarIcon: ({}) => (
@@ -98,7 +98,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
             />
             <Tab.Screen
             name="Proe"
-            children={() => <ProfileScreen2 profileAttributesToPrint={profileAttributes} />}
+            component={ProfileScreen2}
             options={{
                 tabBarIcon: ({}) => (
                     <Image
@@ -111,7 +111,7 @@ const IstvanScreens: React.FC<IstvanScreensProps> = ({ userRole, profileAttribut
             />
             <Tab.Screen
             name="Settings"
-            children={() => <SettingsScreen setIsLoggedIn={setIsLoggedIn} />}
+            component={SettingsScreen}
             options={{
                 
                 tabBarIcon: ({}) => (
