@@ -18,7 +18,7 @@ const IstvanScreens = () => {
     return (
         <NavigationContainer>
         <Tab.Navigator 
-        screenOptions={({ route }) => ({
+        screenOptions={() => ({
             tabBarStyle: {
                 backgroundColor: 'black',
                 height: height * 0.10, // Incremento en la altura para más espacio
