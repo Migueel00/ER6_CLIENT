@@ -14,8 +14,6 @@ const AcolyteScreens = () => {
   const { width, height } = Dimensions.get('window');
 
   return (
-    <AppContext.Consumer>
-      {({ setIsLoggedIn }: any) => (
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -97,9 +95,6 @@ const AcolyteScreens = () => {
             />
           </Tab.Navigator>
         </NavigationContainer>
-      )}
-    </AppContext.Consumer>
-  );
-};
+      )};
 
 export default AcolyteScreens;
