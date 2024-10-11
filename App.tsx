@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import { ProfileAttributes } from './components/profileScreen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -19,6 +18,7 @@ import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
+import { ProfileAttributes } from './components/profileScreen';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
