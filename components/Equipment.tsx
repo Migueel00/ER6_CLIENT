@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, Dimensions, SafeAreaView} from 'react-native';
 import styled from 'styled-components/native';
+import AppContext from '../helpers/context';
 
 // Obtén la imagen de fondo de los assets locales
 const backgroundImageURL = require('../assets/png/profileBackground.png');
@@ -10,93 +11,102 @@ const { width, height } = Dimensions.get('window');
 const newHeight = height * 0.7;
 
 const Equipment = () => {
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-        <BackgroundImage source={backgroundImageURL}>
-            <Container>
+        <AppContext.Consumer>
+            {({ player }: any) => {
+                console.log(player.inventory);
+                
+            return (
+                <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+                <BackgroundImage source={backgroundImageURL}>
+                    <Container>
 
-                <Header>Equipment</Header>
+                        <Header>Equipment</Header>
 
-                <ProfileSection>
-                    <TextContainer>
-                        <ProfileText>Profile</ProfileText>
-                        <ProfileSubText>Juggler</ProfileSubText>
-                    </TextContainer>
-                    <EquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </EquipmentContainer>
-                    <TextContainer>
-                        <ProfileText>Level</ProfileText>
-                        <ProfileSubText>11</ProfileSubText>
-                    </TextContainer>
-                </ProfileSection>
-
-
-                <MainEquipment>
-                <CircularEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </CircularEquipmentContainer>
-
-                    <LargeEquipmentContainer>
-                        <LargeEquipmentImage source={backgroundImageURL} />
-                    </LargeEquipmentContainer>
-
-                    <CircularEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </CircularEquipmentContainer>
-                </MainEquipment>
+                        <ProfileSection>
+                            <TextContainer>
+                                <ProfileText>Profile</ProfileText>
+                                <ProfileSubText>Juggler</ProfileSubText>
+                            </TextContainer>
+                            <EquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </EquipmentContainer>
+                            <TextContainer>
+                                <ProfileText>Level</ProfileText>
+                                <ProfileSubText>11</ProfileSubText>
+                            </TextContainer>
+                        </ProfileSection>
 
 
-                <EquipmentGrid>
+                        <MainEquipment>
+                        <CircularEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </CircularEquipmentContainer>
 
-                    <CircularEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </CircularEquipmentContainer>
+                            <LargeEquipmentContainer>
+                                <LargeEquipmentImage source={backgroundImageURL} />
+                            </LargeEquipmentContainer>
 
-                    <EquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </EquipmentContainer>
-
-                    <CircularEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </CircularEquipmentContainer>
-
-                    <PotionEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </PotionEquipmentContainer>
-
-                    <PotionEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </PotionEquipmentContainer>
-
-                    <PotionEquipmentContainer>
-                        <EquipmentImage source={backgroundImageURL} />
-                    </PotionEquipmentContainer>
-
-                </EquipmentGrid>
+                            <CircularEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </CircularEquipmentContainer>
+                        </MainEquipment>
 
 
-                <InfoSectionGrid>
+                        <EquipmentGrid>
 
-                    <InfoSection>
-                        <InfoText>Experience</InfoText>
-                        <InfoText> 17800 XP</InfoText>
-                    </InfoSection>
-                    
-                    <InfoSection>
-                        <InfoText>Next Level</InfoText>
-                        <InfoText> 19250 XP</InfoText>
-                    </InfoSection>
+                            <CircularEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </CircularEquipmentContainer>
 
-                    <InfoSection>
-                        <InfoText>Gold</InfoText>
-                        <InfoText>571</InfoText>
-                    </InfoSection>
-                </InfoSectionGrid>
+                            <EquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </EquipmentContainer>
 
-            </Container>
-        </BackgroundImage>
-        </SafeAreaView>
+                            <CircularEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </CircularEquipmentContainer>
+
+                            <PotionEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </PotionEquipmentContainer>
+
+                            <PotionEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </PotionEquipmentContainer>
+
+                            <PotionEquipmentContainer>
+                                <EquipmentImage source={backgroundImageURL} />
+                            </PotionEquipmentContainer>
+
+                        </EquipmentGrid>
+
+
+                        <InfoSectionGrid>
+
+                            <InfoSection>
+                                <InfoText>EXP</InfoText>
+                                <InfoText> 17800 XP</InfoText>
+                            </InfoSection>
+                            
+                            <InfoSection>
+                                <InfoText>Next LVL</InfoText>
+                                <InfoText> 19250 XP</InfoText>
+                            </InfoSection>
+
+                            <InfoSection>
+                                <InfoText>Gold</InfoText>
+                                <InfoText>571</InfoText>
+                            </InfoSection>
+                        </InfoSectionGrid>
+
+                    </Container>
+                </BackgroundImage>
+                </SafeAreaView>
+            );
+        }}
+        </AppContext.Consumer>
     );
 };
 
@@ -230,7 +240,7 @@ const InfoSectionGrid = styled.View`
 const InfoText = styled.Text`
     color: white;
     font-size: ${width * 0.045}px;
-    margin-vertical: ${newHeight * 0.005}px;
+    margin-vertical: ${newHeight * 0.002}px;
     
 `;
 
