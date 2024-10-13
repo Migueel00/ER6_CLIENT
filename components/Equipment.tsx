@@ -100,8 +100,10 @@ const Equipment = () => {
                             </InfoSection>
 
                             <InfoSection>
-                                <InfoText>Gold</InfoText>
-                                <InfoNumberText>571</InfoNumberText>
+                                <InfoText>GOLD</InfoText>
+                                <NextInfoContainer>
+                                    <InfoNumberText> 571</InfoNumberText>
+                                </NextInfoContainer>
                             </InfoSection>
                         </InfoSectionGrid>
 
@@ -150,7 +152,8 @@ const TextContainer = styled.View`
     border-color: #C19A6B;
     justify-content: center;
     align-items: center;
-    border-radius: ${width * 0.05}px; /* Redondeo */
+    border-radius: ${width * 0.05}px;
+    background-color: rgba(0,0,0,0.9);
 `;
 
 const ProfileText = styled.Text`
@@ -187,6 +190,7 @@ const EquipmentContainer = styled.View`
     align-items: center;
     margin-bottom: ${newHeight * 0.02}px;
     border-radius: ${width * 0.03}px;
+    background-color: rgba(0,0,0,0);
 `; 
 
 const CircularEquipmentContainer = styled.View`
@@ -198,6 +202,7 @@ const CircularEquipmentContainer = styled.View`
     align-items: center;
     margin-bottom: ${newHeight * 0.02}px;
     border-radius: ${width * 0.2}px;
+    background-color: rgba(0,0,0,0);
 `; 
 
 const PotionEquipmentContainer = styled.View`
@@ -209,11 +214,15 @@ const PotionEquipmentContainer = styled.View`
     align-items: center;
     margin-bottom: ${newHeight * 0.02}px;
     border-radius: ${width * 0.2}px;
+    background-color: rgba(0,0,0,0);
+
 `; 
 
 const LargeEquipmentContainer = styled(EquipmentContainer)`
     width: ${width * 0.35}px;
     height: ${width * 0.35}px;
+    background-color: rgba(0,0,0,0);
+
 `;
 
 const EquipmentImage = styled.Image`
@@ -235,7 +244,8 @@ const InfoSection = styled.View`
     border-radius: ${width * 0.03}px;
     width: ${width * 0.25}px;
     height: ${newHeight * 0.095}px;
-        justify-content: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.9);
 `;
 
 const InfoSectionGrid = styled.View`
