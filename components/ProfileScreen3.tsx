@@ -37,14 +37,14 @@ const ProfileScreen3 = () => {
                             screenOptions={{
                                 tabBarStyle: {
                                     backgroundColor: 'black',
-                                    height: height * 0.1, // Height for bottom tab bar
+                                    height: height * 0.09, // Height for bottom tab bar
                                     paddingBottom: 5, // Adds space at the bottom
                                 },
                                 tabBarIconStyle: {
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    width: 50, // Width for icons
-                                    height: 50, // Height for icons
+                                    width: height * 0.08, // Width for icons
+                                    height: height * 0.08, // Height for icons
                                 },
                                 tabBarShowLabel: false,
                                 headerShown: false,
@@ -83,8 +83,8 @@ const ProfileScreen3 = () => {
                                         <Image
                                             source={require('../assets/icons/fixed/profileIcon.png')}
                                             style={{
-                                                width: 70,
-                                                height: 70,
+                                                width: height * 0.09,
+                                                height: height * 0.09,
                                                 opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
                                                 resizeMode: 'contain',
                                                 margin: 0
