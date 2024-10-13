@@ -21,6 +21,8 @@ const ConnectionScreen = () => {
         socket.on('update', ({ playerId, isInsideLab }) => {
             const updatePlayers = players.map(player => player.id === playerId ? { ...player, isInsideLab } : player);
             
+            console.log(updatePlayers);
+            
             // Settear players
             setPlayers(updatePlayers);
 
@@ -35,7 +37,7 @@ const ConnectionScreen = () => {
 
     return (
         <AppContext.Consumer>
-            {({ players, setPlayers }: any) => {
+            {({ players}: any) => {
 
                 return (
                     <ImageBackground
@@ -49,7 +51,7 @@ const ConnectionScreen = () => {
                             <View style={styles.playersList}>
                                 {players.map((player: any) => (
                                     <View key={player.id} style={styles.playerItem}>
-                                        <Image source={{ uri: player.avatar }} style={{ width: width * 0.10, height: height * 0.05 }} />
+                                        <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
                                         <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
                                         <Icon
                                             name={player.isInsideLab ? 'circle' : 'circle-o'}
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginLeft: 10,
         width: '90%',
+        fontSize: 30
     },
     kaotikaFontHeads: {
         fontFamily: 'KochAltschrift',
