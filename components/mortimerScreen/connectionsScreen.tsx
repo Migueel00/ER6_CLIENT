@@ -31,17 +31,11 @@ const ConnectionScreen = () => {
         return () => {
             socket.off('update');
         };
-    }, [players, setPlayers]);
+    }, [setPlayers]);
 
     return (
         <AppContext.Consumer>
             {({ players, setPlayers }: any) => {
-
-                if(!isPlayersSet){
-                    setPlayers(players);
-                    setIsPlayersSet(true);
-                }
-
 
                 return (
                     <ImageBackground
