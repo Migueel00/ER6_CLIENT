@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const Equipment = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Equipment Content Here</Text>
+            <Text style={styles.text}>Equipment</Text>
         </View>
     );
 };
