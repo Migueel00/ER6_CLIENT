@@ -41,7 +41,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
       console.log(`Scanned ${codes.length} codes!`);
       Alert.alert(
         'QR Code Scanned', 
-        `Scanned code: ${codes[0].value}`, 
+        `Scanned user: ${codes[0].value.userEmail}`, 
         [
           {
             text: 'OK',
