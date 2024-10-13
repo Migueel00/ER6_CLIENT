@@ -88,19 +88,19 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginLeft: 10,
         width: '90%',
-        fontSize: 30
+        fontSize: Dimensions.get('window').width * 0.08
     },
     kaotikaFontHeads: {
         fontFamily: 'KochAltschrift',
-        fontSize: 40,
+        fontSize: Dimensions.get('window').width * 0.11,
         color: 'white',
         marginBottom: 0,
     },
     kaotikaFontHeads2: {
         fontFamily: 'KochAltschrift',
-        fontSize: 40,
+        fontSize: Dimensions.get('window').width * 0.12,
         color: 'red',
-        marginBottom: 0,
+        marginBottom: 20,
     },
     playersList: {
         flex: 1,
