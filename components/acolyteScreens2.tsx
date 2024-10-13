@@ -3,7 +3,7 @@ import { StyleSheet, Image, Dimensions, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
-import ProfileScreen2 from './profileScreen2';
+import ProfileScreen3 from './ProfileScreen3';
 import SettingsScreen from './settings/settingsScreen';
 import LabScreen from './labScreen';
 
@@ -11,41 +11,20 @@ const Tab = createMaterialTopTabNavigator();
 
 const AcolyteScreens = () => {
   const { height } = Dimensions.get('window');
-  const [swipeEnabled, setSwipeEnabled] = useState(false); // Start with swipe disabled
 
-  // Function to detect touch start position
-  const handleTouchStart = (event: any) => {
-    console.log("HANDLED");
-    
-    const touchY = event.nativeEvent.pageY;
-    console.log(touchY);
-    
-    // Enable swipe only if the touch starts in the top half of the screen
-    if (touchY < height / 2) {
-        console.log("TOP HALF OF THE SCREEN");
-        
-      setSwipeEnabled(true);
-    }
-  };
-
-  // Function to handle touch end
-  const handleTouchEnd = () => {
-    setSwipeEnabled(false); // Disable swipe on touch end
-  };
 
   return (
     <View 
       style={{ flex: 1 }} 
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd} // Disable swipe when touch ends
+
     >
       <NavigationContainer>
         <Tab.Navigator
-          screenOptions={{
-            swipeEnabled: swipeEnabled, // Dynamically enable or disable swiping
+          screenOptions={({ route }) => ({
+            swipeEnabled: true,
             tabBarStyle: {
               backgroundColor: 'black',
-              height: height * 0.10, // Height adjustment
+              height: height * 0.10,
               paddingBottom: 1,
             },
             tabBarIconStyle: {
@@ -65,7 +44,7 @@ const AcolyteScreens = () => {
               paddingHorizontal: 10,
               height: '100%',
             },
-          }}
+          })}
         >
           <Tab.Screen
             name="Home"
@@ -82,7 +61,7 @@ const AcolyteScreens = () => {
           />
           <Tab.Screen
             name="Profile"
-            component={ProfileScreen2}
+            component={ProfileScreen3}
             options={{
               tabBarIcon: () => (
                 <Image
