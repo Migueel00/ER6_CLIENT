@@ -1,6 +1,7 @@
 import AcolyteScreens from "./acolyteScreens";
 import MortimerScreens from "./mortimerScreen/mortimerScreens";
 import IstvanScreens from "./istvanScreens";
+import AcolyteScreens2 from "./acolyteScreens2";
 import React from "react";
 import { Text } from 'react-native';
 import AppContext from "../helpers/context";
@@ -31,7 +32,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
     return (
         <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
             {userRole === 'ACOLYTE' ? (
-                <AcolyteScreens
+                <AcolyteScreens2
                 />
             ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens
