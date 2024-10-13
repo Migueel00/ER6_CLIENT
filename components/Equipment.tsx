@@ -8,14 +8,14 @@ const backgroundImageURL = require('../assets/png/profileBackground.png');
 
 const { width, height } = Dimensions.get('window');
 
-const newHeight = height * 0.7;
+const newHeight = height * 0.96;
 
 const Equipment = () => {
 
     return (
         <AppContext.Consumer>
             {({ player }: any) => {
-                console.log(player.inventory);
+
                 
             return (
                 <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
@@ -87,17 +87,21 @@ const Equipment = () => {
 
                             <InfoSection>
                                 <InfoText>EXP</InfoText>
-                                <InfoText> 17800 XP</InfoText>
+                                <NextInfoContainer>
+                                    <InfoNumberText> 17800</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                </NextInfoContainer>
                             </InfoSection>
                             
                             <InfoSection>
                                 <InfoText>Next LVL</InfoText>
-                                <InfoText> 19250 XP</InfoText>
+                                <NextInfoContainer>
+                                    <InfoNumberText> 19250</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                </NextInfoContainer>
                             </InfoSection>
 
                             <InfoSection>
                                 <InfoText>Gold</InfoText>
-                                <InfoText>571</InfoText>
+                                <InfoNumberText>571</InfoNumberText>
                             </InfoSection>
                         </InfoSectionGrid>
 
@@ -125,17 +129,18 @@ const Container = styled.View`
 `;
 
 const Header = styled.Text`
-    font-size: ${width * 0.06}px;
+    font-size: ${width * 0.07}px;
     color: white;
     text-align: center;
     margin-bottom: ${newHeight * 0.02}px;
+    font-family: KochAltschrift;
 `;
 
 const ProfileSection = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: ${newHeight * 0.03}px;
+    margin-bottom: ${newHeight * 0.01}px;
 `;
 
 const TextContainer = styled.View`
@@ -150,18 +155,20 @@ const TextContainer = styled.View`
 
 const ProfileText = styled.Text`
     color: white;
-    font-size: ${width * 0.04}px;
+    font-size: ${width * 0.07}px;
+        font-family: KochAltschrift;
 `;
 
 const ProfileSubText = styled.Text`
     color: gold;
-    font-size: ${width * 0.045}px;
+    font-size: ${width * 0.06}px;
+    font-family: KochAltschrift;
 `;
 
 const MainEquipment = styled.View`
     justify-content: space-between;
     align-items: center;
-    margin-bottom: ${newHeight * 0.03}px;
+    margin-bottom: ${newHeight * 0.01}px;
     flex-direction: row;
 `;
 
@@ -227,7 +234,8 @@ const InfoSection = styled.View`
     border-color: gold;
     border-radius: ${width * 0.03}px;
     width: ${width * 0.25}px;
-    height: ${newHeight * 0.11}px;
+    height: ${newHeight * 0.095}px;
+        justify-content: center;
 `;
 
 const InfoSectionGrid = styled.View`
@@ -237,11 +245,35 @@ const InfoSectionGrid = styled.View`
     margin-right: ${width * 0.01}px;
 `;
 
+const NextInfoContainer = styled.View`
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-right: ${width * 0.01}px;
+`;
+
+const NextInfoText = styled.Text`
+color: white;
+font-size: ${width * 0.045}px;
+margin-vertical: ${newHeight * 0.002}px;
+font-family: KochAltschrift;
+top: ${newHeight * 0.01}px;
+`;
+
 const InfoText = styled.Text`
     color: white;
     font-size: ${width * 0.045}px;
     margin-vertical: ${newHeight * 0.002}px;
+    font-family: KochAltschrift;
     
+`;
+
+const InfoNumberText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07}px;
+    margin-vertical: ${-newHeight * 0.01}px;
+    font-family: KochAltschrift;
+    margin-horizontal: ${width * 0.01}px;
 `;
 
 export default Equipment;
