@@ -10,6 +10,7 @@ const PotionCreator = () => {
 
     const [ingredientsData, setIngredientsData] = useState(null);
 
+    // Se hara un get cada vez que se monte el PotionCreator
     useEffect(() => {
         const getIngredients = async () => {
             try {
