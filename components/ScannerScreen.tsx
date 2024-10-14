@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, Image, ImageBackground, Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CameraScreen from './cameraScreen';
-import { socket } from '../App';
+import AppContext from '../helpers/context';
 
 const ScannerScreen = () => {
     const {height, width} = Dimensions.get('window')
@@ -20,6 +20,8 @@ const ScannerScreen = () => {
         setCameraModalVisible(false);
     };
 
+    const socket = useContext(AppContext)?.socket;
+    
     useEffect(() => {
 
         // Cambiar isInsideLab cuando se recibe OK! desde el servidor

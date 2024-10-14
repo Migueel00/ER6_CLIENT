@@ -17,29 +17,29 @@ interface updateEvent {
 
 const ConnectionScreen = () => {
     const { height, width } = Dimensions.get('window');
-    const context = useContext(AppContext);
-
-
-    // const [players, setPlayers] = useState<Player[]>([]);
-    // useEffect(() => {
-    //     // Escuchar el evento
-    //     socket.on('update', ({ playerId  , isInsideLab } : updateEvent) => {
-    //         const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideLab } : player );
+    
+    const socket = useContext(AppContext)?.socket;
+    const players = useContext(AppContext)?.players!;
+    const setPlayers = useContext(AppContext)?.setPlayers;
+    useEffect(() => {
+        // Escuchar el evento
+        socket.on('update', ({ playerId  , isInsideLab } : updateEvent) => {
+            const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideLab } : player );
             
-    //         console.log(updatePlayers);
+            console.log(updatePlayers);
             
-    //         // Settear players
-    //         setPlayers(updatePlayers);
-    //         console.log("PLAYER ID" + playerId);
-    //         console.log("IS INSIDE LAB " + isInsideLab);
-    //         console.log("ENTRA AL EVENTO DE UPDATE");
-    //     });
+            // Settear players
+            setPlayers(updatePlayers);
+            console.log("PLAYER ID" + playerId);
+            console.log("IS INSIDE LAB " + isInsideLab);
+            console.log("ENTRA AL EVENTO DE UPDATE");
+        });
 
-    //     // Limpiar el evento socket
-    //     return () => {
-    //         socket.off('update');
-    //     };
-    // }, [setPlayers]);
+        // Limpiar el evento socket
+        return () => {
+            socket.off('update');
+        };
+    }, [setPlayers]);
 
     // useEffect(() => {
     //     // Escuchar el evento
