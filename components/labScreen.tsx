@@ -28,27 +28,34 @@ const LabScreen = () => {
         // Escucha el mensaje del servidor para cambiar isInsideLab
         context?.socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
-            // Cambiar el estado de isInsideLab al contrario del actual
-            setIsInsideLab(!isInsideLab);
+    
+            // Usa la forma funcional de setState para asegurarte de obtener el valor más reciente de isInsideLab
+            setIsInsideLab((prevIsInsideLab) => {
+                console.log("Estado anterior de isInsideLab:", prevIsInsideLab);
+    
+                // Cambia el estado de isInsideLab al valor contrario
+                return !prevIsInsideLab;
+            });
+    
             setModalVisible(false);
         });
-
+    
         return () => {
             context?.socket.off('ScanSuccess');
         };
     }, []);
+    
 
     // Actualiza el texto del botón y el fondo cada vez que cambie isInsideLab
     useEffect(() => {
+
+        console.log("isInsideLab CHANGED TO: ", isInsideLab);
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
         setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
-    }, [isInsideLab]);
+    }, [isInsideLab, setIsInsideLab]);
 
-    // Actualiza isInsideLab si el valor de player.isInsideLab cambia
-    useEffect(() => {
-        setIsInsideLab(context?.player.isInsideLab);
-    }, [context?.player.isInsideLab]);
+
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
@@ -68,7 +75,7 @@ const LabScreen = () => {
         playerID: context?.player.id
     };
 
-    console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));
+    //console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));
 
     return (
         <ImageBackground
