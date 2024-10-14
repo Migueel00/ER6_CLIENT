@@ -1,9 +1,11 @@
 import { Camera } from 'react-native-vision-camera';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useContext} from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner} from 'react-native-vision-camera';
-import { socket } from '../App';
 import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
+import AppContext from '../helpers/context';
+
+
 
 type CameraScreenProps = {
   onClose: () => void; // Nueva prop para cerrar el modal
@@ -34,6 +36,8 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
   const [isScanned, setIsScanned] = useState(false); // Estado para saber si ya se escaneó un código
   const [cameraRef, setCameraRef] = useState<Camera | null>(null);
+  const { userEmail, socket, player } : any = useContext(AppContext);
+
 
   const handleCodeScanned = (codes: any) => {
     if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
