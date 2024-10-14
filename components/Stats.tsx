@@ -1,35 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, Dimensions } from 'react-native';
-import * as Progress from 'react-native-progress';
+import { View, Text, StyleSheet, Dimensions} from 'react-native';
 import AppContext from '../helpers/context';
+import { ImageBackground } from 'react-native';
+import * as Progress from 'react-native-progress';
 
-const convertAttributesToPercentage = (profileAttributes: any) => {
-    return {
-        intelligence: profileAttributes.intelligence / 100,
-        dexterity: profileAttributes.dexterity / 100,
-        insanity: profileAttributes.insanity / 100,
-        charisma: profileAttributes.charisma / 100,
-        constitution: profileAttributes.constitution / 100,
-        strength: profileAttributes.strength / 100,
-    };
-};
+const Stats = () => {
 
-const ProfileScreen2 = () => {
     const { height, width } = Dimensions.get('window');
+
+    const convertAttributesToPercentage = (profileAttributes: any) => {
+        return {
+            intelligence: profileAttributes.intelligence / 100,
+            dexterity: profileAttributes.dexterity / 100,
+            insanity: profileAttributes.insanity / 100,
+            charisma: profileAttributes.charisma / 100,
+            constitution: profileAttributes.constitution / 100,
+            strength: profileAttributes.strength / 100,
+        };
+    };
 
     return (
         <AppContext.Consumer>
             {({ profileAttributes }: any) => {
                 const attributesToPrint = convertAttributesToPercentage(profileAttributes);
-
-                return (
-                    <ImageBackground 
+        return (
+            <ImageBackground 
                         source={require('../assets/png/profileBackground.png')}
                         style={[styles.background, { width: width, height: height }]}
                     >
                         <View style={[styles.container, { padding: height * 0.04 }]}>
                             <View style={styles.titleContainer}>
-                                <Text style={styles.titleText}>Character Profile</Text>
+                                <Text style={styles.titleText}>Character Stats</Text>
                             </View>
 
                             <View style={styles.progressContainer}>
@@ -81,8 +82,8 @@ const ProfileScreen2 = () => {
                             </View>
                         </View>
                     </ImageBackground>
-                );
-            }}
+        );
+    }}
         </AppContext.Consumer>
     );
 };
@@ -135,4 +136,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProfileScreen2;
+export default Stats;

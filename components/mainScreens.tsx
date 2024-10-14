@@ -1,6 +1,7 @@
 import AcolyteScreens from "./acolyteScreens";
 import MortimerScreens from "./mortimerScreen/mortimerScreens";
 import IstvanScreens from "./istvanScreens";
+import AcolyteScreens2 from "./acolyteScreens2";
 import React from "react";
 import { Text } from 'react-native';
 import AppContext from "../helpers/context";
@@ -27,36 +28,18 @@ interface MainScreenProps {
     socket: any;
 }
 
-const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn, socket }) => {
+const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, player, players, setPlayers, setIsLoggedIn, socket }) => {
 
     return (
-        <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
+        <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player, socket}}>
             {userRole === 'ACOLYTE' ? (
-                <AcolyteScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    userEmail={userEmail}
-                    socketID={socketID}
-                    player={player}
-                    players={players}
-                    setPlayers={setPlayers}
-                    setIsLoggedIn={setIsLoggedIn}
-                    socket={socket}
+                <AcolyteScreens2
                 />
             ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    players={players}
-                    
-                    setPlayers={setPlayers}
-                    setIsLoggedIn={setIsLoggedIn}
                 />
             ) : userRole === 'ISTVAN' ? (
                 <IstvanScreens
-                    userRole={userRole}
-                    profileAttributes={profileAttributes}
-                    setIsLoggedIn={setIsLoggedIn}
                 />
             ) : (
                 <Text>No role assigned</Text>

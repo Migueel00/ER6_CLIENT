@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import { ProfileAttributes } from './components/profileScreen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -19,6 +18,7 @@ import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
+import { ProfileAttributes } from './components/profileScreen';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -99,18 +99,6 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  // const storeData = async (value: string, email: any) => {
-  //   try {
-  //     //await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
-  //     //console.log("Se va a insertar el siguiente rol: " + value);
-  //     await AsyncStorage.setItem("my-role", value);
-  //     await AsyncStorage.setItem('isVerified', 'true');
-  //     // await AsyncStorage.setItem('email', email);
-  //     console.log("Rol almacenado correctamente");
-  //   } catch (error) {
-  //     console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
-  //   }
-  // };
 
   const verifyUser = async () => {
     console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
@@ -249,7 +237,9 @@ function App(): React.JSX.Element {
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
+
       setPlayer(player);
+      player.role = "MORTIMER";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
       console.log("EL ROL ASIGNADO ES: " + player.role);
