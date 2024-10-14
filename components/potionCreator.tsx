@@ -4,9 +4,6 @@ import { Dimensions, SafeAreaView, ImageBackground, StyleSheet } from 'react-nat
 // Obtén la imagen de fondo de los assets locales
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 
-// Construir la URL con el email del alumno
-const kaotikaIngredients = `https://kaotika-server.fly.dev/players/email/`;
-
 const { width, height } = Dimensions.get('window');
 
 const PotionCreator = () => {
