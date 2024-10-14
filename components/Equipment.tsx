@@ -5,6 +5,7 @@ import AppContext from '../helpers/context';
 
 // Obtén la imagen de fondo de los assets locales
 const backgroundImageURL = require('../assets/png/profileBackground.png');
+const kaotikaAPI = 'https://kaotika.vercel.app/';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,6 +17,8 @@ const Equipment = () => {
         <AppContext.Consumer>
             {({ player }: any) => {
 
+                console.log(player.profile.name);
+                const nextLevelExp = 1750 * (player.level);
                 
             return (
                 <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
@@ -25,31 +28,35 @@ const Equipment = () => {
                         <Header>Equipment</Header>
 
                         <ProfileSection>
+
                             <TextContainer>
                                 <ProfileText>Profile</ProfileText>
-                                <ProfileSubText>Juggler</ProfileSubText>
+                                <ProfileSubText>{player.profile.name}</ProfileSubText>
                             </TextContainer>
+
                             <EquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.helmet.image }} />
                             </EquipmentContainer>
+
                             <TextContainer>
                                 <ProfileText>Level</ProfileText>
-                                <ProfileSubText>11</ProfileSubText>
+                                <ProfileSubText>{player.level}</ProfileSubText>
                             </TextContainer>
+
                         </ProfileSection>
 
 
                         <MainEquipment>
                         <CircularEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.weapon.image }} />
                             </CircularEquipmentContainer>
 
                             <LargeEquipmentContainer>
-                                <LargeEquipmentImage source={backgroundImageURL} />
+                                <LargeEquipmentImage source={{ uri: kaotikaAPI + player.equipment.armor.image }} />
                             </LargeEquipmentContainer>
 
                             <CircularEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage  source={{ uri: kaotikaAPI + player.equipment.shield.image }} />
                             </CircularEquipmentContainer>
                         </MainEquipment>
 
@@ -57,27 +64,27 @@ const Equipment = () => {
                         <EquipmentGrid>
 
                             <CircularEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.artifact.image }} />
                             </CircularEquipmentContainer>
 
                             <EquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.boot.image }} />
                             </EquipmentContainer>
 
                             <CircularEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.ring.image }} />
                             </CircularEquipmentContainer>
 
                             <PotionEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.healing_potion.image }} />
                             </PotionEquipmentContainer>
 
                             <PotionEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.antidote_potion.image }} />
                             </PotionEquipmentContainer>
 
                             <PotionEquipmentContainer>
-                                <EquipmentImage source={backgroundImageURL} />
+                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.enhancer_potion.image }}/>
                             </PotionEquipmentContainer>
 
                         </EquipmentGrid>
@@ -88,21 +95,21 @@ const Equipment = () => {
                             <InfoSection>
                                 <InfoText>EXP</InfoText>
                                 <NextInfoContainer>
-                                    <InfoNumberText> 17800</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                <InfoNumberText>{player.experience}</InfoNumberText><NextInfoText>XP</NextInfoText>
                                 </NextInfoContainer>
                             </InfoSection>
                             
                             <InfoSection>
                                 <InfoText>Next LVL</InfoText>
                                 <NextInfoContainer>
-                                    <InfoNumberText> 19250</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                    <InfoNumberText> {nextLevelExp}</InfoNumberText><NextInfoText>XP</NextInfoText>
                                 </NextInfoContainer>
                             </InfoSection>
 
                             <InfoSection>
                                 <InfoText>GOLD</InfoText>
                                 <NextInfoContainer>
-                                    <InfoNumberText> 571</InfoNumberText>
+                                    <InfoNumberText> {player.gold}</InfoNumberText>
                                 </NextInfoContainer>
                             </InfoSection>
                         </InfoSectionGrid>
@@ -131,7 +138,7 @@ const Container = styled.View`
 `;
 
 const Header = styled.Text`
-    font-size: ${width * 0.07}px;
+    font-size: ${width * 0.08}px;
     color: white;
     text-align: center;
     margin-bottom: ${newHeight * 0.02}px;
@@ -240,7 +247,7 @@ const InfoSection = styled.View`
     flex-direction: column;
     align-items: center;
     border-width: 2px;
-    border-color: gold;
+    border-color: #C19A6B;
     border-radius: ${width * 0.03}px;
     width: ${width * 0.25}px;
     height: ${newHeight * 0.095}px;

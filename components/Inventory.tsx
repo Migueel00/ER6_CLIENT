@@ -36,7 +36,7 @@ const Equipment = () => {
         return items[index] || null; // Asignamos un objeto del inventario o null si no hay
     });
 
-    console.log(gridItems[0].image);
+    //console.log(gridItems[0].image);
     
 
     return (
@@ -46,8 +46,8 @@ const Equipment = () => {
                 <Grid>
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
-                            {item ? (
-                                <ItemImage source={{ uri: item.image }} />
+                            {item ? (                          
+                                <ItemImage source={{ uri: 'https://kaotika.vercel.app/' + item.image }} />
                             ) : (
                                 <EmptyItem />
                             )}
@@ -113,7 +113,7 @@ const ItemImage = styled.Image`
 const EmptyItem = styled.View`
     width: 80%; /* Mismo tamaño que la imagen */
     height: 80%;
-    background-color: rgba(255, 255, 255, 0.2); /* Color de fondo opcional para celdas vacías */
+    background-color: rgba(255, 255, 255, 0); /* Color de fondo opcional para celdas vacías */
     border-radius: 5px; /* Bordes redondeados para las celdas vacías */
 `;
 
