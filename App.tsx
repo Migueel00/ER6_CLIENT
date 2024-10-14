@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import type { PropsWithChildren } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
@@ -37,9 +37,9 @@ function App(): React.JSX.Element {
 
   const [isVerified, setIsVerified] = useState(false);
   const isDarkMode = useColorScheme() === 'dark';
-  const [userSocket, setUserSocket] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userRole, setUserRole] = useState("");
+  const [userSocket, setUserSocket] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [userRole, setUserRole] = useState<string>("") ;
   const [profileData, setProfileData] = useState("");
   const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
@@ -66,8 +66,9 @@ function App(): React.JSX.Element {
     role:         string
   }
 
-  const [players, setPlayers]       = useState<Player[]>([]);
-  const [player, setPlayer]         = useState<Player>();
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [player, setPlayer] = useState<Player>();
+
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -311,26 +312,26 @@ function App(): React.JSX.Element {
   }
 
   return (
-    <AppContext.Provider value={{userRole:{userRole} , profileAttributes:{profileAttributes}, userEmail:{userEmail}, 
-                                socketID:{userSocket}, player:{player}, players:{players}, setPlayers:{setPlayers},setIsLoggedIn:{setIsLoggedIn , socket: {socket}}}}>
-
+    <AppContext.Provider 
+      value={{   
+        userRole:userRole, 
+        profileAttributes:profileAttributes,
+        userEmail:userEmail,
+        socketID:userSocket, 
+        player:player!,
+        players:players,
+        setPlayers:setPlayers,
+        setIsLoggedIn:setIsLoggedIn ,
+        socket: socket,
+      }}>
+    
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
       {isLoggedIn ? (
-        <MainScreens 
-          userRole={userRole} 
-          profileAttributes={profileAttributes} 
-          userEmail={userEmail} 
-          socketID={userSocket} 
-          player={player} 
-          players={players} 
-          setPlayers={setPlayers} 
-          setIsLoggedIn={setIsLoggedIn}
-          socket={socket} 
-        />
+        <MainScreens/>
       ) : (
         <ImageBackground 
         source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees

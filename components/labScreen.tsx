@@ -12,10 +12,13 @@ const outsideLabImage = require('../assets/png/LabEntrance.png');
 
 const LabScreen = () => {
     const { height, width } = Dimensions.get('window');
-    const { userEmail, socket, player } : any = useContext(AppContext);
+    const context = useContext(AppContext);
+
+    
+    
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
+    const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
     const [modalVisible, setModalVisible] = useState(false);
     const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry");
     const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
@@ -23,7 +26,7 @@ const LabScreen = () => {
 
     useEffect(() => {
         // Escucha el mensaje del servidor para cambiar isInsideLab
-        socket.on('ScanSuccess', (message: string) => {
+        context?.socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
             // Cambiar el estado de isInsideLab al contrario del actual
             setIsInsideLab(!isInsideLab);
@@ -31,7 +34,7 @@ const LabScreen = () => {
         });
 
         return () => {
-            socket.off('ScanSuccess');
+            context?.socket.off('ScanSuccess');
         };
     }, []);
 
@@ -44,8 +47,8 @@ const LabScreen = () => {
 
     // Actualiza isInsideLab si el valor de player.isInsideLab cambia
     useEffect(() => {
-        setIsInsideLab(player.isInsideLab);
-    }, [player.isInsideLab]);
+        setIsInsideLab(context?.player.isInsideLab);
+    }, [context?.player.isInsideLab]);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
@@ -60,9 +63,9 @@ const LabScreen = () => {
     };
 
     const qrValue = {
-        userEmail: userEmail,
-        socketId: socket.id,
-        playerID: player._id
+        userEmail: context?.player.email,
+        socketId: context?.socketID,
+        playerID: context?.player.id
     };
 
     console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));

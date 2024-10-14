@@ -16,23 +16,12 @@ interface Player {
     role:         string
 }
 
-interface MainScreenProps {
-    userRole: string;
-    profileAttributes: any;
-    userEmail: string;
-    socketID: string;
-    player: any;
-    players:  Player[];
-    setPlayers: (players: Player[]) => void;
-    setIsLoggedIn: any;
-    socket: any;
-}
 
-const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, player, players, setPlayers, setIsLoggedIn, socket }) => {
+const MainScreens = () => {
 
     return (
-        <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player, socket}}>
-            {userRole === 'ACOLYTE' ? (
+            <>
+            userRole === 'ACOLYTE' ? (
                 <AcolyteScreens2
                 />
             ) : userRole === 'MORTIMER' ? (
@@ -43,8 +32,9 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                 />
             ) : (
                 <Text>No role assigned</Text>
-            )}
-        </AppContext.Provider>
+            )
+            </>
+
     );
 }
 
