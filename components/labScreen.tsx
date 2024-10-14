@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../helpers/context';
@@ -12,19 +12,21 @@ const insideLabImage = require('../assets/png/insideLab.png');
 const outsideLabImage = require('../assets/png/LabEntrance.png');
 
 const LabScreen = () => {
-
     const { height, width } = Dimensions.get('window');
+    const { userEmail, socketID, player } : any = useContext(AppContext);
+
+    // Inicializa el estado isInsideLab con el valor de player.isInsideLab
+    const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
     const [modalVisible, setModalVisible] = useState(false);
-    const [isInsideLab, setIsInsideLab] = useState(false);
     const [buttonText, setButtonText] = useState(isInsideLab ? "Lab Exit" : "Lab Entry");
     const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
     const [labBackgroundImage, setLabBackgroundImage] = useState(isInsideLab ? insideLabImage : outsideLabImage);
 
     useEffect(() => {
-        // Cambiar isInsideLab cuando se recibe OK! desde el servidor
+        // Escucha el mensaje del servidor para cambiar isInsideLab
         socket.on('ScanSuccess', (message: string) => {
             console.log("Mensaje del servidor:", message);
-            // Cambiar el estado de isInsideLab
+            // Cambiar el estado de isInsideLab al contrario del actual
             setIsInsideLab(!isInsideLab);
             setModalVisible(false);
         });
@@ -32,21 +34,24 @@ const LabScreen = () => {
         return () => {
             socket.off('ScanSuccess');
         };
-    }, [isInsideLab]);
+    }, []);
 
-    // Actualiza el texto del boton segun el estado
+    // Actualiza el texto del botón y el fondo cada vez que cambie isInsideLab
     useEffect(() => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
         setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
     }, [isInsideLab]);
 
-    // Se controlara cuando se muestra o no el modal
+    // Actualiza isInsideLab si el valor de player.isInsideLab cambia
+    useEffect(() => {
+        setIsInsideLab(player.isInsideLab);
+    }, [player.isInsideLab]);
+
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
 
-    // Funcion para gestionar la accion del boton
     const handleButtonPress = () => {
         if (isInsideLab) {
             setModalVisible(!modalVisible);
@@ -55,72 +60,66 @@ const LabScreen = () => {
         }
     };
 
+    const qrValue = {
+        userEmail: userEmail,
+        socketId: socketID,
+        playerID: player._id
+    };
+
+    console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));
+
     return (
-        <AppContext.Consumer>
-            {({ userEmail, socketID, player }: any) => {
-                const qrValue = {
-                    userEmail: userEmail,
-                    socketId: socketID,
-                    playerID: player._id
-                };
+        <ImageBackground
+            source={labBackgroundImage}
+            style={[styles.background, { width: width, height: height }]}
+        >
+            <View style={styles.container}>
+                <Text style={styles.kaotikaFont}>{screenText}</Text>
 
-                console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));
-
-                return (
+                <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
                     <ImageBackground
-                        source={labBackgroundImage}
-                        style={[styles.background, { width: width, height: height }]}
+                        source={buttonImage}
+                        style={styles.buttonImageBackground}
+                        resizeMode="cover"
                     >
-                        <View style={styles.container}>
-                            <Text style={styles.kaotikaFont}>{screenText}</Text>
-
-                            <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
-                                <ImageBackground
-                                    source={buttonImage}
-                                    style={styles.buttonImageBackground}
-                                    resizeMode="cover"
-                                >
-                                    <Text style={styles.kaotikaButton}>{buttonText}</Text>
-                                </ImageBackground>
-                            </TouchableOpacity>
-
-                            <Modal
-                                visible={modalVisible}
-                                transparent={true}
-                                animationType="fade"
-                                onRequestClose={toggleModal}
-                            >
-                                <View style={styles.modalContainer}>
-                                    <ImageBackground
-                                        source={qrImage}
-                                        style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4 }]}
-                                        resizeMode="cover"
-                                    >
-                                        <QRCode
-                                            value={qrValue ? JSON.stringify(qrValue) : "No email available"}
-                                            size={width * 0.23}
-                                            logoBackgroundColor='transparent'
-                                            color='#00BFAE'
-                                            backgroundColor='black'
-                                        />
-                                    </ImageBackground>
-
-                                    <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
-                                        <ImageBackground
-                                            source={buttonImage}
-                                            style={styles.buttonImageBackground}
-                                            resizeMode="cover"
-                                        >
-                                            <Text style={styles.kaotikaButton}>Hide your medalion</Text>
-                                        </ImageBackground>
-                                    </TouchableOpacity>
-                                </View>
-                            </Modal>
-                        </View>
+                        <Text style={styles.kaotikaButton}>{buttonText}</Text>
                     </ImageBackground>
-                );
-            }}
-        </AppContext.Consumer>
+                </TouchableOpacity>
+
+                <Modal
+                    visible={modalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={toggleModal}
+                >
+                    <View style={styles.modalContainer}>
+                        <ImageBackground
+                            source={qrImage}
+                            style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4 }]}
+                            resizeMode="cover"
+                        >
+                            <QRCode
+                                value={qrValue ? JSON.stringify(qrValue) : "No email available"}
+                                size={width * 0.23}
+                                logoBackgroundColor='transparent'
+                                color='#00BFAE'
+                                backgroundColor='black'
+                            />
+                        </ImageBackground>
+
+                        <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
+                            <ImageBackground
+                                source={buttonImage}
+                                style={styles.buttonImageBackground}
+                                resizeMode="cover"
+                            >
+                                <Text style={styles.kaotikaButton}>Hide your medalion</Text>
+                            </ImageBackground>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </View>
+        </ImageBackground>
     );
 };
 
