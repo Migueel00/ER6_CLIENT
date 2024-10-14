@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { socket } from '../../App';
+
 
 interface Player {
     socketId:     string,
@@ -10,16 +10,17 @@ interface Player {
     isInsideLab:  boolean,
     avatar:       string,
     id:           string,
-    role:         string
+    role:         string,
 }
 
 
 type ConnectionScreenProps = {
     players: Player[];
     setPlayers: (players: Player[]) => void;
+    socket: any;
 }
 
-const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}) => {
+const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers, socket}) => {
     const {height, width} = Dimensions.get('window')
     useEffect(() => {
 
@@ -30,7 +31,7 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
             // Settear players
             setPlayers(updatePlayers);
 
-            console.log("ENTRA AL EVENTO DE UPDATE")
+            console.log("ENTRA AL EVENTO DE UPDATE");
 
         });
 
@@ -39,7 +40,6 @@ const ConnectionScreen: React.FC<ConnectionScreenProps> = ({players, setPlayers}
             socket.off('update');
         }
     }, [players, setPlayers]);
-    // circle-dot
 
     return (
         <ImageBackground

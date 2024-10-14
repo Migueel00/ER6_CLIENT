@@ -28,9 +28,10 @@ type AcolyteScreensProps = {
   players:  Player[];
   setPlayers: (players: Player[]) => void;
   setIsLoggedIn: any;
+  socket: any;
 };
 
-const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, setIsLoggedIn}) => {
+const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttributes , userEmail, socketID, player, setIsLoggedIn, socket}) => {
   const {width, height} = Dimensions.get('window');
 
   return (
@@ -107,7 +108,7 @@ const AcolyteScreens: React.FC<AcolyteScreensProps> = ({ userRole, profileAttrib
         />
         <Tab.Screen
           name="LAB"
-          children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID}/>}
+          children={() => <LabScreen userEmail={userEmail} player={player} socketID={socketID} socket={socket}/>}
           options={{
             
             tabBarIcon: ({}) => (

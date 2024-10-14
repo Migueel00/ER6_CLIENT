@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, Button, TouchableOpacity, LogBox, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { socket } from '../App';
 
 const kaotikaImage = require('../assets/png/KAOTIKA_BLOOD.png');
 const buttonImage = require('../assets/png/button1.png');
@@ -14,10 +13,11 @@ type LabScreenProps = {
     userEmail: any,
     socketID: String,
     player:  any,
-    
+    socket: any
 }
 
-const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player}) => {
+const LabScreen: React.FC<LabScreenProps> = ({userEmail, socketID, player, socket
+}) => {
     const {height, width} = Dimensions.get('window')
     const [modalVisible, setModalVisible] = useState(false);
     const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);

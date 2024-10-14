@@ -12,7 +12,7 @@ import { ProfileAttributes } from './components/profileScreen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 import { searchAndIfDontExistPost } from "./src/API/get&post";
 import { getAllPlayers } from './src/API/getAllPlayers';
 import { searchByEmail } from './src/API/searchByEmail';
@@ -30,8 +30,6 @@ GoogleSignin.configure({
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
-
-export const socket = io('http://10.70.0.139:3000');
 
 const {width, height} = Dimensions.get('window');
 
@@ -55,6 +53,7 @@ function App(): React.JSX.Element {
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
+  const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
 
 
   interface Player {
@@ -86,7 +85,7 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     SplashScreen.hide();
-    }, []);
+  }, []);
     
 
   // Simular obtener los datos del perfil
@@ -94,25 +93,24 @@ function App(): React.JSX.Element {
     setProfileAttributes(profileAttributes);
     }, [profileAttributes]);
 
-
   const Tab = createMaterialTopTabNavigator();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const storeData = async (value: string, email: any) => {
-    try {
-      //await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
-      //console.log("Se va a insertar el siguiente rol: " + value);
-      await AsyncStorage.setItem("my-role", value);
-      await AsyncStorage.setItem('isVerified', 'true');
-      // await AsyncStorage.setItem('email', email);
-      console.log("Rol almacenado correctamente");
-    } catch (error) {
-      console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
-    }
-  };
+  // const storeData = async (value: string, email: any) => {
+  //   try {
+  //     //await AsyncStorage.clear(); // Asegúrate de que esta línea es necesaria, pues borra todo el almacenamiento
+  //     //console.log("Se va a insertar el siguiente rol: " + value);
+  //     await AsyncStorage.setItem("my-role", value);
+  //     await AsyncStorage.setItem('isVerified', 'true');
+  //     // await AsyncStorage.setItem('email', email);
+  //     console.log("Rol almacenado correctamente");
+  //   } catch (error) {
+  //     console.log("ERROR EN LA INSERCIÓN A ASYNCSTORAGE: " + error);
+  //   }
+  // };
 
   const verifyUser = async () => {
     console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
@@ -139,7 +137,7 @@ function App(): React.JSX.Element {
     const idToken = idTokenResult?.token;
 
     // Envía el idToken al servidor
-    const fireBaseResponse = await fetch('http://10.70.0.139:3000/verify-token', {
+    const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -161,39 +159,42 @@ function App(): React.JSX.Element {
     }
   }
 
-  useEffect(() => {
+  const handleSockets = ()=> {
+    const socket = io('https://er6-staging-server.onrender.com'); 
+    setSocket(socket);
+
     // Conectar al socket
     socket.on('connect', () => {
       console.log('Conectado al servidor de Socket.IO');
-      console.log('El SOCKET DE ESTA CONEXION ES:' + socket);
 
-      const userSocketID : any = socket.id;
-      
-      setUserSocket(userSocketID);
-      console.log("NEW USER SOCKET ID IS: " + userSocketID);
-      
-      console.log('El socketID de esta conexión es: ' + socket.id);
-      
+      const socketId  : string = socket.id as string;
+
+      setUserSocket(socketId);
+
+      console.log('El socketID de esta conexion es: ' + socket.id);
     });
 
-    // Manejo de la desconexión
-    socket.on('disconnect', () => {
-      console.log('Desconectado del servidor de Socket.IO');
-    });
+    // Desconexion
+    socket.on('disconnect', ()=> {
+      console.log('Desconectado del servidor de Socket ');
+    })
 
-    // Limpiar la conexión al desmontar el componente
+    // Limpiar la conexion al desmontar el componente
     return () => {
       socket.off('connect');
       socket.off('disconnect');
       socket.disconnect();
-    };
-  }, []);
+    }
+
+  }
 
   const handleButtonPress = async () => {
+
     try {
       setLoading(true);
       setIsSpinner(true);
       setError(null);
+      handleSockets()
 
       await checkLoginStatus();
 
@@ -243,7 +244,7 @@ function App(): React.JSX.Element {
 
     
       const playerDataToPost    = profileData.data;
-      playerDataToPost.socketId = socket.id;
+      playerDataToPost.socketId = socket?.id;
       
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
@@ -321,7 +322,7 @@ function App(): React.JSX.Element {
 
   return (
     <AppContext.Provider value={{userRole:{userRole} , profileAttributes:{profileAttributes}, userEmail:{userEmail}, 
-                                socketID:{userSocket}, player:{player}, players:{players}, setPlayers:{setPlayers},setIsLoggedIn:{setIsLoggedIn}}}>
+                                socketID:{userSocket}, player:{player}, players:{players}, setPlayers:{setPlayers},setIsLoggedIn:{setIsLoggedIn , socket: {socket}}}}>
 
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar
@@ -337,7 +338,8 @@ function App(): React.JSX.Element {
           player={player} 
           players={players} 
           setPlayers={setPlayers} 
-          setIsLoggedIn={setIsLoggedIn} 
+          setIsLoggedIn={setIsLoggedIn}
+          socket={socket} 
         />
       ) : (
         <ImageBackground 
@@ -361,7 +363,7 @@ function App(): React.JSX.Element {
                   
                 </View>
 
-                  <TouchableOpacity onPress={handleButtonPress} style={styles.overlayButton}>
+                  <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
                       <Text style={styles.kaotikaFont}>Sign in with google</Text>
                   </TouchableOpacity>
 

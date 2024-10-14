@@ -23,10 +23,11 @@ interface MainScreenProps {
     player: any;
     players:  Player[];
     setPlayers: (players: Player[]) => void;
-    setIsLoggedIn: any
+    setIsLoggedIn: any;
+    socket: any;
 }
 
-const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn }) => {
+const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, userEmail, socketID, player, players, setPlayers, setIsLoggedIn, socket }) => {
 
     return (
         <AppContext.Provider value={{ userRole, profileAttributes, setIsLoggedIn, players, setPlayers, userEmail, player,}}>
@@ -40,6 +41,7 @@ const MainScreens: React.FC<MainScreenProps> = ({ userRole, profileAttributes, u
                     players={players}
                     setPlayers={setPlayers}
                     setIsLoggedIn={setIsLoggedIn}
+                    socket={socket}
                 />
             ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens
