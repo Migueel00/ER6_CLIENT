@@ -6,6 +6,7 @@ import { socket } from '../App';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Equipment from './Equipment';
+import PotionCreator from './potionCreator';
 
 const buttonImage = require('../assets/png/button1.png');
 const qrImage = require('../assets/png/epicQR3.png');
@@ -166,7 +167,7 @@ const LabScreen = () => {
         />
         <Tab.Screen
             name="Potion Creator"
-            component={Equipment}
+            component={PotionCreator}
             options={{
             tabBarIcon: ({ focused }) => (
                 <Image
