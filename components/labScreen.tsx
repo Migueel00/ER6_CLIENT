@@ -30,12 +30,7 @@ const LabScreen = () => {
             console.log("Mensaje del servidor:", message);
     
             // Usa la forma funcional de setState para asegurarte de obtener el valor más reciente de isInsideLab
-            setIsInsideLab((prevIsInsideLab) => {
-                console.log("Estado anterior de isInsideLab:", prevIsInsideLab);
-    
-                // Cambia el estado de isInsideLab al valor contrario
-                return !prevIsInsideLab;
-            });
+            setIsInsideLab(!isInsideLab);
     
             setModalVisible(false);
         });
@@ -43,7 +38,7 @@ const LabScreen = () => {
         return () => {
             context?.socket.off('ScanSuccess');
         };
-    }, []);
+    }, [isInsideLab]);
     
 
     // Actualiza el texto del botón y el fondo cada vez que cambie isInsideLab
@@ -53,7 +48,7 @@ const LabScreen = () => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
         setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
-    }, [isInsideLab, setIsInsideLab]);
+    }, [isInsideLab]);
 
 
 
