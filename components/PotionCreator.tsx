@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, SafeAreaView, ImageBackground, StyleSheet } from 'react-native';
+import AppContext from '../helpers/context';
 
 // Obtén la imagen de fondo de los assets locales
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
@@ -9,6 +10,9 @@ const { width, height } = Dimensions.get('window');
 const PotionCreator = () => {
 
     const [ingredientsData, setIngredientsData] = useState(null);
+    const context = useContext(AppContext);
+
+    const userRole = context?.player.role
 
     // Se hara un get cada vez que se monte el PotionCreator
     useEffect(() => {
@@ -32,8 +36,21 @@ const PotionCreator = () => {
                     image,
                     type
                 }));
-                
+
                 setIngredientsData(ingredients);
+
+                if (userRole === 'ACOLYTE') {
+
+                    const acolyteIngredients = ingredients.filter(ingredient =>
+                        ingredient.effects.some(effect => effect.includes('restore'))
+                    );
+
+                    console.log("INGREDIENTES ACOLYTE:");
+                    
+                    console.log(acolyteIngredients);
+                    
+                    
+                }
                 
             } catch (error){
                 console.log(error);
