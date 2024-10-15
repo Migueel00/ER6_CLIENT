@@ -59,6 +59,9 @@ export default class Cauldron {
     }
 
     private createNonCommonPotion(allEffects: string[]): Potion {
+
+        console.log("SE VA A CREAR UN ANTIDOTE / POISON ");
+
         const hasRestore = allEffects.some(effect => effect.includes("restore"));
         const hasDamage = allEffects.some(effect => effect.includes("damage"));
 
@@ -69,12 +72,12 @@ export default class Cauldron {
             return new Poison();
         }
 
-        return new FailedPotion("Failed Potion", 0, 0);
+        return new FailedPotion("Failed Potion", 0);
     }
 
     private createHitPointsPotion(hitPointsEffects: string[], ingredients: Ingredient[]): Potion {
 
-        console.log("SE VA A CREAR UN HITPOINT POTION");
+        console.log("SE VA A CREAR UN ESSENCE / STENCH POTION");
 
         const minimumEffect = this.findMinimumEffect(ingredients);
         console.log("MINIMUM EFFECT");
@@ -123,13 +126,13 @@ export default class Cauldron {
         const hasDecrease = hitPointsEffects.some(effect => effect.includes("decrease"));
 
         if (hasIncrease) {
-            return new Essence("Essence of " + modifierName + "heal", potionValue, 1);
+            return new Essence("Essence of " + modifierName + "heal", potionValue);
         }
         if (hasDecrease) {
-            return new Stench();
+            return new Stench("Stench of " + modifierName + "damage", potionValue);
         }
 
-        return new FailedPotion("Failed Potion", 0, 0);
+        return new FailedPotion("Failed Potion", 0);
     }
 
     private createPotionFromEqualEffects(effects: string[], ingredients: Ingredient[]): Potion {
@@ -141,7 +144,7 @@ export default class Cauldron {
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
 
         if (!matchingAttribute) {
-            return new FailedPotion("Failed Potion", 0, 0);
+            return new FailedPotion("Failed Potion", 0);
         }
 
         const modifier = this.determineModifier(effects);
