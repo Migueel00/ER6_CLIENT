@@ -9,7 +9,8 @@ const { width, height } = Dimensions.get('window');
 
 const PotionCreator = () => {
 
-    const [ingredientsData, setIngredientsData] = useState(null);
+    const [acolyteIngredients, setAcolyteIngredients] = useState(null);
+    const [villainIngredients, setVillainIngredients] = useState(null);
     const context = useContext(AppContext);
 
     const userRole = context?.player.role
@@ -37,19 +38,22 @@ const PotionCreator = () => {
                     type
                 }));
 
-                setIngredientsData(ingredients);
+                switch (userRole){
+                    case 'ACOLYTE':
+                        const acolyteIngredients = ingredients.filter(ingredient =>
+                            ingredient.effects.some(effect => effect.includes('restore'))
+                        );
+    
+                        setAcolyteIngredients(acolyteIngredients);
+                        break;
 
-                if (userRole === 'ACOLYTE') {
-
-                    const acolyteIngredients = ingredients.filter(ingredient =>
-                        ingredient.effects.some(effect => effect.includes('restore'))
-                    );
-
-                    console.log("INGREDIENTES ACOLYTE:");
-                    
-                    console.log(acolyteIngredients);
-                    
-                    
+                    case 'VILLAIN':
+                        const villainIngredients = ingredients.filter(ingredient =>
+                            ingredient.effects.some(effect => effect.includes('damage'))
+                        );
+    
+                        setVillainIngredients(villainIngredients);
+                        break;
                 }
                 
             } catch (error){
