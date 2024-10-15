@@ -20,8 +20,18 @@ const PotionCreator = () => {
                     throw new Error('Error en la respuesta de la API');
                 }
 
-                const jsonData = await response.json();
+                let jsonData = await response.json();
 
+                // Mapeo
+                const ingredients = jsonData.data.map(({ _id, name, description, value, effects, image, type }: any) => ({
+                    id: _id,
+                    name,
+                    description,
+                    value,
+                    effects,
+                    image,
+                    type
+                }));
                 setIngredientsData(jsonData);
                 
             } catch (error){
