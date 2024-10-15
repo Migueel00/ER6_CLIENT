@@ -139,9 +139,13 @@ export default class Cauldron {
         const effect = effects[0]; // Asumimos que todos son iguales en este caso
         const isRestore = effect.includes("restore");
         const isDamage = effect.includes("damage");
+        let potionName = "";
 
         const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength"];
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
+
+        // Capitalize the first letter
+        const capsMatchingAttribute = matchingAttribute ? matchingAttribute.charAt(0).toUpperCase() + matchingAttribute.slice(1) : '';
 
         if (!matchingAttribute) {
             return new FailedPotion("Failed Potion", 0);
@@ -149,11 +153,20 @@ export default class Cauldron {
 
         const modifier = this.determineModifier(effects);
         const combinedValue = this.calculateCombinedValue(ingredients);
-        const modifierValue = this.determineModifierValue(combinedValue);
-        const duration = this.determineDuration(modifier);
+        const modifierValue = this.getTotalValue(ingredients);
+        let duration = this.getTotalDuration(ingredients);
+
+        duration = Math.floor(duration / ingredients.length)
 
         const potionType = isRestore ? "Elixir" : "Venom";
-        const potionName = `${modifier} ${matchingAttribute} ${potionType}`;
+
+        if(modifier === ""){
+            potionName = `${capsMatchingAttribute} ${potionType}`;
+        }
+        else{
+            potionName = `${modifier} ${capsMatchingAttribute} ${potionType}`;
+        }
+
 
         return isRestore
             ? new Elixir(potionName, modifierValue, duration)
@@ -274,6 +287,29 @@ export default class Cauldron {
         }
 
         return totalValue;
+    }
+
+    private getTotalDuration(ingredients: Ingredient[])
+    {
+        // Initialize in 0
+        let totalDuration = 0;
+
+        //Function to obtain the effect of an ingredient and the corresponding value
+        const getEffectDuration = (effect: string): number => {
+            if (effect.includes("least" || "lesser")) return 1;    // Effect "least"
+            if (effect.includes("greater")) return 3;  // Effect "greater"
+            return 2;  // NOrmal effect
+        };
+
+        // Loop ingredients
+        for (const ingredient of ingredients) {
+            for (const effect of ingredient.effects) {
+                //Add value depending on found effect
+                totalDuration += getEffectDuration(effect);
+            }
+        }
+
+        return totalDuration;
     }
     
 }
