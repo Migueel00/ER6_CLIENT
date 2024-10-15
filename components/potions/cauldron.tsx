@@ -107,12 +107,10 @@ export default class Cauldron {
             }
         }
 
-        if(modifierName === "normal")
-        {
+        if(modifierName === "normal"){
             modifierName = "";
         }
-        else
-        {
+        else{
             modifierName += " ";
         }
 
@@ -142,8 +140,7 @@ export default class Cauldron {
         let potionName = "";
         let potionEffect = "Boost";
 
-        if(isDamage)
-        {
+        if(isDamage){
             potionEffect = "Setback"
         }
 
@@ -176,20 +173,17 @@ export default class Cauldron {
             potionName = `${modifier} ${capsMatchingAttribute} ${potionType}`;
         }
 
-        if(isDamage)
-        {
+        if(isDamage){
             modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
 
         }
 
         if(matchingAttribute === "insanity"){
             modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
-            if(isDamage)
-            {
+            if(isDamage){
                 potionEffect = "Frenzy";
             }
-            else
-            {
+            else{
                 potionEffect = "Calm";
             }
         }
@@ -223,45 +217,6 @@ export default class Cauldron {
             return "";
         } else {
             return "Greater";
-        }
-    }
-
-    private determineElixirVenomEffectName(attribute: string): string {
-        if(attribute === "insanity")
-        {
-            return "Frenzy";
-        }
-        else
-        {
-            return "Boost";
-        }
-    }
-
-    private calculateCombinedValue(ingredients: Ingredient[]): number {
-        const totalValue = ingredients.reduce((sum, ingredient) => sum + ingredient.value, 0);
-        const averageValue = totalValue / ingredients.length;
-        return Math.floor(averageValue / 5) * 5;
-    }
-
-    private determineModifierValue(averageValue: number): number {
-        if (averageValue <= 5) {
-            return 5;
-        } else if (averageValue <= 10) {
-            return 10;
-        } else if (averageValue <= 15) {
-            return 15;
-        } else {
-            return 20;
-        }
-    }
-
-    private determineDuration(modifier: string): number {
-        if (modifier === "Least" || modifier === "Lesser") {
-            return 1;
-        } else if (modifier === "Greater") {
-            return 2;
-        } else {
-            return 2;
         }
     }
 
