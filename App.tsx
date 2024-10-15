@@ -149,32 +149,35 @@ function App(): React.JSX.Element {
   }
 
   const handleSockets = ()=> {
-    const socket = io('https://er6-staging-server.onrender.com'); 
-    setSocket(socket);
 
-    // Conectar al socket
-    socket.on('connect', () => {
-      console.log('Conectado al servidor de Socket.IO');
-
-      const socketId  : string = socket.id as string;
-
-      setUserSocket(socketId);
-
-      console.log('El socketID de esta conexion es: ' + socket.id);
+    useEffect(() => {
+      const socket = io('https://er6-staging-server.onrender.com'); 
+      setSocket(socket);
+  
+      // Conectar al socket
+      socket.on('connect', () => {
+        console.log('Conectado al servidor de Socket.IO');
+  
+        const socketId  : string = socket.id as string;
+  
+        setUserSocket(socketId);
+  
+        console.log('El socketID de esta conexion es: ' + socket.id);
+      });
+  
+      // Desconexion
+      socket.on('disconnect', ()=> {
+        console.log('Desconectado del servidor de Socket ');
+      })
+  
+      // Limpiar la conexion al desmontar el componente
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+        socket.disconnect();
+      }
+  
     });
-
-    // Desconexion
-    socket.on('disconnect', ()=> {
-      console.log('Desconectado del servidor de Socket ');
-    })
-
-    // Limpiar la conexion al desmontar el componente
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.disconnect();
-    }
-
   }
 
   const handleButtonPress = async () => {
@@ -240,7 +243,7 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
-      //player.role = "ISTVAN";
+      player.role = "MORTIMER";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
       console.log("EL ROL ASIGNADO ES: " + player.role);

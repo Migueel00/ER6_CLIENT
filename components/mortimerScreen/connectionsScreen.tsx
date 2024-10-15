@@ -17,6 +17,8 @@ const ConnectionScreen = () => {
 
 
     useEffect(() => {
+
+        console.log("ENTRA AL USEFFECT")
         // Escuchar el evento
         socket.on('update', ({ playerId  , isInsideLab } : updateEvent) => {
             const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideLab } : player );
