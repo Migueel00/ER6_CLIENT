@@ -39,18 +39,15 @@ const PotionCreator = () => {
                     type
                 }));
 
-                // Filtrar ingredientes según el rol del jugador
                 const filteredIngredients = ingredientsData.filter(ingredient => {
 
-                    if (userRole === 'ACOLYTE')
-                    {
-                        return ingredient.effects.some(effect => effect.includes('restore'));
+                    switch (userRole){
+                        case 'ACOLYTE':
+                            return ingredient.effects.some(effect => effect.includes('restore'));
+
+                        case 'VILLAIN':
+                            return ingredient.effects.some(effect => effect.includes('damage'));
                     }
-                    else if (userRole === 'VILLAIN')
-                    {
-                        return ingredient.effects.some(effect => effect.includes('damage'));
-                    }
-                    return false;
                 });
 
                 setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
