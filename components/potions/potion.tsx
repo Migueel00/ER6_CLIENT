@@ -29,12 +29,14 @@ export class Poison extends Potion {
 // Poción Elixir
 export class Elixir extends Potion {
 
+    potionEffect: string;
     duration: number;
 
-    constructor(name: string, modifier_value: number, duration: number) {
+    constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
 
         super(name, modifier_value);
 
+        this.potionEffect = potionEffect;
         this.duration = duration;
 
     }
@@ -42,12 +44,14 @@ export class Elixir extends Potion {
 
 // Poción Veneno
 export class Venom extends Potion {
+    potionEffect: string;
     duration: number;
 
-    constructor(name: string, modifier_value: number, duration: number) {
+    constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
 
         super(name, modifier_value);
 
+        this.potionEffect = potionEffect;
         this.duration = duration;
 
     }

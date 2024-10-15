@@ -140,6 +140,12 @@ export default class Cauldron {
         const isRestore = effect.includes("restore");
         const isDamage = effect.includes("damage");
         let potionName = "";
+        let potionEffect = "Boost";
+
+        if(isDamage)
+        {
+            potionEffect = "Setback"
+        }
 
         const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength"];
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
@@ -151,9 +157,12 @@ export default class Cauldron {
             return new FailedPotion("Failed Potion", 0);
         }
 
-        const modifier = this.determineModifier(effects);
-        const combinedValue = this.calculateCombinedValue(ingredients);
-        const modifierValue = this.getTotalValue(ingredients);
+        let modifierValue = this.getTotalValue(ingredients);
+        let modifierValueAverage = Math.floor(modifierValue / ingredients.length);
+        let modifierValueAverageRoundedToLowerMultipleOfFive = this.roundDownToMultipleOfFive(modifierValueAverage);
+        const modifier = this.determineElixirVenomModifier(modifierValueAverageRoundedToLowerMultipleOfFive);
+        //let potionEffect = this.determineElixirVenomEffectName(matchingAttribute);
+
         let duration = this.getTotalDuration(ingredients);
 
         duration = Math.floor(duration / ingredients.length)
@@ -167,10 +176,31 @@ export default class Cauldron {
             potionName = `${modifier} ${capsMatchingAttribute} ${potionType}`;
         }
 
+        if(isDamage)
+        {
+            modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
+
+        }
+
+        if(matchingAttribute === "insanity"){
+            modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
+            if(isDamage)
+            {
+                potionEffect = "Frenzy";
+            }
+            else
+            {
+                potionEffect = "Calm";
+            }
+        }
 
         return isRestore
-            ? new Elixir(potionName, modifierValue, duration)
-            : new Venom(potionName, modifierValue, duration);
+            ? new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration)
+            : new Venom(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration);
+    }
+
+    private roundDownToMultipleOfFive(num: number): number {
+        return num - (num % 5);
     }
 
     private determineModifier(effects: string[]): string {
@@ -182,6 +212,29 @@ export default class Cauldron {
             return "Greater";
         }
         return ""; // Sin prefijo
+    }
+
+    private determineElixirVenomModifier(modifierValue: number): string {
+        if (modifierValue <= 5) {
+            return "Least";
+        } else if (modifierValue <= 10) {
+            return "Lesser";
+        } else if (modifierValue <= 15) {
+            return "";
+        } else {
+            return "Greater";
+        }
+    }
+
+    private determineElixirVenomEffectName(attribute: string): string {
+        if(attribute === "insanity")
+        {
+            return "Frenzy";
+        }
+        else
+        {
+            return "Boost";
+        }
     }
 
     private calculateCombinedValue(ingredients: Ingredient[]): number {
