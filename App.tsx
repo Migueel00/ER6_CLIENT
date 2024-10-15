@@ -150,7 +150,6 @@ function App(): React.JSX.Element {
 
   const handleSockets = ()=> {
 
-    useEffect(() => {
       const socket = io('https://er6-staging-server.onrender.com'); 
       setSocket(socket);
   
@@ -176,8 +175,6 @@ function App(): React.JSX.Element {
         socket.off('disconnect');
         socket.disconnect();
       }
-  
-    });
   }
 
   const handleButtonPress = async () => {
@@ -243,7 +240,7 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
-      player.role = "MORTIMER";
+      player.role = "ISTVAN";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
       console.log("EL ROL ASIGNADO ES: " + player.role);
