@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 
 const LabEntry = () => {
     const { height, width } = Dimensions.get('window');
-
+    const context = useContext(AppContext);
 
     //console.log("PLAYER ID FROM CONTEXT: ");
     //console.log(context?.player._id);
@@ -28,7 +28,7 @@ const LabEntry = () => {
     const [screenText, setScreenText] = useState(isInsideLab ? "You are inside the lab" : "This is Angelo's laboratory door");
     const [labBackgroundImage, setLabBackgroundImage] = useState(isInsideLab ? insideLabImage : outsideLabImage);
 
-    const context = useContext(AppContext);
+
 
     useEffect(() => {
         // Escucha el mensaje del servidor para cambiar isInsideLab
@@ -53,7 +53,7 @@ const LabEntry = () => {
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
         setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
-    }, [isInsideLab]);
+    }, [isInsideLab, setIsInsideLab]);
 
 
 
