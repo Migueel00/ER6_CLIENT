@@ -1,5 +1,5 @@
 import Ingredient from "./ingredient.tsx";
-import Potion from "./potion.tsx";
+import Potion, { Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
 import { Effect } from "./potionsInterface.tsx";
 
 export default class Cauldron {
@@ -9,34 +9,33 @@ export default class Cauldron {
         this.ingredients = ingredients;
     }
 
-    createPotion(ingredient_name1: string, ingredient_name2: string) {
-        const ingredient1 = this.ingredients.find(ingredient => ingredient.hasName(ingredient_name1));
-        const ingredient2 = this.ingredients.find(ingredient => ingredient.hasName(ingredient_name2));
+    createPotion(ingredient_names: string[]): Potion {
+        const selectedIngredients = this.ingredients.filter(ingredient =>
+            ingredient_names.includes(ingredient.name)
+        );
 
-        if (!ingredient1 || !ingredient2) {
-            throw new Error("One or both ingredients not found");
+        if (selectedIngredients.length < 2) {
+            throw new Error("At least two ingredients are required.");
         }
 
         // Encuentra efectos comunes
-        const common_effects: Effect[] = ingredient1.findCommonEffects(ingredient2);
+        const allEffects = selectedIngredients.map(ing => ing.effects).flat();
+        const commonEffects = this.findCommonEffects(selectedIngredients);
 
-        if (common_effects.length === 0) {
-            return Potion.failed();
+        // Si no hay efectos comunes
+        if (commonEffects.length === 0) {
+            return this.createNonCommonPotion(allEffects);
         }
 
-        if (isPotionOfSanity(ingredient1, ingredient2)) {
-            return Potion.sanity();
-        } else {
-            return Potion.with(
-                common_effects[0],
-                ingredient1.value + ingredient2.value // Valor combinado
-            );
+        // Si hay efectos comunes
+        const hitPointsEffects = commonEffects.filter(effect => effect.includes("hit_points"));
+        if (hitPointsEffects.length > 0) {
+            return this.createHitPointsPotion(hitPointsEffects);
         }
+
+        // Si los efectos son iguales
+        return this.createPotionFromEqualEffects(commonEffects, selectedIngredients);
     }
-}
 
-// Define el tipo de los ingredientes en la función
-function isPotionOfSanity(i1: Ingredient, i2: Ingredient): boolean {
-    return (i1.name === "Nightshade" && i2.name === "Ectoplasm") ||
-           (i2.name === "Nightshade" && i1.name === "Ectoplasm");
+
 }
