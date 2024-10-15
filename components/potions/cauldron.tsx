@@ -1,5 +1,5 @@
 import Ingredient from "./ingredient.tsx";
-import Potion, { Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
+import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
 import { Effect } from "./potionsInterface.tsx";
 
 export default class Cauldron {
@@ -9,18 +9,15 @@ export default class Cauldron {
         this.ingredients = ingredients;
     }
 
-    createPotion(ingredient_names: string[]): Potion {
-        const selectedIngredients = this.ingredients.filter(ingredient =>
-            ingredient_names.includes(ingredient.name)
-        );
-
-        if (selectedIngredients.length < 2) {
-            throw new Error("At least two ingredients are required.");
+    // Ahora recibe directamente un array de Ingredient
+    createPotion(ingredients: Ingredient[]): Potion {
+        if (ingredients.length < 2) {
+            throw new Error("At least two ingredients are required");
         }
 
         // Encuentra efectos comunes
-        const allEffects = selectedIngredients.map(ing => ing.effects).flat();
-        const commonEffects = this.findCommonEffects(selectedIngredients);
+        const allEffects = ingredients.map(ing => ing.effects).flat();
+        const commonEffects = this.findCommonEffects(ingredients);
 
         // Si no hay efectos comunes
         if (commonEffects.length === 0) {
@@ -34,7 +31,7 @@ export default class Cauldron {
         }
 
         // Si los efectos son iguales
-        return this.createPotionFromEqualEffects(commonEffects, selectedIngredients);
+        return this.createPotionFromEqualEffects(commonEffects, ingredients);
     }
 
     private createNonCommonPotion(allEffects: string[]): Potion {

@@ -31,9 +31,4 @@ export default class Ingredient {
             type
         );
     }
-
-    hasName(name: string) {
-        return this.name === name;
-    }
-
 }
