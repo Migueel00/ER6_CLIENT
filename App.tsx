@@ -360,7 +360,7 @@ function App(): React.JSX.Element {
                   
                 </View>
 
-                  <TouchableOpacity onPress={() => handleButtonPress(socket)} style={styles.overlayButton}>
+                  <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
                       <Text style={styles.kaotikaFont}>Sign in with google</Text>
                   </TouchableOpacity>
 
