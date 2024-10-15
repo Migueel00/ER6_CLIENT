@@ -13,6 +13,7 @@ export interface ContextInterface {
 }
 
 export interface Player {
+  _id:          string,
   socketId:     string,
   email:        string,
   nickname:     string,

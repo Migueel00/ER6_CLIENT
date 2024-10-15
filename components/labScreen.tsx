@@ -14,9 +14,9 @@ const LabScreen = () => {
     const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
 
+    //console.log("PLAYER ID FROM CONTEXT: ");
+    //console.log(context?.player._id);
     
-    
-
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
     const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
     const [modalVisible, setModalVisible] = useState(false);
@@ -44,7 +44,7 @@ const LabScreen = () => {
     // Actualiza el texto del botón y el fondo cada vez que cambie isInsideLab
     useEffect(() => {
 
-        console.log("isInsideLab CHANGED TO: ", isInsideLab);
+        //console.log("isInsideLab CHANGED TO: ", isInsideLab);
         setButtonText(isInsideLab ? "Exit from the LAB" : "Request entrance permission");
         setScreenText(isInsideLab ? "You are inside the lab" : "Angelo's laboratory entrance");
         setLabBackgroundImage(isInsideLab ? insideLabImage : outsideLabImage);
@@ -67,7 +67,7 @@ const LabScreen = () => {
     const qrValue = {
         userEmail: context?.player.email,
         socketId: context?.socketID,
-        playerID: context?.player.id
+        playerID: context?.player._id
     };
 
     //console.log("QR VALUE BEFORE SENDING IS:" + JSON.stringify(qrValue));

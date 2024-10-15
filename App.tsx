@@ -19,6 +19,7 @@ import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
 import { ProfileAttributes } from './components/profileScreen';
+import { Player } from './interfaces/contextInterface';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -57,18 +58,6 @@ function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
-
-
-
-  interface Player {
-    socketId:     string,
-    email:        string,
-    nickname:     string,
-    isInsideLab:  boolean,
-    avatar:       string,
-    id:           string,
-    role:         string
-  }
 
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
@@ -246,7 +235,7 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
-      player.role = "ISTVAN";
+      //player.role = "ISTVAN";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
       console.log("EL ROL ASIGNADO ES: " + player.role);
@@ -305,8 +294,8 @@ function App(): React.JSX.Element {
         socketId:       socketId,
         avatar:         avatar,
         id:             id,
-        role:           role
-
+        role:           role,
+        _id:            id,
       };
 
       newPlayers.push(player);    
