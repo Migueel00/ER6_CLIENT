@@ -1,79 +1,148 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, SafeAreaView, ImageBackground, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Dimensions, SafeAreaView, ImageBackground, StyleSheet, StatusBar, Animated, FlatList, View } from 'react-native';
+import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 
-// Obtén la imagen de fondo de los assets locales
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
-
+const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
+const CONSTANTS = {
+    ITEM_SIZE: width * 0.72,
+    SPACING: 20,
+    WIDTH: width,
+};
+
 const PotionCreator = () => {
-
-    const [acolyteIngredients, setAcolyteIngredients] = useState(null);
-    const [villainIngredients, setVillainIngredients] = useState(null);
+    const [ingredients, setIngredients] = useState([]);
     const context = useContext(AppContext);
+    const userRole = context?.player?.role;
 
-    const userRole = context?.player.role
+    const scrollX = useRef(new Animated.Value(0)).current;
 
-    // Se hara un get cada vez que se monte el PotionCreator
     useEffect(() => {
         const getIngredients = async () => {
             try {
-                const response = await fetch ('https://kaotika-server.fly.dev/ingredients')
-
-                if (!response.ok){
-                    throw new Error('Error en la respuesta de la API');
-                }
-
-                let jsonData = await response.json();
-
-                // Mapeo
-                const ingredients = jsonData.data.map(({ _id, name, description, value, effects, image, type }: any) => ({
+                const response = await fetch('https://kaotika-server.fly.dev/ingredients');
+                if (!response.ok) throw new Error('Error en la respuesta de la API');
+                
+                const jsonData = await response.json();
+                const ingredientsData = jsonData.data.map(({ _id, name, description, value, effects, type }: any) => ({
                     id: _id,
                     name,
                     description,
                     value,
                     effects,
-                    image,
                     type
                 }));
 
-                switch (userRole){
-                    case 'ACOLYTE':
-                        const acolyteIngredients = ingredients.filter(ingredient =>
-                            ingredient.effects.some(effect => effect.includes('restore'))
-                        );
-    
-                        setAcolyteIngredients(acolyteIngredients);
-                        break;
+                // Filtrar ingredientes según el rol del jugador
+                const filteredIngredients = ingredientsData.filter(ingredient => {
 
-                    case 'VILLAIN':
-                        const villainIngredients = ingredients.filter(ingredient =>
-                            ingredient.effects.some(effect => effect.includes('damage'))
-                        );
-    
-                        setVillainIngredients(villainIngredients);
-                        break;
-                }
-                
-            } catch (error){
+                    if (userRole === 'ACOLYTE')
+                    {
+                        return ingredient.effects.some(effect => effect.includes('restore'));
+                    }
+                    else if (userRole === 'VILLAIN')
+                    {
+                        return ingredient.effects.some(effect => effect.includes('damage'));
+                    }
+                    return false;
+                });
+
+                setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
+            } catch (error) {
                 console.log(error);
             }
-        }
+        };
 
         getIngredients();
-    }, [])
-    
+    }, [userRole]);
+
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <ImageBackground
-                source={backgroundImageURL}
-                style={styles.backgroundImage}
-            >
+        <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar />
+            <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
+                <Animated.FlatList
+                    snapToInterval={CONSTANTS.ITEM_SIZE}
+                    decelerationRate={0}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ alignItems: 'center' }}
+                    scrollEventThrottle={16}
+                    horizontal
+                    data={ingredients}
+                    keyExtractor={(item) => item.id ? item.id.toString() : item.key}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: true }
+                    )}
+                    renderItem={({ item, index }) => {
+                        if (!item.name) return <DummyContainer />;
+
+                        //Por ahora se usara una imagen local
+                        const imageSource = defaultPotionImage;
+                        
+                        const inputRange = [
+                            (index - 2) * CONSTANTS.ITEM_SIZE,
+                            (index - 1) * CONSTANTS.ITEM_SIZE,
+                            index * CONSTANTS.ITEM_SIZE
+                        ];
+                        const translateY = scrollX.interpolate({
+                            inputRange,
+                            outputRange: [0, -50, 0]
+                        });
+
+                        return (
+                            <PosterContainer>
+                                <Poster as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                    <PosterImage source={imageSource} />
+                                    <PosterTitle numberOfLines={1}>{item.name}</PosterTitle>
+                                    <PosterDescription numberOfLines={3}>{item.description}</PosterDescription>
+                                </Poster>
+                            </PosterContainer>
+                        );
+                    }}
+                />
             </ImageBackground>
         </SafeAreaView>
     );
-}
+};
+
+const PosterContainer = styled.View`
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    margin-top: ${CONSTANTS.SPACING * 2}px;
+`;
+
+const Poster = styled.View`
+    margin-horizontal: ${CONSTANTS.SPACING}px;
+    padding: ${CONSTANTS.SPACING}px;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+`;
+
+const PosterImage = styled.Image`
+    width: 100%;
+    height: ${CONSTANTS.ITEM_SIZE * 1.2}px;
+    resize-mode: cover;
+    border-radius: 10px;
+`;
+
+const PosterTitle = styled.Text`
+    font-family: SyneMonoRegular;
+    font-size: 18px;
+    color: #FFF;
+`;
+
+const PosterDescription = styled.Text`
+    font-family: SyneMonoRegular;
+    font-size: 12px;
+    color: #FFF;
+`;
+
+const DummyContainer = styled.View`
+    width: ${CONSTANTS.SPACING}px;
+`;
 
 const styles = StyleSheet.create({
     backgroundImage: {
