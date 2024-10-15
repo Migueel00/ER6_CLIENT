@@ -111,6 +111,7 @@ const PotionCreator = () => {
     );
 };
 
+//STYLED COMPONENTS
 const Container = styled.View`
     flex: 1;
 `
