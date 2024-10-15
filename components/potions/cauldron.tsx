@@ -1,6 +1,6 @@
-import Ingredient from "./ingredient.js";
-import Potion from "./potion.js";
-import { Effect } from "./potionsInterface.js";
+import Ingredient from "./ingredient.tsx";
+import Potion from "./potion.tsx";
+import { Effect } from "./potionsInterface.tsx";
 
 export default class Cauldron {
     ingredients: Ingredient[];

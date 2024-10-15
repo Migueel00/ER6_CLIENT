@@ -1,4 +1,4 @@
-import Ingredient from "./ingredient.js";
+import Ingredient from "./ingredient.tsx";
 
 export default class Ingredients {
 
@@ -9,7 +9,7 @@ export default class Ingredients {
     }
 
     static load(data: any) {
-        return new Ingredients(data.ingredients.map(Ingredient.from))
+        return new Ingredients(data.data.map(Ingredient.from))
     }
 
     find(name: string)

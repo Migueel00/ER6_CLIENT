@@ -20,6 +20,7 @@ import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
 import { ProfileAttributes } from './components/profileScreen';
 import { Player } from './interfaces/contextInterface';
+import executePotionCreation from './components/potions/execute';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -249,6 +250,8 @@ function App(): React.JSX.Element {
       setIsLoggedIn(true);
       setIsSpinner(false);
 
+      await executePotionCreation();
+
     } catch (error: any) {
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -261,6 +264,8 @@ function App(): React.JSX.Element {
         // Otro error
         console.error('Error general: ', error);
       }
+
+
 
       setIsSpinner(false);
       setIsLoggedIn(false);

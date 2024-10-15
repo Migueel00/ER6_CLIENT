@@ -1,4 +1,4 @@
-import { positive_effect_tokens } from "./constants.js";
+import { positive_effect_tokens } from "./constants";
 
 export default class Effect {
     name: string;
