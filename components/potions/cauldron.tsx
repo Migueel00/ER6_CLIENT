@@ -80,11 +80,50 @@ export default class Cauldron {
         console.log("MINIMUM EFFECT");
         console.log(minimumEffect);
 
+        const ingredientQuantity = ingredients.length;
+        let modifier = 1;
+        let potionValue = this.getTotalValue(ingredients);
+        let modifierName = minimumEffect.minimumEffect;
+
+        console.log("POTION VALUE");
+        console.log(potionValue);
+
+        if(minimumEffect.allAreMinimum){
+            switch(ingredientQuantity){
+                case 2:
+                    modifier = essence_ingridient_multipliers[essence_ingredients_number.TWO];
+                    break;
+                case 3:
+                    modifier = essence_ingridient_multipliers[essence_ingredients_number.THREE];
+                    break;
+                case 4:
+                    modifier = essence_ingridient_multipliers[essence_ingredients_number.FOUR];
+                    break;
+                default:
+                    //Debería ser imposible llegar aquí, ya que no puede haber ni 1 ingrediente ni mas de 4
+            }
+        }
+
+        if(modifierName === "normal")
+        {
+            modifierName = "";
+        }
+        else
+        {
+            modifierName += " ";
+        }
+
+
+        console.log("MODIFIER");
+        console.log(modifier);
+        
+        potionValue = Math.ceil(potionValue * modifier);
+
         const hasIncrease = hitPointsEffects.some(effect => effect.includes("increase"));
         const hasDecrease = hitPointsEffects.some(effect => effect.includes("decrease"));
 
         if (hasIncrease) {
-            return new Essence("Essence", 0, 1);
+            return new Essence("Essence of " + modifierName + "heal", potionValue, 1);
         }
         if (hasDecrease) {
             return new Stench();
@@ -163,16 +202,16 @@ export default class Cauldron {
         console.log("INGREDIENTES EN FINDCOMMONEFFECTS");
         console.log(ingredients);
     
-        // Función auxiliar para extraer el tipo de efecto
+        // Extract effect type
         const getEffectType = (effect: string): string => {
             const parts = effect.split('_');
-            return parts.slice(-2).join('_'); // Retorna la parte final como "hit_points", "dexterity", etc.
+            return parts.slice(-2).join('_'); // Returns the last part (dexterity, intelligence, hit_points, etc.)
         };
     
-        // Extraemos los tipos de efecto del primer ingrediente
+        //Extract effect type of first ingredient
         const firstIngredientEffectTypes = firstIngredient.effects.map(getEffectType);
     
-        // Comprobamos si al menos un efecto se repite en todos los ingredientes
+        // Check if effect repeats in the rest of ingredients
         return firstIngredientEffectTypes.some(effectType =>
             restIngredients.every(ingredient =>
                 ingredient.effects.some(effect => getEffectType(effect) === effectType)
@@ -198,19 +237,40 @@ export default class Cauldron {
         console.log("ALL EFFECTS");
         console.log(allEffects);
         
-        
-
-        // Encontrar el efecto mínimo en base al orden
-        const uniqueEffects = [...new Set(allEffects)]; // Para eliminar duplicados
+        // Find minimum effect
+        const uniqueEffects = [...new Set(allEffects)]; // Eliminate duplicates
         const minimumEffect = uniqueEffects.reduce((min, effect) => {
             return effectOrder.indexOf(effect) < effectOrder.indexOf(min) ? effect : min;
         }, "normal");
     
-        // Verificamos si todos los efectos son el mínimo encontrado
+        // Verify if every effect is the minimum found
         const allAreMinimum = allEffects.every(effect => getEffectRarity(effect) === minimumEffect);
     
         return { minimumEffect, allAreMinimum };
     }
     
+    private getTotalValue(ingredients: Ingredient[])
+    {
+        // Initialize in 0
+        let totalValue = 0;
+
+        //Function to obtain the effect of an ingredient and the corresponding value
+        const getEffectValue = (effect: string): number => {
+            if (effect.includes("least")) return 5;    // Effect "least"
+            if (effect.includes("lesser")) return 10;  // Effect "lesser"
+            if (effect.includes("greater")) return 20;  // Effect "greater"
+            return 15;  // NOrmal effect
+        };
+
+        // Loop ingredients
+        for (const ingredient of ingredients) {
+            for (const effect of ingredient.effects) {
+                //Add value depending on found effect
+                totalValue += getEffectValue(effect);
+            }
+        }
+
+        return totalValue;
+    }
     
 }

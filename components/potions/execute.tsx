@@ -19,7 +19,7 @@ const executePotionCreation = async() => {
         
         //console.log("FIRST INGREDIENT: " +  ingredients[0].name);
         
-        const ingredientsArray = [ingredients[0], ingredients[1], ingredients[2]]
+        const ingredientsArray = [ingredients[0], ingredients[0], ingredients[0]]
 
         const cauldron = new Cauldron(ingredients);
 
