@@ -8,8 +8,8 @@ const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
 const CONSTANTS = {
-    ITEM_SIZE: width * 0.55,
-    SPACING: 20,
+    ITEM_SIZE: width * 0.50,
+    SPACING: 10,
     WIDTH: width,
 };
 
@@ -60,7 +60,7 @@ const PotionCreator = () => {
     }, [userRole]);
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <Container>
             <StatusBar />
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 <Animated.FlatList
@@ -93,27 +93,31 @@ const PotionCreator = () => {
                         });
 
                         return (
-                            <PosterContainer>
-                                <Poster as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <PosterImage source={imageSource} />
-                                    <PosterTitle numberOfLines={1}>{item.name}</PosterTitle>
-                                    <PosterDescription numberOfLines={3}>{item.description}</PosterDescription>
-                                </Poster>
-                            </PosterContainer>
+                            <PotionContainer>
+                                <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                    <PotionImage source={imageSource} />
+                                    <PotionTitle numberOfLines={1}>{item.name}</PotionTitle>
+                                    <PotionDescription numberOfLines={3}>{item.description}</PotionDescription>
+                                </Potion>
+                            </PotionContainer>
                         );
                     }}
                 />
             </ImageBackground>
-        </SafeAreaView>
+            </Container>
     );
 };
 
-const PosterContainer = styled.View`
+const Container = styled.View`
+    flex: 1;
+`
+
+const PotionContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
-    margin-top: ${CONSTANTS.SPACING * 2}px;
+    margin-top: ${height * - 0.35}px;
 `;
 
-const Poster = styled.View`
+const Potion = styled.View`
     margin-horizontal: ${CONSTANTS.SPACING}px;
     padding: ${CONSTANTS.SPACING}px;
     align-items: center;
@@ -121,19 +125,19 @@ const Poster = styled.View`
     border-radius: 10px;
 `;
 
-const PosterImage = styled.Image`
+const PotionImage = styled.Image`
     width: 80%;
     height: ${CONSTANTS.ITEM_SIZE * 0.50}px;
     resize-mode: cover;
     border-radius: 10px;
 `;
 
-const PosterTitle = styled.Text`
+const PotionTitle = styled.Text`
     font-size: 18px;
     color: #FFF;
 `;
 
-const PosterDescription = styled.Text`
+const PotionDescription = styled.Text`
     font-size: 12px;
     color: #FFF;
 `;
@@ -146,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundImage: {
         width: width,
         height: height,
+        justifyContent: 'flex-start'
     },
 });
 
