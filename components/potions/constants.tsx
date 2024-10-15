@@ -1,6 +1,16 @@
 
 export const positive_effect_tokens = ["Fortify", "Resist", "Cure", "Restore", "Regenerate", "Invisibility"];
 
+export const essence_ingredients_number = {
+  TWO: 0,
+  THREE: 1,
+  FOUR: 2
+}
+
+export const essence_ingridient_multipliers = [
+  1.2, 1.4, 1.8
+]
+
 export const antidoteAffectedAtributes = [
     {
         name: "least_restore_intelligence",

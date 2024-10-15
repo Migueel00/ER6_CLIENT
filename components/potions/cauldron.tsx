@@ -1,5 +1,6 @@
 import Ingredient from "./ingredient.tsx";
 import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
+import { essence_ingredients_number, essence_ingridient_multipliers } from "./constants.tsx";
 import { Effect } from "./potionsInterface.tsx";
 
 export default class Cauldron {
@@ -11,6 +12,11 @@ export default class Cauldron {
 
     // Ahora recibe directamente un array de Ingredient
     createPotion(ingredients: Ingredient[]): Potion {
+
+        console.log("Ingredientes insertados:");
+        console.log(ingredients);
+        
+        
         if (ingredients.length < 2) {
             throw new Error("At least two ingredients are required");
         }
@@ -19,19 +25,37 @@ export default class Cauldron {
         const allEffects = ingredients.map(ing => ing.effects).flat();
         const commonEffects = this.findCommonEffects(ingredients);
 
+        console.log("ALL EFFECTS:"); 
+        console.log(allEffects);
+        
+        console.log("COMMON EFFECTS");
+        console.log(commonEffects);
+        
         // Si no hay efectos comunes
-        if (commonEffects.length === 0) {
+        if (!commonEffects) {
+
+            console.log("NO HAY EFECTOS COMUNES");
             return this.createNonCommonPotion(allEffects);
         }
+        else
+        {
+            const hitPointsEffects = allEffects.filter(effect => effect.includes("hit_points"));
 
-        // Si hay efectos comunes
-        const hitPointsEffects = commonEffects.filter(effect => effect.includes("hit_points"));
-        if (hitPointsEffects.length > 0) {
-            return this.createHitPointsPotion(hitPointsEffects);
+
+            console.log("HITPOINT EFFECTS");
+            console.log(hitPointsEffects);
+    
+    
+            if (hitPointsEffects.length > 0) {
+                console.log("HAY EFECTOS COMUNES HITPOINTS");
+                return this.createHitPointsPotion(hitPointsEffects, ingredients);
+            }
+    
+            // Si los efectos son iguales
+            console.log("HAY EFECTOS COMUNES QUE NO SON HITPOINTS");
+            return this.createPotionFromEqualEffects(allEffects, ingredients);
         }
-
-        // Si los efectos son iguales
-        return this.createPotionFromEqualEffects(commonEffects, ingredients);
+       
     }
 
     private createNonCommonPotion(allEffects: string[]): Potion {
@@ -48,14 +72,21 @@ export default class Cauldron {
         return new FailedPotion("Failed Potion", 0, 0);
     }
 
-    private createHitPointsPotion(hitPointsEffects: string[]): Potion {
-        const hasRestore = hitPointsEffects.some(effect => effect.includes("restore"));
-        const hasDamage = hitPointsEffects.some(effect => effect.includes("damage"));
+    private createHitPointsPotion(hitPointsEffects: string[], ingredients: Ingredient[]): Potion {
 
-        if (hasRestore) {
-            return new Essence();
+        console.log("SE VA A CREAR UN HITPOINT POTION");
+
+        const minimumEffect = this.findMinimumEffect(ingredients);
+        console.log("MINIMUM EFFECT");
+        console.log(minimumEffect);
+
+        const hasIncrease = hitPointsEffects.some(effect => effect.includes("increase"));
+        const hasDecrease = hitPointsEffects.some(effect => effect.includes("decrease"));
+
+        if (hasIncrease) {
+            return new Essence("Essence", 0, 1);
         }
-        if (hasDamage) {
+        if (hasDecrease) {
             return new Stench();
         }
 
@@ -126,10 +157,60 @@ export default class Cauldron {
         }
     }
 
-    private findCommonEffects(ingredients: Ingredient[]): string[] {
+    private findCommonEffects(ingredients: Ingredient[]): boolean {
         const [firstIngredient, ...restIngredients] = ingredients;
-        return firstIngredient.effects.filter(effect =>
-            restIngredients.every(ingredient => ingredient.effects.includes(effect))
+    
+        console.log("INGREDIENTES EN FINDCOMMONEFFECTS");
+        console.log(ingredients);
+    
+        // Función auxiliar para extraer el tipo de efecto
+        const getEffectType = (effect: string): string => {
+            const parts = effect.split('_');
+            return parts.slice(-2).join('_'); // Retorna la parte final como "hit_points", "dexterity", etc.
+        };
+    
+        // Extraemos los tipos de efecto del primer ingrediente
+        const firstIngredientEffectTypes = firstIngredient.effects.map(getEffectType);
+    
+        // Comprobamos si al menos un efecto se repite en todos los ingredientes
+        return firstIngredientEffectTypes.some(effectType =>
+            restIngredients.every(ingredient =>
+                ingredient.effects.some(effect => getEffectType(effect) === effectType)
+            )
         );
     }
+    
+    private findMinimumEffect(ingredients: Ingredient[]): { minimumEffect: string, allAreMinimum: boolean } {
+        // Definimos el orden de los efectos
+        const effectOrder: string[] = [ "least", "lesser", "normal", "greater"];
+    
+        // Función para extraer el tipo de rareza
+        const getEffectRarity = (effect: string): string => {
+            if (effect.includes("least")) return "least";
+            if (effect.includes("lesser")) return "lesser";
+            if (effect.includes("greater")) return "greater";
+            return "normal"; // Si no se encuentra, se considera "nada"
+        };
+    
+        // Extraemos los rarities de todos los ingredientes
+        const allEffects = ingredients.flatMap(ingredient => ingredient.effects.map(effect => getEffectRarity(effect)));
+    
+        console.log("ALL EFFECTS");
+        console.log(allEffects);
+        
+        
+
+        // Encontrar el efecto mínimo en base al orden
+        const uniqueEffects = [...new Set(allEffects)]; // Para eliminar duplicados
+        const minimumEffect = uniqueEffects.reduce((min, effect) => {
+            return effectOrder.indexOf(effect) < effectOrder.indexOf(min) ? effect : min;
+        }, "normal");
+    
+        // Verificamos si todos los efectos son el mínimo encontrado
+        const allAreMinimum = allEffects.every(effect => getEffectRarity(effect) === minimumEffect);
+    
+        return { minimumEffect, allAreMinimum };
+    }
+    
+    
 }

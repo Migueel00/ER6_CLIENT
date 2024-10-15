@@ -44,8 +44,8 @@ export class Venom extends Potion {
 
 // Poción Esencia
 export class Essence extends Potion {
-    constructor() {
-        super("Essence", 0, 1);
+    constructor(name: string, modifier_value: number, duration: number) {
+        super(name, modifier_value, duration);
     }
 }
 

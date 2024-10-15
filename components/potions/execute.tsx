@@ -17,16 +17,21 @@ const executePotionCreation = async() => {
 
         //console.log("INGREDIENTS: " + ingredients);
         
-        console.log("FIRST INGREDIENT: " +  ingredients[0].name);
+        //console.log("FIRST INGREDIENT: " +  ingredients[0].name);
         
         const ingredientsArray = [ingredients[0], ingredients[1], ingredients[2]]
 
         const cauldron = new Cauldron(ingredients);
 
-        console.log("CAULDRON INGREDIENTS: " + cauldron.ingredients);
+        //console.log("CAULDRON INGREDIENTS: " + cauldron.ingredients);
         
-        cauldron.createPotion(ingredientsArray)
+        const potion = cauldron.createPotion(ingredientsArray)
+
+        console.log("Created potion");
+        console.log(potion);
         
+
+
     } catch (error) {
         console.error("Error loading ingredients:", error);
     }
