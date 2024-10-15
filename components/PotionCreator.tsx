@@ -89,7 +89,7 @@ const PotionCreator = () => {
                         ];
                         const translateY = scrollX.interpolate({
                             inputRange,
-                            outputRange: [0, -50, 0]
+                            outputRange: [-20, -50, -20]
                         });
 
                         return (
