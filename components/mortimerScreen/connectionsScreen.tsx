@@ -3,13 +3,6 @@ import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'reac
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppContext from '../../helpers/context'; // Asegúrate de ajustar esta ruta
 
-interface Player {
-    id: string,
-    avatar: any,
-    nickname: any,
-    isInsideLab: any
-}
-
 interface updateEvent {
     playerId: string;
     isInsideLab: boolean;
@@ -21,6 +14,8 @@ const ConnectionScreen = () => {
     const socket = useContext(AppContext)?.socket;
     const players = useContext(AppContext)?.players!;
     const setPlayers = useContext(AppContext)?.setPlayers;
+
+
     useEffect(() => {
         // Escuchar el evento
         socket.on('update', ({ playerId  , isInsideLab } : updateEvent) => {
@@ -39,7 +34,7 @@ const ConnectionScreen = () => {
         return () => {
             socket.off('update');
         };
-    }, [setPlayers]);
+    }, [players, setPlayers]);
 
     // useEffect(() => {
     //     // Escuchar el evento

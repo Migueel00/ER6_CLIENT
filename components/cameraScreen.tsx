@@ -36,7 +36,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
   const [isScanned, setIsScanned] = useState(false); // Estado para saber si ya se escaneó un código
   const [cameraRef, setCameraRef] = useState<Camera | null>(null);
-  const { userEmail, socket, player } : any = useContext(AppContext);
+  const socket  = useContext(AppContext)?.socket;
 
 
   const handleCodeScanned = (codes: any) => {
