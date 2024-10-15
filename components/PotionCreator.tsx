@@ -32,7 +32,8 @@ const PotionCreator = () => {
                     image,
                     type
                 }));
-                setIngredientsData(jsonData);
+                
+                setIngredientsData(ingredients);
                 
             } catch (error){
                 console.log(error);
