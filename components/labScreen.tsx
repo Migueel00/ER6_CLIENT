@@ -134,8 +134,9 @@ const LabScreen = () => {
 
     // Cambiara segun appcontext
     const { height } = Dimensions.get('window');
-    const { player } : any = useContext(AppContext);
-    const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
+
+    const context = useContext(AppContext);
+    const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
     return (
         <NavigationContainer independent={true}>
         {isInsideLab ? (
