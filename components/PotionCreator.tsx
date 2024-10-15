@@ -8,7 +8,7 @@ const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
 const CONSTANTS = {
-    ITEM_SIZE: width * 0.72,
+    ITEM_SIZE: width * 0.55,
     SPACING: 20,
     WIDTH: width,
 };
@@ -122,20 +122,18 @@ const Poster = styled.View`
 `;
 
 const PosterImage = styled.Image`
-    width: 100%;
-    height: ${CONSTANTS.ITEM_SIZE * 1.2}px;
+    width: 80%;
+    height: ${CONSTANTS.ITEM_SIZE * 0.50}px;
     resize-mode: cover;
     border-radius: 10px;
 `;
 
 const PosterTitle = styled.Text`
-    font-family: SyneMonoRegular;
     font-size: 18px;
     color: #FFF;
 `;
 
 const PosterDescription = styled.Text`
-    font-family: SyneMonoRegular;
     font-size: 12px;
     color: #FFF;
 `;
