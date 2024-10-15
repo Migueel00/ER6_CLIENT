@@ -1,41 +1,64 @@
-import { Effect } from "./potionsInterface";
-
 export default class Potion {
-
     name: string;
-    value: number;
-    time: number;
+    modifier_value: number;
+    duration: number;
 
-    constructor(name: string, value: number, time: number){
+    constructor(name: string, modifier_value: number, duration: number) {
         this.name = name;
-        this.value = value;
-        this.time = time;
+        this.modifier_value = modifier_value;
+        this.duration = duration;
     }
 
-    static with(effect: Effect, value: number) {
-        const type = effect.type === 'beneficial' ? "Potion" : "Poison";
-        const potion_name = `${type} of ${effect.name}`;
-        const time = 10;
-        return new Potion(potion_name, value, time);
-    }
-
-    static failed() {
-        return new FailedPotion();
-    }
-
-    static sanity() {
-        return new PotionOfSanity();
+    static failed(): Potion {
+        return new FailedPotion("Failed Potion", 0, 0);
     }
 }
 
-class PotionOfSanity extends Potion {
+// Poción de Antídoto
+export class Antidote extends Potion {
     constructor() {
-        super("Potion of Sanity", 1000, 50);
+        super("Antidote", 0, 1);
     }
 }
 
-class FailedPotion extends Potion {
+// Poción de Veneno
+export class Poison extends Potion {
     constructor() {
-        super("Failed potion",  0, 0)
+        super("Poison", 0, 1);
+    }
+}
+
+// Poción Elixir
+export class Elixir extends Potion {
+    constructor(name: string, modifier_value: number, duration: number) {
+        super(name, modifier_value, duration);
+    }
+}
+
+// Poción Veneno
+export class Venom extends Potion {
+    constructor(name: string, modifier_value: number, duration: number) {
+        super(name, modifier_value, duration);
+    }
+}
+
+// Poción Esencia
+export class Essence extends Potion {
+    constructor() {
+        super("Essence", 0, 1);
+    }
+}
+
+// Poción Stench
+export class Stench extends Potion {
+    constructor() {
+        super("Stench", 0, 1);
+    }
+}
+
+// Poción fallida
+export class FailedPotion extends Potion {
+    constructor(name: string, modifier_value: number, duration: number) {
+        super(name, modifier_value, duration);
     }
 }
