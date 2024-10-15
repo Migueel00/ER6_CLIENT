@@ -7,10 +7,13 @@ const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
+const ITEM_SIZE = width * 0.50;
+
 const CONSTANTS = {
-    ITEM_SIZE: width * 0.50,
+    ITEM_SIZE,
     SPACING: 10,
     WIDTH: width,
+    SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
 };
 
 const PotionCreator = () => {
@@ -143,7 +146,7 @@ const PotionDescription = styled.Text`
 `;
 
 const DummyContainer = styled.View`
-    width: ${CONSTANTS.SPACING}px;
+    width: ${CONSTANTS.SPACER_ITEM_SIZE}px;
 `;
 
 const styles = StyleSheet.create({
