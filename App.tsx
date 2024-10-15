@@ -33,6 +33,9 @@ type SectionProps = PropsWithChildren<{
 
 const {width, height} = Dimensions.get('window');
 
+
+
+
 function App(): React.JSX.Element {
 
   const [isVerified, setIsVerified] = useState(false);
@@ -54,6 +57,7 @@ function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
+
 
 
   interface Player {
@@ -148,12 +152,8 @@ function App(): React.JSX.Element {
     }
   }
 
-  const handleSockets = ()=> {
-
-    useEffect(() => {
-      const socket = io('https://er6-staging-server.onrender.com'); 
-      setSocket(socket);
-  
+  const handleSockets = (socket : any)=> {
+      console.log("ENTRA A HANDLE SOCKETS");
       // Conectar al socket
       socket.on('connect', () => {
         console.log('Conectado al servidor de Socket.IO');
@@ -176,8 +176,6 @@ function App(): React.JSX.Element {
         socket.off('disconnect');
         socket.disconnect();
       }
-  
-    });
   }
 
   const handleButtonPress = async () => {
@@ -186,7 +184,12 @@ function App(): React.JSX.Element {
       setLoading(true);
       setIsSpinner(true);
       setError(null);
-      handleSockets()
+      // Iniciar socket
+      const socket = io('https://er6-staging-server.onrender.com'); 
+      // Settear socket
+      setSocket(socket);
+      // Funcion gestionar sockets
+      handleSockets(socket);
 
       await checkLoginStatus();
 
@@ -357,7 +360,7 @@ function App(): React.JSX.Element {
                   
                 </View>
 
-                  <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
+                  <TouchableOpacity onPress={() => handleButtonPress(socket)} style={styles.overlayButton}>
                       <Text style={styles.kaotikaFont}>Sign in with google</Text>
                   </TouchableOpacity>
 
