@@ -246,7 +246,7 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
-      player.role = "MORTIMER";
+      player.role = "ISTVAN";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
       console.log("EL ROL ASIGNADO ES: " + player.role);
