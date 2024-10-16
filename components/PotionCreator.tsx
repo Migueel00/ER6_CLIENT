@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet } from 'react-native';
+import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
+import { TouchableWithoutFeedback } from 'react-native';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
@@ -73,6 +74,11 @@ const PotionCreator = () => {
         getIngredients();
     }, [userRole]);
 
+    const handleLongPress = (name: string) => {
+        console.log(`Pocion seleccionada: ${name}`);
+        
+    }
+
     return (
         <Container>
             <StatusBar />
@@ -106,11 +112,13 @@ const PotionCreator = () => {
                         });
 
                         return (
+                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item.name)}>
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <PotionImage source={imageSource} />
                                 </Potion>
                             </PotionContainer>
+                        </TouchableWithoutFeedback>
                         );
                     }}
                     onMomentumScrollEnd={(e) => {
