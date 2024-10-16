@@ -1,10 +1,11 @@
+import { Modifiers } from "./curse";
+
 export default class Potion {
     name: string;
-    modifier_value: number;
 
-    constructor(name: string, modifier_value: number) {
+
+    constructor(name: string) {
         this.name = name;
-        this.modifier_value = modifier_value;
     }
 
     static failed(): Potion {
@@ -14,15 +15,46 @@ export default class Potion {
 
 // Poción de Antídoto
 export class Antidote extends Potion {
-    constructor() {
-        super("Antidote", 0);
+    modifiers: Modifiers;
+    _id: string;
+    name: string;
+    description: string;
+    type: string;
+    antidote_effects: string[];
+
+
+    constructor( modifiers: Modifiers, _id: string, name: string, description: string, type: string, antidote_effects: string[]) {
+        super(name);
+        
+        this.modifiers = modifiers;
+        this._id = _id;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.antidote_effects = antidote_effects;
     }
 }
 
 // Poción de Veneno
 export class Poison extends Potion {
-    constructor() {
-        super("Poison", 0);
+
+    modifiers: Modifiers;
+    _id: string;
+    name: string;
+    description: string;
+    type: string;
+    poisonEffects: string[];
+
+
+    constructor( modifiers: Modifiers, _id: string, name: string, description: string, type: string, poison_effects: string[]) {
+        super(name);
+        
+        this.modifiers = modifiers;
+        this._id = _id;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.poisonEffects = poison_effects;
     }
 }
 
@@ -31,14 +63,15 @@ export class Elixir extends Potion {
 
     potionEffect: string;
     duration: number;
+    modifier_value: number;
 
     constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
 
-        super(name, modifier_value);
+        super(name);
 
         this.potionEffect = potionEffect;
         this.duration = duration;
-
+        this.modifier_value = modifier_value;
     }
 }
 
@@ -46,34 +79,48 @@ export class Elixir extends Potion {
 export class Venom extends Potion {
     potionEffect: string;
     duration: number;
+    modifier_value: number;
 
     constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
 
-        super(name, modifier_value);
+        super(name);
 
         this.potionEffect = potionEffect;
         this.duration = duration;
+        this.modifier_value = modifier_value;
 
     }
 }
 
 // Poción Esencia
 export class Essence extends Potion {
+
+    modifier_value: number;
+
     constructor(name: string, modifier_value: number) {
-        super(name, modifier_value);
+        super(name);
+        this.modifier_value = modifier_value;
     }
 }
 
 // Poción Stench
 export class Stench extends Potion {
+
+    modifier_value: number;
+
     constructor(name: string, modifier_value: number) {
-        super(name, modifier_value);
+        super(name);
+        this.modifier_value = modifier_value;
     }
 }
 
 // Poción fallida
 export class FailedPotion extends Potion {
+
+    modifier_value: number
+    
     constructor(name: string, modifier_value: number) {
-        super(name, modifier_value);
+        super(name);
+        this.modifier_value = modifier_value;
     }
 }

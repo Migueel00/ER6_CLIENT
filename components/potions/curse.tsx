@@ -1,4 +1,4 @@
-interface Modifiers{
+export interface Modifiers{
     hit_points: number;
     intelligence: number;
     dexterity: number;
