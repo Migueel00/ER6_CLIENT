@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
 import { TouchableWithoutFeedback } from 'react-native';
+import { Vibration } from 'react-native';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
@@ -76,7 +77,7 @@ const PotionCreator = () => {
 
     const handleLongPress = (name: string) => {
         console.log(`Pocion seleccionada: ${name}`);
-        
+        Vibration.vibrate(100);
     }
 
     return (
