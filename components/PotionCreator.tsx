@@ -47,8 +47,8 @@ const PotionCreator = () => {
                 if (!response.ok) throw new Error('Error en la respuesta de la API');
                 
                 const jsonData = await response.json();
-                const ingredientsData: Ingredient[] = jsonData.data.map(({ id, name, description, value, effects, type }: Ingredient) => ({
-                    id,
+                const ingredientsData: Ingredient[] = jsonData.data.map(({ _id, name, description, value, effects, type }: Ingredient) => ({
+                    id: _id,
                     name,
                     description,
                     value,

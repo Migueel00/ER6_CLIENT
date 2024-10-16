@@ -23,7 +23,7 @@ export interface Player {
   role:         string
 }
 export interface Ingredient {
-  id: string,
+  _id: string,
   name: string,
   description: string,
   value: number,
