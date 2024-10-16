@@ -33,7 +33,8 @@ const formatEffects = (effects: string[]): string => {
 
 const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [selectedPotion, setSelectedPotion] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
+    const [selectedIngredient, setselectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
+    const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
 
@@ -77,9 +78,13 @@ const PotionCreator = () => {
 
     const handleLongPress = (ingredient: Ingredient) => {
         console.log("Ingrediente seleccionado");
-        console.log(ingredient);
         Vibration.vibrate(100);
+        setSelectedIngredientArray(prev => [...prev, ingredient]);
     }
+
+    useEffect(() => {
+        console.log("Ingredientes seleccionados:", selectedIngredientArray);
+    }, [selectedIngredientArray]);
 
     return (
         <Container>
@@ -130,20 +135,20 @@ const PotionCreator = () => {
                         if (index > 0 && index < ingredients.length - 1) {
                             
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedPotion({name: item.name, effects: formatEffects(item.effects)});
+                            setselectedIngredient({name: item.name, effects: formatEffects(item.effects)});
                         }
                         else {
 
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedPotion({name: item.name, effects: formatEffects(item.effects)});
+                            setselectedIngredient({name: item.name, effects: formatEffects(item.effects)});
                         }
                     }}
                 />
 
-                {selectedPotion.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
+                {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <PotionInfoContainer>
-                        <PotionName numberOfLines={2}>{selectedPotion.name}</PotionName>
-                        <PotionEffects numberOfLines={3}>{selectedPotion.effects}</PotionEffects>
+                        <PotionName numberOfLines={2}>{selectedIngredient.name}</PotionName>
+                        <PotionEffects numberOfLines={3}>{selectedIngredient.effects}</PotionEffects>
                     </PotionInfoContainer>
                 )}
             </ImageBackground>
