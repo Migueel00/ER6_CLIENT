@@ -131,10 +131,10 @@ const PotionCreator = () => {
                 />
 
                 {selectedPotion.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
-                    <>
+                    <PotionInfoContainer>
                         <PotionName numberOfLines={2}>{selectedPotion.name}</PotionName>
                         <PotionEffects numberOfLines={3}>{selectedPotion.effects}</PotionEffects>
-                    </>
+                    </PotionInfoContainer>
                 )}
             </ImageBackground>
         </Container>
@@ -166,25 +166,25 @@ const PotionImage = styled.Image`
     border-radius: 10px;
 `;
 
+const PotionInfoContainer = styled.View`
+    position: absolute;
+    top: ${height / 2 - 200}px; /* Ajusta esta posición según sea necesario */
+    left: ${width / 2 - (width * 0.40) / 2}px;
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    align-items: center;
+`;
+
 const PotionName = styled.Text`
     font-size: 41px;
-    fontFamily: 'KochAltschrift';
+    font-family: 'KochAltschrift';
     color: #FFF;
-    position: absolute;
-    top: ${height / 2 - 200}px; /* Posicionar en el centro vertical */
-    left: ${width / 2 - (width * 0.40) / 2}px; /* Posicionar en el centro horizontal */
-    width: ${CONSTANTS.ITEM_SIZE}px;
     text-align: center;
 `;
 
 const PotionEffects = styled.Text`
     font-size: 33px;
-    fontFamily: 'KochAltschrift';
+    font-family: 'KochAltschrift';
     color: #FFF;
-    position: absolute;
-    top: ${height / 2 - 150}px;
-    left: ${width / 2 - (width * 0.40) / 2}px;
-    width: ${CONSTANTS.ITEM_SIZE}px;
     text-align: center;
 `;
 
