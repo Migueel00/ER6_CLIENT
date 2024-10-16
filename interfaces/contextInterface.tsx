@@ -28,7 +28,6 @@ export interface Ingredient {
   description: string,
   value: number,
   effects: string[],
-  image: string,
   type: string,
   key: string
 }

@@ -47,13 +47,12 @@ const PotionCreator = () => {
                 if (!response.ok) throw new Error('Error en la respuesta de la API');
                 
                 const jsonData = await response.json();
-                const ingredientsData: Ingredient[] = jsonData.data.map(({ id, name, description, value, effects, image, type }: Ingredient) => ({
+                const ingredientsData: Ingredient[] = jsonData.data.map(({ id, name, description, value, effects, type }: Ingredient) => ({
                     id,
                     name,
                     description,
                     value,
                     effects,
-                    image: defaultPotionImage,
                     type,
                 }));
 
@@ -115,7 +114,6 @@ const PotionCreator = () => {
                     )}
                     renderItem={({ item, index }) => {
                         if (!item.name) return <DummyContainer />;
-
                         //Por ahora se usara una imagen local
                         const imageSource = defaultPotionImage;
                         const inputRange = [
@@ -127,21 +125,18 @@ const PotionCreator = () => {
                             inputRange,
                             outputRange: [-20, -50, -20]
                         });
-
                         return (
-                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
-                            <PotionContainer>
-                                <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <PotionImage source={{ uri: item.image }}/>
-                                </Potion>
-                            </PotionContainer>
-                        </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
+                                <PotionContainer>
+                                    <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                        <PotionImage source={imageSource} />
+                                    </Potion>
+                                </PotionContainer>
+                            </TouchableWithoutFeedback>
                         );
                     }}
                     onMomentumScrollEnd={(e) => {
-                        const index = Math.floor(e.nativeEvent.contentOffset.x / 157);
-                    
-                        // Asegúrate de que el índice no exceda los límites del arreglo
+                        const index = Math.floor(e.nativeEvent.contentOffset.x / 157);                      // Asegúrate de que el índice no exceda los límites del arreglo
                         if (index > 0 && index < ingredients.length - 1) {
                             
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
@@ -154,13 +149,17 @@ const PotionCreator = () => {
                         }
                     }}
                 />
-
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <PotionInfoContainer>
                         <PotionName numberOfLines={2}>{selectedIngredient.name}</PotionName>
                         <PotionEffects numberOfLines={3}>{selectedIngredient.effects}</PotionEffects>
                     </PotionInfoContainer>
                 )}
+                <SelectedIngredientContainer>
+                    {selectedIngredientArray.map((item, index) => (
+                        <PotionListImage key={index} source={defaultPotionImage} />
+                    ))}
+                </SelectedIngredientContainer>
             </ImageBackground>
         </Container>
     );
@@ -170,6 +169,13 @@ const PotionCreator = () => {
 const Container = styled.View`
     flex: 1;
 `
+const SelectedIngredientContainer = styled.View`
+    flex-direction: row; /* Establece la dirección de los elementos en fila */
+    align-items: center; /* Alinea verticalmente al centro */
+    padding: 10px; /* Espaciado interno para el contenedor */
+    bottom: ${height * 0.30}px;
+    left: ${width * 0.15}px;
+`;
 
 const PotionContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
@@ -189,6 +195,13 @@ const PotionImage = styled.Image`
     height: ${CONSTANTS.ITEM_SIZE * 0.50}px;
     resize-mode: cover;
     border-radius: 10px;
+`;
+
+const PotionListImage = styled.Image`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 20px;
 `;
 
 const PotionInfoContainer = styled.View`
