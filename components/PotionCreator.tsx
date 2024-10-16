@@ -33,7 +33,7 @@ const formatEffects = (effects: string[]): string => {
 
 const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [selectedIngredient, setselectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
+    const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
@@ -127,11 +127,11 @@ const PotionCreator = () => {
                         });
                         return (
                             <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
-                                <PotionContainer>
-                                    <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                        <PotionImage source={imageSource} />
-                                    </Potion>
-                                </PotionContainer>
+                                <IngredientContainer>
+                                    <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                        <IngredientImage source={imageSource} />
+                                    </IngredientItem>
+                                </IngredientContainer>
                             </TouchableWithoutFeedback>
                         );
                     }}
@@ -140,24 +140,24 @@ const PotionCreator = () => {
                         if (index > 0 && index < ingredients.length - 1) {
                             
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setselectedIngredient({name: item.name, effects: formatEffects(item.effects)});
+                            setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
                         }
                         else {
 
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setselectedIngredient({name: item.name, effects: formatEffects(item.effects)});
+                            setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
                         }
                     }}
                 />
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
-                    <PotionInfoContainer>
-                        <PotionName numberOfLines={2}>{selectedIngredient.name}</PotionName>
-                        <PotionEffects numberOfLines={3}>{selectedIngredient.effects}</PotionEffects>
-                    </PotionInfoContainer>
+                    <IngredientInfoContainer>
+                        <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
+                        <IngredientEffects numberOfLines={3}>{selectedIngredient.effects}</IngredientEffects>
+                    </IngredientInfoContainer>
                 )}
                 <SelectedIngredientContainer>
                     {selectedIngredientArray.map((item, index) => (
-                        <PotionListImage key={index} source={defaultPotionImage} />
+                        <IngredientListImage key={index} source={defaultPotionImage} />
                     ))}
                 </SelectedIngredientContainer>
                 {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
@@ -198,12 +198,12 @@ const SelectedIngredientContainer = styled.View`
     left: ${width * 0.15}px;
 `;
 
-const PotionContainer = styled.View`
+const IngredientContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
     margin-top: ${height * - 0.35}px;
 `;
 
-const Potion = styled.View`
+const IngredientItem = styled.View`
     margin-horizontal: ${CONSTANTS.SPACING}px;
     padding: ${CONSTANTS.SPACING}px;
     align-items: center;
@@ -211,21 +211,21 @@ const Potion = styled.View`
     border-radius: 10px;
 `;
 
-const PotionImage = styled.Image`
+const IngredientImage = styled.Image`
     width: 80%;
     height: ${CONSTANTS.ITEM_SIZE * 0.50}px;
     resize-mode: cover;
     border-radius: 10px;
 `;
 
-const PotionListImage = styled.Image`
+const IngredientListImage = styled.Image`
     width: 50px;
     height: 50px;
     border-radius: 10px;
     margin-right: 20px;
 `;
 
-const PotionInfoContainer = styled.View`
+const IngredientInfoContainer = styled.View`
     position: absolute;
     top: ${height / 2 - 200}px; /* Ajusta esta posición según sea necesario */
     left: ${width / 2 - (width * 0.40) / 2}px;
@@ -233,14 +233,14 @@ const PotionInfoContainer = styled.View`
     align-items: center;
 `;
 
-const PotionName = styled.Text`
+const IngredientName = styled.Text`
     font-size: 41px;
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;
 `;
 
-const PotionEffects = styled.Text`
+const IngredientEffects = styled.Text`
     font-size: 33px;
     font-family: 'KochAltschrift';
     color: #FFF;
