@@ -130,7 +130,7 @@ const PotionCreator = () => {
                         }
                     }}
                 />
-                {selectedPotion && <PotionTitle numberOfLines={1}>{selectedPotion}</PotionTitle>}
+                {selectedPotion && <PotionTitle numberOfLines={2}>{selectedPotion}</PotionTitle>}
             </ImageBackground>
         </Container>
     );
@@ -164,7 +164,6 @@ const PotionImage = styled.Image`
 const PotionName = styled.Text`
     font-size: 18px;
     color: #FFF;
-    width: ${CONSTANTS.ITEM_SIZE}px;
     text-align: center;
 `;
 const PotionTitle = styled.Text`
