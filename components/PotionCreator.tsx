@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native';
+import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, TouchableHighlight, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
@@ -160,6 +160,11 @@ const PotionCreator = () => {
                         <PotionListImage key={index} source={defaultPotionImage} />
                     ))}
                 </SelectedIngredientContainer>
+                {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
+                    <CreatePotionButton onPress={() => console.log("Create Potion")}>
+                            <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
+                    </CreatePotionButton>
+                )}
             </ImageBackground>
         </Container>
     );
@@ -169,6 +174,22 @@ const PotionCreator = () => {
 const Container = styled.View`
     flex: 1;
 `
+const CreatePotionButton = styled.TouchableOpacity`
+    background-color: #6200ee;
+    border-radius: 10px;
+    align-items: center;
+    position: absolute;
+    padding: 20px;
+    bottom: ${height * 0.20}px;
+    left: ${((width/2) - 65)}px;
+`;
+
+const CreatePotionButtonText = styled.Text`
+    font-family: 'KochAltschrift';
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+`;
 const SelectedIngredientContainer = styled.View`
     position: absolute;
     flex-direction: row; /* Establece la dirección de los elementos en fila */
