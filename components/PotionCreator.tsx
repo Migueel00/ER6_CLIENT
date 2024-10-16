@@ -170,6 +170,7 @@ const Container = styled.View`
     flex: 1;
 `
 const SelectedIngredientContainer = styled.View`
+    position: absolute;
     flex-direction: row; /* Establece la dirección de los elementos en fila */
     align-items: center; /* Alinea verticalmente al centro */
     padding: 10px; /* Espaciado interno para el contenedor */
