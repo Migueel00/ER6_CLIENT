@@ -179,16 +179,15 @@ const CreatePotionButton = styled.TouchableOpacity`
     border-radius: 10px;
     align-items: center;
     position: absolute;
-    padding: 20px;
+    padding: 10px;
     bottom: ${height * 0.20}px;
     left: ${((width/2) - 65)}px;
 `;
 
 const CreatePotionButtonText = styled.Text`
-    font-family: 'KochAltschrift';
     color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 30px;
+    font-family: 'KochAltschrift';
 `;
 const SelectedIngredientContainer = styled.View`
     position: absolute;
