@@ -22,3 +22,11 @@ export interface Player {
   id:           string,
   role:         string
 }
+export interface Ingredient {
+  id: string,
+  name: string,
+  description: string,
+  value: number,
+  effects: string[],
+  type: string,
+}
