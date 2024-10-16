@@ -2,12 +2,15 @@ import Ingredient from "./ingredient.tsx";
 import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
 import { essence_ingredients_number, essence_ingridient_multipliers } from "./constants.tsx";
 import { Effect } from "./potionsInterface.tsx";
+import Curse from "./curse.tsx";
 
 export default class Cauldron {
     ingredients: Ingredient[];
+    curses: Curse[];
 
-    constructor(ingredients: Ingredient[]) {
+    constructor(ingredients: Ingredient[], curses: Curse[]) {
         this.ingredients = ingredients;
+        this.curses = curses;
     }
 
     // Ahora recibe directamente un array de Ingredient
@@ -35,7 +38,7 @@ export default class Cauldron {
         if (!commonEffects) {
 
             console.log("NO HAY EFECTOS COMUNES");
-            return this.createNonCommonPotion(allEffects);
+            return this.createNonCommonPotion(ingredients, allEffects);
         }
         else
         {
@@ -58,18 +61,56 @@ export default class Cauldron {
        
     }
 
-    private createNonCommonPotion(allEffects: string[]): Potion {
+    private createNonCommonPotion(ingredients: Ingredient[], allEffects: string[]): Potion {
 
         console.log("SE VA A CREAR UN ANTIDOTE / POISON ");
 
         const hasRestore = allEffects.some(effect => effect.includes("restore"));
         const hasDamage = allEffects.some(effect => effect.includes("damage"));
 
+        let potionToCreate = null;
+
+        if(hasRestore){
+            potionToCreate = this.compareEffectsWithCursesToCreateAntidote(allEffects);
+        } else if(hasDamage){
+            potionToCreate = this.compareEffectsWithCursesToCreatePoison(allEffects);
+        }
+       
+        console.log("POSION TO CREATE");
+        console.log(potionToCreate);
+        
+
         if (hasRestore) {
             return new Antidote();
         }
         if (hasDamage) {
             return new Poison();
+        }
+
+        return new FailedPotion("Failed Potion", 0);
+    }
+
+    private compareEffectsWithCursesToCreateAntidote(effectsToCompare: string[])
+    {
+        for(let i = 0; i < this.curses.length; i++)
+        {
+            if(this.curses[i].antidote_effects.sort().join(',') === effectsToCompare.sort().join(',')){
+                //SAME EFFECTS
+                return this.curses[i];
+            }
+        }
+
+        return new FailedPotion("Failed Potion", 0);
+    }
+
+    private compareEffectsWithCursesToCreatePoison(effectsToCompare: string[])
+    {
+        for(let i = 0; i < this.curses.length; i++)
+        {
+            if(this.curses[i].poison_effects.sort().join(',') === effectsToCompare.sort().join(',')){
+                //SAME EFFECTS
+                return this.curses[i];
+            }
         }
 
         return new FailedPotion("Failed Potion", 0);
