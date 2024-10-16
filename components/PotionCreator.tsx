@@ -108,18 +108,28 @@ const PotionCreator = () => {
                         return (
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                    <PotionName numberOfLines={1}>{item.name}</PotionName>
                                     <PotionImage source={imageSource} />
                                 </Potion>
                             </PotionContainer>
                         );
                     }}
                     onMomentumScrollEnd={(e) => {
-                        const index = Math.floor(e.nativeEvent.contentOffset.x / CONSTANTS.ITEM_SIZE);
-                        const item = ingredients[index];
-                        setSelectedPotion(item.name || ''); // Establecer el nombre del ítem actual
+                        const index = Math.floor(e.nativeEvent.contentOffset.x / 157);
+                    
+                        // Asegúrate de que el índice no exceda los límites del arreglo
+                        if (index > 0 && index < ingredients.length - 1) {
+                            
+                            const item = ingredients[index + 1]; // Obtén el ítem seleccionado
+                            setSelectedPotion(item.name);
+                        }
+                        else {
+
+                            const item = ingredients[index + 1]; // Obtén el ítem seleccionado
+                            setSelectedPotion(item.name);
+                        }
                     }}
                 />
-                {/* Nombre del ítem centrado */}
                 {selectedPotion && <PotionTitle numberOfLines={1}>{selectedPotion}</PotionTitle>}
             </ImageBackground>
         </Container>
@@ -151,6 +161,12 @@ const PotionImage = styled.Image`
     border-radius: 10px;
 `;
 
+const PotionName = styled.Text`
+    font-size: 18px;
+    color: #FFF;
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    text-align: center;
+`;
 const PotionTitle = styled.Text`
     font-size: 24px;
     color: #FFF;

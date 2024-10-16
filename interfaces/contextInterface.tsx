@@ -29,4 +29,5 @@ export interface Ingredient {
   value: number,
   effects: string[],
   type: string,
+  key: string
 }
