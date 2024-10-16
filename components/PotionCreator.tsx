@@ -43,10 +43,10 @@ const PotionCreator = () => {
 
                     switch (userRole){
                         case 'ACOLYTE':
-                            return ingredient.effects.some(effect => effect.includes('restore'));
+                            return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
 
                         case 'VILLAIN':
-                            return ingredient.effects.some(effect => effect.includes('damage'));
+                            return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
                     }
                 });
 
@@ -57,7 +57,7 @@ const PotionCreator = () => {
         };
 
         getIngredients();
-    }, [userRole]);
+    }, []);
 
     return (
         <Container>
