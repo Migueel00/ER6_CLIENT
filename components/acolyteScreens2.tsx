@@ -6,6 +6,7 @@ import HomeScreen from './homeScreen';
 import ProfileScreen3 from './ProfileScreen3';
 import SettingsScreen from './settings/settingsScreen';
 import LabScreen from './labScreen';
+import MapScreen from './mapScreen/mapScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -97,6 +98,10 @@ const AcolyteScreens = () => {
               ),
               tabBarLabel: () => null,
             }}
+          />
+          <Tab.Screen
+            name="MAP"
+            component={MapScreen}
           />
         </Tab.Navigator>
       </NavigationContainer>

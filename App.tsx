@@ -2,19 +2,14 @@
 import auth from '@react-native-firebase/auth';
 import LoadSpinner from './components/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import type { PropsWithChildren } from 'react';
-import React, { Children, useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import io, { Socket } from 'socket.io-client';
 import { searchAndIfDontExistPost } from "./src/API/get&post";
 import { getAllPlayers } from './src/API/getAllPlayers';
-import { searchByEmail } from './src/API/searchByEmail';
 import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
@@ -26,17 +21,7 @@ GoogleSignin.configure({
   offlineAccess: true,
 });
 
-// Importa la configuración de Firebase
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
 const {width, height} = Dimensions.get('window');
-
-
-
-
 function App(): React.JSX.Element {
 
   const [isVerified, setIsVerified] = useState(false);
@@ -44,7 +29,6 @@ function App(): React.JSX.Element {
   const [userSocket, setUserSocket] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("") ;
-  const [profileData, setProfileData] = useState("");
   const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
     dexterity: 0,
@@ -54,7 +38,6 @@ function App(): React.JSX.Element {
     strength: 0,
   });
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
@@ -87,7 +70,6 @@ function App(): React.JSX.Element {
     setProfileAttributes(profileAttributes);
     }, [profileAttributes]);
 
-  const Tab = createMaterialTopTabNavigator();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -131,7 +113,6 @@ function App(): React.JSX.Element {
 
     if (fireBaseResponse.ok) {
       console.log('Respuesta del servidor:', fireBaseResult);
-      setProfileData(JSON.stringify(fireBaseResult, null, 2)); // Almacena los datos del usuario
             //Async storage
       // await manageRole(email as string);
       await AsyncStorage.setItem('email', email as string);
@@ -170,7 +151,6 @@ function App(): React.JSX.Element {
   const handleButtonPress = async () => {
 
     try {
-      setLoading(true);
       setIsSpinner(true);
       setError(null);
       // Iniciar socket
@@ -217,12 +197,7 @@ function App(): React.JSX.Element {
       }
 
       const profileData = await response.json();
-
-      
-      const stringProfileData = JSON.stringify(profileData, null,2);
       const profileDataAttr = profileData.data.attributes
-      
-      setProfileData(`${stringProfileData}`);
       setProfileAttributes(profileDataAttr);
 
 
@@ -238,7 +213,6 @@ function App(): React.JSX.Element {
       //player.role = "ISTVAN";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
-      console.log("EL ROL ASIGNADO ES: " + player.role);
 
       if(player.role === 'MORTIMER'){
         console.log("HA ENTRADO PARA HACER EL FETCH");
@@ -269,8 +243,6 @@ function App(): React.JSX.Element {
   };
   
   const getDataAndAsign = async () => {
-    console.log("EJECUTA LA FUNCION GET DATA & ASIGN");
-
     const players      = await getAllPlayers();
     const playersData  = players.data;
     const newPlayers = [];
@@ -337,26 +309,18 @@ function App(): React.JSX.Element {
           {isSpinner ? (
             <LoadSpinner />
           ) : (
-
               <View style={styles.container}>
                 <View style={styles.overlayText}>
-
                   <Text style={styles.kaotikaFont}>
                       <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
                   </Text>
-
                   <Text style={styles.kaotikaFont}>The Dark Age</Text>
                   
                 </View>
-
-                  <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
-                      <Text style={styles.kaotikaFont}>Sign in with google</Text>
-                  </TouchableOpacity>
-
+                <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
+                  <Text style={styles.kaotikaFont}>Sign in with google</Text>
+                </TouchableOpacity>
               </View>
-
-              
-
           )}
         </ScrollView>
         </ImageBackground>
