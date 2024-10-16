@@ -76,10 +76,19 @@ const PotionCreator = () => {
         getIngredients();
     }, [userRole]);
 
-    const handleLongPress = (ingredient: Ingredient) => {
-        console.log("Ingrediente seleccionado");
-        Vibration.vibrate(100);
-        setSelectedIngredientArray(prev => [...prev, ingredient]);
+    const handleLongPress = (ingredient: Ingredient) => {;
+
+        if (selectedIngredientArray.length < 4) {
+            Vibration.vibrate(100);
+            console.log("Ingrediente seleccionado");
+            setSelectedIngredientArray(prev => [...prev, ingredient]);
+        }
+        else
+        {
+            Vibration.vibrate(100);
+            console.log("Maximo de ingredientes añadidos");
+            
+        }
     }
 
     useEffect(() => {
