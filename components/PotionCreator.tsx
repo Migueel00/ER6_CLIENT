@@ -17,6 +17,18 @@ const CONSTANTS = {
     SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
 };
 
+// Función para formatear los efectos
+const formatEffects = (effects: string[]): string => {
+    return effects
+        .map(effect => 
+            effect
+                .split('_') // Divide los guiones bajos
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Primera letra de cada palabra mayúscula
+                .join(' ') // Une las palabras con espacios
+        )
+        .join(', '); // Une los diferentes efectos con comas
+};
+
 const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);;
     const context = useContext(AppContext);
@@ -98,7 +110,7 @@ const PotionCreator = () => {
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <PotionImage source={imageSource} />
                                     <PotionTitle numberOfLines={1}>{item.name}</PotionTitle>
-                                    <PotionDescription numberOfLines={3}>{item.description}</PotionDescription>
+                                    <PotionDescription numberOfLines={3}>{formatEffects(item.effects)}</PotionDescription>
                                 </Potion>
                             </PotionContainer>
                         );
