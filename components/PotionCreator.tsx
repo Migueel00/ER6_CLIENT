@@ -75,8 +75,9 @@ const PotionCreator = () => {
         getIngredients();
     }, [userRole]);
 
-    const handleLongPress = (name: string) => {
-        console.log(`Pocion seleccionada: ${name}`);
+    const handleLongPress = (ingredient: Ingredient) => {
+        console.log("Ingrediente seleccionado");
+        console.log(ingredient);
         Vibration.vibrate(100);
     }
 
@@ -113,7 +114,7 @@ const PotionCreator = () => {
                         });
 
                         return (
-                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item.name)}>
+                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <PotionImage source={imageSource} />
