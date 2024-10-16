@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, SafeAreaView, ImageBackground, StyleSheet, StatusBar, Animated, FlatList, View } from 'react-native';
+import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
@@ -8,7 +8,7 @@ const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
-const ITEM_SIZE = width * 0.50;
+const ITEM_SIZE = width * 0.40;
 
 const CONSTANTS = {
     ITEM_SIZE,
@@ -30,7 +30,8 @@ const formatEffects = (effects: string[]): string => {
 };
 
 const PotionCreator = () => {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);;
+    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [selectedPotion, setSelectedPotion] = useState<string>(''); // Para almacenar el nombre del ítem seleccionado
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
 
@@ -94,7 +95,6 @@ const PotionCreator = () => {
 
                         //Por ahora se usara una imagen local
                         const imageSource = defaultPotionImage;
-                        
                         const inputRange = [
                             (index - 2) * CONSTANTS.ITEM_SIZE,
                             (index - 1) * CONSTANTS.ITEM_SIZE,
@@ -109,15 +109,20 @@ const PotionCreator = () => {
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <PotionImage source={imageSource} />
-                                    <PotionTitle numberOfLines={1}>{item.name}</PotionTitle>
-                                    <PotionEffects numberOfLines={3}>{formatEffects(item.effects)}</PotionEffects>
                                 </Potion>
                             </PotionContainer>
                         );
                     }}
+                    onMomentumScrollEnd={(e) => {
+                        const index = Math.floor(e.nativeEvent.contentOffset.x / CONSTANTS.ITEM_SIZE);
+                        const item = ingredients[index];
+                        setSelectedPotion(item.name || ''); // Establecer el nombre del ítem actual
+                    }}
                 />
+                {/* Nombre del ítem centrado */}
+                {selectedPotion && <PotionTitle numberOfLines={1}>{selectedPotion}</PotionTitle>}
             </ImageBackground>
-            </Container>
+        </Container>
     );
 };
 
@@ -147,13 +152,13 @@ const PotionImage = styled.Image`
 `;
 
 const PotionTitle = styled.Text`
-    font-size: 18px;
+    font-size: 24px;
     color: #FFF;
-`;
-
-const PotionEffects = styled.Text`
-    font-size: 12px;
-    color: #FFF;
+    position: absolute;
+    top: ${height / 2 - 50}px; /* Posicionar en el centro vertical */
+    left: ${width / 2 - (width * 0.40) / 2}px; /* Posicionar en el centro horizontal */
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    text-align: center;
 `;
 
 const DummyContainer = styled.View`
