@@ -31,7 +31,7 @@ const formatEffects = (effects: string[]): string => {
 
 const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [selectedPotion, setSelectedPotion] = useState<string>(''); // Para almacenar el nombre del ítem seleccionado
+    const [selectedPotion, setSelectedPotion] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
 
@@ -120,16 +120,22 @@ const PotionCreator = () => {
                         if (index > 0 && index < ingredients.length - 1) {
                             
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedPotion(item.name);
+                            setSelectedPotion({name: item.name, effects: formatEffects(item.effects)});
                         }
                         else {
 
                             const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedPotion(item.name);
+                            setSelectedPotion({name: item.name, effects: formatEffects(item.effects)});
                         }
                     }}
                 />
-                {selectedPotion && <PotionName numberOfLines={2}>{selectedPotion}</PotionName>}
+
+                {selectedPotion.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
+                    <>
+                        <PotionName numberOfLines={2}>{selectedPotion.name}</PotionName>
+                        <PotionEffects numberOfLines={3}>{selectedPotion.effects}</PotionEffects>
+                    </>
+                )}
             </ImageBackground>
         </Container>
     );
@@ -161,11 +167,23 @@ const PotionImage = styled.Image`
 `;
 
 const PotionName = styled.Text`
-    font-size: 24px;
+    font-size: 41px;
+    fontFamily: 'KochAltschrift';
     color: #FFF;
     position: absolute;
-    top: ${height / 2 - 50}px; /* Posicionar en el centro vertical */
+    top: ${height / 2 - 200}px; /* Posicionar en el centro vertical */
     left: ${width / 2 - (width * 0.40) / 2}px; /* Posicionar en el centro horizontal */
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    text-align: center;
+`;
+
+const PotionEffects = styled.Text`
+    font-size: 33px;
+    fontFamily: 'KochAltschrift';
+    color: #FFF;
+    position: absolute;
+    top: ${height / 2 - 150}px;
+    left: ${width / 2 - (width * 0.40) / 2}px;
     width: ${CONSTANTS.ITEM_SIZE}px;
     text-align: center;
 `;
