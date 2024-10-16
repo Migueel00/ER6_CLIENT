@@ -45,7 +45,7 @@ function App(): React.JSX.Element {
 
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
-
+  const [location, setLocation] = useState<string>("");
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -295,6 +295,8 @@ function App(): React.JSX.Element {
         setPlayers:setPlayers,
         setIsLoggedIn:setIsLoggedIn ,
         socket: socket,
+        location: location,
+        setLocation: setLocation
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { Dimensions, View } from "react-native";
 import styled from "styled-components/native";
+import AppContext from "../../helpers/context";
 
 const mapImage = require('../../assets/backgrounds/map_background.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
@@ -38,12 +40,14 @@ const TouchableIcon = styled.TouchableOpacity`
 `
 
 const MapScreen = () => {
-    const handleMapIconPress = () => {
-        console.log("ICONO MAPA");
-    }
+    const setLocation = useContext(AppContext)?.setLocation;
 
     const handleLabIconPress = () => {
-        console.log("ICONO LAB")
+        setLocation('LAB')
+    }
+
+    const handleHomeIconPress = () => {
+        setLocation('HOME');
     }
 
     return (
@@ -56,7 +60,7 @@ const MapScreen = () => {
                 <LabIcon source={labIcon}  /> 
             </TouchableIcon>
             <TouchableIcon
-                onPress={handleMapIconPress}
+                onPress={handleHomeIconPress}
                 style={{ top: height * 0.53, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
