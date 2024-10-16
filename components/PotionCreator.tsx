@@ -108,7 +108,6 @@ const PotionCreator = () => {
                         return (
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <PotionName numberOfLines={1}>{item.name}</PotionName>
                                     <PotionImage source={imageSource} />
                                 </Potion>
                             </PotionContainer>
@@ -130,7 +129,7 @@ const PotionCreator = () => {
                         }
                     }}
                 />
-                {selectedPotion && <PotionTitle numberOfLines={2}>{selectedPotion}</PotionTitle>}
+                {selectedPotion && <PotionName numberOfLines={2}>{selectedPotion}</PotionName>}
             </ImageBackground>
         </Container>
     );
@@ -162,11 +161,6 @@ const PotionImage = styled.Image`
 `;
 
 const PotionName = styled.Text`
-    font-size: 18px;
-    color: #FFF;
-    text-align: center;
-`;
-const PotionTitle = styled.Text`
     font-size: 24px;
     color: #FFF;
     position: absolute;
