@@ -47,12 +47,13 @@ const PotionCreator = () => {
                 if (!response.ok) throw new Error('Error en la respuesta de la API');
                 
                 const jsonData = await response.json();
-                const ingredientsData: Ingredient[] = jsonData.data.map(({ id, name, description, value, effects, type }: Ingredient) => ({
+                const ingredientsData: Ingredient[] = jsonData.data.map(({ id, name, description, value, effects, image, type }: Ingredient) => ({
                     id,
                     name,
                     description,
                     value,
                     effects,
+                    image: defaultPotionImage,
                     type,
                 }));
 
@@ -131,7 +132,7 @@ const PotionCreator = () => {
                         <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                             <PotionContainer>
                                 <Potion as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <PotionImage source={imageSource} />
+                                    <PotionImage source={{ uri: item.image }}/>
                                 </Potion>
                             </PotionContainer>
                         </TouchableWithoutFeedback>
