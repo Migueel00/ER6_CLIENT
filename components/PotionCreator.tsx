@@ -187,6 +187,7 @@ const PotionCreator = () => {
                     }}>
                         <CreatePotionButton>
                             <CreatePotionIcon source={createPotionImage} />
+                            <PotionCreationText>Potion Creation</PotionCreationText>
                         </CreatePotionButton>
                     </CreatePotionButton>
                 )}
@@ -237,6 +238,14 @@ const CreatePotionButton = styled.TouchableOpacity`
     padding: 10px;
     bottom: ${height * 0.093}px;
     left: ${((width/2) * 0.16)}px;
+`;
+
+const PotionCreationText = styled.Text`
+    position: absolute;
+    top: ${height * 0.04}px;
+    font-size: ${width * 0.10}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
 `;
 
 const IngredientBackButton = styled.TouchableOpacity`
