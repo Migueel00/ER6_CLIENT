@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, TouchableHighlight, TouchableOpacity, Text } from 'react-native';
+import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Vibration } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
@@ -87,7 +88,10 @@ const PotionCreator = () => {
         {
             Vibration.vibrate(100);
             console.log("Maximo de ingredientes añadidos");
-            
+            Toast.show({
+                type: 'error',
+                text1: 'Maximum ingredients'
+            });
         }
     }
 
@@ -107,7 +111,7 @@ const PotionCreator = () => {
                     scrollEventThrottle={16}
                     horizontal
                     data={ingredients}
-                    keyExtractor={(item) => item.id ? item.id.toString() : item.key}
+                    keyExtractor={(item) => item._id ? item._id.toString() : item.key}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                         { useNativeDriver: true }
@@ -161,8 +165,8 @@ const PotionCreator = () => {
                     ))}
                 </SelectedIngredientContainer>
                 {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
-                    <CreatePotionButton onPress={() => console.log("Create Potion")}>
-                            <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
+                    <CreatePotionButton onPress={() => console.log("Create potion")}>
+                        <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
                     </CreatePotionButton>
                 )}
             </ImageBackground>

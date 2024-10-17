@@ -21,6 +21,7 @@ import AppContext from './helpers/context';
 import { ProfileAttributes } from './components/profileScreen';
 import { Player } from './interfaces/contextInterface';
 import executePotionCreation from './components/potions/execute';
+import Toast from 'react-native-toast-message';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -365,6 +366,7 @@ function App(): React.JSX.Element {
         </ImageBackground>
       )}
     </SafeAreaView>
+    <Toast/>
     </AppContext.Provider>
   );
   
