@@ -8,7 +8,8 @@ import Potion from './potions/potion';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
-const goBackImage = require('../assets/icons/back-arrow.png')
+const goBackImage = require('../assets/icons/back-arrow.png');
+const createPotionImage = require('../assets/icons/darkButton2.png');
 const { width, height } = Dimensions.get('window');
 
 interface IngredientInterface {
@@ -184,7 +185,9 @@ const PotionCreator = () => {
                             console.log("PotionFactory or createPotion method is not available");
                         }
                     }}>
-                        <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
+                        <CreatePotionButton>
+                            <CreatePotionIcon source={createPotionImage} />
+                        </CreatePotionButton>
                     </CreatePotionButton>
                 )}
 
@@ -228,19 +231,12 @@ const Container = styled.View`
     flex: 1;
 `
 const CreatePotionButton = styled.TouchableOpacity`
-    background-color: #6200ee;
     border-radius: 10px;
     align-items: center;
     position: absolute;
     padding: 10px;
-    bottom: ${height * 0.20}px;
-    left: ${((width/2) - 60)}px;
-`;
-
-const CreatePotionButtonText = styled.Text`
-    color: #ffffff;
-    font-size: 30px;
-    font-family: 'KochAltschrift';
+    bottom: ${height * 0.093}px;
+    left: ${((width/2) - 152)}px;
 `;
 
 const IngredientBackButton = styled.TouchableOpacity`
@@ -256,6 +252,11 @@ const IngredientBackButton = styled.TouchableOpacity`
 const BackIcon = styled.Image`
     width: ${width * 0.12}px;
     height: ${height * 0.05}px;
+`;
+
+const CreatePotionIcon = styled.Image`
+    width: ${width * 0.50}px;
+    height: ${height * 0.10}px;
 `;
 
 const SelectedIngredientContainer = styled.View`
