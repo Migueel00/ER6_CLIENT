@@ -59,6 +59,11 @@ const PotionCreator = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        console.log(JSON.stringify(ingredients));
+        
+    }, [ingredients]);
+
+    useEffect(() => {
         if (!potionFactory) {
             setPotionFactory(new Cauldron(ingredients, curses));
         }
@@ -250,7 +255,11 @@ const PotionCreator = () => {
                     animationType="fade"
                     onRequestClose={() => setFilterModalVisible(false)}
                 >
-                    <FilterModal closeModal={() => setFilterModalVisible(false)}/>
+                    <FilterModal 
+                        closeModal={() => setFilterModalVisible(false)}
+                        ingredients={ingredients}
+                        setIngredients={setIngredients}
+                    />
                 </Modal>
 
 
