@@ -13,7 +13,10 @@ const Icon = styled.Image`
 `
 const { height } = Dimensions.get('window');
 
+
 const MenuLabInside = () => {
+    
+
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -51,7 +54,8 @@ const MenuLabInside = () => {
                             <Icon
                                 source={require('../../../assets/icons/lab-icon.png')}
                             />
-                        )
+                        ),
+                        tabBarLabel: ''
                     }}
                     />
             </Tab.Navigator>

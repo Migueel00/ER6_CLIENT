@@ -1,13 +1,20 @@
-import { useContext } from "react";
-import { Dimensions, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { Dimensions} from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
+import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
+import AcolyteContext from "../../helpers/AcolyteContext";
 
 const mapImage = require('../../assets/backgrounds/map_background.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 
+
 const { width, height } = Dimensions.get('window');
+
+interface MapScreenProps{
+    isMenuLoaded: boolean;
+}
 
 const Container = styled.View`
     flex: 1;
@@ -40,15 +47,50 @@ const TouchableIcon = styled.TouchableOpacity`
 `
 
 const MapScreen = () => {
+    
     const setLocation = useContext(AppContext)?.setLocation;
+    const acolyteContext = useContext(AcolyteContext);
+    const isMenuLoaded = acolyteContext?.isMenuLoaded;
+    const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
+    // Navigation tipado
+    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
+    useEffect(() => {
+        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
+
+        if(isMenuLabLoaded){
+            setTimeout(() => {
+                navigation.navigate('LAB');
+
+            }, 200);
+        }
+    }, [isMenuLabLoaded]);
+
+    // useEffect(() => {
+    //     console.log("ESTADO DE IS MENU HOME LOADED " + isMenuLoaded);
+
+    //     if(isMenuLoaded){
+    //         setTimeout(() => {
+    //             navigation.navigate('Home');
+
+    //         }, 200);
+    //     }
+    // }, [isMenuLoaded]);
+    
+    
     const handleLabIconPress = () => {
-        setLocation('LAB')
+        setLocation('LAB');
+        if(isMenuLabLoaded){
+            navigation.navigate('LAB');
+        }
     }
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
-    }
+        if(isMenuLoaded){
+            navigation.navigate('Home');
+        }
+    }   
 
     return (
         <Container>

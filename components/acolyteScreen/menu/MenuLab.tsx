@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LabScreen from "../../labScreen";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
+import AcolyteContext from "../../../helpers/AcolyteContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,6 +16,18 @@ const Icon = styled.Image`
 const { height } = Dimensions.get('window');
 
 const MenuLab = () => {
+    const acolyteContext = useContext(AcolyteContext);
+    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
+
+    useEffect(() => {
+        setIsMenuLabLoaded(true)
+
+        // Se ejecuta al desmontar el componente
+        return () => {
+            setIsMenuLabLoaded(false);
+        }
+    }, []);
+
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -54,7 +67,7 @@ const MenuLab = () => {
                                 source={require('../../../assets/icons/mapIcon.png')}
                             />
                         ),
-                        tabBarLabel: () => null
+                        tabBarLabel: ''
                     }}
                 />
                 <Tab.Screen
@@ -65,7 +78,8 @@ const MenuLab = () => {
                             <Icon
                                 source={require('../../../assets/icons/lab-icon.png')}
                             />
-                        )
+                        ),
+                        tabBarLabel: '',
                     }}
                     />
             </Tab.Navigator>
