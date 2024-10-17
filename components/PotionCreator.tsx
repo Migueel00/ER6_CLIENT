@@ -256,9 +256,9 @@ const PotionCreator = () => {
                     <ModalContainer>
                         {/* Imagen de fondo */}
                         <PotionImageBackground source={require('./../assets/png/darkModal.png')}>
-                            <PotionMessage>
+                            <PotionCreatedMessage>
                                 Potion Created
-                            </PotionMessage> 
+                            </PotionCreatedMessage> 
 
                             {/* Imagen centrada sobre la imagen principal */} 
                             <CenteredPotionImage
@@ -266,7 +266,7 @@ const PotionCreator = () => {
                             />
 
                             <PotionMessage>
-                                You created the {createdPotion?.name} potion
+                                {createdPotion?.name}
                             </PotionMessage>
                         </PotionImageBackground>
 
@@ -293,6 +293,7 @@ const PotionCreator = () => {
 //STYLED COMPONENTS
 const Container = styled.View`
     flex: 1;
+    padding-bottom: 50px;
 `
 const CreatePotionButton = styled.TouchableOpacity`
     border-radius: 10px;
@@ -430,14 +431,13 @@ const ModalContainer = styled.View`
 const PotionImageBackground = styled.ImageBackground` 
     width: 100%;
     height: 80%;
-    justify-content: center;
     align-items: center;
-    position: relative; /* Para que los hijos se posicionen relativamente */
+    position: relative;
     margin-top: ${height*0.05}px;  
 `;
 
 const PotionMessage = styled.Text`
-    position: absolute;
+    position: relative;
     top: 10px; /* Alinea el texto en la parte superior de la imagen */
     color: #ffffff;
     font-size: 24px;
@@ -445,10 +445,19 @@ const PotionMessage = styled.Text`
     text-align: center;
 `;
 
+const PotionCreatedMessage = styled.Text`
+    position: relative;
+    color: #ffffff;
+    font-size: ${width * 0.13}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
+    top: ${height*0.02}px;
+`;
+
 const CenteredPotionImage = styled.Image`
     width: 150px;
     height: 150px;
-    position: absolute;
+    position: relative;
     top: 30%; /* Ajusta esta posición según el diseño */
     resize-mode: contain;
 `;
