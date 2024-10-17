@@ -350,7 +350,9 @@ const IngredientItem = styled.View`
     margin-horizontal: ${CONSTANTS.SPACING}px;
     padding: ${CONSTANTS.SPACING}px;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.8);
+    border-width: 1.5px;
+    border-color: #C19A6B;
     border-radius: ${width * 0.02}px;
 `;
 
@@ -358,6 +360,8 @@ const IngredientImage = styled.Image`
     width: ${CONSTANTS.ITEM_SIZE * 0.60}px;
     height: ${CONSTANTS.ITEM_SIZE * 0.60}px;
     resize-mode: cover;
+    border-width: 1.5px;
+    border-color: #FFF;
     border-radius: ${width * 0.02}px;
 `;
 
@@ -380,6 +384,7 @@ const IngredientName = styled.Text`
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;
+    margin-bottom: ${height * 0.01}px;
 `;
 
 const IngredientEffects = styled.Text`
@@ -387,6 +392,7 @@ const IngredientEffects = styled.Text`
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;
+    margin-top: ${height * 0.005}px;
 `;
 
 const DummyContainer = styled.View`
