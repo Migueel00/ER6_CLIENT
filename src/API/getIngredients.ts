@@ -1,7 +1,6 @@
 import Ingredient from "../../components/potions/ingredient";
 
-
-const getIngredients = async () => {
+const getIngredientsAndFilter = async (userRole: string) => {
     try {
         const response = await fetch('https://kaotika-server.fly.dev/ingredients');
         if (!response.ok) throw new Error('Error en la respuesta de la API');
@@ -16,11 +15,23 @@ const getIngredients = async () => {
             type,
         }));
 
-        return ingredientsData;
+        const filteredIngredients: Ingredient[] = ingredientsData.filter((ingredient: Ingredient) => {
+            switch (userRole) {
+                case 'ACOLYTE':
+                    return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
+    
+                case 'VILLAIN':
+                    return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
+                default:
+                    return false; // Optional: handle any other user roles
+            }
+        });
+
+        return filteredIngredients;
     }
     catch (error){
         console.log(error);
     }
 }
 
-export default getIngredients;
+export default getIngredientsAndFilter;

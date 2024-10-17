@@ -5,23 +5,13 @@ import AppContext from '../helpers/context';
 import Cauldron from './potions/cauldron';
 import Ingredient from './potions/ingredient';
 import Potion from './potions/potion';
+import FilterModal from './FilterModal';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
-interface IngredientInterface {
-    _id: string;
-    name: string;
-    description: string;
-    value: number;
-    effects: string[];
-    image: string;
-    type: string;
-    key: string;
-}
 
-type IngredientOrSpacer = Ingredient | { key: string };
 
 const ITEM_SIZE = width * 0.60;
 
@@ -30,6 +20,9 @@ const CONSTANTS = {
     SPACING: 10,
     WIDTH: width,
     SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
+    HEIGHT: height,
+    BUTTON_SPACING: 0.02,
+    BUTTON_RIGHT: 0.05
 };
 
 // Función para formatear los efectos
@@ -59,6 +52,7 @@ const PotionCreator = () => {
     const toggleModal = () => {
         setPotionModalVisible(!potionModalVisible);
     };
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -68,28 +62,53 @@ const PotionCreator = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const ingredientsData = ingredients;
-    
-        const filteredIngredients: Ingredient[] = ingredientsData.filter((ingredient: Ingredient) => {
-            switch (userRole) {
-                case 'ACOLYTE':
-                    return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
-    
-                case 'VILLAIN':
-                    return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
-                default:
-                    return false; // Optional: handle any other user roles
-            }
-        });
-    
-        setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
-    }, [userRole]);
+    const handlePressFilter = () => {
+        setFilterModalVisible(true);
+    }
 
     const handleLongPress = (ingredient: Ingredient) => {;
 
         if (selectedIngredientArray.length < 4) {
-            Vibration.vibrate(100);
+            Vibration.vibrate(100);   <Animated.FlatList
+            snapToInterval={CONSTANTS.ITEM_SIZE}
+            decelerationRate={0}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ alignItems: 'center' }}
+            scrollEventThrottle={16}
+            horizontal
+            data={ingredients}
+            keyExtractor={(item) => item._id ? item._id.toString() : item.key}
+            onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: true }
+            )}
+            renderItem={({ item, index }) => {
+                if (!item.name) return <DummyContainer />;
+                //Por ahora se usara una imagen local
+                const imageSource = defaultPotionImage;
+                const inputRange = [
+                    (index - 2) * CONSTANTS.ITEM_SIZE,
+                    (index - 1) * CONSTANTS.ITEM_SIZE,
+                    index * CONSTANTS.ITEM_SIZE
+                ];
+                const translateY = scrollX.interpolate({
+                    inputRange,
+                    outputRange: [-20, -50, -20]
+                });
+                return (
+                    <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
+                        <IngredientContainer>
+                            <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                            <IngredientName>{item.name}</IngredientName>
+                                <IngredientImage source={imageSource} />
+
+                                <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
+                            </IngredientItem>
+                        </IngredientContainer>
+                    </TouchableWithoutFeedback>
+                );
+            }}
+        />
             console.log("Ingrediente seleccionado");
             setSelectedIngredientArray(prev => [...prev, ingredient]);
         }
@@ -110,7 +129,7 @@ const PotionCreator = () => {
     return (
         <Container>
             <StatusBar />
-            <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
+            <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>       
                 <Animated.FlatList
                     snapToInterval={CONSTANTS.ITEM_SIZE}
                     decelerationRate={0}
@@ -140,6 +159,7 @@ const PotionCreator = () => {
                         return (
                             <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                                 <IngredientContainer>
+                                
                                     <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <IngredientName>{item.name}</IngredientName>
                                         <IngredientImage source={imageSource} />
@@ -151,6 +171,9 @@ const PotionCreator = () => {
                         );
                     }}
                 />
+                <FilterButton onPress={handlePressFilter} >
+                    <FilterButttonText>Filter...</FilterButttonText>
+                </FilterButton>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
                         <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
@@ -198,7 +221,7 @@ const PotionCreator = () => {
                     </IngredientBackButton>
                 )}
 
-               <Modal
+                <Modal
                     visible={potionModalVisible}
                     transparent={true}
                     animationType="fade"
@@ -216,6 +239,15 @@ const PotionCreator = () => {
                         </CloseButton>
                     </ModalContainer>
                 </Modal>
+                <Modal
+                    visible={filterModalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setFilterModalVisible(false)}
+                >
+                    <FilterModal/>
+                </Modal>
+
 
             </ImageBackground>
         </Container>
@@ -270,7 +302,7 @@ const SelectedIngredientContainer = styled.View`
 
 const IngredientContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
-    margin-top: ${height * - 0.35}px;
+    margin-top: ${height * - 0.15}px;
 `;
 
 const IngredientItem = styled.View`
@@ -366,5 +398,24 @@ const CloseButtonText = styled.Text`
     font-size: 20px;
     font-family: 'KochAltschrift';
 `;
+
+const FilterButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    right: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.18}px;
+    height: ${CONSTANTS.HEIGHT * 0.08}px; 
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: ${CONSTANTS.WIDTH * 0.02}px; 
+    border-radius: ${CONSTANTS.WIDTH * 0.05}px; 
+`;
+
+const FilterButttonText = styled.Text`
+    color: black;
+    font-size: ${CONSTANTS.WIDTH * 0.05}px;
+    font-family: 'KochAltschrift';
+`
 
 export default PotionCreator;
