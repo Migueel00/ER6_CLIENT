@@ -35,7 +35,6 @@ const formatEffects = (effects: string[]): string => {
 };
 
 const PotionCreator = () => {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
@@ -43,6 +42,8 @@ const PotionCreator = () => {
     const [potionFactory, setPotionFactory] = useState<Cauldron| null>();
     const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
+    const [ingredients, setIngredients] = useState(context?.ingredients || []);
+    
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -53,39 +54,20 @@ const PotionCreator = () => {
     }, []);
 
     useEffect(() => {
-        const getIngredients = async () => {
-            try {
-                const response = await fetch('https://kaotika-server.fly.dev/ingredients');
-                if (!response.ok) throw new Error('Error en la respuesta de la API');
-                
-                const jsonData = await response.json();
-                const ingredientsData: Ingredient[] = jsonData.data.map(({ _id, name, description, value, effects, type }: Ingredient) => ({
-                    id: _id,
-                    name,
-                    description,
-                    value,
-                    effects,
-                    type,
-                }));
+        const ingredientsData = ingredients;
 
-                const filteredIngredients = ingredientsData.filter(ingredient => {
+        const filteredIngredients = ingredientsData.filter(ingredient => {
 
-                    switch (userRole){
-                        case 'ACOLYTE':
-                            return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
+            switch (userRole){
+                case 'ACOLYTE':
+                    return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
 
-                        case 'VILLAIN':
-                            return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
-                    }
-                });
-
-                setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
-            } catch (error) {
-                console.log(error);
+                case 'VILLAIN':
+                    return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
             }
-        };
+        });
 
-        getIngredients();
+        setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
     }, [userRole]);
 
     const handleLongPress = (ingredient: Ingredient) => {;

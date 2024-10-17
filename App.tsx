@@ -16,6 +16,8 @@ import AppContext from './helpers/context';
 import { ProfileAttributes } from './components/profileScreen';
 import { Player } from './interfaces/contextInterface';
 import executePotionCreation from './components/potions/execute';
+import Ingredient from './components/potions/ingredient';
+import getIngredients from './src/API/getIngredients';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -45,6 +47,7 @@ function App(): React.JSX.Element {
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
+  const [ingredients, setIngredients] = useState<Ingredient[] | null>([]); 
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -70,6 +73,19 @@ function App(): React.JSX.Element {
     setProfileAttributes(profileAttributes);
   }, [profileAttributes]);
 
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      try {
+        const ingredients = await getIngredients();
+        setIngredients(ingredients || null); 
+      } catch (error) {
+        console.error("Error fetching ingredients:", error);
+      }
+    };
+  
+    fetchIngredients();
+  }, []);
+  
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -282,7 +298,7 @@ function App(): React.JSX.Element {
 
   setPlayers(newPlayers);
   }
-
+  
   return (
     <AppContext.Provider 
       value={{   
@@ -297,6 +313,7 @@ function App(): React.JSX.Element {
         socket: socket,
         location: location,
         setLocation: setLocation,
+        ingredients
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
