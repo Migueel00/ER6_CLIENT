@@ -8,6 +8,7 @@ import Potion from './potions/potion';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
+const goBackImage = require('../assets/icons/back-arrow.png')
 const { width, height } = Dimensions.get('window');
 
 interface IngredientInterface {
@@ -194,7 +195,7 @@ const PotionCreator = () => {
                             ToastAndroid.show("Ingredient eliminated", ToastAndroid.SHORT);
                         }
                     }}>
-                        <BackIcon>Back</BackIcon>
+                        <BackIcon source={goBackImage} />
                     </IngredientBackButton>
                 )}
 
@@ -233,7 +234,7 @@ const CreatePotionButton = styled.TouchableOpacity`
     position: absolute;
     padding: 10px;
     bottom: ${height * 0.20}px;
-    left: ${((width/2) - 65)}px;
+    left: ${((width/2) - 60)}px;
 `;
 
 const CreatePotionButtonText = styled.Text`
@@ -243,20 +244,18 @@ const CreatePotionButtonText = styled.Text`
 `;
 
 const IngredientBackButton = styled.TouchableOpacity`
-    background-color: #6200ee;
+    background-color: transparent;
     border-radius: 10px;
     align-items: center;
     position: absolute;
     padding: 10px;
     bottom: ${height * 0.31}px;
-    left: ${((width) - 60)}px;
+    left: ${((width) - 65)}px;
 `;
 
-const BackIcon = styled.Text`
-    font-size: ${width*0.06}px;
-    font-family: 'KochAltschrift';
-    color: #FFF;
-    text-align: center;
+const BackIcon = styled.Image`
+    width: ${width * 0.12}px;
+    height: ${height * 0.05}px;
 `;
 
 const SelectedIngredientContainer = styled.View`
