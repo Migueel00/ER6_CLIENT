@@ -12,6 +12,7 @@ export interface ContextInterface {
     socket: any,
     location: string,
     setLocation: any,
+    ingredients: Ingredient[] | null
 }
 
 export interface Player {
@@ -31,5 +32,6 @@ export interface Ingredient {
   value: number,
   effects: string[],
   type: string,
-  key: string
+  key: string, 
+  image: string
 }

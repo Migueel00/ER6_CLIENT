@@ -9,7 +9,6 @@ import AppContext from "../helpers/context";
 
 const MainScreens = () => {
     const userRole = useContext(AppContext)?.userRole;
-    const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
     
     return (
         <>

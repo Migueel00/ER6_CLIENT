@@ -1,4 +1,3 @@
-import { getCharactersData, getIngredientsData } from "./service.tsx";
 import Ingredients from "./ingredients.tsx";
 import Cauldron from "./cauldron.tsx";
 import { log } from "console";
