@@ -3,6 +3,7 @@ import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } 
 import { essence_ingredients_number, essence_ingridient_multipliers } from "./constants.tsx";
 import { Effect } from "./potionsInterface.tsx";
 import Curse from "./curse.tsx";
+import { Modifiers } from "./curse.tsx";
 
 export default class Cauldron {
     ingredients: Ingredient[];
@@ -79,17 +80,35 @@ export default class Cauldron {
         console.log("POSION TO CREATE");
         console.log(potionToCreate);
         
+        const name = potionToCreate?.name!;
+        let modifiers: Modifiers = potionToCreate?.modifiers!;
+        const id = potionToCreate?._id!;
+        const description = potionToCreate?.description!;
+        const type = potionToCreate?.type!;
+        const poison_effects = potionToCreate?.poison_effects!;
+        const antidote_effects = potionToCreate?.antidote_effects!;
+        
 
         if (hasRestore) {
-            return new Antidote();
+            const newModifiers = this.invertModifiers(modifiers);
+            return new Antidote(newModifiers, id, "Antidote of " + name, description, type, antidote_effects);
         }
         if (hasDamage) {
-            return new Poison();
+            return new Poison(modifiers, id, "Poison of " + name, description, type, poison_effects);
         }
 
-        return new FailedPotion("Failed Potion", 0);
+        return new FailedPotion("Tonic of Dawnfall", 0);
     }
 
+    private invertModifiers(modifiers: Modifiers): Modifiers {
+        // Invert the modifier values and keep 0 as 0
+        const inverted = Object.fromEntries(
+            Object.entries(modifiers).map(([key, value]) => [key, value === 0 ? 0 : -value])
+        ) as unknown as Modifiers;
+    
+        return inverted;
+    }
+    
     private compareEffectsWithCursesToCreateAntidote(effectsToCompare: string[])
     {
         for(let i = 0; i < this.curses.length; i++)
@@ -100,7 +119,7 @@ export default class Cauldron {
             }
         }
 
-        return new FailedPotion("Failed Potion", 0);
+        return null;
     }
 
     private compareEffectsWithCursesToCreatePoison(effectsToCompare: string[])
@@ -113,7 +132,7 @@ export default class Cauldron {
             }
         }
 
-        return new FailedPotion("Failed Potion", 0);
+        return null;
     }
 
     private createHitPointsPotion(hitPointsEffects: string[], ingredients: Ingredient[]): Potion {
@@ -171,7 +190,7 @@ export default class Cauldron {
             return new Stench("Stench of " + modifierName + "damage", potionValue);
         }
 
-        return new FailedPotion("Failed Potion", 0);
+        return new FailedPotion("Tonic of Downfall", 0);
     }
 
     private createPotionFromEqualEffects(effects: string[], ingredients: Ingredient[]): Potion {
@@ -192,7 +211,7 @@ export default class Cauldron {
         const capsMatchingAttribute = matchingAttribute ? matchingAttribute.charAt(0).toUpperCase() + matchingAttribute.slice(1) : '';
 
         if (!matchingAttribute) {
-            return new FailedPotion("Failed Potion", 0);
+            return new FailedPotion("Tonic of Downfall", 0);
         }
 
         let modifierValue = this.getTotalValue(ingredients);
