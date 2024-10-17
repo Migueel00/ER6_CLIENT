@@ -9,6 +9,7 @@ export default class Ingredient {
     effects: string[];
     image: string;
     type: string;
+    key: string;
 
     constructor(_id: string, name: string, description: string,  value: number, effects: string[], image: string, type: string) {
         this._id = _id;
@@ -18,6 +19,7 @@ export default class Ingredient {
         this.value = value;
         this.image = image;
         this.type = type;
+        this.key = "";
     }
 
     static from({ _id, name, description, value, effects, image, type }: {_id: string, name: string; description:string; value: number; effects: string[]; image: string; type: string }) {

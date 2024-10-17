@@ -43,24 +43,7 @@ const executePotionCreation = async() => {
     }
 };
 
-function showPotionsNames(potions: Potion[]) {
-    for (let i = 0; i < potions.length; i++) {
-        console.log("Potion " + (i + 1) + ": " + potions[i].name);
-    }
-}
 
-// function showPotions(potions: Potion[]) {
-//     for (let i = 0; i < potions.length; i++) {
-//         showPotion(potions[i]);
-//     }
-// }
-
-// function showPotion(potion: Potion) {
-//     console.log(`${potion.name}`);
-//     console.log(`Value:         ${potion.value}`);
-//     console.log(`Time:          ${potion.time}`);
-//     console.log(`--------------------------------`);
-// }
 
 // Export the execute function without calling it
 export default executePotionCreation;

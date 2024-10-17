@@ -97,7 +97,7 @@ export default class Cauldron {
                 return new Antidote(createdModifier, id, "Antidote of " + name, description, type, antidote_effects);
             }
             if (hasDamage) {
-                const newModifiers = this.invertModifiers(createdModifier);
+                const newModifiers = this.invertModifiers(modifiers);
                 return new Poison(newModifiers, id, "Poison of " + name, description, type, poison_effects);
             }
         }
@@ -311,8 +311,17 @@ export default class Cauldron {
 
     private createPotionFromEqualEffects(effects: string[], ingredients: Ingredient[]): Potion {
         const effect = effects[0]; // Asumimos que todos son iguales en este caso
-        const isRestore = effect.includes("restore");
-        const isDamage = effect.includes("damage");
+        const isRestore = effect.includes("boost" || "calm");
+        const isDamage = effect.includes("setback" || "frenzy");
+
+        const isFailed = effect.includes("increase" || "decrease" || "restore" || "damage");
+
+        if(isFailed)
+        {
+            return new FailedPotion("Tonic of Dawnfall", 0);
+        }
+
+
         let potionName = "";
         let potionEffect = "Boost";
 
