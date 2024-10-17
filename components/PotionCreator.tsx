@@ -102,12 +102,10 @@ const PotionCreator = () => {
     }
 
     useEffect(() => {
-        console.log("Ingredientes seleccionados:", selectedIngredientArray);
-        if (selectedIngredientArray.length >= 1 && !showBackButton) {
-            setShowBackButton(true);
-        } else if (selectedIngredientArray.length >= 2 && !showCreatePotionButton){
-            setShowCreatePotionButton(true);
-        }
+
+        //Apareceran los botones si se cumple
+        setShowBackButton(selectedIngredientArray.length >= 1);
+        setShowCreatePotionButton(selectedIngredientArray.length >= 2);
     }, [selectedIngredientArray]);
 
     return (
