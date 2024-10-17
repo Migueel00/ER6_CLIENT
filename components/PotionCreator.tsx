@@ -5,6 +5,7 @@ import AppContext from '../helpers/context';
 import { Ingredient } from '../interfaces/contextInterface';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Vibration } from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
@@ -87,14 +88,7 @@ const PotionCreator = () => {
         {
             Vibration.vibrate(100);
             console.log("Maximo de ingredientes añadidos");
-            Toast.show({
-                type: 'error',
-                text1: 'Maximum ingredients',
-                position: 'bottom',
-                text1Style: {
-                    fontFamily: 'KochAltschrift',
-                }
-            });
+            ToastAndroid.show("Maximum ingredients", ToastAndroid.SHORT);
         }
     }
 
