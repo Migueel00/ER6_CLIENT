@@ -6,6 +6,8 @@ import LabScreen from "../../labScreen";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
+import SettingsScreen from "../../settings/settingsScreen";
+import ProfileScreen3 from "../../ProfileScreen3";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -81,6 +83,30 @@ const MenuLab = () => {
                         ),
                         tabBarLabel: '',
                     }}
+                    />
+                <Tab.Screen
+                        name="Profile"
+                        component={ProfileScreen3}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
                     />
             </Tab.Navigator>
         </NavigationContainer>
