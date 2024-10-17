@@ -57,7 +57,8 @@ const PotionCreator = () => {
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
-    
+    const [showBackButton, setShowBackButton] = useState(false);
+    const [showCreatePotionButton, setShowCreatePotionButton] = useState(false)
     const toggleModal = () => {
         setPotionModalVisible(!potionModalVisible);
         setSelectedIngredientArray([]); 
@@ -106,6 +107,12 @@ const PotionCreator = () => {
 
     useEffect(() => {
         console.log("Ingredientes seleccionados:", selectedIngredientArray);
+            
+        if (selectedIngredientArray.length >= 1 && !showBackButton) {
+            setShowBackButton(true);
+        } else if (selectedIngredientArray.length >= 2 && !showCreatePotionButton){
+            setShowCreatePotionButton(true);
+        }
     }, [selectedIngredientArray]);
 
     return (
@@ -163,7 +170,7 @@ const PotionCreator = () => {
                         <IngredientListImage key={index} source={defaultPotionImage} />
                     ))}
                 </SelectedIngredientContainer>
-                {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
+                {showCreatePotionButton && (  // Condición para mostrar el botón
                     <CreatePotionButton 
                         onPress={() => {
                         if (potionFactory && typeof potionFactory.createPotion === 'function') {
@@ -186,6 +193,12 @@ const PotionCreator = () => {
                     }}>
                         <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
                     </CreatePotionButton>
+                )}
+
+                    {showBackButton && (  // Condición para mostrar el botón
+                    <IngredientBackButton>
+                        <BackIcon>Back</BackIcon>
+                    </IngredientBackButton>
                 )}
                <Modal
                     visible={potionModalVisible}
@@ -230,6 +243,24 @@ const CreatePotionButtonText = styled.Text`
     font-size: 30px;
     font-family: 'KochAltschrift';
 `;
+
+const IngredientBackButton = styled.Text`
+    background-color: #6200ee;
+    border-radius: 10px;
+    align-items: center;
+    position: absolute;
+    padding: 10px;
+    bottom: ${height * 0.31}px;
+    left: ${((width) - 60)}px;
+`;
+
+const BackIcon = styled.Text`
+    font-size: ${width*0.06}px;
+    font-family: 'KochAltschrift';
+    color: #FFF;
+    text-align: center;
+`;
+
 const SelectedIngredientContainer = styled.View`
     position: absolute;
     flex-direction: row; /* Establece la dirección de los elementos en fila */
