@@ -338,9 +338,9 @@ const IngredientBackButton = styled.TouchableOpacity`
     background-color: transparent;
     border-radius: 10px;
     align-items: center;
-    position: absolute;
-    bottom: ${height * 0.32}px;
-    margin-left: ${width * 0.88}px;
+    position: relative;
+    bottom: ${height * 0.275}px;
+    margin-left: ${width * 0.85}px;
 `;
 
 const BackIcon = styled.Image`
