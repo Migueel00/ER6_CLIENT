@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet } from 'react-native';
+import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, Modal, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import Ingredient from './potions/ingredient';
@@ -56,7 +56,11 @@ const PotionCreator = () => {
     const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [potionModalVisible, setPotionModalVisible] = useState(false);
     
+    const toggleModal = () => {
+        setPotionModalVisible(!potionModalVisible);
+    };
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -146,29 +150,6 @@ const PotionCreator = () => {
                             </TouchableWithoutFeedback>
                         );
                     }}
-                    // onMomentumScrollEnd={(e) => {
-                    //     let index = Math.floor(e.nativeEvent.contentOffset.x / CONSTANTS.SPACER_ITEM_SIZE);
-                    //     console.log(e.nativeEvent.contentOffset.x);
-                    //     console.log(CONSTANTS.SPACER_ITEM_SIZE);
-                        
-                        
-                    //     console.log(index);
-                        
-                    //     // Asegúrate de que el índice no exceda los límites del arreglo
-                    //     if (index > 0 && index < ingredients.length - 1) {
-                            
-                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                    //     }
-                    //     else {
-                    //         if(index <= 0)
-                    //         {
-                    //             index = 0;
-                    //         }
-                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                    //     }
-                    // }}
                 />
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
@@ -191,6 +172,12 @@ const PotionCreator = () => {
                             console.log("Potion created successfully");
                             console.log(potion);
                         
+                            if (potion) { // Si la poción se ha creado correctamente
+                                console.log("Potion created successfully");
+                                console.log(potion);
+                                setCreatedPotion(potion);
+                                toggleModal(); // Mostrar el modal
+                            }
                             
                         } else {
                             console.log("PotionFactory or createPotion method is not available");
@@ -199,6 +186,25 @@ const PotionCreator = () => {
                         <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
                     </CreatePotionButton>
                 )}
+               <Modal
+                    visible={potionModalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={toggleModal}
+                > 
+                    <ModalContainer>
+                        {/* Contenido del modal */}
+                        {createdPotion && (
+                            <PotionMessage>
+                                You created the {createdPotion.name} potion
+                            </PotionMessage>
+                        )}
+                        <CloseButton onPress={toggleModal}>
+                            <CloseButtonText>Close</CloseButtonText>
+                        </CloseButton>
+                    </ModalContainer>
+                </Modal>
+
             </ImageBackground>
         </Container>
     );
@@ -291,6 +297,44 @@ const styles = StyleSheet.create({
         height: height,
         justifyContent: 'flex-start'
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+    permissionButton: {
+        padding: 10,
+        borderRadius: 5,
+    },
 });
+
+const ModalContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const PotionMessage = styled.Text`
+    color: #ffffff;
+    font-size: 24px;
+    font-family: 'KochAltschrift';
+    margin-bottom: 20px;
+    text-align: center;
+`;
+
+const CloseButton = styled.TouchableOpacity`
+    padding: 10px;
+    background-color: #6200ee;
+    border-radius: 5px;
+    align-items: center;
+`;
+
+const CloseButtonText = styled.Text`
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'KochAltschrift';
+`;
 
 export default PotionCreator;

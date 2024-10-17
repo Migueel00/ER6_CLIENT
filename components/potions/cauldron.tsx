@@ -300,10 +300,10 @@ export default class Cauldron {
         const hasDecrease = hitPointsEffects.some(effect => effect.includes("decrease"));
 
         if (hasIncrease) {
-            return new Essence("Essence of " + modifierName + "heal", potionValue);
+            return new Essence("Essence of " + modifierName + "Heal", potionValue);
         }
         if (hasDecrease) {
-            return new Stench("Stench of " + modifierName + "damage", potionValue);
+            return new Stench("Stench of " + modifierName + "Damage", potionValue);
         }
 
         return new FailedPotion("Tonic of Downfall", 0);
