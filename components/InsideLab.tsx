@@ -1,10 +1,13 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import AppContext from '../helpers/context';
-import HomeLab from './HomeLab';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Stats from './Stats';
+import Equipment from './Equipment';
+import Inventory from './Inventory';
+import { NavigationContainer } from '@react-navigation/native';
 import PotionCreator from './PotionCreator';
+import HomeLab from './HomeLab';
 
 const Tab = createBottomTabNavigator();
 

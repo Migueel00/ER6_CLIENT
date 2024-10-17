@@ -15,27 +15,11 @@ const HomeLab = () => {
     const context = useContext(AppContext);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
+    const isInsideLab = context?.player.isInsideLab;
     const [modalVisible, setModalVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Request exit permission");
     const [screenText, setScreenText] = useState("You are inside lab");
     const [labBackgroundImage, setLabBackgroundImage] = useState(insideLabImage);
-
-    useEffect(() => {
-        // Escucha el mensaje del servidor para cambiar isInsideLab
-        context?.socket.on('ScanSuccess', (message: string) => {
-            console.log("Mensaje del servidor:", message);
-    
-            // Usa la forma funcional de setState para asegurarte de obtener el valor más reciente de isInsideLab
-            setIsInsideLab(!isInsideLab);
-    
-            setModalVisible(false);
-        });
-    
-        return () => {
-            context?.socket.off('ScanSuccess');
-        };
-    }, [isInsideLab]);
     
     const toggleModal = () => {
         setModalVisible(!modalVisible);

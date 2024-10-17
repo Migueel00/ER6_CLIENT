@@ -1,35 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Image } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import AppContext from '../helpers/context';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import Equipment from './Equipment';
-import PotionCreator from './PotionCreator';
-import OutsideLab from './OutsideLab';
 import InsideLab from './InsideLab';
-import ProfileScreen3 from './ProfileScreen3';
+import OutsideLab from './OutsideLab';
+import AcolyteContext from '../helpers/AcolyteContext';
 
 const LabScreen = () => {
-    const context = useContext(AppContext);
-
-    // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
-
-    useEffect(() => {
-        // Escucha el mensaje del servidor para cambiar isInsideLab
-        context?.socket.on('ScanSuccess', (message: string) => {
-            console.log("Mensaje del servidor:", message);
+    const { height, width } = Dimensions.get('window');
+    const acolyteContext = useContext(AcolyteContext);
+    const isInsideLab = acolyteContext?.isInsideLab;
     
-            // Usa la forma funcional de setState para asegurarte de obtener el valor más reciente de isInsideLab
-            setIsInsideLab(!isInsideLab);
-        });
-    
-        return () => {
-            context?.socket.off('ScanSuccess');
-        };
-    }, [isInsideLab]);
-
     return (
         <View style={styles.container}>
             {isInsideLab ? (
@@ -52,9 +32,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     container: {
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center',
         width: '100%',
         height: '100%',
     },
