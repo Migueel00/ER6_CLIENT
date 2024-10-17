@@ -1,37 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
-import AppContext from '../helpers/context';
+import {  StyleSheet, Dimensions, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Stats from './Stats';
-import Equipment from './Equipment';
-import Inventory from './Inventory';
 import { NavigationContainer } from '@react-navigation/native';
 import PotionCreator from './PotionCreator';
 import HomeLab from './HomeLab';
 
 const Tab = createBottomTabNavigator();
 
-const convertAttributesToPercentage = (profileAttributes: any) => {
-    return {
-        intelligence: profileAttributes.intelligence / 100,
-        dexterity: profileAttributes.dexterity / 100,
-        insanity: profileAttributes.insanity / 100,
-        charisma: profileAttributes.charisma / 100,
-        constitution: profileAttributes.constitution / 100,
-        strength: profileAttributes.strength / 100,
-    };
-};
-
 const InsideLab = () => {
     const { height, width } = Dimensions.get('window');
 
     const activeOpacity = 1;
     const inactiveOpacity = 0.2;
-
-    return (
-        <AppContext.Consumer>
-            {({ profileAttributes }: any) => {
-                const attributesToPrint = convertAttributesToPercentage(profileAttributes);
 
                 return (
                     <NavigationContainer independent={true}>
@@ -98,9 +78,6 @@ const InsideLab = () => {
                         </Tab.Navigator>
                     </NavigationContainer>
                 );
-            }}
-        </AppContext.Consumer>
-    );
 };
 
 const styles = StyleSheet.create({
