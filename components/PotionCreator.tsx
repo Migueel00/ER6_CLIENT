@@ -266,6 +266,12 @@ const SelectedIngredientContainer = styled.View`
     padding: 10px; /* Espaciado interno para el contenedor */
     bottom: ${height * 0.30}px;
     left: ${width * 0.15}px;
+
+    border-width: ${width * 0.002}px;
+    border-color: #8b4513;
+
+    width: ${width * 0.69}px;
+    height: ${height * 0.08}px;
 `;
 
 const IngredientContainer = styled.View`
