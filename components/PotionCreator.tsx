@@ -44,6 +44,7 @@ const PotionCreator = () => {
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState(context?.ingredients || []);
     const [showBackButton, setShowBackButton] = useState(false);
+    const [showCreatePotionButton, setShowCreatePotionButton] = useState(false)
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -87,9 +88,12 @@ const PotionCreator = () => {
 
     useEffect(() => {
         console.log("Ingredientes seleccionados:", selectedIngredientArray);
-            if (selectedIngredientArray.length >= 1 && !showBackButton) {
-        setShowBackButton(true);
-    }
+            
+        if (selectedIngredientArray.length >= 1 && !showBackButton) {
+            setShowBackButton(true);
+        } else if (selectedIngredientArray.length >= 2 && !showCreatePotionButton){
+            setShowCreatePotionButton(true);
+        }
     }, [selectedIngredientArray]);
 
     return (
@@ -147,7 +151,7 @@ const PotionCreator = () => {
                         <IngredientListImage key={index} source={defaultPotionImage} />
                     ))}
                 </SelectedIngredientContainer>
-                {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
+                {showCreatePotionButton && (  // Condición para mostrar el botón
                     <CreatePotionButton 
                         onPress={() => {
                         if (potionFactory && typeof potionFactory.createPotion === 'function') {
