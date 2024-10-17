@@ -150,29 +150,6 @@ const PotionCreator = () => {
                             </TouchableWithoutFeedback>
                         );
                     }}
-                    // onMomentumScrollEnd={(e) => {
-                    //     let index = Math.floor(e.nativeEvent.contentOffset.x / CONSTANTS.SPACER_ITEM_SIZE);
-                    //     console.log(e.nativeEvent.contentOffset.x);
-                    //     console.log(CONSTANTS.SPACER_ITEM_SIZE);
-                        
-                        
-                    //     console.log(index);
-                        
-                    //     // Asegúrate de que el índice no exceda los límites del arreglo
-                    //     if (index > 0 && index < ingredients.length - 1) {
-                            
-                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                    //     }
-                    //     else {
-                    //         if(index <= 0)
-                    //         {
-                    //             index = 0;
-                    //         }
-                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                    //     }
-                    // }}
                 />
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
