@@ -5,7 +5,7 @@ export interface Modifiers{
     insanity: number;
     charisma: number;
     constitution: number;
-    sterngth: number;
+    strength: number;
 }
 
 export default class Curse {
