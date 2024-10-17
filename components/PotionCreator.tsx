@@ -162,6 +162,12 @@ const PotionCreator = () => {
                         <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
                     </CreatePotionButton>
                 )}
+
+                    {selectedIngredientArray.length >= 1 && (  // Condición para mostrar el botón
+                    <IngredientBackButton>
+                        <BackIcon>Back</BackIcon>
+                    </IngredientBackButton>
+                )}
             </ImageBackground>
         </Container>
     );
@@ -186,6 +192,24 @@ const CreatePotionButtonText = styled.Text`
     font-size: 30px;
     font-family: 'KochAltschrift';
 `;
+
+const IngredientBackButton = styled.Text`
+    background-color: #6200ee;
+    border-radius: 10px;
+    align-items: center;
+    position: absolute;
+    padding: 10px;
+    bottom: ${height * 0.20}px;
+    left: ${((width/2) - 85)}px;
+`;
+
+const BackIcon = styled.Text`
+    font-size: ${width*0.08}px;
+    font-family: 'KochAltschrift';
+    color: #FFF;
+    text-align: center;
+`;
+
 const SelectedIngredientContainer = styled.View`
     position: absolute;
     flex-direction: row; /* Establece la dirección de los elementos en fila */
