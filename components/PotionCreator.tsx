@@ -232,7 +232,7 @@ const PotionCreator = () => {
                     }}>
                         <CreatePotionButton
                         onPress={() => {
-                            if (potionFactory && typeof potionFactory.createPotion === 'function') {
+                            if (potionFactory && typeof potionFactory.createPotion === 'function' && selectedIngredientArray.length >= 2) {
                                 const potion = potionFactory.createPotion(selectedIngredientArray);
                                 
                                 if (potion) {
@@ -244,6 +244,7 @@ const PotionCreator = () => {
                                 }
                             } else {
                                 console.log("PotionFactory or createPotion method is not available");
+                                ToastAndroid.show("Not enough Ingredients", ToastAndroid.SHORT);
                             }
                         }}> 
 
