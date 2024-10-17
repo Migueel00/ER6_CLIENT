@@ -7,6 +7,7 @@ interface AcolyteContextType {
     setIsMenuLabLoaded: (loaded: boolean) => void;
     isMenuInsideLabLoaded: boolean;
     setIsMenuInsideLabLoaded: (loaded: boolean) => void;
+    isInsideLab: boolean | null;
 }
 
 const AcolyteContext = createContext<AcolyteContextType | null>(null);
