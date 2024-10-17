@@ -236,7 +236,7 @@ const CreatePotionButton = styled.TouchableOpacity`
     position: absolute;
     padding: 10px;
     bottom: ${height * 0.093}px;
-    left: ${((width/2) - 152)}px;
+    left: ${((width/2) * 0.16)}px;
 `;
 
 const IngredientBackButton = styled.TouchableOpacity`
@@ -255,7 +255,7 @@ const BackIcon = styled.Image`
 `;
 
 const CreatePotionIcon = styled.Image`
-    width: ${width * 0.50}px;
+    width: ${width * 0.62}px;
     height: ${height * 0.10}px;
 `;
 
