@@ -8,14 +8,15 @@ import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../ProfileScreen3";
+import * as CONSTANTS from "../../../src/constants";
 
 const Tab = createMaterialTopTabNavigator();
 
+const { height, width } = Dimensions.get('window');
 const Icon = styled.Image`
-    width: 70px;
-    height: 70px;
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
-const { height } = Dimensions.get('window');
 
 const MenuLab = () => {
     const acolyteContext = useContext(AcolyteContext);

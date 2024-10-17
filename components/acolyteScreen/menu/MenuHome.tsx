@@ -8,12 +8,15 @@ import SettingsScreen from "../../settings/settingsScreen";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
+import * as CONSTANTS from "../../../src/constants";
 
 const Tab = createMaterialTopTabNavigator();
 
+const { width } = Dimensions.get('window');
+
 const Icon = styled.Image`
-    width: 70px;
-    height: 70px;
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 const { height } = Dimensions.get('window');
 

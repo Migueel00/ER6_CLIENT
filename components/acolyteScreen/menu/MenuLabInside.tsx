@@ -6,15 +6,17 @@ import LabScreen from "../../labScreen";
 import styled from "styled-components/native";
 import ProfileScreen3 from "../../ProfileScreen3";
 import SettingsScreen from "../../settings/settingsScreen";
+import * as CONSTANTS from "../../../src/constants";
+
 
 const Tab = createMaterialTopTabNavigator();
 
-const Icon = styled.Image`
-    width: 70px;
-    height: 70px;
-`
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
+const Icon = styled.Image`
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
+`
 
 const MenuLabInside = () => {
     
