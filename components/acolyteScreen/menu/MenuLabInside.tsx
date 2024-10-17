@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LabScreen from "../../labScreen";
 import styled from "styled-components/native";
+import ProfileScreen3 from "../../ProfileScreen3";
+import SettingsScreen from "../../settings/settingsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -57,6 +59,30 @@ const MenuLabInside = () => {
                         ),
                         tabBarLabel: ''
                     }}
+                    />
+                    <Tab.Screen
+                        name="Profile"
+                        component={ProfileScreen3}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
                     />
             </Tab.Navigator>
         </NavigationContainer>

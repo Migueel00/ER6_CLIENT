@@ -42,7 +42,6 @@ function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
   const [isSpinner, setIsSpinner]   = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
-
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
@@ -211,6 +210,7 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
+
       //player.role = "ISTVAN";
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
@@ -296,7 +296,7 @@ function App(): React.JSX.Element {
         setIsLoggedIn:setIsLoggedIn ,
         socket: socket,
         location: location,
-        setLocation: setLocation
+        setLocation: setLocation,
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

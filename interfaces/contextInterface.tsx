@@ -11,7 +11,7 @@ export interface ContextInterface {
     setIsLoggedIn: any,
     socket: any,
     location: string,
-    setLocation: any
+    setLocation: any,
 }
 
 export interface Player {
