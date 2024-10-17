@@ -102,7 +102,6 @@ const PotionCreator = () => {
     }
 
     useEffect(() => {
-
         //Apareceran los botones si se cumple
         setShowBackButton(selectedIngredientArray.length >= 1);
         setShowCreatePotionButton(selectedIngredientArray.length >= 2);
@@ -192,6 +191,7 @@ const PotionCreator = () => {
                     <IngredientBackButton onPress={()=> {
                         if(selectedIngredientArray.length > 0) {
                             setSelectedIngredientArray((prev) => prev.slice(0, -1)); // Eliminar el último ingrediente
+                            ToastAndroid.show("Ingredient eliminated", ToastAndroid.SHORT);
                         }
                     }}>
                         <BackIcon>Back</BackIcon>
