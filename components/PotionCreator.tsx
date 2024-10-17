@@ -249,7 +249,7 @@ const PotionCreator = () => {
                         }}> 
 
                             <CreatePotionIcon source={createPotionImage} />
-                            <PotionCreationText>Potion Creation</PotionCreationText>
+                            <PotionCreationText>Create Potion</PotionCreationText>
                         </CreatePotionButton>
                     </CreatePotionButton>
                 )}
