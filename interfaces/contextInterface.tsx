@@ -24,3 +24,12 @@ export interface Player {
   id:           string,
   role:         string
 }
+export interface Ingredient {
+  _id: string,
+  name: string,
+  description: string,
+  value: number,
+  effects: string[],
+  type: string,
+  key: string
+}

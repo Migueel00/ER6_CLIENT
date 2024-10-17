@@ -69,7 +69,7 @@ function App(): React.JSX.Element {
   // Simular obtener los datos del perfil
   useEffect(() => {
     setProfileAttributes(profileAttributes);
-    }, [profileAttributes]);
+  }, [profileAttributes]);
 
 
   const backgroundStyle = {
