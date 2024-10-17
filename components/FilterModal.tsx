@@ -214,7 +214,11 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         console.log(filtersString);
         setFilters(filtersString);
 
-        const totalString = attributeFilterString + "&&" + rarityFilterString;
+        console.log(attributeFilterString);
+
+        console.log(rarityFilterString);
+        
+        
 
         // if(filtersString.length > 0)
         // {
@@ -245,22 +249,23 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             }
         
             // Verifica si hay algún atributo que coincida
-            const matchesAttribute = attributeFilterString.some(attrFilter => 
-                ingredient.effects.some(effect => effect.includes(attrFilter))
-            );
+            const matchesAttribute = attributeFilterString.length > 0 && 
+                attributeFilterString.some(attrFilter => 
+                    ingredient.effects.some(effect => effect.includes(attrFilter))
+                );
         
             // Verifica si hay alguna rareza que coincida
-            const matchesRarity = rarityFilterString.some(rarityFilter => 
-                ingredient.effects.some(effect => effect.includes(rarityFilter))
-            );
+            const matchesRarity = rarityFilterString.length > 0 && 
+                rarityFilterString.some(rarityFilter => 
+                    ingredient.effects.some(effect => effect.includes(rarityFilter))
+                );
         
-            if(matchesAttribute && matchesRarity){
-                console.log(ingredient);
-                
-            }
+            // Devuelve ingredientes que cumplen al menos uno de los filtros
 
-            // Devuelve solo los ingredientes que cumplen ambos filtros
-            return matchesAttribute && matchesRarity;
+            if(attributeFilterString.length > 0 && rarityFilterString.length > 0){
+                return matchesAttribute && matchesRarity;
+            }
+            return matchesAttribute || matchesRarity;
         });
 
         // Si hay filtros aplicados, se actualiza la lista de ingredientes filtrados
