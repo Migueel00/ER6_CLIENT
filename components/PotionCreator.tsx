@@ -13,6 +13,19 @@ const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
+interface IngredientInterface {
+    _id: string;
+    name: string;
+    description: string;
+    value: number;
+    effects: string[];
+    image: string;
+    type: string;
+    key: string;
+}
+
+type IngredientOrSpacer = Ingredient | { key: string };
+
 const ITEM_SIZE = width * 0.60;
 
 const CONSTANTS = {
@@ -42,7 +55,7 @@ const PotionCreator = () => {
     const [potionFactory, setPotionFactory] = useState<Cauldron| null>();
     const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
-    const [ingredients, setIngredients] = useState(context?.ingredients || []);
+    const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     
 
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -55,18 +68,19 @@ const PotionCreator = () => {
 
     useEffect(() => {
         const ingredientsData = ingredients;
-
-        const filteredIngredients = ingredientsData.filter(ingredient => {
-
-            switch (userRole){
+    
+        const filteredIngredients: Ingredient[] = ingredientsData.filter((ingredient: Ingredient) => {
+            switch (userRole) {
                 case 'ACOLYTE':
                     return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase'));
-
+    
                 case 'VILLAIN':
                     return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease'));
+                default:
+                    return false; // Optional: handle any other user roles
             }
         });
-
+    
         setIngredients([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
     }, [userRole]);
 
