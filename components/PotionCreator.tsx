@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, Modal, View, TouchableOpacity } from 'react-native';
+import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, TouchableWithoutFeedback, Vibration } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
-import Ingredient from './potions/ingredient';
-import { TouchableWithoutFeedback } from 'react-native';
-import { Vibration } from 'react-native';
-import { ToastAndroid } from 'react-native';
 import Cauldron from './potions/cauldron';
+import Ingredient from './potions/ingredient';
 import Potion from './potions/potion';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
+const goBackImage = require('../assets/icons/back-arrow.png');
+const createPotionImage = require('../assets/icons/darkButton2.png');
 const { width, height } = Dimensions.get('window');
 
 interface IngredientInterface {
@@ -106,13 +105,9 @@ const PotionCreator = () => {
     }
 
     useEffect(() => {
-        console.log("Ingredientes seleccionados:", selectedIngredientArray);
-            
-        if (selectedIngredientArray.length >= 1 && !showBackButton) {
-            setShowBackButton(true);
-        } else if (selectedIngredientArray.length >= 2 && !showCreatePotionButton){
-            setShowCreatePotionButton(true);
-        }
+        //Apareceran los botones si se cumple
+        setShowBackButton(selectedIngredientArray.length >= 1);
+        setShowCreatePotionButton(selectedIngredientArray.length >= 2);
     }, [selectedIngredientArray]);
 
     return (
@@ -191,15 +186,24 @@ const PotionCreator = () => {
                             console.log("PotionFactory or createPotion method is not available");
                         }
                     }}>
-                        <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
+                        <CreatePotionButton>
+                            <CreatePotionIcon source={createPotionImage} />
+                            <PotionCreationText>Potion Creation</PotionCreationText>
+                        </CreatePotionButton>
                     </CreatePotionButton>
                 )}
 
-                    {showBackButton && (  // Condición para mostrar el botón
-                    <IngredientBackButton>
-                        <BackIcon>Back</BackIcon>
+                {showBackButton && (
+                    <IngredientBackButton onPress={()=> {
+                        if(selectedIngredientArray.length > 0) {
+                            setSelectedIngredientArray((prev) => prev.slice(0, -1)); // Eliminar el último ingrediente
+                            ToastAndroid.show("Ingredient eliminated", ToastAndroid.SHORT);
+                        }
+                    }}>
+                        <BackIcon source={goBackImage} />
                     </IngredientBackButton>
                 )}
+
                <Modal
                     visible={potionModalVisible}
                     transparent={true}
@@ -229,36 +233,40 @@ const Container = styled.View`
     flex: 1;
 `
 const CreatePotionButton = styled.TouchableOpacity`
-    background-color: #6200ee;
     border-radius: 10px;
     align-items: center;
     position: absolute;
     padding: 10px;
-    bottom: ${height * 0.20}px;
-    left: ${((width/2) - 65)}px;
+    bottom: ${height * 0.093}px;
+    left: ${((width/2) * 0.16)}px;
 `;
 
-const CreatePotionButtonText = styled.Text`
-    color: #ffffff;
-    font-size: 30px;
+const PotionCreationText = styled.Text`
+    position: absolute;
+    top: ${height * 0.04}px;
+    font-size: ${width * 0.10}px;
     font-family: 'KochAltschrift';
+    text-align: center;
 `;
 
-const IngredientBackButton = styled.Text`
-    background-color: #6200ee;
+const IngredientBackButton = styled.TouchableOpacity`
+    background-color: transparent;
     border-radius: 10px;
     align-items: center;
     position: absolute;
     padding: 10px;
     bottom: ${height * 0.31}px;
-    left: ${((width) - 60)}px;
+    left: ${((width) - 65)}px;
 `;
 
-const BackIcon = styled.Text`
-    font-size: ${width*0.06}px;
-    font-family: 'KochAltschrift';
-    color: #FFF;
-    text-align: center;
+const BackIcon = styled.Image`
+    width: ${width * 0.12}px;
+    height: ${height * 0.05}px;
+`;
+
+const CreatePotionIcon = styled.Image`
+    width: ${width * 0.62}px;
+    height: ${height * 0.10}px;
 `;
 
 const SelectedIngredientContainer = styled.View`
@@ -268,6 +276,12 @@ const SelectedIngredientContainer = styled.View`
     padding: 10px; /* Espaciado interno para el contenedor */
     bottom: ${height * 0.30}px;
     left: ${width * 0.15}px;
+
+    border-width: ${width * 0.002}px;
+    border-color: #8b4513;
+
+    width: ${width * 0.69}px;
+    height: ${height * 0.08}px;
 `;
 
 const IngredientContainer = styled.View`
@@ -291,8 +305,8 @@ const IngredientImage = styled.Image`
 `;
 
 const IngredientListImage = styled.Image`
-    width: 50px;
-    height: 50px;
+    width: ${width * 0.12}px;
+    height: ${height * 0.06}px;
     border-radius: 10px;
     margin-right: 20px;
 `;
