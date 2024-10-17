@@ -109,10 +109,15 @@ const PotionCreator = () => {
         setShowCreatePotionButton(selectedIngredientArray.length >= 2);
     }, [selectedIngredientArray]);
 
+    const gridItems = Array.from({ length: 4 }, (_, index) => {
+        return selectedIngredientArray[index] || null; // Asignamos un objeto del inventario o null si no hay
+    });
+
     return (
         <Container>
             <StatusBar />
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
+            <FlatListView>
                 <Animated.FlatList
                     snapToInterval={CONSTANTS.ITEM_SIZE}
                     decelerationRate={0}
@@ -153,17 +158,29 @@ const PotionCreator = () => {
                         );
                     }}
                 />
+            </FlatListView>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
                         <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
                         <IngredientEffects numberOfLines={3}>{selectedIngredient.effects}</IngredientEffects>
                     </IngredientInfoContainer>
                 )}
-                <SelectedIngredientContainer>
+                {/* <SelectedIngredientContainer>
                     {selectedIngredientArray.map((item, index) => (
                         <IngredientListImage key={index} source={defaultPotionImage} />
                     ))}
-                </SelectedIngredientContainer>
+                </SelectedIngredientContainer> */}
+                <Grid>
+                    {gridItems.map((item, index) => (
+                        <GridItem key={index}>
+                        {item ? (
+                            <IngredientListImage key={index} source={defaultPotionImage} />
+                        ) : (
+                            <EmptyIngredient key={index} />
+                        )}
+                        </GridItem>
+                    ))}
+                </Grid>
                 {showCreatePotionButton && (  // Condición para mostrar el botón
                     <CreatePotionButton 
                         onPress={() => {
@@ -240,6 +257,11 @@ const CreatePotionButton = styled.TouchableOpacity`
     left: ${((width/2) * 0.16)}px;
 `;
 
+const FlatListView = styled.View`
+    width: 100%;
+    height: ${height * 0.9}px;
+`;
+
 const PotionCreationText = styled.Text`
     position: absolute;
     top: ${height * 0.04}px;
@@ -266,6 +288,29 @@ const BackIcon = styled.Image`
 const CreatePotionIcon = styled.Image`
     width: ${width * 0.62}px;
     height: ${height * 0.10}px;
+`;
+
+const Grid = styled.View`
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+`;
+
+const GridItem = styled.View`
+    width: ${width * 0.12}px;
+    height: ${width * 0.06}px;
+    border-width: 1.5px;
+    border-color: #C19A6B;
+    justify-content: center;
+    align-items: center;
+    border-radius: ${width * 0.02}px;
+    margin-bottom: ${height * 0.004}px;
+`;
+
+const EmptyIngredient = styled.View`
+    width: ${width * 0.12}px;
+    height: ${height * 0.06}px;
 `;
 
 const SelectedIngredientContainer = styled.View`
