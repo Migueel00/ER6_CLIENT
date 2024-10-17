@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native"
 import styled from "styled-components/native"
 import * as CONSTANTS from "../src/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Ingredient from "./potions/ingredient";
 
 const { width, height } = Dimensions.get('window');
@@ -10,6 +10,16 @@ interface FilterModalProps {
     closeModal: () => void;
     ingredients: Ingredient[];
     setIngredients: any;
+    filterBooleans: boolean[];
+    setFilterBooleans: any;
+    ingredientsCopy: Ingredient[];
+    setIngredientsCopy: any;
+}
+
+interface filterBooleans {
+    isHpSelected: boolean;
+    isLeastSelected: boolean;
+    isIntSelected: boolean;
 }
 
 const ModalContainer = styled.View`
@@ -77,7 +87,7 @@ const ButtonContainer = styled.View`
     flex-direction: row;
 `;
 
-const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients}) => {
+const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy}) => {
     const [isHpSelected, setIsHpSelected] = useState<boolean>(false);
     const [isLeastSelected, setIsLeastSelected] = useState<boolean>(false);
     const [isIntSelected, setIsIntSelected] = useState<boolean>(false);
@@ -89,6 +99,23 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isDefaultSelected, setIsDefaultSelected] = useState<boolean>(false);
     const [isGreaterSelected, setIsGreaterSelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
+
+    useEffect(() => {
+        if(filterBooleans.length > 0)
+        {
+            setIsHpSelected(filterBooleans[CONSTANTS.IS_HP]);
+            setIsLeastSelected(filterBooleans[CONSTANTS.IS_LEAST]);
+            setIsIntSelected(filterBooleans[CONSTANTS.IS_INTELLIGENCE]);
+            setIsConstitutionSelected(filterBooleans[CONSTANTS.IS_CONSTITUTION]);
+            setIsDexteritySelected(filterBooleans[CONSTANTS.IS_DEXTERITY]);
+            setIsCharismaSelected(filterBooleans[CONSTANTS.IS_CHARISMA]);
+            setIsInsanitySelected(filterBooleans[CONSTANTS.IS_INSANITY]);
+            setIsLesserSelected(filterBooleans[CONSTANTS.IS_LESSER]);
+            setIsDefaultSelected(filterBooleans[CONSTANTS.IS_DEFAULT]);
+            setIsGreaterSelected(filterBooleans[CONSTANTS.IS_GREATER]);
+        }
+
+    }, [filterBooleans]); 
 
     const clearAllFilters = () => {
         setIsHpSelected(false);
@@ -120,6 +147,8 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         const filtersBoolean : boolean[] = [isHpSelected, isLeastSelected, isIntSelected, isConstitutionSelected, isDexteritySelected, isCharismaSelected,
             isInsanitySelected, isLesserSelected, isDefaultSelected, isGreaterSelected
         ];
+
+        setFilterBooleans(filtersBoolean);
 
         const filtersString : string[] =  [];
 
@@ -179,16 +208,28 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         console.log(filtersString);
         setFilters(filtersString);
 
-        const filteredIngredients = ingredients.filter(ingredient => {
-            if (Array.isArray(ingredient.effects)) {
-                return filtersString.some(filter => 
-                    ingredient.effects.some(effect => effect.includes(filter))
-                );
-            }
-            return false; 
-        });
-    
-        setIngredients(filteredIngredients);
+        if(filtersString.length > 0)
+        {
+            const filteredIngredients = ingredients.filter(ingredient => {
+                if (Array.isArray(ingredient.effects)) {
+                    return filtersString.some(filter => 
+                        ingredient.effects.some(effect => effect.includes(filter))
+                    );
+                }
+                return false; 
+            });
+
+            setIngredientsCopy([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
+        }
+        else
+        {
+            console.log("HA ENTRADO AQIWHHAIUDAAOKLSHADOHAK");
+            
+            setIngredientsCopy(ingredients);
+            console.log(ingredientsCopy);
+            
+        }
+
         closeModal();  
 
     }

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, TouchableWithoutFeedback, Vibration } from 'react-native';
+import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, TouchableWithoutFeedback, Vibration, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
 import Cauldron from './potions/cauldron';
@@ -41,6 +41,8 @@ const formatEffects = (effects: string[]): string => {
 };
 
 const PotionCreator = () => {
+    const flatListRef = useRef<Animated.FlatList>(null); 
+
     const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
@@ -49,10 +51,12 @@ const PotionCreator = () => {
     const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
-
+    const [filterBooleans, setFilterBooleans] = useState<boolean[]>([]);
+    const [flatlistIndex, setFlatlistIndex] = useState(0);
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -64,10 +68,10 @@ const PotionCreator = () => {
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
-    useEffect(() => {
+   useEffect(() => {
         console.log(JSON.stringify(ingredients));
         
-    }, [ingredients]);
+    }, [ingredients]); 
 
     useEffect(() => {
         if (!potionFactory) {
@@ -75,7 +79,19 @@ const PotionCreator = () => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
+        
+        // Desplazar FlatList al índice 0 cuando cambian los ingredientes
+        if (flatListRef.current) {
+            console.log("CURRENT EXISTE");
+            
+            flatListRef.current.scrollToIndex({ index: 0, animated: true });
+        }
+    }, [ingredientsCopy, ingredients, setIngredientCopy, setIngredients]);
+
     const handlePressFilter = () => {
+        //console.log(filterBooleans);
         setFilterModalVisible(true);
     }
 
@@ -83,14 +99,16 @@ const PotionCreator = () => {
         ;
 
         if (selectedIngredientArray.length < 4) {
-            Vibration.vibrate(100); <Animated.FlatList
+            Vibration.vibrate(100); 
+            <Animated.FlatList
+                ref={flatListRef} 
                 snapToInterval={CONSTANTS.ITEM_SIZE}
                 decelerationRate={0}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ alignItems: 'center' }}
                 scrollEventThrottle={16}
                 horizontal
-                data={ingredients}
+                data={ingredientsCopy}
                 keyExtractor={(item) => item._id ? item._id.toString() : item.key}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -109,6 +127,7 @@ const PotionCreator = () => {
                         inputRange,
                         outputRange: [-20, -50, -20]
                     });
+               
                     return (
                         <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                             <IngredientContainer>
@@ -148,13 +167,14 @@ const PotionCreator = () => {
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 <FlatListView>
                     <Animated.FlatList
+                        ref={flatListRef} 
                         snapToInterval={CONSTANTS.ITEM_SIZE}
                         decelerationRate={0}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ alignItems: 'center' }}
                         scrollEventThrottle={16}
                         horizontal
-                        data={ingredients}
+                        data={ingredientsCopy}
                         keyExtractor={(item) => item._id ? item._id.toString() : item.key}
                         onScroll={Animated.event(
                             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -168,7 +188,7 @@ const PotionCreator = () => {
                                 (index - 2) * CONSTANTS.ITEM_SIZE,
                                 (index - 1) * CONSTANTS.ITEM_SIZE,
                                 index * CONSTANTS.ITEM_SIZE
-                            ];
+                            ];             
                             const translateY = scrollX.interpolate({
                                 inputRange,
                                 outputRange: [-20, -50, -20]
@@ -308,6 +328,10 @@ const PotionCreator = () => {
                         closeModal={() => setFilterModalVisible(false)}
                         ingredients={ingredients}
                         setIngredients={setIngredients}
+                        filterBooleans={filterBooleans}
+                        setFilterBooleans={setFilterBooleans}
+                        ingredientsCopy={ingredientsCopy}
+                        setIngredientsCopy={setIngredientCopy}
                     />
                 </Modal>
 
