@@ -291,7 +291,7 @@ const CreatePotionButton = styled.TouchableOpacity`
 
 const FlatListView = styled.View`
     width: 100%;
-    height: ${height * 0.9}px;
+    height: ${height * 0.8}px;
 `;
 
 const PotionCreationText = styled.Text`
@@ -307,9 +307,8 @@ const IngredientBackButton = styled.TouchableOpacity`
     border-radius: 10px;
     align-items: center;
     position: absolute;
-    padding: 10px;
-    bottom: ${height * 0.31}px;
-    left: ${((width) - 65)}px;
+    bottom: ${height * 0.32}px;
+    margin-left: ${width * 0.88}px;
 `;
 
 const BackIcon = styled.Image`
@@ -325,13 +324,15 @@ const CreatePotionIcon = styled.Image`
 const Grid = styled.View`
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: space-around;
+    margin-left: ${width * 0.08}px;
+    width: 80%;
+    margin-top: ${height * -0.18}px;
 `;
 
 const GridItem = styled.View`
-    width: ${width * 0.12}px;
-    height: ${width * 0.06}px;
+    width: ${width * 0.18}px;
+    height: ${width * 0.14}px;
     border-width: 1.5px;
     border-color: #C19A6B;
     justify-content: center;
@@ -343,21 +344,6 @@ const GridItem = styled.View`
 const EmptyIngredient = styled.View`
     width: ${width * 0.12}px;
     height: ${height * 0.06}px;
-`;
-
-const SelectedIngredientContainer = styled.View`
-    position: absolute;
-    flex-direction: row; /* Establece la dirección de los elementos en fila */
-    align-items: center; /* Alinea verticalmente al centro */
-    padding: 10px; /* Espaciado interno para el contenedor */
-    bottom: ${height * 0.30}px;
-    left: ${width * 0.15}px;
-
-    border-width: ${width * 0.002}px;
-    border-color: #8b4513;
-
-    width: ${width * 0.69}px;
-    height: ${height * 0.08}px;
 `;
 
 const IngredientContainer = styled.View`
@@ -384,7 +370,6 @@ const IngredientListImage = styled.Image`
     width: ${width * 0.12}px;
     height: ${height * 0.06}px;
     border-radius: 10px;
-    margin-right: 20px;
 `;
 
 const IngredientInfoContainer = styled.View`
