@@ -9,13 +9,7 @@ import PotionCreator from './PotionCreator';
 import OutsideLab from './OutsideLab';
 import InsideLab from './InsideLab';
 
-const buttonImage = require('../assets/png/button1.png');
-const qrImage = require('../assets/png/epicQR3.png');
-const insideLabImage = require('../assets/png/insideLab.png');
-const outsideLabImage = require('../assets/png/LabEntrance.png');
-
 const LabScreen = () => {
-    const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
@@ -34,12 +28,6 @@ const LabScreen = () => {
             context?.socket.off('ScanSuccess');
         };
     }, [isInsideLab]);
-
-    const qrValue = {
-        userEmail: context?.player.email,
-        socketId: context?.socketID,
-        playerID: context?.player._id
-    };
 
     return (
         <View style={styles.container}>
