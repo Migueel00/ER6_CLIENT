@@ -80,24 +80,140 @@ export default class Cauldron {
         console.log("POSION TO CREATE");
         console.log(potionToCreate);
         
-        const name = potionToCreate?.name!;
-        let modifiers: Modifiers = potionToCreate?.modifiers!;
-        const id = potionToCreate?._id!;
-        const description = potionToCreate?.description!;
-        const type = potionToCreate?.type!;
-        const poison_effects = potionToCreate?.poison_effects!;
-        const antidote_effects = potionToCreate?.antidote_effects!;
-        
+        if(potionToCreate != null)
+        {
+            const name = potionToCreate?.name!;
+            let modifiers: Modifiers = potionToCreate?.modifiers!;
+            const id = potionToCreate?._id!;
+            const description = potionToCreate?.description!;
+            const type = potionToCreate?.type!;
+            const poison_effects = potionToCreate?.poison_effects!;
+            const antidote_effects = potionToCreate?.antidote_effects!;
 
-        if (hasRestore) {
-            const newModifiers = this.invertModifiers(modifiers);
-            return new Antidote(newModifiers, id, "Antidote of " + name, description, type, antidote_effects);
-        }
-        if (hasDamage) {
-            return new Poison(modifiers, id, "Poison of " + name, description, type, poison_effects);
+            let createdModifier: Modifiers = this.createRandomModifiers(allEffects);
+
+            if (hasRestore) {
+
+                return new Antidote(createdModifier, id, "Antidote of " + name, description, type, antidote_effects);
+            }
+            if (hasDamage) {
+                const newModifiers = this.invertModifiers(modifiers);
+                return new Poison(newModifiers, id, "Poison of " + name, description, type, poison_effects);
+            }
         }
 
         return new FailedPotion("Tonic of Dawnfall", 0);
+    }
+    
+    private createRandomModifiers(effects: string[])
+    {
+        let modifier: Modifiers =   {hit_points: 0, 
+                                    intelligence: 0, 
+                                    dexterity: 0, 
+                                    insanity: 0, 
+                                    charisma: 0, 
+                                    constitution: 0, 
+                                    strength: 0};
+
+        const attributes: (keyof Modifiers)[] = ["constitution", "hit_points", "dexterity", "strength", "charisma", "intelligence", "insanity"];
+        const prefixes = ["least", "lesser", "greater"];
+
+        effects.forEach(item => {
+            console.log(item);
+            
+            const affectedAttribute = attributes.find(attribute => item.includes(attribute));
+            const rarity = prefixes.find(rarity => item.startsWith(rarity)) || "no prefix";
+            
+            console.log("ATTR");
+            console.log(affectedAttribute);
+            
+            
+
+            modifier = this.determineAffectedAttributeAndAddToModifier(modifier, affectedAttribute!, rarity);
+
+        })
+        
+        return modifier;
+                                    
+    }
+
+    private determineAffectedAttributeAndAddToModifier(modifier: Modifiers, attribute: string, rarity: string)
+    {
+        switch(attribute)
+        {
+
+            case "constitution" || "dexterity" || "strength" || "charisma" || "intelligence":
+
+                console.log("CHANGED NORMAL ATTR");
+                
+
+                let value = 0;
+
+                if (rarity === "least") {
+                    value = this.getRandomModifierNumber(1, 5);
+                  } else if (rarity === "lesser") {
+                    value = this.getRandomModifierNumber(6, 9);
+                  } else if (rarity === "greater") {
+                    value = this.getRandomModifierNumber(14, 15);
+                  } else { // Sin prefijo
+                    value = this.getRandomModifierNumber(10, 13);;
+                  }
+
+                  modifier[attribute] += value;
+
+                break;
+
+            case "hit_points":
+
+                console.log("CHANGED HITPOINT ATTR");
+
+                let valueHitPoints = 0;
+
+                if (rarity === "least") {
+                    valueHitPoints = this.getRandomModifierNumber(20, 35);
+                } else if (rarity === "lesser") {                 
+                    valueHitPoints = this.getRandomModifierNumber(40, 50);
+                } else if (rarity === "greater") {
+                    valueHitPoints = 65;
+                } else { // Sin prefijo
+                    valueHitPoints = this.getRandomModifierNumber(50, 65);
+                }
+
+                modifier.hit_points += valueHitPoints;
+
+                break;
+    
+            case "insanity":
+
+                let valueInsanity = 0;
+
+                if (rarity === "least") {
+                    valueInsanity = this.getRandomModifierNumber(1, 5);
+                } else if (rarity === "lesser") {
+                    valueInsanity = this.getRandomModifierNumber(6, 12);
+                } else if (rarity === "greater") {
+                    valueInsanity = this.getRandomModifierNumber(21, 25);
+                } else { // Sin prefijo
+                    valueInsanity = this.getRandomModifierNumber(13, 20);
+                }
+
+                modifier[attribute] += valueInsanity;
+
+                break;
+
+            default:
+                //MODIFIACDOR NO ENCONTRADO
+                
+        }
+
+        console.log("MODIFIER NOW");
+        console.log(modifier);
+
+        return modifier;
+    }
+
+    private getRandomModifierNumber(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     private invertModifiers(modifiers: Modifiers): Modifiers {
@@ -195,8 +311,17 @@ export default class Cauldron {
 
     private createPotionFromEqualEffects(effects: string[], ingredients: Ingredient[]): Potion {
         const effect = effects[0]; // Asumimos que todos son iguales en este caso
-        const isRestore = effect.includes("restore");
-        const isDamage = effect.includes("damage");
+        const isRestore = effect.includes("boost" || "calm");
+        const isDamage = effect.includes("setback" || "frenzy");
+
+        const isFailed = effect.includes("increase" || "decrease" || "restore" || "damage");
+
+        if(isFailed)
+        {
+            return new FailedPotion("Tonic of Dawnfall", 0);
+        }
+
+
         let potionName = "";
         let potionEffect = "Boost";
 
@@ -255,6 +380,17 @@ export default class Cauldron {
 
     private roundDownToMultipleOfFive(num: number): number {
         return num - (num % 5);
+    }
+
+    private determineSingleEffectModifier(effect: string): string {
+        if (effect.includes("least")) {
+            return "Least";
+        } else if (effect.includes("lesser")) {
+            return "Lesser";
+        } else if (effect.includes("greater")) {
+            return "Greater";
+        }
+        return ""; // Sin prefijo
     }
 
     private determineModifier(effects: string[]): string {

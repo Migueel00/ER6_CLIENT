@@ -2,16 +2,18 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
-import { Ingredient } from '../interfaces/contextInterface';
+import Ingredient from './potions/ingredient';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Vibration } from 'react-native';
 import { ToastAndroid } from 'react-native';
+import Cauldron from './potions/cauldron';
+import Potion from './potions/potion';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../assets/png/potion.png');
 const { width, height } = Dimensions.get('window');
 
-const ITEM_SIZE = width * 0.40;
+const ITEM_SIZE = width * 0.60;
 
 const CONSTANTS = {
     ITEM_SIZE,
@@ -38,8 +40,17 @@ const PotionCreator = () => {
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
+    const [potionFactory, setPotionFactory] = useState<Cauldron| null>();
+    const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
+    const [createdPotion, setCreatedPotion] = useState<Potion | null>();
 
     const scrollX = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (!potionFactory) {
+            setPotionFactory(new Cauldron(ingredients, curses));
+        }
+    }, []);
 
     useEffect(() => {
         const getIngredients = async () => {
@@ -130,25 +141,38 @@ const PotionCreator = () => {
                             <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                                 <IngredientContainer>
                                     <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                    <IngredientName>{item.name}</IngredientName>
                                         <IngredientImage source={imageSource} />
+
+                                        <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
                                     </IngredientItem>
                                 </IngredientContainer>
                             </TouchableWithoutFeedback>
                         );
                     }}
-                    onMomentumScrollEnd={(e) => {
-                        const index = Math.floor(e.nativeEvent.contentOffset.x / 157);                      // Asegúrate de que el índice no exceda los límites del arreglo
-                        if (index > 0 && index < ingredients.length - 1) {
+                    // onMomentumScrollEnd={(e) => {
+                    //     let index = Math.floor(e.nativeEvent.contentOffset.x / CONSTANTS.SPACER_ITEM_SIZE);
+                    //     console.log(e.nativeEvent.contentOffset.x);
+                    //     console.log(CONSTANTS.SPACER_ITEM_SIZE);
+                        
+                        
+                    //     console.log(index);
+                        
+                    //     // Asegúrate de que el índice no exceda los límites del arreglo
+                    //     if (index > 0 && index < ingredients.length - 1) {
                             
-                            const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                        }
-                        else {
-
-                            const item = ingredients[index + 1]; // Obtén el ítem seleccionado
-                            setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
-                        }
-                    }}
+                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
+                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
+                    //     }
+                    //     else {
+                    //         if(index <= 0)
+                    //         {
+                    //             index = 0;
+                    //         }
+                    //         const item = ingredients[index + 1]; // Obtén el ítem seleccionado
+                    //         setSelectedIngredient({name: item.name, effects: formatEffects(item.effects)});
+                    //     }
+                    // }}
                 />
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
@@ -162,7 +186,20 @@ const PotionCreator = () => {
                     ))}
                 </SelectedIngredientContainer>
                 {selectedIngredientArray.length >= 2 && (  // Condición para mostrar el botón
-                    <CreatePotionButton onPress={() => console.log("Create potion")}>
+                    <CreatePotionButton 
+                        onPress={() => {
+                        if (potionFactory && typeof potionFactory.createPotion === 'function') {
+
+                            const potion = potionFactory.createPotion(selectedIngredientArray);
+                            setCreatedPotion(potion);
+                            console.log("Potion created successfully");
+                            console.log(potion);
+                        
+                            
+                        } else {
+                            console.log("PotionFactory or createPotion method is not available");
+                        }
+                    }}>
                         <CreatePotionButtonText>Create Potion</CreatePotionButtonText>
                     </CreatePotionButton>
                 )}
@@ -213,8 +250,8 @@ const IngredientItem = styled.View`
 `;
 
 const IngredientImage = styled.Image`
-    width: 80%;
-    height: ${CONSTANTS.ITEM_SIZE * 0.50}px;
+    width: ${CONSTANTS.ITEM_SIZE * 0.60}px;
+    height: ${CONSTANTS.ITEM_SIZE * 0.60}px;
     resize-mode: cover;
     border-radius: 10px;
 `;
@@ -235,14 +272,14 @@ const IngredientInfoContainer = styled.View`
 `;
 
 const IngredientName = styled.Text`
-    font-size: 41px;
+    font-size: ${width*0.08}px;
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;
 `;
 
 const IngredientEffects = styled.Text`
-    font-size: 33px;
+    font-size: ${width*0.06}px;
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;

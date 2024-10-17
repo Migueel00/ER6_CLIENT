@@ -9,7 +9,9 @@ export interface ContextInterface {
     players: Player[],
     setPlayers: any,
     setIsLoggedIn: any,
-    socket: any
+    socket: any,
+    location: string,
+    setLocation: any,
 }
 
 export interface Player {
