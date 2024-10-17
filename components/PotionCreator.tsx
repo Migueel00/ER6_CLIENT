@@ -316,10 +316,9 @@ const Container = styled.View`
 const CreatePotionButton = styled.TouchableOpacity`
     border-radius: 10px;
     align-items: center;
-    position: absolute;
+    position: relative;
     padding: 10px;
-    bottom: ${height * 0.093}px;
-    left: ${((width / 2) * 0.16)}px;
+    bottom: ${height * 0.035}px;
 `;
 
 const FlatListView = styled.View`
@@ -361,6 +360,7 @@ const Grid = styled.View`
     margin-left: ${width * 0.15}px;
     width: 70%;
     margin-top: ${height * -0.18}px;
+    bottom: ${height * 0.06}px;
 `;
 
 const GridItem = styled.View`
