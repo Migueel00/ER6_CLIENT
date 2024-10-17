@@ -57,8 +57,12 @@ const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
-    const [showCreatePotionButton, setShowCreatePotionButton] = useState(false)
+    const [showCreatePotionButton, setShowCreatePotionButton] = useState(false);
+
+
     const toggleModal = () => {
+        console.log("ENTRA A TOGGLE MODAL");
+        
         setPotionModalVisible(!potionModalVisible);
         setSelectedIngredientArray([]); 
     };
@@ -186,7 +190,23 @@ const PotionCreator = () => {
                             console.log("PotionFactory or createPotion method is not available");
                         }
                     }}>
-                        <CreatePotionButton>
+                        <CreatePotionButton
+                        onPress={() => {
+                            if (potionFactory && typeof potionFactory.createPotion === 'function') {
+                                const potion = potionFactory.createPotion(selectedIngredientArray);
+                                
+                                if (potion) {
+                                    console.log("Potion created successfully:", potion);
+                                    setCreatedPotion(potion); // Asigna la poción creada
+                                    toggleModal(); // Muestra el modal
+                                } else {
+                                    console.log("Potion creation failed");
+                                }
+                            } else {
+                                console.log("PotionFactory or createPotion method is not available");
+                            }
+                        }}> 
+
                             <CreatePotionIcon source={createPotionImage} />
                             <PotionCreationText>Potion Creation</PotionCreationText>
                         </CreatePotionButton>
@@ -204,19 +224,29 @@ const PotionCreator = () => {
                     </IngredientBackButton>
                 )}
 
-               <Modal
+                <Modal
                     visible={potionModalVisible}
                     transparent={true}
                     animationType="fade"
                     onRequestClose={toggleModal}
-                > 
+                >
                     <ModalContainer>
-                        {/* Contenido del modal */}
-                        {createdPotion && (
+                        {/* Imagen de fondo */}
+                        <PotionImageBackground source={require('./../assets/png/darkModal.png')}>
                             <PotionMessage>
-                                You created the {createdPotion.name} potion
+                                Potion Created
+                            </PotionMessage> 
+
+                            {/* Imagen centrada sobre la imagen principal */} 
+                            <CenteredPotionImage
+
+                            />
+
+                            <PotionMessage>
+                                You created the {createdPotion?.name} potion
                             </PotionMessage>
-                        )}
+                        </PotionImageBackground>
+
                         <CloseButton onPress={toggleModal}>
                             <CloseButtonText>Close</CloseButtonText>
                         </CloseButton>
@@ -360,14 +390,35 @@ const ModalContainer = styled.View`
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+
+`;
+
+const PotionImageBackground = styled.ImageBackground` 
+    width: 100%;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Para que los hijos se posicionen relativamente */
+    margin-top: ${height*0.05}px;  
 `;
 
 const PotionMessage = styled.Text`
+    position: absolute;
+    top: 10px; /* Alinea el texto en la parte superior de la imagen */
     color: #ffffff;
     font-size: 24px;
     font-family: 'KochAltschrift';
-    margin-bottom: 20px;
     text-align: center;
+`;
+
+const CenteredPotionImage = styled.Image`
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 30%; /* Ajusta esta posición según el diseño */
+    resize-mode: contain;
 `;
 
 const CloseButton = styled.TouchableOpacity`
@@ -375,6 +426,7 @@ const CloseButton = styled.TouchableOpacity`
     background-color: #6200ee;
     border-radius: 5px;
     align-items: center;
+    margin-top: 20px;
 `;
 
 const CloseButtonText = styled.Text`
