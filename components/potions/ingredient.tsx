@@ -9,7 +9,7 @@ export default class Ingredient {
     effects: string[];
     image: string;
     type: string;
-    key: string;
+    key: any;
 
     constructor(_id: string, name: string, description: string,  value: number, effects: string[], image: string, type: string) {
         this._id = _id;
