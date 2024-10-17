@@ -1,4 +1,4 @@
-import React, { useContext, useState, ReactNode} from 'react' ;
+import React, { useContext, useState, ReactNode, useEffect} from 'react' ;
 import AppContext from '../../helpers/context';
 import MenuHome from './menu/MenuHome';
 import MenuLab from './menu/MenuLab';
@@ -19,6 +19,10 @@ const AcolyteProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
   const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
 
+  useEffect(() => {
+    console.log("ESTADO DE isInsideLab " + isInsideLab);
+  }, [isInsideLab]);
+
   return (
     <AcolyteContext.Provider value={{ 
         isMenuLoaded, 
@@ -33,9 +37,7 @@ const AcolyteProvider: React.FC<{children: ReactNode}> = ({children}) => {
       </MenuContainer>
       {children}
     </AcolyteContext.Provider>
-  
   );
 };
 
 export default AcolyteProvider
-

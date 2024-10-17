@@ -12,10 +12,6 @@ const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 
 const { width, height } = Dimensions.get('window');
 
-interface MapScreenProps{
-    isMenuLoaded: boolean;
-}
-
 const Container = styled.View`
     flex: 1;
     position: relative;
@@ -65,18 +61,6 @@ const MapScreen = () => {
             }, 200);
         }
     }, [isMenuLabLoaded]);
-
-    // useEffect(() => {
-    //     console.log("ESTADO DE IS MENU HOME LOADED " + isMenuLoaded);
-
-    //     if(isMenuLoaded){
-    //         setTimeout(() => {
-    //             navigation.navigate('Home');
-
-    //         }, 200);
-    //     }
-    // }, [isMenuLoaded]);
-    
     
     const handleLabIconPress = () => {
         setLocation('LAB');
