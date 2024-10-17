@@ -154,49 +154,53 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
         console.log(filtersString);
 
+            // Arrays para los strings de atributos y rareza
+        const attributeFilterString: string[] = []; 
+        const rarityFilterString: string[] = [];
+
         for(let i = 0; i < filtersBoolean.length; i++){
             const filterBoolean = filtersBoolean[i];
 
             switch(i){
                 case CONSTANTS.IS_HP:
-                    filterBoolean ? filtersString.push('hit_points') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('hit_points') : filterBoolean;
                     break;
                     
                 case CONSTANTS.IS_LEAST:
-                    filterBoolean ? filtersString.push('least') : filterBoolean;
+                    filterBoolean ? rarityFilterString.push('least') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_INTELLIGENCE:
-                    filterBoolean ? filtersString.push('intelligence') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('intelligence') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_CONSTITUTION:
-                    filterBoolean ? filtersString.push('constitution') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('constitution') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_DEXTERITY:
-                    filterBoolean ? filtersString.push('dexterity') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('dexterity') : filterBoolean;
                     break
 
                 case CONSTANTS.IS_CHARISMA:
-                    filterBoolean ? filtersString.push('charisma') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('charisma') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_INSANITY:
-                    filterBoolean ? filtersString.push('insanity') : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('insanity') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_LESSER:
-                    filterBoolean ? filtersString.push('lesser') : filterBoolean;
+                    filterBoolean ? rarityFilterString.push('lesser') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_DEFAULT:
-                    filterBoolean ? filtersString.push('') : filterBoolean;
+                    filterBoolean ? rarityFilterString.push('') : filterBoolean;
 
                     break;
 
                 case CONSTANTS.IS_GREATER:
-                    filterBoolean ? filtersString.push('greater') : filterBoolean;
+                    filterBoolean ? rarityFilterString.push('greater') : filterBoolean;
 
                     break;
 
@@ -205,31 +209,67 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     break;
             }
         }
+
+        
         console.log(filtersString);
         setFilters(filtersString);
 
-        if(filtersString.length > 0)
-        {
-            const filteredIngredients = ingredients.filter(ingredient => {
-                if (Array.isArray(ingredient.effects)) {
-                    return filtersString.some(filter => 
-                        ingredient.effects.some(effect => effect.includes(filter))
-                    );
-                }
-                return false; 
-            });
+        const totalString = attributeFilterString + "&&" + rarityFilterString;
 
-            setIngredientsCopy([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
-        }
-        else
-        {
-            console.log("HA ENTRADO AQIWHHAIUDAAOKLSHADOHAK");
+        // if(filtersString.length > 0)
+        // {
+        //     const filteredIngredients = ingredients.filter(ingredient => {
+        //         if (Array.isArray(ingredient.effects)) {
+        //             return filtersString.some(filter => 
+        //                 ingredient.effects.some(effect => effect.includes(filter))
+        //             );
+        //         }
+        //         return false; 
+        //     });
+
+        //     setIngredientsCopy([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
+        // }
+        // else
+        // {
+        //     console.log("HA ENTRADO AQIWHHAIUDAAOKLSHADOHAK");
             
+        //     setIngredientsCopy(ingredients);
+        //     console.log(ingredientsCopy);
+            
+        // }
+
+        // Combinación de filtros
+        const filteredIngredients = ingredients.filter(ingredient => {
+            if (!Array.isArray(ingredient.effects)) {
+                return false; // Aseguramos que effects sea un array
+            }
+        
+            // Verifica si hay algún atributo que coincida
+            const matchesAttribute = attributeFilterString.some(attrFilter => 
+                ingredient.effects.some(effect => effect.includes(attrFilter))
+            );
+        
+            // Verifica si hay alguna rareza que coincida
+            const matchesRarity = rarityFilterString.some(rarityFilter => 
+                ingredient.effects.some(effect => effect.includes(rarityFilter))
+            );
+        
+            if(matchesAttribute && matchesRarity){
+                console.log(ingredient);
+                
+            }
+
+            // Devuelve solo los ingredientes que cumplen ambos filtros
+            return matchesAttribute && matchesRarity;
+        });
+
+        // Si hay filtros aplicados, se actualiza la lista de ingredientes filtrados
+        if (filteredIngredients.length > 0) {
+            setIngredientsCopy([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
+        } else {
+            // Si no hay filtros aplicados o no hay resultados, se muestra la lista completa
             setIngredientsCopy(ingredients);
-            console.log(ingredientsCopy);
-            
         }
-
         closeModal();  
 
     }
