@@ -250,7 +250,7 @@ const PotionCreator = () => {
                     animationType="fade"
                     onRequestClose={() => setFilterModalVisible(false)}
                 >
-                    <FilterModal/>
+                    <FilterModal closeModal={() => setFilterModalVisible(false)}/>
                 </Modal>
 
 

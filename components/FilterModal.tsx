@@ -5,6 +5,10 @@ import { useState } from "react";
 
 const { width, height } = Dimensions.get('window');
 
+interface FilterModalProps {
+    closeModal: () => void;
+}
+
 const ModalContainer = styled.View`
     flex: 1;
     justify-content: center;
@@ -70,7 +74,7 @@ const ButtonContainer = styled.View`
     flex-direction: row;
 `;
 
-const FilterModal = () => {
+const FilterModal : React.FC<FilterModalProps>  = ({ closeModal  }) => {
     const [isHpSelected, setIsHpSelected] = useState<boolean>(false);
     const [isLeastSelected, setIsLeastSelected] = useState<boolean>(false);
     const [isIntSelected, setIsIntSelected] = useState<boolean>(false);
@@ -81,6 +85,20 @@ const FilterModal = () => {
     const [isLesserSelected, setIsLesserSelected] = useState<boolean>(false);
     const [isDefaultSelected, setIsDefaultSelected] = useState<boolean>(false);
     const [isGreaterSelected, setIsGreaterSelected] = useState<boolean>(false);
+
+    const clearAllFilters = () => {
+        setIsHpSelected(false);
+        setIsLeastSelected(false);
+        setIsIntSelected(false);
+        setIsConstitutionSelected(false);
+        setIsDexteritySelected(false);
+        setIsCharismaSelected(false);
+        setIsInsanitySelected(false);
+        setIsLesserSelected(false);
+        setIsDefaultSelected(false);
+        setIsGreaterSelected(false);
+
+    }
 
     return (
         <ModalContainer>
@@ -149,10 +167,10 @@ const FilterModal = () => {
                     </FilterOptionTouchable>
                 </FilterOption>
                 <ButtonContainer>
-                    <ExitButton>
+                    <ExitButton onPress={closeModal}>
                         <ExitButtonText>EXIT</ExitButtonText>
                     </ExitButton>
-                    <ExitButton>
+                    <ExitButton onPress={clearAllFilters}>
                         <ExitButtonText>CLEAR</ExitButtonText>
                     </ExitButton>
                     <ExitButton>
