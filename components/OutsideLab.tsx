@@ -3,22 +3,24 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimen
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../helpers/context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import Equipment from './Equipment';
-import PotionCreator from './PotionCreator';
-import OutsideLab from './OutsideLab';
 
 const buttonImage = require('../assets/png/button1.png');
 const qrImage = require('../assets/png/epicQR3.png');
 const insideLabImage = require('../assets/png/insideLab.png');
 const outsideLabImage = require('../assets/png/LabEntrance.png');
 
-const LabScreen = () => {
+const Tab = createBottomTabNavigator();
+
+const OutsideLab = () => {
     const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
     const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [buttonText, setButtonText] = useState("Request entrance permission");
+    const [screenText, setScreenText] = useState("Angelo's laboratory Door");
+    const [labBackgroundImage, setLabBackgroundImage] = useState(outsideLabImage);
 
     useEffect(() => {
         // Escucha el mensaje del servidor para cambiar isInsideLab
@@ -27,12 +29,26 @@ const LabScreen = () => {
     
             // Usa la forma funcional de setState para asegurarte de obtener el valor más reciente de isInsideLab
             setIsInsideLab(!isInsideLab);
+    
+            setModalVisible(false);
         });
     
         return () => {
             context?.socket.off('ScanSuccess');
         };
     }, [isInsideLab]);
+    
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    };
+
+    const handleButtonPress = () => {
+        if (isInsideLab) {
+        setModalVisible(!modalVisible);
+        } else {
+        toggleModal();
+        }
+    };
 
     const qrValue = {
         userEmail: context?.player.email,
@@ -41,13 +57,57 @@ const LabScreen = () => {
     };
 
     return (
+        <ImageBackground
+        source={labBackgroundImage}
+        style={[styles.background, { width: width, height: height }]}
+        >
         <View style={styles.container}>
-            {isInsideLab ? (
-                <OutsideLab/>
-            ) : (
-                <OutsideLab/>
-            )}
+            <Text style={styles.kaotikaFont}>{screenText}</Text>
+
+            <TouchableOpacity onPress={handleButtonPress} style={styles.permissionButton}>
+            <ImageBackground
+                source={buttonImage}
+                style={styles.buttonImageBackground}
+                resizeMode="cover"
+            >
+                <Text style={styles.kaotikaButton}>{buttonText}</Text>
+            </ImageBackground>
+            </TouchableOpacity>
+
+            <Modal
+            visible={modalVisible}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={toggleModal}
+            >
+            <View style={styles.modalContainer}>
+                <ImageBackground
+                source={qrImage}
+                style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4 }]}
+                resizeMode="cover"
+                >
+                <QRCode
+                    value={qrValue ? JSON.stringify(qrValue) : "No email available"}
+                    size={width * 0.23}
+                    logoBackgroundColor='transparent'
+                    color='#00BFAE'
+                    backgroundColor='black'
+                />
+                </ImageBackground>
+
+                <TouchableOpacity onPress={toggleModal} style={styles.permissionButton}>
+                <ImageBackground
+                    source={buttonImage}
+                    style={styles.buttonImageBackground}
+                    resizeMode="cover"
+                >
+                    <Text style={styles.kaotikaButton}>Hide your medallion</Text>
+                </ImageBackground>
+                </TouchableOpacity>
+            </View>
+            </Modal>
         </View>
+        </ImageBackground>
     );
 };
 
@@ -140,6 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+        paddingTop: 20
     },
     permissionButton: {
         padding: 10,
@@ -170,4 +231,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LabScreen;
+export default OutsideLab;
