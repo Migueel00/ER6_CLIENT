@@ -8,6 +8,7 @@ import Equipment from './Equipment';
 import PotionCreator from './PotionCreator';
 import OutsideLab from './OutsideLab';
 import InsideLab from './InsideLab';
+import ProfileScreen3 from './ProfileScreen3';
 
 const LabScreen = () => {
     const context = useContext(AppContext);
