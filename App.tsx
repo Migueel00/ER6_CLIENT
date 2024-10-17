@@ -86,9 +86,7 @@ function App(): React.JSX.Element {
   // Simular obtener los datos del perfil
   useEffect(() => {
     setProfileAttributes(profileAttributes);
-    }, [profileAttributes]);
-
-  const Tab = createMaterialTopTabNavigator();
+  }, [profileAttributes]);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,

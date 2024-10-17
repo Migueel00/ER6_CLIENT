@@ -134,8 +134,9 @@ const LabScreen = () => {
 
     // Cambiara segun appcontext
     const { height } = Dimensions.get('window');
-    const { player } : any = useContext(AppContext);
-    const [isInsideLab, setIsInsideLab] = useState(player.isInsideLab);
+
+    const context = useContext(AppContext);
+    const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
     return (
         <NavigationContainer independent={true}>
         {isInsideLab ? (
@@ -163,7 +164,7 @@ const LabScreen = () => {
             options={{
             tabBarIcon: ({ focused }) => (
                 <Image
-                source={require('../assets/icons/home-icon.png')} // Icono personalizado para esta pestaña
+                source={require('../assets/icons/fixed/homeIcon.png')} // Icono personalizado para esta pestaña
                 style={{
                     width: 70,
                     height: 70,
@@ -181,7 +182,7 @@ const LabScreen = () => {
             options={{
             tabBarIcon: ({ focused }) => (
                 <Image
-                source={require('../assets/icons/lab-icon.png')}
+                source={require('../assets/icons/fixed/potionIcon.png')}
                 style={{
                     width: 70,
                     height: 70,
