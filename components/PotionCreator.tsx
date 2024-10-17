@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, StatusBar, Animated, ImageBackground, StyleSheet, Modal, View, TouchableOpacity } from 'react-native';
+import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, TouchableWithoutFeedback, Vibration } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../helpers/context';
-import Ingredient from './potions/ingredient';
-import { TouchableWithoutFeedback } from 'react-native';
-import { Vibration } from 'react-native';
-import { ToastAndroid } from 'react-native';
 import Cauldron from './potions/cauldron';
+import Ingredient from './potions/ingredient';
 import Potion from './potions/potion';
 
 const backgroundImageURL = require('../assets/png/settingsBackground1.png');
@@ -106,7 +103,6 @@ const PotionCreator = () => {
 
     useEffect(() => {
         console.log("Ingredientes seleccionados:", selectedIngredientArray);
-            
         if (selectedIngredientArray.length >= 1 && !showBackButton) {
             setShowBackButton(true);
         } else if (selectedIngredientArray.length >= 2 && !showCreatePotionButton){
@@ -194,11 +190,16 @@ const PotionCreator = () => {
                     </CreatePotionButton>
                 )}
 
-                    {showBackButton && (  // Condición para mostrar el botón
-                    <IngredientBackButton>
+                {showBackButton && (
+                    <IngredientBackButton onPress={()=> {
+                        if(selectedIngredientArray.length > 0) {
+                            setSelectedIngredientArray((prev) => prev.slice(0, -1)); // Eliminar el último ingrediente
+                        }
+                    }}>
                         <BackIcon>Back</BackIcon>
                     </IngredientBackButton>
                 )}
+
                <Modal
                     visible={potionModalVisible}
                     transparent={true}
@@ -243,7 +244,7 @@ const CreatePotionButtonText = styled.Text`
     font-family: 'KochAltschrift';
 `;
 
-const IngredientBackButton = styled.Text`
+const IngredientBackButton = styled.TouchableOpacity`
     background-color: #6200ee;
     border-radius: 10px;
     align-items: center;
