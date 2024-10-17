@@ -240,7 +240,8 @@ function App(): React.JSX.Element {
       setIsLoggedIn(true);
       setIsSpinner(false);
 
-      await executePotionCreation();
+      console.log(player.avatar);
+      
 
     } catch (error: any) {
 

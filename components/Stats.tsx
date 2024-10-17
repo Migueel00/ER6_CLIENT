@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions} from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import AppContext from '../helpers/context';
 import { ImageBackground } from 'react-native';
 import * as Progress from 'react-native-progress';
+import styled from 'styled-components/native';
+
+const { height, width } = Dimensions.get('window');
 
 const Stats = () => {
-
     const { height, width } = Dimensions.get('window');
+    const kaotikaAPI = 'https://kaotika.vercel.app/';
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
         return {
@@ -21,119 +24,145 @@ const Stats = () => {
 
     return (
         <AppContext.Consumer>
-            {({ profileAttributes }: any) => {
+            {({ profileAttributes, player }: any) => {
                 const attributesToPrint = convertAttributesToPercentage(profileAttributes);
-        return (
-            <ImageBackground 
+                return (
+                    <StyledImageBackground
                         source={require('../assets/png/profileBackground.png')}
-                        style={[styles.background, { width: width, height: height }]}
+                        width={width}
+                        height={height}
                     >
-                        <View style={[styles.container, { padding: height * 0.04 }]}>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.titleText}>Character Stats</Text>
-                            </View>
+                        <Container padding={height * 0.04}>
+                            <TitleContainer width={width * 0.6} height={height * 0.1}>
+                                <TitleText fontSize={width * 0.1}>{player.nickname}</TitleText>
+                            </TitleContainer>
 
-                            <View style={styles.progressContainer}>
-                                <View style={styles.column}>
-                                    <Text style={styles.profileText}>Intelligence</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.intelligence} 
-                                        width={width * 0.20} 
-                                        color='orange' 
+                            <StyledImage
+                                source={{ uri: player.avatar}} // Puedes cambiar el source aquí
+                                resizeMode="contain"
+                            />
+
+                            <ProgressContainer width={width * 0.9} height={height * 0.35}>
+                                <Column>
+                                    <ProfileText fontSize={width * 0.07}>Intelligence</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.intelligence}
+                                        width={width * 0.20}
+                                        color="orange"
                                     />
 
-                                    <Text style={styles.profileText}>Dexterity</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.dexterity} 
-                                        width={width * 0.20} 
-                                        color='orange' 
+                                    <ProfileText fontSize={width * 0.07}>Dexterity</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.dexterity}
+                                        width={width * 0.20}
+                                        color="orange"
                                     />
 
-                                    <Text style={styles.profileText}>Insanity</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.insanity} 
-                                        width={width * 0.20} 
-                                        color='orange' 
+                                    <ProfileText fontSize={width * 0.07}>Insanity</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.insanity}
+                                        width={width * 0.20}
+                                        color="orange"
                                     />
-                                </View>
+                                </Column>
 
-                                <View style={styles.column}>
-                                    <Text style={styles.profileText}>Charisma</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.charisma} 
-                                        width={width * 0.20} 
-                                        color='orange' 
-                                    />
-
-                                    <Text style={styles.profileText}>Constitution</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.constitution} 
-                                        width={width * 0.20} 
-                                        color='orange' 
+                                <Column>
+                                    <ProfileText fontSize={width * 0.07}>Charisma</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.charisma}
+                                        width={width * 0.20}
+                                        color="orange"
                                     />
 
-                                    <Text style={styles.profileText}>Strength</Text>
-                                    <Progress.Bar 
-                                        progress={attributesToPrint.strength} 
-                                        width={width * 0.20} 
-                                        color='orange' 
+                                    <ProfileText fontSize={width * 0.07}>Constitution</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.constitution}
+                                        width={width * 0.20}
+                                        color="orange"
                                     />
-                                </View>
-                            </View>
-                        </View>
-                    </ImageBackground>
-        );
-    }}
+
+                                    <ProfileText fontSize={width * 0.07}>Strength</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.strength}
+                                        width={width * 0.20}
+                                        color="orange"
+                                    />
+                                </Column>
+                            </ProgressContainer>
+                        </Container>
+                    </StyledImageBackground>
+                );
+            }}
         </AppContext.Consumer>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-        padding: 30,
-    },
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    titleText: {
-        color: 'white',
-        fontFamily: 'KochAltschrift',
-        fontSize: 40,
-    },
-    profileText: {
-        color: 'white',
-        fontFamily: 'KochAltschrift',
-        fontSize: 30,
-        padding: 5,
-    },
-    titleContainer: {
-        borderColor: 'orange', 
-        borderWidth: 2,
-        borderRadius: 10, 
-        padding: 5, 
-        marginBottom: 20, 
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
-    progressContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%', 
-        paddingBottom: 30,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-        borderColor: 'orange', 
-        borderWidth: 2, 
-        borderRadius: 10,
-    },
-    column: {
-        flex: 1,
-        alignItems: 'center',
-    },
-});
+const StyledImageBackground = styled(ImageBackground)<{ width: number; height: number }>`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+`;
+
+const Container = styled.View<{ padding: number }>`
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: ${({ padding }) => padding}px;
+`;
+
+const TitleText = styled.Text<{ fontSize: number }>`
+    color: white;
+    font-family: 'KochAltschrift';
+    font-size: ${({ fontSize }) => fontSize}px;
+`;
+
+const ProfileText = styled.Text<{ fontSize: number }>`
+    color: white;
+    font-family: 'KochAltschrift';
+    font-size: ${({ fontSize }) => fontSize}px;
+    padding: 5px;
+`;
+
+const TitleContainer = styled.View<{ width: number; height: number }>`
+    border-color: #C19A6B;
+    border-width: 2px;
+    border-radius: 10px;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ProgressContainer = styled.View<{ width: number; height: number }>`
+    flex-direction: row;
+    justify-content: space-between;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+    padding-bottom: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: #C19A6B;
+    border-width: 2px;
+    border-radius: 10px;
+`;
+
+const Column = styled.View`
+    flex: 1;
+    align-items: center;
+`;
+
+const StyledImage = styled.Image`
+    width: ${width * 0.43}px;
+    height: ${width * 0.43}px;
+    margin-bottom: ${height * 0.03}px;
+    border-width: 2px;
+    border-radius: 100px;
+    border-color: #C19A6B;
+`; 
 
 export default Stats;
