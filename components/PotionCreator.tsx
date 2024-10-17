@@ -60,6 +60,7 @@ const PotionCreator = () => {
     
     const toggleModal = () => {
         setPotionModalVisible(!potionModalVisible);
+        setSelectedIngredientArray([]); 
     };
 
     const scrollX = useRef(new Animated.Value(0)).current;
