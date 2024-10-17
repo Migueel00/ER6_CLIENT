@@ -240,7 +240,7 @@ function App(): React.JSX.Element {
       setIsLoggedIn(true);
       setIsSpinner(false);
 
-      console.log(player.avatar);
+      console.log(player.attributes);
       
 
     } catch (error: any) {

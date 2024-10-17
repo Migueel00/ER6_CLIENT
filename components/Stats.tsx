@@ -19,21 +19,29 @@ const Stats = () => {
             charisma: profileAttributes.charisma / 100,
             constitution: profileAttributes.constitution / 100,
             strength: profileAttributes.strength / 100,
+            hit_points: (profileAttributes.constitution + profileAttributes.dexterity - (profileAttributes.insanity / 2))/ 100,
+            attack: (profileAttributes.strength - (profileAttributes.insanity / 2))/ 100,
+            defense: (profileAttributes.dexterity + profileAttributes.constitution +  (profileAttributes.intelligence / 2)) / 100,
+            magic_resistance: (profileAttributes.intelligence + profileAttributes.charisma)/ 100,
+            cfp: (profileAttributes.insanity) / 100,
+            bcfa: (profileAttributes.strength + profileAttributes.insanity)/ 100
         };
     };
 
     return (
         <AppContext.Consumer>
             {({ profileAttributes, player }: any) => {
-                const attributesToPrint = convertAttributesToPercentage(profileAttributes);
+                const attributesToPrint = convertAttributesToPercentage(player.attributes);
+                console.log(attributesToPrint);
+                
                 return (
                     <StyledImageBackground
                         source={require('../assets/png/profileBackground.png')}
                         width={width}
                         height={height}
                     >
-                        <Container padding={height * 0.04}>
-                            <TitleContainer width={width * 0.6} height={height * 0.1}>
+                        <Container padding={height * 0.01}>
+                            <TitleContainer width={width * 0.5} height={height * 0.1}>
                                 <TitleText fontSize={width * 0.1}>{player.nickname}</TitleText>
                             </TitleContainer>
 
@@ -42,50 +50,91 @@ const Stats = () => {
                                 resizeMode="contain"
                             />
 
-                            <ProgressContainer width={width * 0.9} height={height * 0.35}>
+                            <ProgressContainer>
                                 <Column>
                                     <ProfileText fontSize={width * 0.07}>Intelligence</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.intelligence}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
 
                                     <ProfileText fontSize={width * 0.07}>Dexterity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.dexterity}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
 
                                     <ProfileText fontSize={width * 0.07}>Insanity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.insanity}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
-                                </Column>
-
-                                <Column>
-                                    <ProfileText fontSize={width * 0.07}>Charisma</ProfileText>
+                                     <ProfileText fontSize={width * 0.07}>Charisma</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.charisma}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
 
                                     <ProfileText fontSize={width * 0.07}>Constitution</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.constitution}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
 
                                     <ProfileText fontSize={width * 0.07}>Strength</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.strength}
-                                        width={width * 0.20}
-                                        color="orange"
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+                                </Column>
+
+                                <Column>
+                                    <ProfileText fontSize={width * 0.07}>Hit Points</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.hit_points}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+
+                                    <ProfileText fontSize={width * 0.07}>Attack</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.attack}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+
+                                    <ProfileText fontSize={width * 0.07}>Defense</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.defense}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+
+                                    <ProfileText fontSize={width * 0.07}>Magic Resistance</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.magic_resistance}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+
+                                    <ProfileText fontSize={width * 0.07}>CFP</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.cfp}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
+                                    />
+
+                                    <ProfileText fontSize={width * 0.07}>BCFA</ProfileText>
+                                    <Progress.Bar
+                                        progress={attributesToPrint.bcfa}
+                                        width={width * 0.3}
+                                        color="#C19A6B"
                                     />
                                 </Column>
                             </ProgressContainer>
@@ -139,16 +188,16 @@ const TitleContainer = styled.View<{ width: number; height: number }>`
     background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const ProgressContainer = styled.View<{ width: number; height: number }>`
+const ProgressContainer = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    width: ${({ width }) => width}px;
-    height: ${({ height }) => height}px;
-    padding-bottom: 30px;
+    width: ${width * 0.9}px;
+    height: ${height * 0.41}px;
     background-color: rgba(0, 0, 0, 0.5);
     border-color: #C19A6B;
     border-width: 2px;
     border-radius: 10px;
+    bottom: ${height * 0.035}px;
 `;
 
 const Column = styled.View`
@@ -163,6 +212,7 @@ const StyledImage = styled.Image`
     border-width: 2px;
     border-radius: 100px;
     border-color: #C19A6B;
+    bottom: ${height * 0.015}px;
 `; 
 
 export default Stats;
