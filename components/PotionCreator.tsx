@@ -289,8 +289,8 @@ const IngredientImage = styled.Image`
 `;
 
 const IngredientListImage = styled.Image`
-    width: 50px;
-    height: 50px;
+    width: ${width * 0.12}px;
+    height: ${height * 0.06}px;
     border-radius: 10px;
     margin-right: 20px;
 `;
