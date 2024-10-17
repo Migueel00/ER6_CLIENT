@@ -261,9 +261,9 @@ const PotionCreator = () => {
                             </PotionCreatedMessage> 
 
                             {/* Imagen centrada sobre la imagen principal */} 
-                            <CenteredPotionImage
+                            <CenteredPotionImage source={require('./../assets/png/createdPotion.png')}/>
 
-                            />
+
 
                             <PotionMessage>
                                 {createdPotion?.name}
@@ -271,7 +271,7 @@ const PotionCreator = () => {
                         </PotionImageBackground>
 
                         <CloseButton onPress={toggleModal}>
-                            <CloseButtonText>Close</CloseButtonText>
+                            <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
                         </CloseButton>
                     </ModalContainer>
                 </Modal>
@@ -434,13 +434,14 @@ const PotionImageBackground = styled.ImageBackground`
     align-items: center;
     position: relative;
     margin-top: ${height*0.05}px;  
+    top: ${height * 0.03}px;
 `;
 
 const PotionMessage = styled.Text`
     position: relative;
-    top: 10px; /* Alinea el texto en la parte superior de la imagen */
+    top: ${width * 0.03}px; /* Alinea el texto en la parte superior de la imagen */
     color: #ffffff;
-    font-size: 24px;
+    font-size: ${width * 0.09}px;
     font-family: 'KochAltschrift';
     text-align: center;
 `;
@@ -455,19 +456,19 @@ const PotionCreatedMessage = styled.Text`
 `;
 
 const CenteredPotionImage = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: ${width * 0.75}px;
+    height: ${width * 0.75}px;
     position: relative;
-    top: 30%; /* Ajusta esta posición según el diseño */
     resize-mode: contain;
+    margin-top: ${height * 0.04}px;
 `;
 
 const CloseButton = styled.TouchableOpacity`
-    padding: 10px;
-    background-color: #6200ee;
-    border-radius: 5px;
+    padding:${height * 0.01}px;
+    background-color: #800000;
+    border-radius: ${width * 0.01}px;
     align-items: center;
-    margin-top: 20px;
+    bottom: ${height * 0.1}px;
 `;
 
 const CloseButtonText = styled.Text`
