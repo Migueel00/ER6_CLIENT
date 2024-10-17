@@ -51,7 +51,7 @@ const PotionCreator = () => {
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
-    const [showCreatePotionButton, setShowCreatePotionButton] = useState(false)
+    const [showCreatePotionButton, setShowCreatePotionButton] = useState(true)
     const toggleModal = () => {
         setPotionModalVisible(!potionModalVisible);
     };
@@ -126,7 +126,6 @@ const PotionCreator = () => {
     useEffect(() => {
         //Apareceran los botones si se cumple
         setShowBackButton(selectedIngredientArray.length >= 1);
-        setShowCreatePotionButton(selectedIngredientArray.length >= 2);
     }, [selectedIngredientArray]);
 
     const gridItems = Array.from({ length: 4 }, (_, index) => {
