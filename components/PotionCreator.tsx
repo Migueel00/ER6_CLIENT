@@ -43,7 +43,7 @@ const PotionCreator = () => {
     const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState(context?.ingredients || []);
-    
+    const [showBackButton, setShowBackButton] = useState(false);
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -87,6 +87,9 @@ const PotionCreator = () => {
 
     useEffect(() => {
         console.log("Ingredientes seleccionados:", selectedIngredientArray);
+            if (selectedIngredientArray.length >= 1 && !showBackButton) {
+        setShowBackButton(true);
+    }
     }, [selectedIngredientArray]);
 
     return (
@@ -163,7 +166,7 @@ const PotionCreator = () => {
                     </CreatePotionButton>
                 )}
 
-                    {selectedIngredientArray.length >= 1 && (  // Condición para mostrar el botón
+                    {showBackButton && (  // Condición para mostrar el botón
                     <IngredientBackButton>
                         <BackIcon>Back</BackIcon>
                     </IngredientBackButton>
@@ -199,12 +202,12 @@ const IngredientBackButton = styled.Text`
     align-items: center;
     position: absolute;
     padding: 10px;
-    bottom: ${height * 0.20}px;
-    left: ${((width/2) - 85)}px;
+    bottom: ${height * 0.31}px;
+    left: ${((width) - 60)}px;
 `;
 
 const BackIcon = styled.Text`
-    font-size: ${width*0.08}px;
+    font-size: ${width*0.06}px;
     font-family: 'KochAltschrift';
     color: #FFF;
     text-align: center;
