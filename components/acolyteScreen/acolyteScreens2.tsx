@@ -5,6 +5,7 @@ import AppContext from '../../helpers/context';
 import MenuHome from './menu/MenuHome';
 import MenuLab from './menu/MenuLab';
 import MenuLabInside from './menu/MenuLabInside';
+import { Vibration } from 'react-native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -35,6 +36,7 @@ useEffect(() => {
       if(player._id === playerId){
         const updatedPlayer = { ...player, isInsideLab };
         setPlayer(updatedPlayer);
+        Vibration.vibrate(100);
       }
     }
   });

@@ -1,6 +1,6 @@
 import { Camera } from 'react-native-vision-camera';
 import React, { useEffect, useState , useContext} from 'react';
-import { View, Text, StyleSheet, Button, Alert, Linking } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert, Linking, Vibration } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner} from 'react-native-vision-camera';
 import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
 import AppContext from '../helpers/context';
@@ -41,36 +41,27 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
   const handleCodeScanned = (codes: any) => {
     if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
+
       setIsScanned(true); // Marca como escaneado
       console.log(`Scanned ${codes.length} codes!`);
-      Alert.alert(
-        'QR Code Scanned', 
-        `Scanned user: ${codes[0].value.userEmail}`, 
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              setIsScanned(false); // Permitir escanear otro código al presionar "OK"
-              console.log('OK Pressed');
-              const qrValue = codes[0].value;
+      setIsScanned(false); // Permitir escanear otro código al presionar "OK"
+      console.log('OK Pressed');
+      const qrValue = codes[0].value;
 
-              const parsedQrValue = JSON.parse(qrValue);
+      const parsedQrValue = JSON.parse(qrValue);
 
-              //Emit del valor del QR escaneado
-              socket.emit("qrScanned", qrValue);
+      //Emit del valor del QR escaneado
+      socket.emit("qrScanned", qrValue);
 
 
-              console.log('QR PARSED VALUE IS: ' + parsedQrValue);
-              console.log('QR NOT PARSED VALUE IS: ' + qrValue);
-              
-              searchAndChangeIsInsideLabState(parsedQrValue)
-            }
-          }
-        ]
-      );
-      // Aquí podrías hacer alguna acción adicional, como enviar los datos a una API
+      console.log('QR PARSED VALUE IS: ' + parsedQrValue);
+      console.log('QR NOT PARSED VALUE IS: ' + qrValue);
+      
+      searchAndChangeIsInsideLabState(parsedQrValue)
+      Vibration.vibrate(100);
     }
-  };
+  }
+      // Aquí podrías hacer alguna acción adicional, como enviar los datos a una API
 
   const codeScanner2: CodeScanner = {
     codeTypes: ['qr', 'ean-13'],
