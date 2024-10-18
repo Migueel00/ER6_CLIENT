@@ -13,7 +13,7 @@ const goBackImage = require('../assets/icons/back-arrow.png');
 const createPotionImage = require('../assets/icons/darkButton2.png');
 const gridImage = require('../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
-
+const villainFakeIngredients = require('./../fakedata/fakeVillainIngredients.json');
 
 
 const ITEM_SIZE = width * 0.60;
@@ -57,6 +57,7 @@ const PotionCreator = () => {
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
     const [filterBooleans, setFilterBooleans] = useState<boolean[]>([]);
     const [flatlistIndex, setFlatlistIndex] = useState(0);
+    const [villainIngredients, setVillainIngredients] = useState(villainFakeIngredients.data);
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -78,6 +79,13 @@ const PotionCreator = () => {
             setPotionFactory(new Cauldron(ingredients, curses));
         }
     }, []);
+
+    useEffect(()=> {
+        console.log("VILLAIN INGRIDIENTS");
+        console.log(villainIngredients);
+        
+        
+    }, [])
 
     useEffect(() => {
         console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
