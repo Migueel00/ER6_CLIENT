@@ -64,12 +64,12 @@ const HomeLab = () => {
                 <View style={styles.modalContainer}>
                     <ImageBackground
                     source={qrImage}
-                    style={[styles.qrBackground, { width: width * 1, height: height * 0.6 }]}
+                    style={[styles.qrBackground, { width: width * 0.9, height: height * 0.5 }]}
                     resizeMode="cover"
                     >
                     <QRCode
                         value={qrValue ? JSON.stringify(qrValue) : "No email available"}
-                        size={width * 0.47}
+                        size={width * 0.43}
                         logoBackgroundColor='transparent'
                         color='#00BFAE'
                         backgroundColor='black'
