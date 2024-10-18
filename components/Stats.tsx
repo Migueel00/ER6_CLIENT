@@ -41,7 +41,7 @@ const Stats = () => {
                         height={height}
                     >
                         <Container padding={height * 0.01}>
-                            <TitleContainer width={width * 0.5} height={height * 0.1}>
+                            <TitleContainer width={width * 0.9} height={height * 0.1}>
                                 <TitleText fontSize={width * 0.1}>{player.nickname}</TitleText>
                             </TitleContainer>
 

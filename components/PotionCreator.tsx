@@ -101,6 +101,9 @@ const PotionCreator = () => {
         if (selectedIngredientArray.length < 4) {
             Vibration.vibrate(100); 
             <Animated.FlatList
+                initialNumToRender={ingredients.length}
+                maxToRenderPerBatch={ingredients.length}
+                updateCellsBatchingPeriod={ingredients.length}
                 ref={flatListRef} 
                 snapToInterval={CONSTANTS.ITEM_SIZE}
                 decelerationRate={0}
@@ -167,6 +170,9 @@ const PotionCreator = () => {
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 <FlatListView>
                     <Animated.FlatList
+                        initialNumToRender={ingredients.length}
+                        maxToRenderPerBatch={ingredients.length}
+                        updateCellsBatchingPeriod={ingredients.length}
                         ref={flatListRef} 
                         snapToInterval={CONSTANTS.ITEM_SIZE}
                         decelerationRate={0}
