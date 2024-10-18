@@ -7,6 +7,7 @@ import ProfileScreen2 from '../profileScreen2';
 import SettingsScreen from '../settings/settingsScreen';
 import ConnectionScreen from './connectionsScreen';
 import { Dimensions , Image} from 'react-native';
+import ProfileScreen3 from '../ProfileScreen3';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -57,7 +58,7 @@ const MortimerScreens = () => {
         />
         <Tab.Screen
           name="Profile" 
-          component={ProfileScreen2}
+          component={ProfileScreen3}
           options={{
             tabBarIcon: ({}) => (
               <Image

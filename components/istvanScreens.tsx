@@ -7,6 +7,7 @@ import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settings/settingsScreen';
 import CameraScreen from './cameraScreen';
 import ScannerScreen from './ScannerScreen';
+import ProfileScreen3 from './ProfileScreen3';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -58,7 +59,7 @@ const IstvanScreens = () => {
             />
             <Tab.Screen
             name="Proe"
-            component={ProfileScreen2}
+            component={ProfileScreen3}
             options={{
                 tabBarIcon: ({}) => (
                     <Image
