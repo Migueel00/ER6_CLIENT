@@ -55,6 +55,7 @@ const FilterOptionTouchable = styled.TouchableOpacity<{ selected: boolean }>`
     background-color: ${({ selected }) => (selected ? '#5d6d7e' : 'white')};
     padding: ${width * CONSTANTS.TOUCHABLE_SPACING}px;
     border-radius: ${CONSTANTS.TOUCHABLE_RADIUS * width}px;
+    margin-bottom: ${width * 0.04}px;
 `;
 
 
@@ -66,7 +67,7 @@ const FilterOptionText = styled.Text`
 `;
 
 const ExitButton = styled.TouchableOpacity`
-    width: ${CONSTANTS.TOUCHABLE_WIDTH * width}px;
+    width: ${CONSTANTS.CONFIRM_TOUCHABLE_WIDTH * width}px;
     background-color: white;
     padding: ${width * CONSTANTS.TOUCHABLE_SPACING}px;
     border-radius: ${CONSTANTS.FILTER_BOTTOM * width}px;
@@ -86,6 +87,29 @@ const ButtonContainer = styled.View`
     align-items: center;
     flex-direction: row;
 `;
+
+const FilterOptionsContainer = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+`;
+
+const ColumnContainer = styled.View`
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 20px;
+`;
+
+const ColumnContainer2 = styled.View`
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+`;
+
+
 
 const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy}) => {
     const [isHpSelected, setIsHpSelected] = useState<boolean>(false);
@@ -111,7 +135,6 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             setIsCharismaSelected(filterBooleans[CONSTANTS.IS_CHARISMA]);
             setIsInsanitySelected(filterBooleans[CONSTANTS.IS_INSANITY]);
             setIsLesserSelected(filterBooleans[CONSTANTS.IS_LESSER]);
-            setIsDefaultSelected(filterBooleans[CONSTANTS.IS_DEFAULT]);
             setIsGreaterSelected(filterBooleans[CONSTANTS.IS_GREATER]);
         }
 
@@ -139,13 +162,12 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_CHARISMA: 5,
         IS_INSANITY: 6,
         IS_LESSER: 7,
-        IS_DEFAULT: 8,
-        IS_GREATER: 9
+        IS_GREATER: 8
     }
 
     const handleApplyFilters = () => {
         const filtersBoolean : boolean[] = [isHpSelected, isLeastSelected, isIntSelected, isConstitutionSelected, isDexteritySelected, isCharismaSelected,
-            isInsanitySelected, isLesserSelected, isDefaultSelected, isGreaterSelected
+            isInsanitySelected, isLesserSelected, isGreaterSelected
         ];
 
         setFilterBooleans(filtersBoolean);
@@ -192,11 +214,6 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
                 case CONSTANTS.IS_LESSER:
                     filterBoolean ? rarityFilterString.push('lesser') : filterBoolean;
-                    break;
-
-                case CONSTANTS.IS_DEFAULT:
-                    filterBoolean ? rarityFilterString.push('') : filterBoolean;
-
                     break;
 
                 case CONSTANTS.IS_GREATER:
@@ -283,68 +300,65 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         <ModalContainer>
             <FilterContainer>
                 <FilterTitle>Filters</FilterTitle>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isHpSelected}
-                        onPress={() => setIsHpSelected(!isHpSelected)}>
-                        <FilterOptionText>HP</FilterOptionText>
-                    </FilterOptionTouchable>
-                    <FilterOptionTouchable
-                        selected={isLeastSelected}
-                        onPress={() => setIsLeastSelected(!isLeastSelected)}>
-                        <FilterOptionText>Least</FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isIntSelected}
-                        onPress={() => setIsIntSelected(!isIntSelected)}>
-                        <FilterOptionText>INT</FilterOptionText>
-                    </FilterOptionTouchable>
-                    <FilterOptionTouchable
-                        selected={isLesserSelected}
-                        onPress={() => setIsLesserSelected(!isLesserSelected)}>
-                        <FilterOptionText>Lesser</FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isConstitutionSelected}
-                        onPress={() => setIsConstitutionSelected(!isConstitutionSelected) }>
-                        <FilterOptionText>CONS</FilterOptionText>
-                    </FilterOptionTouchable>
-                    <FilterOptionTouchable
-                        selected={isDefaultSelected}
-                        onPress={() => setIsDefaultSelected(!isDefaultSelected)}>
-                        <FilterOptionText> - </FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isDexteritySelected}
-                        onPress={() => setIsDexteritySelected(!isDexteritySelected)}>
-                        <FilterOptionText>DEX</FilterOptionText>
-                    </FilterOptionTouchable>
-                    <FilterOptionTouchable 
-                        selected={isGreaterSelected}
-                        onPress={() => setIsGreaterSelected(!isGreaterSelected)}>
-                        <FilterOptionText>Greater</FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isCharismaSelected}
-                        onPress={() => setIsCharismaSelected(!isCharismaSelected)}>
-                        <FilterOptionText>CHA</FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
-                <FilterOption>
-                    <FilterOptionTouchable
-                        selected={isInsanitySelected}
-                        onPress={() => setIsInsanitySelected(!isInsanitySelected)}>
-                        <FilterOptionText>INS</FilterOptionText>
-                    </FilterOptionTouchable>
-                </FilterOption>
+                
+                {/* Contenedor que agrupa las dos columnas */}
+                <FilterOptionsContainer>
+                    
+                    {/* Columna izquierda (atributos) */}
+                    <ColumnContainer>
+                        <FilterOptionTouchable
+                            selected={isHpSelected}
+                            onPress={() => setIsHpSelected(!isHpSelected)}>
+                            <FilterOptionText>HP</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isIntSelected}
+                            onPress={() => setIsIntSelected(!isIntSelected)}>
+                            <FilterOptionText>INT</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isConstitutionSelected}
+                            onPress={() => setIsConstitutionSelected(!isConstitutionSelected)}>
+                            <FilterOptionText>CONS</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isDexteritySelected}
+                            onPress={() => setIsDexteritySelected(!isDexteritySelected)}>
+                            <FilterOptionText>DEX</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isCharismaSelected}
+                            onPress={() => setIsCharismaSelected(!isCharismaSelected)}>
+                            <FilterOptionText>CHA</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isInsanitySelected}
+                            onPress={() => setIsInsanitySelected(!isInsanitySelected)}>
+                            <FilterOptionText>INS</FilterOptionText>
+                        </FilterOptionTouchable>
+                    </ColumnContainer>
+
+                    {/* Columna derecha (rareza) */}
+                    <ColumnContainer2>
+                        <FilterOptionTouchable
+                            selected={isLeastSelected}
+                            onPress={() => setIsLeastSelected(!isLeastSelected)}>
+                            <FilterOptionText>LEAST</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isLesserSelected}
+                            onPress={() => setIsLesserSelected(!isLesserSelected)}>
+                            <FilterOptionText>LESSER</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isGreaterSelected}
+                            onPress={() => setIsGreaterSelected(!isGreaterSelected)}>
+                            <FilterOptionText>GREATER</FilterOptionText>
+                        </FilterOptionTouchable>
+                    </ColumnContainer2>
+
+                </FilterOptionsContainer>
+
                 <ButtonContainer>
                     <ExitButton onPress={closeModal}>
                         <ExitButtonText>EXIT</ExitButtonText>
