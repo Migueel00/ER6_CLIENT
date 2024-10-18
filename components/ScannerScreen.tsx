@@ -5,8 +5,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import CameraScreen from './cameraScreen';
 import AppContext from '../helpers/context';
 
+const {height, width} = Dimensions.get('window')
 const ScannerScreen = () => {
-    const {height, width} = Dimensions.get('window')
+
     // Estado para manejar el modal de la cámara
     const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
@@ -73,27 +74,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     eyeButton: {
-        height: 135,
-        width: 135,
+        height: height *0.4,
+        width: width *0.8,
         opacity: 0, // Aplica la opacidad al contenedor del botón
         backgroundColor: 'purple',
-        borderRadius: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',  // Para centrarlo en la pantalla
-        top: '42.5%',  // Centrado verticalmente
-        left: '45%',  // Centrado horizontalmente
+        borderRadius: height * 0.2,
+        top: height * - 0.2,  // Centrado verticalmente
+        left: width * 0.12,  // Centrado horizontalmente
         transform: [{ translateX: -50 }, { translateY: -50 }],  // Ajuste para centrar el botón
     },
-    title: {
-        fontSize: 50,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
     kaotikaFont: {
-        paddingTop: 20,
+        paddingTop: height * 0.02,
         fontFamily: 'KochAltschrift',
-        fontSize: 40,
+        fontSize: width * 0.12,
         color: 'white', 
     },
 });
