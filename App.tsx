@@ -76,11 +76,12 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const ingredients = await getIngredientsAndFilter(userRole);
+        const ingredients = await getIngredientsAndFilter();
+        const filteredIngredients = filterIngredients(ingredients, userRole);
         console.log("INGREDIENTS:");
-        console.log(ingredients);
+        console.log(filteredIngredients);
         
-        setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
+        setIngredients([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
       } catch (error) {
         console.error("Error fetching ingredients:", error);
       }
@@ -89,6 +90,32 @@ function App(): React.JSX.Element {
     fetchIngredients();
   }, [userRole]);
   
+    // Función para filtrar ingredientes
+  const filterIngredients = (ingredients: Ingredient[], userRole: string) => {
+    return ingredients.filter((ingredient: Ingredient) => {
+        switch (userRole) {
+            case 'ACOLYTE':
+                return ingredient.effects.some(effect =>
+                    effect.includes('restore') || 
+                    effect.includes('increase') || 
+                    effect.includes('calm') || 
+                    effect.includes('boost') || 
+                    effect.includes('frenzy')
+                );
+
+            case 'VILLAIN':
+                return ingredient.effects.some(effect =>
+                    effect.includes('damage') || 
+                    effect.includes('decrease') || 
+                    effect.includes('setback') || 
+                    effect.includes('frenzy')
+                );
+
+            default:
+                return false; // Opcional: manejar otros roles
+        }
+    });
+  };
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
