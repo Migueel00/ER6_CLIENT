@@ -77,6 +77,9 @@ function App(): React.JSX.Element {
     const fetchIngredients = async () => {
       try {
         const ingredients = await getIngredientsAndFilter(userRole);
+        console.log("INGREDIENTS:");
+        console.log(ingredients);
+        
         setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
       } catch (error) {
         console.error("Error fetching ingredients:", error);
