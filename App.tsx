@@ -73,23 +73,19 @@ function App(): React.JSX.Element {
     setProfileAttributes(profileAttributes);
   }, [profileAttributes]);
 
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const ingredients = await getIngredientsAndFilter(userRole);
-    
-        console.log("INGREDIENTS:");
-        
-        setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
-      } catch (error) {
-        console.error("Error fetching ingredients:", error);
-      }
-    };
-    
-    fetchIngredients();
-  }, [userRole]);
+
+  const fetchIngredients = async (playerRole : string) => {
+    try {
+      const ingredients = await getIngredientsAndFilter(playerRole);
+          
+      setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
+    } catch (error) {
+      console.error("Error fetching ingredients:", error);
+    }
+  };
   
-    // Función para filtrar ingredientes
+  
+  // Función para filtrar ingredientes
   const filterIngredients = (ingredients: Ingredient[], userRole: string) => {
     return ingredients.filter((ingredient: Ingredient) => {
         switch (userRole) {
@@ -257,7 +253,9 @@ function App(): React.JSX.Element {
       setPlayer(player);
 
       player.role = "VILLAIN";
+      await fetchIngredients(player.role);
       setUserRole(player.role);
+      console.log("ingredients" + ingredients);
       await AsyncStorage.setItem("my-role", player.role);
 
       if(player.role === 'MORTIMER'){
