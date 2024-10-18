@@ -510,7 +510,8 @@ export default class Cauldron {
 
         //Function to obtain the effect of an ingredient and the corresponding value
         const getEffectDuration = (effect: string): number => {
-            if (effect.includes("least" || "lesser")) return 1;    // Effect "least"
+            if (effect.includes("least")) return 1;    // Effect "least"
+            if (effect.includes("lesser")) return 1;
             if (effect.includes("greater")) return 3;  // Effect "greater"
             return 2;  // NOrmal effect
         };
