@@ -10,7 +10,7 @@ const { height, width } = Dimensions.get('window');
 const Stats = () => {
     const { height, width } = Dimensions.get('window');
     const kaotikaAPI = 'https://kaotika.vercel.app/';
-    const fontSize = width * 0.070;
+    const fontSize = width * 0.062;
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
         return {
