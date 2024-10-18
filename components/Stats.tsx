@@ -52,41 +52,41 @@ const Stats = () => {
 
                             <ProgressContainer>
                                 <Column>
-                                    <ProfileText fontSize={width * 0.07}>Intelligence</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Intelligence</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.intelligence}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Dexterity</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Dexterity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.dexterity}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Insanity</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Insanity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.insanity}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
-                                     <ProfileText fontSize={width * 0.07}>Charisma</ProfileText>
+                                     <ProfileText fontSize={height * 0.04}>Charisma</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.charisma}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Constitution</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Constitution</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.constitution}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Strength</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Strength</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.strength}
                                         width={width * 0.3}
@@ -95,42 +95,42 @@ const Stats = () => {
                                 </Column>
 
                                 <Column>
-                                    <ProfileText fontSize={width * 0.07}>Hit Points</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Hit Points</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.hit_points}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Attack</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Attack</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.attack}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Defense</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Defense</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.defense}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>Magic Resistance</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>Magic Resistance</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.magic_resistance}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>CFP</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>CFP</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.cfp}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={width * 0.07}>BCFA</ProfileText>
+                                    <ProfileText fontSize={height * 0.04}>BCFA</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.bcfa}
                                         width={width * 0.3}
