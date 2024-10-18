@@ -19,18 +19,32 @@ const getIngredientsAndFilter = async (userRole: string) => {
             switch (userRole) {
                 case 'ACOLYTE':
                     console.log("HA ENTRADO EN ACOLYTE");
-                    
-                    return ingredient.effects.some(effect => effect.includes('restore') || effect.includes('increase') || effect.includes('calm') || effect.includes('boost') || effect.includes('frenzy'));
-    
+                    // Retorna true si se cumple alguna condición para ACOLYTE
+                    return ingredient.effects.some(effect => 
+                        effect.includes('restore') || 
+                        effect.includes('increase') || 
+                        effect.includes('calm') || 
+                        effect.includes('boost') || 
+                        effect.includes('frenzy')
+                    );
+        
                 case 'VILLAIN':
-                    console.log("HA ENTRADO EN VILLAIN");
-                    return ingredient.effects.some(effect => effect.includes('damage') || effect.includes('decrease') || effect.includes('setback') || effect.includes('frenzy'));
+                    // Retorna true si se cumple alguna condición para VILLAIN
+                    return ingredient.effects.some(effect => 
+                        effect.includes('damage') || 
+                        effect.includes('decrease') || 
+                        effect.includes('setback') || 
+                        effect.includes('frenzy')
+                    );
+        
                 default:
-                    return false; // Optional: handle any other user roles
+                    return false; // Maneja cualquier otro rol de usuario
             }
-        }); 
-
+        });
+        
+        // Retorna los ingredientes filtrados
         return filteredIngredients;
+        
     }
     catch (error){
         console.log(error);
