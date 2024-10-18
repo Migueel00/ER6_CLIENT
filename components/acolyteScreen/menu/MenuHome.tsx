@@ -12,13 +12,12 @@ import * as CONSTANTS from "../../../src/constants";
 
 const Tab = createMaterialTopTabNavigator();
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const Icon = styled.Image`
     width: ${CONSTANTS.ICON_WIDTH * width}px;
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
-const { height } = Dimensions.get('window');
 
 const MenuHome = () => {
     const acolyteContext = useContext(AcolyteContext);
