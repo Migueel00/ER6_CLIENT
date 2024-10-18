@@ -17,7 +17,7 @@ interface updateEvent {
 
 const AcolyteProvider = () => {
 
-  const appContext = useContext(AppContext);
+const appContext = useContext(AppContext);
 const location = appContext?.location;
 const [player, setPlayer] = useState(appContext?.player);
 const isInsideLab = player?.isInsideLab!;
