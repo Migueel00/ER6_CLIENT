@@ -69,7 +69,7 @@ const PotionCreator = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
 
    useEffect(() => {
-        console.log("CAMBIAN LOS INGREDIENTS " + JSON.stringify(ingredients));
+        //console.log("CAMBIAN LOS INGREDIENTS " + JSON.stringify(ingredients));
         
     }, [ingredients]); 
 
@@ -96,9 +96,9 @@ const PotionCreator = () => {
     }
 
     const handleLongPress = (ingredient: Ingredient) => {
-        ;
-
+        
         if (selectedIngredientArray.length < 4) {
+            ToastAndroid.show(ingredient.name + " added", ToastAndroid.SHORT);
             Vibration.vibrate(100); 
             <Animated.FlatList
                 initialNumToRender={ingredients.length}
