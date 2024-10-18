@@ -30,7 +30,7 @@ const InsideLab = () => {
                             screenOptions={{
                                 tabBarStyle: {
                                     backgroundColor: 'black',
-                                    height: height * 0.09, // Height for bottom tab bar
+                                    height: height * 0.092, // Height for bottom tab bar
                                     paddingBottom: 5, // Adds space at the bottom
                                 },
                                 tabBarIconStyle: {
@@ -56,7 +56,7 @@ const InsideLab = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/fixed/homeIcon.png')}
+                                            source={require('../assets/icons/homeLabIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -68,7 +68,7 @@ const InsideLab = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/fixed/profileIcon.png')}
+                                            source={require('../assets/icons/potionCreatorIcon.png')}
                                             focused={focused}
                                         />
                                     ),

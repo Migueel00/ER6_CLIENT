@@ -13,7 +13,7 @@ const goBackImage = require('../assets/icons/back-arrow.png');
 const createPotionImage = require('../assets/icons/darkButton2.png');
 const gridImage = require('../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
-
+const filterIconImage = require('../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
 
 
 const ITEM_SIZE = width * 0.60;
@@ -214,8 +214,8 @@ const PotionCreator = () => {
                             );
                         }}
                     />
-                    <FilterButton onPress={handlePressFilter} >
-                        <FilterButttonText>Filter...</FilterButttonText>
+                    <FilterButton onPress={handlePressFilter}>
+                        <FilterIcon source={filterIconImage} />
                     </FilterButton>
                 </FlatListView>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
@@ -348,6 +348,13 @@ const PotionCreator = () => {
 };
 
 //STYLED COMPONENTS
+const FilterIcon = styled.Image`
+    width: ${CONSTANTS.WIDTH * 0.15}px; 
+    height: ${CONSTANTS.WIDTH * 0.13}px; 
+    tint-color: white;
+    resize-mode: contain;
+`;
+
 const Container = styled.View`
     flex: 1;
     padding-bottom: 50px;
@@ -556,9 +563,11 @@ const FilterButton = styled.TouchableOpacity`
     justify-content: center;
     width: ${CONSTANTS.WIDTH * 0.18}px;
     height: ${CONSTANTS.HEIGHT * 0.08}px; 
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: ${CONSTANTS.WIDTH * 0.02}px; 
     border-radius: ${CONSTANTS.WIDTH * 0.05}px; 
+    border-width: 2px;
+    border-color:  #C19A6B;
 `;
 
 const FilterButttonText = styled.Text`

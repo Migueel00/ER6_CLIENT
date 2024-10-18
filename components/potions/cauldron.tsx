@@ -299,6 +299,23 @@ export default class Cauldron {
         const hasIncrease = hitPointsEffects.some(effect => effect.includes("increase"));
         const hasDecrease = hitPointsEffects.some(effect => effect.includes("decrease"));
 
+        const isFailed = hitPointsEffects.some(effect => effect.includes("calm")) ||
+                         hitPointsEffects.some(effect => effect.includes("frenzy")) || 
+                         hitPointsEffects.some(effect => effect.includes("boost")) ||
+                         hitPointsEffects.some(effect => effect.includes("setback")) ||
+                         hitPointsEffects.some(effect => effect.includes("restore")) ||
+                         hitPointsEffects.some(effect => effect.includes("damage")) ;
+
+
+        console.log("hasIncrease: " + hasIncrease);
+        console.log("hasDecrease: " + hasDecrease);
+        console.log("isFailed: " + isFailed);
+        
+        if(isFailed){
+
+            return new FailedPotion("Tonic of Downfall", 0);
+        }
+
         if (hasIncrease) {
             return new Essence("Essence of " + modifierName + "Heal", potionValue);
         }
@@ -314,7 +331,9 @@ export default class Cauldron {
         const isRestore = effect.includes("boost") || 
                           effect.includes("calm");
 
-
+        console.log("EFFECT IS: " + effect);
+        
+        
         const isDamage = effect.includes("setback") || 
                          effect.includes("frenzy");
 
@@ -323,12 +342,16 @@ export default class Cauldron {
                          effect.includes("restore") || 
                          effect.includes("damage");
 
-        console.log("HA CREADO UNA POCION DE IGUALES EFECTOSSSSSSSSSSSSS");
+        console.log("HA CREADO UNA POCION DE IGUALES EFECTOS");
         console.log("isFailed: " + isFailed);
+        console.log("isRestore: " + isRestore);
+        console.log("isDamage: " + isDamage);
         
         if(isFailed)
         {
-            return new FailedPotion("Tonic of Dawnfall", 0);
+            console.log("ES FAILED ");
+            
+            return new FailedPotion("Tonic of Downfall", 0);
         }
 
 
@@ -339,15 +362,18 @@ export default class Cauldron {
             potionEffect = "Setback"
         }
 
-        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength"];
+        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence"];
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
+
+        console.log(matchingAttribute);
+        
 
         // Capitalize the first letter
         const capsMatchingAttribute = matchingAttribute ? matchingAttribute.charAt(0).toUpperCase() + matchingAttribute.slice(1) : '';
 
-        if (!matchingAttribute) {
-            return new FailedPotion("Tonic of Downfall", 0);
-        }
+        // if (!matchingAttribute) {
+        //     return new FailedPotion("Tonic of Downfall", 0);
+        // }
 
         let modifierValue = this.getTotalValue(ingredients);
         let modifierValueAverage = Math.floor(modifierValue / ingredients.length);
@@ -383,9 +409,22 @@ export default class Cauldron {
             }
         }       
 
-        return isRestore
-            ? new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration)
-            : new Venom(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration);
+        if(isRestore){
+            console.log("SE VA A CREAR ELIXIR PORQUE ISRESTORE ES TRUE");
+            
+            return new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration)
+        }
+        else if(isDamage)
+        {
+           return new Venom(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration);
+        }
+        else
+        {
+            console.log("SE HA CREADO UN FAILED POTION AL FINAL DE LA FUNCION");
+            
+            return new FailedPotion("Tonic of Downfall", 0);
+        }
+
     }
 
     private roundDownToMultipleOfFive(num: number): number {
