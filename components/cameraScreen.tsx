@@ -101,7 +101,10 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
         </ScanArea>
       </ScanAreaContainer>
 
-      <Button title="Close Scanner" onPress={onClose} />
+      <StyledButton onPress={onClose}>
+        <TextButton>Close Scanner</TextButton>
+      </StyledButton>
+      
     </Container>
   );
 };
@@ -114,8 +117,22 @@ const Container = styled.View`
   background-color: black;
 `;
 
+const StyledButton = styled.TouchableOpacity`
+  background-color: rgba(0,0,0,0.8);
+  padding: ${width * 0.03}px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: ${height * 0.01}px;
+`
+
+const TextButton = styled.Text`
+  font-size: ${width * 0.125}px;
+  font-family: 'KochAltschrift';
+  color: white;
+`;
+
 const Title = styled.Text`
-  font-size: 35px;
+  font-size: ${width * 0.08}px;
   font-family: 'KochAltschrift';
   margin-bottom: 20px;
   color: white;
