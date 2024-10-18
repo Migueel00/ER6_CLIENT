@@ -32,8 +32,10 @@ useEffect(() => {
   // Escuchar el evento
   socket?.on('update', ({  playerId, isInsideLab }: updateEvent) => {
     if (player && setPlayer) {
-      const updatedPlayer = { ...player, isInsideLab };
-      setPlayer(updatedPlayer);
+      if(player._id === playerId){
+        const updatedPlayer = { ...player, isInsideLab };
+        setPlayer(updatedPlayer);
+      }
     }
   });
 
