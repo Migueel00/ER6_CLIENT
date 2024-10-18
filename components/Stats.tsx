@@ -10,6 +10,7 @@ const { height, width } = Dimensions.get('window');
 const Stats = () => {
     const { height, width } = Dimensions.get('window');
     const kaotikaAPI = 'https://kaotika.vercel.app/';
+    const fontSize = width * 0.055;
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
         return {
@@ -52,41 +53,41 @@ const Stats = () => {
 
                             <ProgressContainer>
                                 <Column>
-                                    <ProfileText fontSize={height * 0.04}>Intelligence</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Intelligence</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.intelligence}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Dexterity</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Dexterity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.dexterity}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Insanity</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Insanity</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.insanity}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
-                                     <ProfileText fontSize={height * 0.04}>Charisma</ProfileText>
+                                     <ProfileText fontSize={fontSize}>Charisma</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.charisma}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Constitution</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Constitution</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.constitution}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Strength</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Strength</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.strength}
                                         width={width * 0.3}
@@ -95,42 +96,42 @@ const Stats = () => {
                                 </Column>
 
                                 <Column>
-                                    <ProfileText fontSize={height * 0.04}>Hit Points</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Hit Points</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.hit_points}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Attack</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Attack</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.attack}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Defense</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Defense</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.defense}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>Magic Resistance</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Magic Resistance</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.magic_resistance}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>CFP</ProfileText>
+                                    <ProfileText fontSize={fontSize}>CFP</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.cfp}
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
 
-                                    <ProfileText fontSize={height * 0.04}>BCFA</ProfileText>
+                                    <ProfileText fontSize={fontSize}>BCFA</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.bcfa}
                                         width={width * 0.3}
