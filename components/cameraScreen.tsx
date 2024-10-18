@@ -15,7 +15,7 @@ type CameraScreenProps = {
 const PermissionsPage: React.FC = () => (
   <View style={styles.container}>
     <Text style={styles.title}>Camera Permission Required</Text>
-    <Text>Please allow camera access in your settings.</Text>
+    <Text style={styles.title}>Please allow camera access in your settings!</Text>
   </View>
 );
 
@@ -23,13 +23,9 @@ const PermissionsPage: React.FC = () => (
 const NoCameraDeviceError: React.FC = () => (
   <View style={styles.container}>
     <Text style={styles.title}>No Camera Device Found</Text>
-    <Text>Please connect a camera device.</Text>
+    <Text style={styles.title}>Please connect a camera device.</Text>
   </View>
 );
-
-
-
-
 
 const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
@@ -116,11 +112,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightcoral', // Personaliza el fondo
+    backgroundColor: 'black', // Personaliza el fondo
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
+    fontFamily: 'KochAltschrift',
     marginBottom: 20,
   },
   scanAreaContainer: {
