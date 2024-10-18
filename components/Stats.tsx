@@ -10,7 +10,7 @@ const { height, width } = Dimensions.get('window');
 const Stats = () => {
     const { height, width } = Dimensions.get('window');
     const kaotikaAPI = 'https://kaotika.vercel.app/';
-    const fontSize = width * 0.055;
+    const fontSize = width * 0.070;
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
         return {
@@ -73,7 +73,7 @@ const Stats = () => {
                                         width={width * 0.3}
                                         color="#C19A6B"
                                     />
-                                     <ProfileText fontSize={fontSize}>Charisma</ProfileText>
+                                    <ProfileText fontSize={fontSize}>Charisma</ProfileText>
                                     <Progress.Bar
                                         progress={attributesToPrint.charisma}
                                         width={width * 0.3}
@@ -199,6 +199,7 @@ const ProgressContainer = styled.View`
     border-width: 2px;
     border-radius: 10px;
     bottom: ${height * 0.035}px;
+    padding: ${width * 0.025}px;
 `;
 
 const Column = styled.View`
