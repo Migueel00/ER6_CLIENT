@@ -51,7 +51,7 @@ const ConnectionScreen = () => {
                             <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
                             <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
                             <View style={styles.playersList}>
-                                {players.map((player: any) => (
+                                {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
                                     <View key={player.id} style={styles.playerItem}>
                                         <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
                                         <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
