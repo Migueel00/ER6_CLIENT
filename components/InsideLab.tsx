@@ -4,14 +4,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import PotionCreator from './PotionCreator';
 import HomeLab from './HomeLab';
+import styled from 'styled-components/native';
+import * as CONSTANTS from "../src/constants";
+
+const {width, height} = Dimensions.get('window');
+
+const activeOpacity = 1;
+const inactiveOpacity = 0.2;
+
+const Icon = styled.Image<{focused: boolean}>`
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
+    opacity: ${({ focused }) => (focused ? activeOpacity : inactiveOpacity)};
+    resize-mode: contain;
+    margin: 0;
+`
 
 const Tab = createBottomTabNavigator();
 
 const InsideLab = () => {
-    const { height, width } = Dimensions.get('window');
-
-    const activeOpacity = 1;
-    const inactiveOpacity = 0.2;
 
                 return (
                     <NavigationContainer independent={true}>
@@ -44,15 +55,9 @@ const InsideLab = () => {
                                 component={HomeLab}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Image
+                                        <Icon 
                                             source={require('../assets/icons/fixed/homeIcon.png')}
-                                            style={{
-                                                width: 70,
-                                                height: 70,
-                                                opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
-                                                resizeMode: 'contain',
-                                                margin: 0
-                                            }}
+                                            focused={focused}
                                         />
                                     ),
                                 }}
@@ -62,15 +67,9 @@ const InsideLab = () => {
                                 component={PotionCreator}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Image
+                                        <Icon 
                                             source={require('../assets/icons/fixed/profileIcon.png')}
-                                            style={{
-                                                width: height * 0.09,
-                                                height: height * 0.09,
-                                                opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
-                                                resizeMode: 'contain',
-                                                margin: 0
-                                            }}
+                                            focused={focused}
                                         />
                                     ),
                                 }}

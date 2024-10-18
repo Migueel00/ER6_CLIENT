@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, ImageBackground, Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Dimensions, Image, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from './homeScreen';
-import ProfileScreen2 from './profileScreen2';
 import SettingsScreen from './settings/settingsScreen';
-import CameraScreen from './cameraScreen';
 import ScannerScreen from './ScannerScreen';
 import ProfileScreen3 from './ProfileScreen3';
+import styled from 'styled-components/native';
+import * as CONSTANTS from "../src/constants";
 
 const Tab = createMaterialTopTabNavigator();
 
+const { width, height } = Dimensions.get('window');
+
+const Icon = styled.Image`
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
+`
+
 const IstvanScreens = () => {
-    const {height, width} = Dimensions.get('window')
-    // Estado para manejar el modal de la cámara
 
     return (
         <NavigationContainer>
@@ -48,10 +53,7 @@ const IstvanScreens = () => {
             options={{
                 
                 tabBarIcon: ({}) => (
-                <Image
-                    source={require('../assets/icons/fixed/homeIcon.png')}
-                    style={{ width: 70, height: 70}}
-                />
+                    <Icon source={require('../assets/icons/fixed/homeIcon.png')}/>
                 ),
                 tabBarLabel: ({}) => null,
     
@@ -76,10 +78,7 @@ const IstvanScreens = () => {
             options={{
                 
                 tabBarIcon: ({}) => (
-                <Image
-                    source={require('../assets/icons/fixed/settingsIcon.png')}
-                    style={{ width: 70, height: 70}}
-                />
+                <Icon source={require('../assets/icons/fixed/settingsIcon.png')}/>
                 ),
                 tabBarLabel: ({}) => null,
     
@@ -91,10 +90,7 @@ const IstvanScreens = () => {
                     options={{
                 
                         tabBarIcon: ({}) => (
-                        <Image
-                            source={require('../assets/icons/istvanScannerIcon.png')}
-                            style={{ width: 70, height: 70}}
-                        />
+                            <Icon source={require('../assets/icons/istvanScannerIcon.png')}/>
                         ),
                         tabBarLabel: ({}) => null,
             

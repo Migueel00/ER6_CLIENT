@@ -1,18 +1,24 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../homeScreen';
-import ProfileScreen2 from '../profileScreen2';
 import SettingsScreen from '../settings/settingsScreen';
 import ConnectionScreen from './connectionsScreen';
 import { Dimensions , Image} from 'react-native';
 import ProfileScreen3 from '../ProfileScreen3';
+import styled from 'styled-components/native';
+import * as CONSTANTS from "../../src/constants";
+
+const {width, height} = Dimensions.get('window');
+
+const Icon = styled.Image`
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
+`
 
 const Tab = createMaterialTopTabNavigator();
 
 const MortimerScreens = () => {
-  const {width, height} = Dimensions.get('window');
 
   return (
     <NavigationContainer>
@@ -47,10 +53,7 @@ const MortimerScreens = () => {
           options={{
         
             tabBarIcon: ({}) => (
-              <Image
-                source={require('../../assets/icons/fixed/homeIcon.png')}
-                style={{ width: 70, height: 70, resizeMode: 'contain',  margin: 0}}
-              />
+              <Icon source={require('../../assets/icons/fixed/homeIcon.png')}/>
             ),
             tabBarLabel: ({}) => null,
   
@@ -61,10 +64,7 @@ const MortimerScreens = () => {
           component={ProfileScreen3}
           options={{
             tabBarIcon: ({}) => (
-              <Image
-                source={require('../../assets/icons/fixed/profileIcon.png')}
-                style={{width: 70, height: 70}}
-              />
+                <Icon source={require('../../assets/icons/fixed/profileIcon.png')}/>
             ),
             tabBarLabel: ({}) => null,
         }}
@@ -73,12 +73,8 @@ const MortimerScreens = () => {
           name="Settings"
           component={SettingsScreen}
           options={{
-        
             tabBarIcon: ({}) => (
-              <Image
-                source={require('../../assets/icons/fixed/settingsIcon.png')}
-                style={{ width: 70, height: 70}}
-              />
+              <Icon source={require('../../assets/icons/fixed/settingsIcon.png')}/>
             ),
             tabBarLabel: ({}) => null,
   
@@ -88,12 +84,8 @@ const MortimerScreens = () => {
           name="Connections"
           component={ConnectionScreen}
           options={{
-        
             tabBarIcon: ({}) => (
-              <Image
-                source={require('../../assets/icons/conections-icon.png')}
-                style={{ width: 70, height: 70}}
-              />
+              <Icon source={require('../../assets/icons/conections-icon.png')}/>
             ),
             tabBarLabel: ({}) => null,
   

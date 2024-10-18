@@ -1,14 +1,12 @@
 import React, {useState, useContext } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../helpers/context';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const buttonImage = require('../assets/png/button1.png');
 const qrImage = require('../assets/png/epicQR3.png');
 const insideLabImage = require('../assets/png/insideLab.png');
 
-const Tab = createBottomTabNavigator();
 
 const HomeLab = () => {
     const { height, width } = Dimensions.get('window');
@@ -66,12 +64,12 @@ const HomeLab = () => {
                 <View style={styles.modalContainer}>
                     <ImageBackground
                     source={qrImage}
-                    style={[styles.qrBackground, { width: width * 0.7, height: height * 0.4 }]}
+                    style={[styles.qrBackground, { width: width * 1, height: height * 0.6 }]}
                     resizeMode="cover"
                     >
                     <QRCode
                         value={qrValue ? JSON.stringify(qrValue) : "No email available"}
-                        size={width * 0.23}
+                        size={width * 0.47}
                         logoBackgroundColor='transparent'
                         color='#00BFAE'
                         backgroundColor='black'
@@ -93,79 +91,6 @@ const HomeLab = () => {
             </ImageBackground>
     );
 };
-
-// const LabScreen = () => {
-
-//     // Cambiara segun appcontext
-//     const { height } = Dimensions.get('window');
-
-//     const context = useContext(AppContext);
-//     const [isInsideLab, setIsInsideLab] = useState(context?.player.isInsideLab);
-//     return (
-//         <NavigationContainer independent={true}>
-//         {isInsideLab ? (
-//             <Tab.Navigator
-//             screenOptions={{
-//                 tabBarStyle: {
-//                 backgroundColor: 'black',
-//                 height: height * 0.09, // Altura de la barra inferior
-//                 paddingBottom: 5, // Espacio extra en la parte inferior
-//             },
-//                 tabBarShowLabel: false,
-//                 headerShown: false,
-//                 tabBarItemStyle: {
-//                 justifyContent: 'center', // Centrar los iconos
-//                 borderRightWidth: 0.2, // Bordes entre las pestañas
-//                 borderRightColor: 'white', // Color de los bordes
-//                 paddingHorizontal: 10,
-//                 height: '100%',
-//             },
-//         }}
-//         >
-//         <Tab.Screen
-//             name="Lab Entry"
-//             component={LabEntry}
-//             options={{
-//             tabBarIcon: ({ focused }) => (
-//                 <Image
-//                 source={require('../assets/icons/fixed/homeIcon.png')} // Icono personalizado para esta pestaña
-//                 style={{
-//                     width: 70,
-//                     height: 70,
-//                     opacity: focused ? 1 : 0.2, // Cambiar opacidad basado en el enfoque
-//                     resizeMode: 'contain',
-//                     margin: 0
-//                 }}
-//                 />
-//             ),
-//             }}
-//         />
-//         <Tab.Screen
-//             name="Potion Creator"
-//             component={PotionCreator}
-//             options={{
-//             tabBarIcon: ({ focused }) => (
-//                 <Image
-//                 source={require('../assets/icons/fixed/potionIcon.png')}
-//                 style={{
-//                     width: 70,
-//                     height: 70,
-//                     opacity: focused ? 1 : 0.2,
-//                     resizeMode: 'contain',
-//                     margin: 0
-//                 }}
-//                 />
-//             ),
-//             }}
-//         />
-//         </Tab.Navigator>
-//     ) : (
-//         // No se mostraran los iconos si esta fuera del laboratorio
-//         <LabEntry />
-//     )}
-//     </NavigationContainer>
-// );
-// };
 
 const styles = StyleSheet.create({
     background: {
