@@ -51,7 +51,7 @@ const ProfileScreen3 = () => {
                             screenOptions={{
                                 tabBarStyle: {
                                     backgroundColor: 'black',
-                                    height: height * 0.09, // Height for bottom tab bar
+                                    height: height * 0.092, // Height for bottom tab bar
                                     paddingBottom: 5, // Adds space at the bottom
                                 },
                                 tabBarIconStyle: {
@@ -77,7 +77,7 @@ const ProfileScreen3 = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/fixed/homeIcon.png')}
+                                            source={require('../assets/icons/statsIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -89,7 +89,7 @@ const ProfileScreen3 = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/fixed/profileIcon.png')}
+                                            source={require('../assets/icons/equipmentIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -100,7 +100,7 @@ const ProfileScreen3 = () => {
                                 component={Inventory}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Icon source={require('../assets/icons/fixed/settingsIcon.png')}
+                                        <Icon source={require('../assets/icons/inventoryIcon.png')}
                                         focused={focused}
                                         />
                                     ),
