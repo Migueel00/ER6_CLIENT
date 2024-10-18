@@ -14,7 +14,7 @@ interface updateEvent {
   isInsideLab: boolean;
 }
 
-const AcolyteProvider: React.FC<{children: ReactNode}> = ({children}) => {
+const AcolyteProvider = () => {
 
   const appContext = useContext(AppContext);
 const location = appContext?.location;
@@ -60,7 +60,6 @@ useEffect(() => {
       <MenuContainer>
           {isInsideLab ? <MenuLabInside/> : location === 'LAB' ? <MenuLab/> : <MenuHome />}
       </MenuContainer>
-      {children}
     </AcolyteContext.Provider>
   );
 };
