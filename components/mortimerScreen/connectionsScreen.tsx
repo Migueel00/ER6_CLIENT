@@ -37,24 +37,6 @@ const ConnectionScreen = () => {
         };
     }, [players, setPlayers]);
 
-    // useEffect(() => {
-    //     // Escuchar el evento
-    //     socket.on('update', ({ playerId, isInsideLab }: updateEvent) => {
-    //         setPlayers(prevPlayers => 
-    //             prevPlayers.map(player => player.id === playerId ? { ...player, isInsideLab } : player)
-    //         );
-    
-    //         console.log("ENTRA AL EVENTO DE UPDATE");
-    //         console.log("PLAYER ID" + playerId);
-    //         console.log("IS INSIDE LAB " + isInsideLab);
-    //     });
-    
-    //     // Limpiar el evento socket
-    //     return () => {
-    //         socket.off('update');
-    //     };
-    // }, [players, socket]);
-
     return (
         <AppContext.Consumer>
             {({ players}: any) => {

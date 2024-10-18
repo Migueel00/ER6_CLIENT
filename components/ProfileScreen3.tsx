@@ -6,6 +6,22 @@ import Stats from './Stats';
 import Equipment from './Equipment';
 import Inventory from './Inventory';
 import { NavigationContainer } from '@react-navigation/native';
+import styled from 'styled-components/native';
+import * as CONSTANTS from "../src/constants";
+
+const {width, height} = Dimensions.get('window');
+
+const activeOpacity = 1;
+const inactiveOpacity = 0.2;
+
+const Icon = styled.Image<{focused: boolean}>`
+    width: ${CONSTANTS.ICON_WIDTH * width}px;
+    height: ${CONSTANTS.ICON_WIDTH * width}px;
+    opacity: ${({ focused }) => (focused ? activeOpacity : inactiveOpacity)};
+    resize-mode: contain;
+    margin: 0;
+`
+
 
 const Tab = createBottomTabNavigator();
 
@@ -23,9 +39,7 @@ const convertAttributesToPercentage = (profileAttributes: any) => {
 const ProfileScreen3 = () => {
     const { height, width } = Dimensions.get('window');
 
-    const activeOpacity = 1;
-    const inactiveOpacity = 0.2;
-
+    
     return (
         <AppContext.Consumer>
             {({ profileAttributes }: any) => {
@@ -62,15 +76,9 @@ const ProfileScreen3 = () => {
                                 component={Stats}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Image
+                                        <Icon 
                                             source={require('../assets/icons/fixed/homeIcon.png')}
-                                            style={{
-                                                width: 70,
-                                                height: 70,
-                                                opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
-                                                resizeMode: 'contain',
-                                                margin: 0
-                                            }}
+                                            focused={focused}
                                         />
                                     ),
                                 }}
@@ -80,15 +88,9 @@ const ProfileScreen3 = () => {
                                 component={Equipment}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Image
+                                        <Icon 
                                             source={require('../assets/icons/fixed/profileIcon.png')}
-                                            style={{
-                                                width: height * 0.09,
-                                                height: height * 0.09,
-                                                opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
-                                                resizeMode: 'contain',
-                                                margin: 0
-                                            }}
+                                            focused={focused}
                                         />
                                     ),
                                 }}
@@ -98,15 +100,8 @@ const ProfileScreen3 = () => {
                                 component={Inventory}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Image
-                                            source={require('../assets/icons/fixed/settingsIcon.png')}
-                                            style={{
-                                                width: 70,
-                                                height: 70,
-                                                opacity: focused ? activeOpacity : inactiveOpacity, // Change opacity based on focus
-                                                resizeMode: 'contain',
-                                                margin: 0
-                                            }}
+                                        <Icon source={require('../assets/icons/fixed/settingsIcon.png')}
+                                        focused={focused}
                                         />
                                     ),
                                 }}

@@ -15,7 +15,6 @@ import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
 import { ProfileAttributes } from './components/profileScreen';
 import { Player } from './interfaces/contextInterface';
-import executePotionCreation from './components/potions/execute';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
 
@@ -252,7 +251,7 @@ function App(): React.JSX.Element {
 
       setPlayer(player);
 
-      player.role = "ISTVAN";
+      // player.role = "VILLAIN";
       await fetchIngredients(player.role);
       setUserRole(player.role);
       console.log("ingredients" + ingredients);
