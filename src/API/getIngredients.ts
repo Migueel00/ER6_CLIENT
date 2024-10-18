@@ -1,5 +1,6 @@
 import Ingredient from "../../components/potions/ingredient";
 
+// Función para obtener ingredientes
 const getIngredientsAndFilter = async (userRole: string) => {
     try {
         const response = await fetch('https://kaotika-server.fly.dev/ingredients');
@@ -49,6 +50,6 @@ const getIngredientsAndFilter = async (userRole: string) => {
     catch (error){
         console.log(error);
     }
-}
+};
 
 export default getIngredientsAndFilter;
