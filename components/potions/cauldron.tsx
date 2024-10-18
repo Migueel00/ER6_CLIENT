@@ -311,11 +311,21 @@ export default class Cauldron {
 
     private createPotionFromEqualEffects(effects: string[], ingredients: Ingredient[]): Potion {
         const effect = effects[0]; // Asumimos que todos son iguales en este caso
-        const isRestore = effect.includes("boost" || "calm");
-        const isDamage = effect.includes("setback" || "frenzy");
+        const isRestore = effect.includes("boost") || 
+                          effect.includes("calm");
 
-        const isFailed = effect.includes("increase" || "decrease" || "restore" || "damage");
 
+        const isDamage = effect.includes("setback") || 
+                         effect.includes("frenzy");
+
+        const isFailed = effect.includes("increase") || 
+                         effect.includes("decrease") || 
+                         effect.includes("restore") || 
+                         effect.includes("damage");
+
+        console.log("HA CREADO UNA POCION DE IGUALES EFECTOSSSSSSSSSSSSS");
+        console.log("isFailed: " + isFailed);
+        
         if(isFailed)
         {
             return new FailedPotion("Tonic of Dawnfall", 0);
@@ -371,7 +381,7 @@ export default class Cauldron {
             else{
                 potionEffect = "Calm";
             }
-        }
+        }       
 
         return isRestore
             ? new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration)

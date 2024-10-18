@@ -69,7 +69,7 @@ const PotionCreator = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
 
    useEffect(() => {
-        console.log("CAMBIAN LOS INGREDIENTS " + JSON.stringify(ingredients));
+        //console.log("CAMBIAN LOS INGREDIENTS " + JSON.stringify(ingredients));
         
     }, [ingredients]); 
 
