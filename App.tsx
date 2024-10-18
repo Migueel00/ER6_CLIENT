@@ -251,7 +251,7 @@ function App(): React.JSX.Element {
 
       setPlayer(player);
 
-      player.role = "MORTIMER";
+      player.role = "VILLAIN";
       await fetchIngredients(player.role);
       setUserRole(player.role);
       console.log("ingredients" + ingredients);

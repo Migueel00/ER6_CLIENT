@@ -4,7 +4,7 @@ import AcolyteScreens2 from "./acolyteScreen/acolyteScreens2";
 import React, { useContext, useState } from "react";
 import { Text } from 'react-native';
 import AppContext from "../helpers/context";
-import VillainScreens from "./VillainScreens";
+import VillainScreens from "./villainScreen/VillainScreens";
 
 
 

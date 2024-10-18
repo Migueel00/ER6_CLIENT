@@ -3,11 +3,12 @@ import { Dimensions} from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
-import MortimerContext from "../../../helpers/MortimerConttext";
+
+import VillainContext from "../../../helpers/VillainContext";
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const connections = require('../../../assets/icons/conections-icon.png');
+const labIcon = require('../../../assets/icons/lab-icon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 
 
@@ -43,31 +44,31 @@ const TouchableIcon = styled.TouchableOpacity`
     position: absolute;
 `
 
-const MapScreenMortimer = () => {
+const MapScreenVillain = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
-    const mortimerContext = useContext(MortimerContext);
-    const isMenuLoaded = mortimerContext?.isMenuLoaded;
-    const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
+    const villainContext = useContext(VillainContext);
+    const isMenuLoaded = villainContext?.isMenuLoaded
+    const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
+        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
 
-        if(isMenuConnectionLoaded){
+        if(isMenuLabLoaded){
             setTimeout(() => {
-                navigation.navigate('Connections');
+                navigation.navigate('LAB');
 
             }, 200);
         }
-    }, [isMenuConnectionLoaded]);
+    }, [isMenuLabLoaded]);
     
     const handleLabIconPress = () => {
-        setLocation('CONNECTION');
-        if(isMenuConnectionLoaded){
-            navigation.navigate('Connections');
+        setLocation('INSIDE_LAB');
+        if(isMenuLabLoaded){
+            navigation.navigate('LAB');
         }
     }
 
@@ -86,7 +87,7 @@ const MapScreenMortimer = () => {
                 onPress={handleLabIconPress}
                 style={{ top: height * 0.37, left: width * 0.02 }}
             >
-                <LabIcon source={connections}  /> 
+                <LabIcon source={labIcon}  /> 
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
@@ -98,4 +99,4 @@ const MapScreenMortimer = () => {
     );
 }
 
-export default MapScreenMortimer;
+export default MapScreenVillain;
