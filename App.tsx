@@ -432,5 +432,6 @@ const styles = StyleSheet.create({
 
 //Warning hide
 LogBox.ignoreLogs(['Warning: A props object containing a "key" prop is being spread into JSX']);
+LogBox.ignoreAllLogs();
 
 export default App;
