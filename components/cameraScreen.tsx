@@ -1,14 +1,12 @@
 import { Camera } from 'react-native-vision-camera';
-import React, { useEffect, useState , useContext} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Button, Alert, Linking, Vibration } from 'react-native';
-import { useCameraDevice, useCameraPermission, CodeScanner} from 'react-native-vision-camera';
+import { useCameraDevice, useCameraPermission, CodeScanner } from 'react-native-vision-camera';
 import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
 import AppContext from '../helpers/context';
 
-
-
 type CameraScreenProps = {
-  onClose: () => void; // Nueva prop para cerrar el modal
+  onClose: () => void; // Prop para cerrar el modal
 };
 
 // Componente para pedir permisos
@@ -32,12 +30,10 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
   const [isScanned, setIsScanned] = useState(false); // Estado para saber si ya se escaneó un código
   const [cameraRef, setCameraRef] = useState<Camera | null>(null);
-  const socket  = useContext(AppContext)?.socket;
-
+  const socket = useContext(AppContext)?.socket;
 
   const handleCodeScanned = (codes: any) => {
     if (!isScanned) { // Solo procesa si no ha sido escaneado previamente
-
       setIsScanned(true); // Marca como escaneado
       console.log(`Scanned ${codes.length} codes!`);
       setIsScanned(false); // Permitir escanear otro código al presionar "OK"
@@ -46,23 +42,21 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
       const parsedQrValue = JSON.parse(qrValue);
 
-      //Emit del valor del QR escaneado
+      // Emit del valor del QR escaneado
       socket.emit("qrScanned", qrValue);
-
 
       console.log('QR PARSED VALUE IS: ' + parsedQrValue);
       console.log('QR NOT PARSED VALUE IS: ' + qrValue);
       
-      searchAndChangeIsInsideLabState(parsedQrValue)
+      searchAndChangeIsInsideLabState(parsedQrValue);
       Vibration.vibrate(100);
     }
-  }
-      // Aquí podrías hacer alguna acción adicional, como enviar los datos a una API
+  };
 
   const codeScanner2: CodeScanner = {
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: handleCodeScanned,
-  }
+  };
 
   useEffect(() => {
     const handlePermissions = async () => {
@@ -99,9 +93,22 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
         ref={(ref) => setCameraRef(ref)}
       />
 
-    <View style={styles.scanAreaContainer}>
-        <View style={styles.scanArea} />
+      <View style={styles.scanAreaContainer}>
+        <View style={styles.scanArea}>
+          <View style={styles.row}>
+            <View style={styles.cornerTopLeft} />
+            <View style={{ flex: 1 }} />
+            <View style={styles.cornerTopRight} />
+          </View>
+          <View style={{ flex: 1 }} />
+          <View style={styles.row}>
+            <View style={styles.cornerBottomLeft} />
+            <View style={{ flex: 1 }} />
+            <View style={styles.cornerBottomRight} />
+          </View>
+        </View>
       </View>
+
       <Button title="Close Scanner" onPress={onClose} />
     </View>
   );
@@ -120,17 +127,50 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   scanAreaContainer: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   scanArea: {
-    width: 250, // Ancho del área de escaneo
-    height: 250, // Altura del área de escaneo
-    borderWidth: 2,
+    width: '80%',  // Ajusta el ancho del área de escaneo
+    height: '40%',  // Ajusta la altura del área de escaneo
+    justifyContent: 'space-between',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cornerTopLeft: {
+    width: 30,
+    height: 30,
+    borderTopWidth: 4,
+    borderLeftWidth: 4,
     borderColor: 'red',
-    borderRadius: 10,
-    backgroundColor: 'rgba(255, 0, 0, 0.2)', // Semitransparente para el fondo
+    borderTopLeftRadius: 15, // Esquina redondeada
+  },
+  cornerTopRight: {
+    width: 30,
+    height: 30,
+    borderTopWidth: 4,
+    borderRightWidth: 4,
+    borderColor: 'red',
+    borderTopRightRadius: 15, // Esquina redondeada
+  },
+  cornerBottomLeft: {
+    width: 30,
+    height: 30,
+    borderBottomWidth: 4,
+    borderLeftWidth: 4,
+    borderColor: 'red',
+    borderBottomLeftRadius: 15, // Esquina redondeada
+  },
+  cornerBottomRight: {
+    width: 30,
+    height: 30,
+    borderBottomWidth: 4,
+    borderRightWidth: 4,
+    borderColor: 'red',
+    borderBottomRightRadius: 15, // Esquina redondeada
   },
 });
 
