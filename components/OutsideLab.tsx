@@ -69,7 +69,7 @@ const OutsideLab = () => {
                 >
                 <QRCode
                     value={qrValue ? JSON.stringify(qrValue) : "No email available"}
-                    size={width * 0.35}
+                    size={width * 0.43}
                     logoBackgroundColor='transparent'
                     color='#00BFAE'
                     backgroundColor='black'
