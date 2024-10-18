@@ -96,9 +96,9 @@ const PotionCreator = () => {
     }
 
     const handleLongPress = (ingredient: Ingredient) => {
-        ;
-
+        
         if (selectedIngredientArray.length < 4) {
+            ToastAndroid.show(ingredient.name + " added", ToastAndroid.SHORT);
             Vibration.vibrate(100); 
             <Animated.FlatList
                 initialNumToRender={ingredients.length}
