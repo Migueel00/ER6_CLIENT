@@ -122,6 +122,8 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isLesserSelected, setIsLesserSelected] = useState<boolean>(false);
     const [isDefaultSelected, setIsDefaultSelected] = useState<boolean>(false);
     const [isGreaterSelected, setIsGreaterSelected] = useState<boolean>(false);
+    const [isCalmSelected, setIsCalmSelected] = useState<boolean>(false);
+    const [isFrenzySelected, setIsFrenzySelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
 
     useEffect(() => {
@@ -136,6 +138,8 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             setIsInsanitySelected(filterBooleans[CONSTANTS.IS_INSANITY]);
             setIsLesserSelected(filterBooleans[CONSTANTS.IS_LESSER]);
             setIsGreaterSelected(filterBooleans[CONSTANTS.IS_GREATER]);
+            setIsCalmSelected(filterBooleans[CONSTANTS.IS_CALM]);
+            setIsFrenzySelected(filterBooleans[CONSTANTS.IS_FRENZY])
         }
 
     }, [filterBooleans]); 
@@ -162,12 +166,14 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_CHARISMA: 5,
         IS_INSANITY: 6,
         IS_LESSER: 7,
-        IS_GREATER: 8
+        IS_GREATER: 8,
+        IS_CALM: 9,
+        IS_FRENZY: 10,
     }
 
     const handleApplyFilters = () => {
         const filtersBoolean : boolean[] = [isHpSelected, isLeastSelected, isIntSelected, isConstitutionSelected, isDexteritySelected, isCharismaSelected,
-            isInsanitySelected, isLesserSelected, isGreaterSelected
+            isInsanitySelected, isLesserSelected, isGreaterSelected, isCalmSelected, isFrenzySelected
         ];
 
         setFilterBooleans(filtersBoolean);
@@ -218,7 +224,14 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
                 case CONSTANTS.IS_GREATER:
                     filterBoolean ? rarityFilterString.push('greater') : filterBoolean;
+                    break;
 
+                case CONSTANTS.IS_CALM:
+                    filterBoolean ? attributeFilterString.push('calm') : filterBoolean;
+                    break;
+
+                case CONSTANTS.IS_FRENZY:
+                    filterBoolean ? attributeFilterString.push('frenzy') : filterBoolean;
                     break;
 
                 default:
@@ -226,6 +239,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     break;
             }
         }
+
 
         
         console.log(filtersString);
@@ -235,29 +249,6 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
         console.log(rarityFilterString);
         
-        
-
-        // if(filtersString.length > 0)
-        // {
-        //     const filteredIngredients = ingredients.filter(ingredient => {
-        //         if (Array.isArray(ingredient.effects)) {
-        //             return filtersString.some(filter => 
-        //                 ingredient.effects.some(effect => effect.includes(filter))
-        //             );
-        //         }
-        //         return false; 
-        //     });
-
-        //     setIngredientsCopy([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
-        // }
-        // else
-        // {
-        //     console.log("HA ENTRADO AQIWHHAIUDAAOKLSHADOHAK");
-            
-        //     setIngredientsCopy(ingredients);
-        //     console.log(ingredientsCopy);
-            
-        // }
 
         // Combinación de filtros
         const filteredIngredients = ingredients.filter(ingredient => {
@@ -354,6 +345,16 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                             selected={isGreaterSelected}
                             onPress={() => setIsGreaterSelected(!isGreaterSelected)}>
                             <FilterOptionText>GREATER</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isCalmSelected}
+                            onPress={() => setIsCalmSelected(!isCalmSelected)}>
+                            <FilterOptionText>CALM</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
+                            selected={isFrenzySelected}
+                            onPress={() => setIsFrenzySelected(!isFrenzySelected)}>
+                            <FilterOptionText>FRENZY</FilterOptionText>
                         </FilterOptionTouchable>
                     </ColumnContainer2>
 

@@ -474,6 +474,8 @@ export default class Cauldron {
         // Extract effect type
         const getEffectType = (effect: string): string => {
             const parts = effect.split('_');
+            console.log(effect);
+            
             return parts.slice(-2).join('_'); // Returns the last part (dexterity, intelligence, hit_points, etc.)
         };
     
