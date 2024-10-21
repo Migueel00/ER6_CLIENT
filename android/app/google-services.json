@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:946196140711:android:090bd0741e86d5c5900182",
+        "android_client_info": {
+          "package_name": "com.AnatidaephobiaER6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946196140711-d6c7gp10gufftfdfmsdtusa3u5jd908q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.AnatidaephobiaER6",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH0bA4RII-C9oKHAmReY6SHrQvA2Lazgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:946196140711:android:f6e5911feaebc201900182",
         "android_client_info": {
           "package_name": "com.er6"
