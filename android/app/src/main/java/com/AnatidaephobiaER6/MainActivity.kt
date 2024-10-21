@@ -1,4 +1,4 @@
-package com.er6
+package com.AnatidaephobiaER6
 
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen;

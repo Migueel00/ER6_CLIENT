@@ -79,9 +79,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.er6"
+    namespace "com.AnatidaephobiaER6"
     defaultConfig {
-        applicationId "com.er6"
+        applicationId "com.AnatidaephobiaER6"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
