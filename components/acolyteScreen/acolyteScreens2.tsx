@@ -28,8 +28,6 @@ const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
 const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
 
 useEffect(() => {
-  console.log("ENTRA AL USEEFFECT");
-
   // Escuchar el evento
   socket?.on('update', ({  playerId, isInsideLab }: updateEvent) => {
     if (player && setPlayer) {

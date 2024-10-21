@@ -26,7 +26,7 @@ GoogleSignin.configure({
 const {width, height} = Dimensions.get('window');
 function App(): React.JSX.Element {
 
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(false); // -> no se usa isVerified?
   const isDarkMode = useColorScheme() === 'dark';
   const [userSocket, setUserSocket] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
@@ -81,35 +81,7 @@ function App(): React.JSX.Element {
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
-  };
-  
-  
-  // Función para filtrar ingredientes
-  const filterIngredients = (ingredients: Ingredient[], userRole: string) => {
-    return ingredients.filter((ingredient: Ingredient) => {
-        switch (userRole) {
-            case 'ACOLYTE':
-                return ingredient.effects.some(effect =>
-                    effect.includes('restore') || 
-                    effect.includes('increase') || 
-                    effect.includes('calm') || 
-                    effect.includes('boost') || 
-                    effect.includes('frenzy')
-                );
-
-            case 'VILLAIN':
-                return ingredient.effects.some(effect =>
-                    effect.includes('damage') || 
-                    effect.includes('decrease') || 
-                    effect.includes('setback') || 
-                    effect.includes('frenzy')
-                );
-
-            default:
-                return false; // Opcional: manejar otros roles
-        }
-    });
-  };
+  };  
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -121,7 +93,6 @@ function App(): React.JSX.Element {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
-    //console.log('User Info: ', userInfo);
     const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
@@ -163,7 +134,6 @@ function App(): React.JSX.Element {
   }
 
   const handleSockets = (socket : any)=> {
-      console.log("ENTRA A HANDLE SOCKETS");
       // Conectar al socket
       socket.on('connect', () => {
         console.log('Conectado al servidor de Socket.IO');
@@ -251,15 +221,11 @@ function App(): React.JSX.Element {
 
       setPlayer(player);
 
-      //player.role = "MORTIMER";
       await fetchIngredients(player.role);
       setUserRole(player.role);
-      console.log("ingredients" + ingredients);
       await AsyncStorage.setItem("my-role", player.role);
 
       if(player.role === 'MORTIMER'){
-        console.log("HA ENTRADO PARA HACER EL FETCH");
-        
         await getDataAndAsign();
       }
       
@@ -326,7 +292,6 @@ function App(): React.JSX.Element {
   setPlayers(newPlayers);
   }
   
-  console.log(ingredients);
   return (
     <AppContext.Provider 
       value={{   
