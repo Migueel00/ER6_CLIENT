@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image, Dimensions, SafeAreaView} from 'react-native';
 import styled from 'styled-components/native';
-import AppContext from '../helpers/context';
+import AppContext from '../../helpers/context';
 
 // Obtén la imagen de fondo de los assets locales
-const backgroundImageURL = require('../assets/png/profileBackground.png');
+const backgroundImageURL = require('../../assets/png/profileBackground.png');
 const kaotikaAPI = 'https://kaotika.vercel.app/';
 
 const { width, height } = Dimensions.get('window');

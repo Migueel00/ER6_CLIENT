@@ -1,6 +1,6 @@
 
 import auth from '@react-native-firebase/auth';
-import LoadSpinner from './components/loadSpinner';
+import LoadSpinner from './components/utils/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
@@ -220,7 +220,6 @@ function App(): React.JSX.Element {
 
 
       setPlayer(player);
-
       await fetchIngredients(player.role);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
@@ -231,10 +230,7 @@ function App(): React.JSX.Element {
       
       setIsLoggedIn(true);
       setIsSpinner(false);
-
-      console.log(player.attributes);
-      
-
+    
     } catch (error: any) {
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

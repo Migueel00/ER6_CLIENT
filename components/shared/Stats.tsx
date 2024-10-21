@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import AppContext from '../helpers/context';
+import { Dimensions } from 'react-native';
+import AppContext from '../../helpers/context';
 import { ImageBackground } from 'react-native';
 import * as Progress from 'react-native-progress';
 import styled from 'styled-components/native';
@@ -37,7 +37,7 @@ const Stats = () => {
                 
                 return (
                     <StyledImageBackground
-                        source={require('../assets/png/profileBackground.png')}
+                        source={require('../../assets/png/profileBackground.png')}
                         width={width}
                         height={height}
                     >

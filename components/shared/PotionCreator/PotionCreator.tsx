@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, TouchableWithoutFeedback, Vibration, FlatList } from 'react-native';
 import styled from 'styled-components/native';
-import AppContext from '../helpers/context';
-import Cauldron from './potions/cauldron';
-import Ingredient from './potions/ingredient';
-import Potion from './potions/potion';
+import AppContext from '../../../helpers/context';
+import Cauldron from '../../potions/cauldron';
+import Ingredient from '../../potions/ingredient';
+import Potion from '../../potions/potion';
 import FilterModal from './FilterModal';
 
-const backgroundImageURL = require('../assets/png/settingsBackground1.png');
-const defaultPotionImage = require('../assets/png/ingredients.jpeg');
-const goBackImage = require('../assets/icons/back-arrow.png');
-const createPotionImage = require('../assets/icons/darkButton2.png');
-const gridImage = require('../assets/png/gridImage.jpeg');
+const backgroundImageURL = require('../../../assets/png/settingsBackground1.png');
+const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
+const goBackImage = require('../../../assets/icons/back-arrow.png');
+const createPotionImage = require('../../../assets/icons/darkButton2.png');
+const gridImage = require('../../../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
-const filterIconImage = require('../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
+const filterIconImage = require('../../../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
 
 
 const ITEM_SIZE = width * 0.60;
@@ -48,7 +48,8 @@ const PotionCreator = () => {
     const context = useContext(AppContext);
     const userRole = context?.player?.role;
     const [potionFactory, setPotionFactory] = useState<Cauldron | null>();
-    const [curses, setCurses] = useState(require('./../fakedata/fake-curses.json'));
+    const [curses, setCurses] = useState(require('../../../fakedata/fake-curses.json'));
+
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(context?.ingredients || []);
@@ -68,8 +69,7 @@ const PotionCreator = () => {
 
     const scrollX = useRef(new Animated.Value(0)).current;
 
-   useEffect(() => {
-        //console.log("CAMBIAN LOS INGREDIENTS " + JSON.stringify(ingredients));
+    useEffect(() => {
         
     }, [ingredients]); 
 
@@ -130,7 +130,7 @@ const PotionCreator = () => {
                         inputRange,
                         outputRange: [-20, -50, -20]
                     });
-               
+                    
                     return (
                         <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
                             <IngredientContainer>
@@ -224,11 +224,6 @@ const PotionCreator = () => {
                         <IngredientEffects numberOfLines={3}>{selectedIngredient.effects}</IngredientEffects>
                     </IngredientInfoContainer>
                 )}
-                {/* <SelectedIngredientContainer>
-                    {selectedIngredientArray.map((item, index) => (
-                        <IngredientListImage key={index} source={defaultPotionImage} />
-                    ))}
-                </SelectedIngredientContainer> */}
                 <Grid>
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
@@ -304,13 +299,13 @@ const PotionCreator = () => {
                 >
                     <ModalContainer>
                         {/* Imagen de fondo */}
-                        <PotionImageBackground source={require('./../assets/png/darkModal.png')}>
+                        <PotionImageBackground source={require('../../../assets/png/darkModal.png')}>
                             <PotionCreatedMessage>
                                 Potion Created
                             </PotionCreatedMessage> 
 
                             {/* Imagen centrada sobre la imagen principal */} 
-                            <CenteredPotionImage source={require('./../assets/png/createdPotion.png')}/>
+                            <CenteredPotionImage source={require('../../../assets/png/createdPotion.png')}/>
 
 
 

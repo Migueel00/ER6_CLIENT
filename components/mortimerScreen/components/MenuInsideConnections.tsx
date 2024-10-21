@@ -3,7 +3,7 @@ import * as CONSTANTS from "../../../src/constants";
 import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import ProfileScreen3 from '../../ProfileScreen3';
+import ProfileScreen3 from '../../shared/ProfileScreen';
 import SettingsScreen from '../../settings/settingsScreen';
 import ConnectionScreen from '../connectionsScreen';
 import MapScreenMortimer from './MapScreenMortimer';

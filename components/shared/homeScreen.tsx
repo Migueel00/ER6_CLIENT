@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import AppContext from '../helpers/context';
+import AppContext from '../../helpers/context';
 
 const HomeScreen = () => {
     const {height, width} = Dimensions.get('window');
@@ -10,7 +10,7 @@ const HomeScreen = () => {
         <AppContext.Consumer>
             {({userRole}: any) => (
                 <ImageBackground 
-                    source={require('../assets/png/HomeScreen.png')} // Cambia esta ruta a la imagen que desees
+                    source={require('../../assets/png/HomeScreen.png')} // Cambia esta ruta a la imagen que desees
                     style={[styles.background, { width: width, height: height }]}
             >
                         <View style={styles.container}>

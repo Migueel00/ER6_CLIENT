@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
-import AppContext from '../helpers/context';
+import { Dimensions } from 'react-native';
+import AppContext from '../../helpers/context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Stats from './Stats';
 import Equipment from './Equipment';
 import Inventory from './Inventory';
 import { NavigationContainer } from '@react-navigation/native';
 import styled from 'styled-components/native';
-import * as CONSTANTS from "../src/constants";
+import * as CONSTANTS from "../../src/constants";
 
 const {width, height} = Dimensions.get('window');
 
@@ -77,7 +77,7 @@ const ProfileScreen3 = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/statsIcon.png')}
+                                            source={require('../../assets/icons/statsIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -89,7 +89,7 @@ const ProfileScreen3 = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/equipmentIcon.png')}
+                                            source={require('../../assets/icons/equipmentIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -100,7 +100,7 @@ const ProfileScreen3 = () => {
                                 component={Inventory}
                                 options={{
                                     tabBarIcon: ({ focused }) => (
-                                        <Icon source={require('../assets/icons/inventoryIcon.png')}
+                                        <Icon source={require('../../assets/icons/inventoryIcon.png')}
                                         focused={focused}
                                         />
                                     ),
@@ -113,9 +113,5 @@ const ProfileScreen3 = () => {
         </AppContext.Consumer>
     );
 };
-
-const styles = StyleSheet.create({
-    // Your existing styles remain unchanged
-});
 
 export default ProfileScreen3;

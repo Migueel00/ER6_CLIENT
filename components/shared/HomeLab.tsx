@@ -1,11 +1,11 @@
 import React, {useState, useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import AppContext from '../helpers/context';
+import AppContext from '../../helpers/context';
 
-const buttonImage = require('../assets/png/button1.png');
-const qrImage = require('../assets/png/epicQR3.png');
-const insideLabImage = require('../assets/png/insideLab.png');
+const buttonImage = require('../../assets/png/button1.png');
+const qrImage = require('../../assets/png/epicQR3.png');
+const insideLabImage = require('../../assets/png/insideLab.png');
 
 
 const HomeLab = () => {

@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../labScreen";
+import LabScreen from "../../shared/labScreen";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../ProfileScreen3";
+import ProfileScreen3 from "../../shared/ProfileScreen";
 import * as CONSTANTS from "../../../src/constants";
 
 const Tab = createMaterialTopTabNavigator();

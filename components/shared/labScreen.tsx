@@ -2,7 +2,7 @@ import React, { useContext} from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import InsideLab from './InsideLab';
 import OutsideLab from './OutsideLab';
-import AcolyteContext from '../helpers/AcolyteContext';
+import AcolyteContext from '../../helpers/AcolyteContext';
 
 const LabScreen = () => {
     const acolyteContext = useContext(AcolyteContext);

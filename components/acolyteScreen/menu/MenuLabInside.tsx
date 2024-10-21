@@ -2,9 +2,9 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../labScreen";
+import LabScreen from "../../shared/labScreen";
 import styled from "styled-components/native";
-import ProfileScreen3 from "../../ProfileScreen3";
+import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import * as CONSTANTS from "../../../src/constants";
 

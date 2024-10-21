@@ -3,13 +3,13 @@ import * as CONSTANTS from "../../../src/constants";
 import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../../homeScreen';
-import ProfileScreen3 from '../../ProfileScreen3';
+import HomeScreen from '../../shared/homeScreen';
+import ProfileScreen3 from '../../shared/ProfileScreen';
 import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
-import PotionCreator from '../../PotionCreator';
+import PotionCreator from '../../shared/PotionCreator/PotionCreator';
 
 
 const { width, height } = Dimensions.get('window');

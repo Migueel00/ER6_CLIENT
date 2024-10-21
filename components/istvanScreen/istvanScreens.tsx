@@ -1,13 +1,13 @@
 import React from 'react';
-import { Dimensions, Image, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import HomeScreen from './homeScreen';
-import SettingsScreen from './settings/settingsScreen';
+import HomeScreen from '../shared/homeScreen';
+import SettingsScreen from '../settings/settingsScreen';
 import ScannerScreen from './ScannerScreen';
-import ProfileScreen3 from './ProfileScreen3';
+import ProfileScreen3 from '../shared/ProfileScreen';
 import styled from 'styled-components/native';
-import * as CONSTANTS from "../src/constants";
+import * as CONSTANTS from "../../src/constants";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -51,12 +51,10 @@ const IstvanScreens = () => {
             name='home'
             component={HomeScreen}
             options={{
-                
                 tabBarIcon: ({}) => (
-                    <Icon source={require('../assets/icons/fixed/homeIcon.png')}/>
+                    <Icon source={require('../../assets/icons/fixed/homeIcon.png')}/>
                 ),
-                tabBarLabel: ({}) => null,
-    
+                tabBarLabel: '',
             }} 
             />
             <Tab.Screen
@@ -64,36 +62,31 @@ const IstvanScreens = () => {
             component={ProfileScreen3}
             options={{
                 tabBarIcon: ({}) => (
-                    <Image
-                    source={require('../assets/icons/fixed/profileIcon.png')}
-                    style={{width: 70, height: 70}}
+                    <Icon
+                    source={require('../../assets/icons/fixed/profileIcon.png')}
                     />
                 ),
-                tabBarLabel: ({}) => null,
+                tabBarLabel: ''
             }}
             />
             <Tab.Screen
             name="Settings"
             component={SettingsScreen}
             options={{
-                
                 tabBarIcon: ({}) => (
-                <Icon source={require('../assets/icons/fixed/settingsIcon.png')}/>
+                <Icon source={require('../../assets/icons/fixed/settingsIcon.png')}/>
                 ),
-                tabBarLabel: ({}) => null,
-    
+                tabBarLabel: '',
             }}
         />
                 <Tab.Screen
                     name="CAM"
                     component={ScannerScreen}
                     options={{
-                
                         tabBarIcon: ({}) => (
-                            <Icon source={require('../assets/icons/istvanScannerIcon.png')}/>
+                            <Icon source={require('../../assets/icons/istvanScannerIcon.png')}/>
                         ),
-                        tabBarLabel: ({}) => null,
-            
+                        tabBarLabel: '',
                     }}
                 />
             </Tab.Navigator>
