@@ -227,37 +227,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             }
         }
 
-        
-        console.log(filtersString);
         setFilters(filtersString);
-
-        console.log(attributeFilterString);
-
-        console.log(rarityFilterString);
-        
-        
-
-        // if(filtersString.length > 0)
-        // {
-        //     const filteredIngredients = ingredients.filter(ingredient => {
-        //         if (Array.isArray(ingredient.effects)) {
-        //             return filtersString.some(filter => 
-        //                 ingredient.effects.some(effect => effect.includes(filter))
-        //             );
-        //         }
-        //         return false; 
-        //     });
-
-        //     setIngredientsCopy([{ key: 'left-spacer' }, ...(filteredIngredients || []), { key: 'right-spacer' }]);
-        // }
-        // else
-        // {
-        //     console.log("HA ENTRADO AQIWHHAIUDAAOKLSHADOHAK");
-            
-        //     setIngredientsCopy(ingredients);
-        //     console.log(ingredientsCopy);
-            
-        // }
 
         // Combinación de filtros
         const filteredIngredients = ingredients.filter(ingredient => {

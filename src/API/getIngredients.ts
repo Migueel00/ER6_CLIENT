@@ -19,7 +19,6 @@ const getIngredientsAndFilter = async (userRole: string) => {
         const filteredIngredients: Ingredient[] = ingredientsData.filter((ingredient: Ingredient) => {
             switch (userRole) {
                 case 'ACOLYTE':
-                    console.log("HA ENTRADO EN ACOLYTE");
                     // Retorna true si se cumple alguna condición para ACOLYTE
                     return ingredient.effects.some(effect => 
                         effect.includes('restore') || 

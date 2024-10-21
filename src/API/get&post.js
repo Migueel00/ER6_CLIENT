@@ -17,9 +17,7 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
             if(existingPlayer){
                 console.log(`El correo ${email} ya está registrado`);
-                // const playerInsideLab = await getPlayerInsideLabState(email);
-
-                // playerData.isInsideLab = playerInsideLab;
+                
                 const player  = await updatePlayerByEmail(playerData);
                 return player;
             }
