@@ -139,7 +139,8 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             setIsLesserSelected(filterBooleans[CONSTANTS.IS_LESSER]);
             setIsGreaterSelected(filterBooleans[CONSTANTS.IS_GREATER]);
             setIsCalmSelected(filterBooleans[CONSTANTS.IS_CALM]);
-            setIsFrenzySelected(filterBooleans[CONSTANTS.IS_FRENZY])
+            setIsFrenzySelected(filterBooleans[CONSTANTS.IS_FRENZY]);
+            setIsDefaultSelected(filterBooleans[CONSTANTS.IS_DEFAULT]);
         }
 
     }, [filterBooleans]); 
@@ -155,6 +156,8 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         setIsLesserSelected(false);
         setIsDefaultSelected(false);
         setIsGreaterSelected(false);
+        setIsCalmSelected(false);
+        setIsFrenzySelected(false);
     }
 
     const CONSTANTS = {
@@ -169,11 +172,12 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_GREATER: 8,
         IS_CALM: 9,
         IS_FRENZY: 10,
+        IS_DEFAULT: 11,
     }
 
     const handleApplyFilters = () => {
         const filtersBoolean : boolean[] = [isHpSelected, isLeastSelected, isIntSelected, isConstitutionSelected, isDexteritySelected, isCharismaSelected,
-            isInsanitySelected, isLesserSelected, isGreaterSelected, isCalmSelected, isFrenzySelected
+            isInsanitySelected, isLesserSelected, isGreaterSelected, isCalmSelected, isFrenzySelected, isDefaultSelected
         ];
 
         setFilterBooleans(filtersBoolean);
@@ -234,6 +238,9 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     filterBoolean ? attributeFilterString.push('frenzy') : filterBoolean;
                     break;
 
+                case CONSTANTS.IS_DEFAULT:
+                    filterBoolean ? rarityFilterString.push('default') : filterBoolean;
+                    break;
                 default:
 
                     break;
@@ -242,31 +249,41 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
 
         
-        console.log(filtersString);
+        //console.log(filtersString);
         setFilters(filtersString);
 
-        console.log(attributeFilterString);
-
+        //console.log(attributeFilterString);
+        console.log("RARITY FILTERS:");    
         console.log(rarityFilterString);
         
 
-        // Combinación de filtros
+        // COMBINE FILTERS
         const filteredIngredients = ingredients.filter(ingredient => {
             if (!Array.isArray(ingredient.effects)) {
                 return false; // Aseguramos que effects sea un array
             }
         
-            // Verifica si hay algún atributo que coincida
+            // VERIFY ATTRIBUTE MATCHING
             const matchesAttribute = attributeFilterString.length > 0 && 
                 attributeFilterString.some(attrFilter => 
                     ingredient.effects.some(effect => effect.includes(attrFilter))
                 );
         
-            // Verifica si hay alguna rareza que coincida
-            const matchesRarity = rarityFilterString.length > 0 && 
-                rarityFilterString.some(rarityFilter => 
-                    ingredient.effects.some(effect => effect.includes(rarityFilter))
-                );
+            // VERIFY RARITYS MATCHING
+            const matchesRarity = rarityFilterString.length > 0 &&
+                rarityFilterString.some(rarityFilter => {
+                    if (rarityFilter === "default") {
+                        //DEFAULT FILTER LOGIC
+                        return ingredient.effects.some(effect => 
+                            !effect.startsWith("least") && 
+                            !effect.startsWith("lesser") && 
+                            !effect.startsWith("greater")
+                        );
+                    } else {
+                        // Lógica estándar para rarezas (least, lesser, greater)
+                        return ingredient.effects.some(effect => effect.includes(rarityFilter));
+                    }
+            });
         
             // Devuelve ingredientes que cumplen al menos uno de los filtros
 
@@ -342,6 +359,11 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                             <FilterOptionText>LESSER</FilterOptionText>
                         </FilterOptionTouchable>
                         <FilterOptionTouchable
+                            selected={isDefaultSelected}
+                            onPress={() => setIsDefaultSelected(!isDefaultSelected)}>
+                            <FilterOptionText>NORMAL</FilterOptionText>
+                        </FilterOptionTouchable>
+                        <FilterOptionTouchable
                             selected={isGreaterSelected}
                             onPress={() => setIsGreaterSelected(!isGreaterSelected)}>
                             <FilterOptionText>GREATER</FilterOptionText>
@@ -356,6 +378,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                             onPress={() => setIsFrenzySelected(!isFrenzySelected)}>
                             <FilterOptionText>FRENZY</FilterOptionText>
                         </FilterOptionTouchable>
+
                     </ColumnContainer2>
 
                 </FilterOptionsContainer>
