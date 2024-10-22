@@ -10,6 +10,8 @@ import PotionModal from './components/PotionModal';
 import FlatListIngredients from './components/FlatListIngredients';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Octicons from "react-native-vector-icons/Octicons";
+import HelpModal from './HelpModal';
+import RecipeModal from './RecipeModal';
 
 const backgroundImageURL = require('../../../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
@@ -47,6 +49,8 @@ const PotionCreator = () => {
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
     const [filterBooleans, setFilterBooleans] = useState<boolean[]>([]);
     const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
+    const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -55,7 +59,7 @@ const PotionCreator = () => {
         setSelectedIngredientArray([]); 
     };
 
-    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
+
 
     useEffect(() => {
         if (!potionFactory) {
@@ -70,6 +74,10 @@ const PotionCreator = () => {
 
     const handlePressHelp = () => {
         setHelpModalVisible(true);
+    }
+
+    const handlePressRecipe = () => {
+        setRecipeModalVisible(true);
     }
 
     const handleLongPress = (ingredient: Ingredient) => {
@@ -110,6 +118,9 @@ const PotionCreator = () => {
                 <HelpButton onPress={handlePressHelp}>
                     <Octicons name='question' size={35} color={'white'}></Octicons>
                 </HelpButton>
+                <RecipeButton onPress={handlePressRecipe}>
+                    <MaterialCommunityIcons name='book-open-variant' size={35} color={'white'}></MaterialCommunityIcons>
+                </RecipeButton>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
                         <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
@@ -212,16 +223,25 @@ const PotionCreator = () => {
                     animationType="fade"
                     onRequestClose={() => setHelpModalVisible(false)}
                 >
-                    <FilterModal 
-                        closeModal={() => setHelpModalVisible(false)}
-                        ingredients={ingredients}
-                        setIngredients={setIngredients}
-                        filterBooleans={filterBooleans}
-                        setFilterBooleans={setFilterBooleans}
-                        ingredientsCopy={ingredientsCopy}
-                        setIngredientsCopy={setIngredientCopy}
+                    <HelpModal 
+                        visible={helpModalVisible}
+                        onClose={() => setHelpModalVisible(false)}
                     />
                 </Modal>
+
+                <Modal
+                    visible={recipeModalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setRecipeModalVisible(false)}
+                >
+                    <RecipeModal 
+                        visible={recipeModalVisible}
+                        onClose={() => setRecipeModalVisible(false)}
+                        curses={curses}
+                    />
+                </Modal>
+
             </ImageBackground>
         </Container>
     );
@@ -375,6 +395,19 @@ const HelpButton = styled.TouchableOpacity`
     border-color:  #C19A6B;
 `;
 
+const RecipeButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    left: ${CONSTANTS.WIDTH * 0.43}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.14}px;
+    height: ${CONSTANTS.WIDTH * 0.14}px; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
+    border-width: 2px;
+    border-color:  #C19A6B;
+`;
 
 
 

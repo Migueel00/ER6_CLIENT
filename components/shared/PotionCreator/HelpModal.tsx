@@ -14,32 +14,35 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose }) => {
         <Modal
             transparent={true}
             visible={visible}
-            animationType="slide"
+            animationType="fade"
             onRequestClose={onClose}
         >
             <ModalContainer>
                 <ModalContent>
-                    <Title>INSTRUCTIONS</Title>
+                    <TitleModal>INSTRUCTIONS</TitleModal>
                     
-                    {/* Sección superior: ELIXIR y ESSENCE */}
-                    <Section>
-                        <Column>
-                            <SectionTitle>ELIXIR</SectionTitle>
-                            <SectionText>Elixir</SectionText>
-                        </Column>
-                        <Column>
-                            <SectionTitle>ESSENCE</SectionTitle>
-                            <SectionText>Essence</SectionText>
-                        </Column>
-                    </Section>
+                    {/* Main Section Container */}
+                    <SectionContainer>
+                        {/* Sección superior: ELIXIR y ESSENCE */}
+                        <Section>
+                            <Column>
+                                <ModalSectionTitle>ELIXIR</ModalSectionTitle>
+                                <SectionText>Ingredients that "Boost", "Calm" or "Frenzy" the SAME attribute.</SectionText>
+                            </Column>
+                            <Column>
+                                <ModalSectionTitle>ESSENCE</ModalSectionTitle>
+                                <SectionText>Ingredients that INCREASE "Hit Points".</SectionText>
+                            </Column>
+                        </Section>
 
-                    {/* Sección inferior: ANTIDOTE */}
-                    <Section>
-                        <SingleColumn>
-                            <SectionTitle>ANTIDOTE</SectionTitle>
-                            <SectionText>Antidote</SectionText>
-                        </SingleColumn>
-                    </Section>
+                        {/* Sección inferior: ANTIDOTE */}
+                        <Section>
+                            <SingleColumn>
+                                <ModalSectionTitle>ANTIDOTE</ModalSectionTitle>
+                                <SectionText>Antidotes have their own recipe. Refer to the recipe book for more information.</SectionText>
+                            </SingleColumn>
+                        </Section>
+                    </SectionContainer>
 
                     <CloseButton onPress={onClose}>
                         <CloseButtonText>Close</CloseButtonText>
@@ -60,24 +63,35 @@ const ModalContainer = styled.View`
 `;
 
 const ModalContent = styled.View`
-    background-color: #fff;
-    width: 80%;
+    background-color: rgba(0,0,0,0.85);
+    width: 95%;
+    height: 90%;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     align-items: center;
 `;
 
-const Title = styled.Text`
-    font-size: ${width * 0.08}px;
-    font-weight: bold;
-    margin-bottom: 20px;
+const TitleModal = styled.Text`
+    font-size: ${width * 0.1}px;
+    color: white;
+    font-family: 'KochAltschrift';
+    text-decoration: underline;
+`;
+
+/* New SectionContainer for both sections */
+const SectionContainer = styled.View`
+    width: 100%;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: ${height * 0.1}px;
 `;
 
 const Section = styled.View`
     width: 100%;
     flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    justify-content: space-around;
+    margin-bottom: ${height * 0.1}px;
 `;
 
 const Column = styled.View`
@@ -90,15 +104,23 @@ const SingleColumn = styled.View`
     align-items: center;
 `;
 
-const SectionTitle = styled.Text`
-    font-size: ${width * 0.06}px;
-    font-weight: bold;
+const ModalSectionTitle = styled.Text`
+    font-size: ${width * 0.08}px;
     margin-bottom: 10px;
+    color: white;
+    font-family: 'KochAltschrift';
+    font-weigth: 500;
+    text-decoration: underline;
 `;
 
 const SectionText = styled.Text`
-    font-size: ${width * 0.05}px;
-    color: #555;
+    font-size: ${width * 0.06}px;
+    color: white;
+    flex-wrap: wrap;
+    align-content: center;
+    text-align: center;    
+    text-justify: inter-word;
+    font-family: 'KochAltschrift';
 `;
 
 const CloseButton = styled.TouchableOpacity`
@@ -110,6 +132,7 @@ const CloseButton = styled.TouchableOpacity`
 const CloseButtonText = styled.Text`
     font-size: ${width * 0.05}px;
     color: white;
+    font-family: 'KochAltschrift';
 `;
 
 export default HelpModal;
