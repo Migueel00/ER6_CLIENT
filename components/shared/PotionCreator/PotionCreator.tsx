@@ -8,6 +8,8 @@ import Potion from '../../potions/potion';
 import FilterModal from './FilterModal';
 import PotionModal from './components/PotionModal';
 import FlatListIngredients from './components/FlatListIngredients';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Octicons from "react-native-vector-icons/Octicons";
 
 const backgroundImageURL = require('../../../assets/png/settingsBackground1.png');
 const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
@@ -44,6 +46,7 @@ const PotionCreator = () => {
     const [showBackButton, setShowBackButton] = useState(false);
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
     const [filterBooleans, setFilterBooleans] = useState<boolean[]>([]);
+    const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -63,6 +66,10 @@ const PotionCreator = () => {
 
     const handlePressFilter = () => {
         setFilterModalVisible(true);
+    }
+
+    const handlePressHelp = () => {
+        setHelpModalVisible(true);
     }
 
     const handleLongPress = (ingredient: Ingredient) => {
@@ -98,8 +105,11 @@ const PotionCreator = () => {
                 {/* Flalist de los ingredientes */}
                 <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress}/>
                 <FilterButton onPress={handlePressFilter}>
-                    <FilterIcon source={filterIconImage} />
+                    <MaterialCommunityIcons name='filter-menu' size={35} color={'white'}></MaterialCommunityIcons>
                 </FilterButton>
+                <HelpButton onPress={handlePressHelp}>
+                    <Octicons name='question' size={35} color={'white'}></Octicons>
+                </HelpButton>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
                         <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
@@ -187,6 +197,23 @@ const PotionCreator = () => {
                 >
                     <FilterModal 
                         closeModal={() => setFilterModalVisible(false)}
+                        ingredients={ingredients}
+                        setIngredients={setIngredients}
+                        filterBooleans={filterBooleans}
+                        setFilterBooleans={setFilterBooleans}
+                        ingredientsCopy={ingredientsCopy}
+                        setIngredientsCopy={setIngredientCopy}
+                    />
+                </Modal>
+
+                <Modal
+                    visible={helpModalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setHelpModalVisible(false)}
+                >
+                    <FilterModal 
+                        closeModal={() => setHelpModalVisible(false)}
                         ingredients={ingredients}
                         setIngredients={setIngredients}
                         filterBooleans={filterBooleans}
@@ -326,14 +353,28 @@ const FilterButton = styled.TouchableOpacity`
     right: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.18}px;
-    height: ${CONSTANTS.HEIGHT * 0.08}px; 
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: ${CONSTANTS.WIDTH * 0.02}px; 
-    border-radius: ${CONSTANTS.WIDTH * 0.05}px; 
+    width: ${CONSTANTS.WIDTH * 0.14}px;
+    height: ${CONSTANTS.WIDTH * 0.14}px; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
     border-width: 2px;
     border-color:  #C19A6B;
 `;
+
+const HelpButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    left: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.14}px;
+    height: ${CONSTANTS.WIDTH * 0.14}px; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
+    border-width: 2px;
+    border-color:  #C19A6B;
+`;
+
 
 
 
