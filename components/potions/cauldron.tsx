@@ -29,11 +29,21 @@ export default class Cauldron {
         const allEffects = ingredients.map(ing => ing.effects).flat();
         const commonEffects = this.findCommonEffects(ingredients);
 
+
+
         console.log("ALL EFFECTS:"); 
         console.log(allEffects);
         
         console.log("COMMON EFFECTS");
         console.log(commonEffects);
+
+        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const matchingAttribute = attributes.find(attr => allEffects.includes(attr));
+
+        console.log("COMMON EFFECT 2");
+        console.log(matchingAttribute);
+        
+        
         
         // Si no hay efectos comunes
         if (!commonEffects) {
@@ -362,9 +372,10 @@ export default class Cauldron {
             potionEffect = "Setback"
         }
 
-        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence"];
+        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
 
+        console.log("Matching Attribute in create from equal");
         console.log(matchingAttribute);
         
 
@@ -466,24 +477,12 @@ export default class Cauldron {
     }
 
     private findCommonEffects(ingredients: Ingredient[]): boolean {
-        const [firstIngredient, ...restIngredients] = ingredients;
+        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
     
-        console.log("INGREDIENTES EN FINDCOMMONEFFECTS");
-        console.log(ingredients);
-    
-        // Extract effect type
-        const getEffectType = (effect: string): string => {
-            const parts = effect.split('_');
-            return parts.slice(-2).join('_'); // Returns the last part (dexterity, intelligence, hit_points, etc.)
-        };
-    
-        //Extract effect type of first ingredient
-        const firstIngredientEffectTypes = firstIngredient.effects.map(getEffectType);
-    
-        // Check if effect repeats in the rest of ingredients
-        return firstIngredientEffectTypes.some(effectType =>
-            restIngredients.every(ingredient =>
-                ingredient.effects.some(effect => getEffectType(effect) === effectType)
+        // Check if any attribute is present in the effects array of every ingredient
+        return attributes.some(attribute =>
+            ingredients.every(ingredient =>
+                ingredient.effects.some(effect => effect.includes(attribute))
             )
         );
     }
