@@ -1,8 +1,8 @@
 import { Dimensions } from "react-native"
 import styled from "styled-components/native"
-import * as CONSTANTS from "../src/constants";
+import * as CONSTANTS from "../../../src/constants";
 import { useEffect, useState } from "react";
-import Ingredient from "./potions/ingredient";
+import Ingredient from "../../potions/ingredient";
 
 const { width, height } = Dimensions.get('window');
 

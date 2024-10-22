@@ -2,10 +2,10 @@ import React from 'react';
 import {  StyleSheet, Dimensions, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import PotionCreator from './PotionCreator';
+import PotionCreator from './PotionCreator/PotionCreator';
 import HomeLab from './HomeLab';
 import styled from 'styled-components/native';
-import * as CONSTANTS from "../src/constants";
+import * as CONSTANTS from "../../src/constants";
 
 const {width, height} = Dimensions.get('window');
 
@@ -56,7 +56,7 @@ const InsideLab = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/homeLabIcon.png')}
+                                            source={require('../../assets/icons/homeLabIcon.png')}
                                             focused={focused}
                                         />
                                     ),
@@ -68,7 +68,7 @@ const InsideLab = () => {
                                 options={{
                                     tabBarIcon: ({ focused }) => (
                                         <Icon 
-                                            source={require('../assets/icons/potionCreatorIcon.png')}
+                                            source={require('../../assets/icons/potionCreatorIcon.png')}
                                             focused={focused}
                                         />
                                     ),

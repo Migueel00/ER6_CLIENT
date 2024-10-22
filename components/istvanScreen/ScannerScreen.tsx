@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, ImageBackground, Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Dimensions, ImageBackground, Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import CameraScreen from './cameraScreen';
-import AppContext from '../helpers/context';
+import AppContext from '../../helpers/context';
 
 const {height, width} = Dimensions.get('window')
 const ScannerScreen = () => {
@@ -39,7 +37,7 @@ const ScannerScreen = () => {
 
     return (
         <ImageBackground
-                source={require('../assets/png/cameraScreenEye.png')}
+                source={require('../../assets/png/cameraScreenEye.png')}
                 style={[styles.background, { width: width, height: height }]}
             >
                 <View style={styles.container}> 

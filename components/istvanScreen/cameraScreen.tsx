@@ -2,8 +2,8 @@ import { Camera } from 'react-native-vision-camera';
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, Alert, Linking, Vibration, Dimensions, Button } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner } from 'react-native-vision-camera';
-import { searchAndChangeIsInsideLabState } from '../src/API/get&post';
-import AppContext from '../helpers/context';
+import { searchAndChangeIsInsideLabState } from '../../src/API/get&post';
+import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
 type CameraScreenProps = {
