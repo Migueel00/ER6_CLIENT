@@ -2,9 +2,6 @@ import { URL } from "./urls";
 
 export const searchAndIfDontExistPost = async (playerData) => {
 
-    //IP DE CLASE IKAS A3: 10.70.0.58
-    //IP ASIER: 192.168.1.89
-    //IP LANDER: 192.168.1.150
     const email = playerData.email;
     const { _id, ...data } = playerData;
 
@@ -12,15 +9,11 @@ export const searchAndIfDontExistPost = async (playerData) => {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
         
         if(response.ok){
-
-            const existingPlayer = await response.json();
-
-            if(existingPlayer){
                 console.log(`El correo ${email} ya está registrado`);
                 
-                const player  = await updatePlayerByEmail(playerData);
+                const player = await updatePlayerByEmail(playerData);
+
                 return player;
-            }
 
         }else if(response.status === 400){
 
@@ -31,19 +24,14 @@ export const searchAndIfDontExistPost = async (playerData) => {
                 },
                 body: JSON.stringify(data)
             });
+
             
-            if(!res.ok){
-        
-                throw new Error('Error al insertar el player');
-            }else{
-                
-                const resJson = await res.json();
-                const player  = resJson.data;
-                console.log("Player insertado correctamente" + JSON.stringify(player));
+            if(!res.ok) throw new Error(`Error al insertar el player`);
 
-                return player;    
-            }
+            const { data: player } = await res.json();
+            console.log(`Player insertado correctamente ${JSON.stringify(player)}`);
 
+            return player;
         }else {
 
             throw new Error("Error al comprobar el correo");
@@ -72,15 +60,11 @@ export const updatePlayerByEmail = async (data) => {
             body: JSON.stringify(updateData)
         });
 
-        if (!response.ok) {
-            const errorText = await response.text(); // Obtener la respuesta como texto
-            throw new Error(`Error ${response.status}: ${errorText}`); // Lanzar un error con el código y texto de la respuesta
-        }
+        if (!response.ok) throw new Error(`Error ${response.status}: ${errorText}`); // Lanzar un error con el código y texto de la respuesta
+        
 
         // Parsear la respuesta JSON solo si fue exitosa
-        const jsonResponse  = await response.json();
-        const player        = jsonResponse.data;
-
+        const { data: player } = await response.json();
         return player;
 
     } catch (error) {
@@ -139,6 +123,8 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
         },
         body: JSON.stringify(patchJSON),
     });
+
+    console.log(updateResponse);
 }
 
 module.exports = {

@@ -34,7 +34,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   const [isScanned, setIsScanned] = useState(false);
   const [cameraRef, setCameraRef] = useState<Camera | null>(null);
   const socket = useContext(AppContext)?.socket;
-
+  
   const handleCodeScanned = (codes: any) => {
     if (!isScanned) {
       setIsScanned(true);
