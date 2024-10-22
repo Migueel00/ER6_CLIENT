@@ -118,7 +118,7 @@ const DummyContainer = styled.View`
 
 const IngredientContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
-    margin-top: ${height * - 0.15}px;
+    margin-top: ${height * - 0.10}px;
 `;
 
 const IngredientName = styled.Text`
@@ -154,7 +154,7 @@ const IngredientItem = styled.View`
     border-width: 1.5px;
     border-color: #C19A6B;
     border-radius: ${width * 0.02}px;
-    height: ${height * 0.48}px;
+    height: ${height * 0.385}px;
 `;
 
 export default FlatListIngredients;
