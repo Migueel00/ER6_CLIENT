@@ -59,7 +59,10 @@ const PotionCreator = () => {
         setSelectedIngredientArray([]); 
     };
 
-
+    console.log("CURSES");
+    console.log(curses);
+    
+    
 
     useEffect(() => {
         if (!potionFactory) {
@@ -217,30 +220,20 @@ const PotionCreator = () => {
                     />
                 </Modal>
 
-                <Modal
-                    visible={helpModalVisible}
-                    transparent={true}
-                    animationType="fade"
-                    onRequestClose={() => setHelpModalVisible(false)}
-                >
+
                     <HelpModal 
                         visible={helpModalVisible}
                         onClose={() => setHelpModalVisible(false)}
                     />
-                </Modal>
 
-                <Modal
+
+
+                <RecipeModal 
                     visible={recipeModalVisible}
-                    transparent={true}
-                    animationType="fade"
-                    onRequestClose={() => setRecipeModalVisible(false)}
-                >
-                    <RecipeModal 
-                        visible={recipeModalVisible}
-                        onClose={() => setRecipeModalVisible(false)}
-                        curses={curses}
-                    />
-                </Modal>
+                    onClose={() => setRecipeModalVisible(false)}
+                    curses={curses.data}
+                />
+
 
             </ImageBackground>
         </Container>

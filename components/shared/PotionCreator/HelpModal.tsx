@@ -39,7 +39,7 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose }) => {
                         <Section>
                             <SingleColumn>
                                 <ModalSectionTitle>ANTIDOTE</ModalSectionTitle>
-                                <SectionText>Antidotes have their own recipe. Refer to the recipe book for more information.</SectionText>
+                                <SectionText>Antidotes have their own recipe which are combinations of RESTORE effects. Refer to the recipe book for more information.</SectionText>
                             </SingleColumn>
                         </Section>
                     </SectionContainer>
@@ -111,6 +111,7 @@ const ModalSectionTitle = styled.Text`
     font-family: 'KochAltschrift';
     font-weigth: 500;
     text-decoration: underline;
+    color: #C19A6B;
 `;
 
 const SectionText = styled.Text`
@@ -130,7 +131,7 @@ const CloseButton = styled.TouchableOpacity`
 `;
 
 const CloseButtonText = styled.Text`
-    font-size: ${width * 0.05}px;
+    font-size: ${width * 0.07}px;
     color: white;
     font-family: 'KochAltschrift';
 `;
