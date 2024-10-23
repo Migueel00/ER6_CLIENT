@@ -36,7 +36,7 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
                     </PotionMessage>
 
                     <CloseButton onPress={onClose}>
-                        <CloseButtonText>ADD TO INVETORY</CloseButtonText>
+                        <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
                     </CloseButton>
                 </PotionImageBackground>
             </ModalContainer>
@@ -94,12 +94,12 @@ const CloseButton = styled.TouchableOpacity`
     background-color: #800000;
     border-radius: ${width * 0.01}px;
     align-items: center;
-    bottom: ${height * 0.1}px;
+    bottom: ${height * -0.1}px;
 `;
 
 const CloseButtonText = styled.Text`
     color: #ffffff;
-    font-size: 20px;
+    font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
 `;
 
