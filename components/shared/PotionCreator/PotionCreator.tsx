@@ -59,11 +59,6 @@ const PotionCreator = () => {
         setSelectedIngredientArray([]); 
     };
 
-    console.log("CURSES");
-    console.log(curses);
-    
-    
-
     useEffect(() => {
         if (!potionFactory) {
             setPotionFactory(new Cauldron(ingredients, curses));
@@ -219,23 +214,16 @@ const PotionCreator = () => {
                         setIngredientsCopy={setIngredientCopy}
                     />
                 </Modal>
-
-
                 <HelpModal 
                     visible={helpModalVisible}
                     onClose={() => setHelpModalVisible(false)}
                     onOpenRecipeModal={handlePressRecipe}  // Pass the function to open the RecipeModal
                 />
-
-
-
                 <RecipeModal 
                     visible={recipeModalVisible}
                     onClose={() => setRecipeModalVisible(false)}
                     curses={curses.data}
                 />
-
-
             </ImageBackground>
         </Container>
     );

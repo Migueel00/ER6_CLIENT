@@ -37,7 +37,7 @@ export default class Cauldron {
         console.log("COMMON EFFECTS");
         console.log(commonEffects);
 
-        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
         const matchingAttribute = attributes.find(attr => allEffects.includes(attr));
 
         console.log("COMMON EFFECT 2");
@@ -477,7 +477,7 @@ export default class Cauldron {
     }
 
     private findCommonEffects(ingredients: Ingredient[]): boolean {
-        const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
     
         // Check if any attribute is present in the effects array of every ingredient
         return attributes.some(attribute =>
