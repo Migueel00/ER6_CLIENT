@@ -117,7 +117,9 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         isGreaterSelected,
         isCalmSelected,
         isFrenzySelected,
-        isDefaultSelected
+        isDefaultSelected,
+
+
     ];
     
     const filterSetters: ((value: boolean) => void)[] = [
@@ -129,10 +131,10 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         setIsCharismaSelected,
         setIsInsanitySelected,
         setIsLesserSelected,
-        setIsDefaultSelected,
         setIsGreaterSelected,
         setIsCalmSelected,
         setIsFrenzySelected,
+        setIsDefaultSelected,
     ];
 
     const CONSTANTS = {
@@ -345,7 +347,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         },
         {
             func: () => setIsFrenzySelected(prevState => !prevState),
-            name: 'LESSER',
+            name: 'FRENZY',
             selected: isFrenzySelected
         }   
     ];
