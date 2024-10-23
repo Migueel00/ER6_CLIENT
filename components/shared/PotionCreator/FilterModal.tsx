@@ -1,8 +1,9 @@
 import { Dimensions } from "react-native"
 import styled from "styled-components/native"
 import * as CONSTANTS from "../../../src/constants";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Ingredient from "../../potions/ingredient";
+import FilterOption from "./components/FilterOption";
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,10 +17,10 @@ interface FilterModalProps {
     setIngredientsCopy: any;
 }
 
-interface filterBooleans {
-    isHpSelected: boolean;
-    isLeastSelected: boolean;
-    isIntSelected: boolean;
+interface filters {
+    func: () => void,
+    name: string,
+    selected: boolean 
 }
 
 const ModalContainer = styled.View`
@@ -43,28 +44,6 @@ const FilterTitle = styled.Text`
     text-align: center;
 `;
 
-const FilterOption = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-`;
-
-const FilterOptionTouchable = styled.TouchableOpacity<{ selected: boolean }>`
-    width: ${CONSTANTS.TOUCHABLE_WIDTH * width}px;
-    background-color: ${({ selected }) => (selected ? '#5d6d7e' : 'white')};
-    padding: ${width * CONSTANTS.TOUCHABLE_SPACING}px;
-    border-radius: ${CONSTANTS.TOUCHABLE_RADIUS * width}px;
-    margin-bottom: ${width * 0.04}px;
-`;
-
-
-const FilterOptionText = styled.Text`
-    font-size: ${width * 0.05}px;
-    font-family: 'KochAltschrift';
-    color: black;
-    text-align: center;
-`;
 
 const ExitButton = styled.TouchableOpacity`
     width: ${CONSTANTS.CONFIRM_TOUCHABLE_WIDTH * width}px;
@@ -126,39 +105,35 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isFrenzySelected, setIsFrenzySelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
 
-    useEffect(() => {
-        if(filterBooleans.length > 0)
-        {
-            setIsHpSelected(filterBooleans[CONSTANTS.IS_HP]);
-            setIsLeastSelected(filterBooleans[CONSTANTS.IS_LEAST]);
-            setIsIntSelected(filterBooleans[CONSTANTS.IS_INTELLIGENCE]);
-            setIsConstitutionSelected(filterBooleans[CONSTANTS.IS_CONSTITUTION]);
-            setIsDexteritySelected(filterBooleans[CONSTANTS.IS_DEXTERITY]);
-            setIsCharismaSelected(filterBooleans[CONSTANTS.IS_CHARISMA]);
-            setIsInsanitySelected(filterBooleans[CONSTANTS.IS_INSANITY]);
-            setIsLesserSelected(filterBooleans[CONSTANTS.IS_LESSER]);
-            setIsGreaterSelected(filterBooleans[CONSTANTS.IS_GREATER]);
-            setIsCalmSelected(filterBooleans[CONSTANTS.IS_CALM]);
-            setIsFrenzySelected(filterBooleans[CONSTANTS.IS_FRENZY]);
-            setIsDefaultSelected(filterBooleans[CONSTANTS.IS_DEFAULT]);
-        }
-
-    }, [filterBooleans]); 
-
-    const clearAllFilters = () => {
-        setIsHpSelected(false);
-        setIsLeastSelected(false);
-        setIsIntSelected(false);
-        setIsConstitutionSelected(false);
-        setIsDexteritySelected(false);
-        setIsCharismaSelected(false);
-        setIsInsanitySelected(false);
-        setIsLesserSelected(false);
-        setIsDefaultSelected(false);
-        setIsGreaterSelected(false);
-        setIsCalmSelected(false);
-        setIsFrenzySelected(false);
-    }
+    const filtersBoolean : boolean[] = [
+        isHpSelected,
+        isLeastSelected,
+        isIntSelected,
+        isConstitutionSelected,
+        isDexteritySelected,
+        isCharismaSelected,
+        isInsanitySelected,
+        isLesserSelected,
+        isGreaterSelected,
+        isCalmSelected,
+        isFrenzySelected,
+        isDefaultSelected
+    ];
+    
+    const filterSetters: ((value: boolean) => void)[] = [
+        setIsHpSelected,
+        setIsLeastSelected,
+        setIsIntSelected,
+        setIsConstitutionSelected,
+        setIsDexteritySelected,
+        setIsCharismaSelected,
+        setIsInsanitySelected,
+        setIsLesserSelected,
+        setIsDefaultSelected,
+        setIsGreaterSelected,
+        setIsCalmSelected,
+        setIsFrenzySelected,
+    ];
 
     const CONSTANTS = {
         IS_HP: 0,
@@ -175,18 +150,25 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_DEFAULT: 11,
     }
 
-    const handleApplyFilters = () => {
-        const filtersBoolean : boolean[] = [isHpSelected, isLeastSelected, isIntSelected, isConstitutionSelected, isDexteritySelected, isCharismaSelected,
-            isInsanitySelected, isLesserSelected, isGreaterSelected, isCalmSelected, isFrenzySelected, isDefaultSelected
-        ];
+    useEffect(() => {
+        if(filterBooleans.length > 0) filterSetters.map((filterSetter, index) => filterSetter(filterBooleans[index]));
+        
+    }, [filterBooleans]); 
 
+    const clearAllFilters = () => {
+        filterSetters.map(filterSetter => filterSetter(false));
+    }
+
+
+
+    const handleApplyFilters = () => {
         setFilterBooleans(filtersBoolean);
 
-        const filtersString : string[] =  [];
+        const filtersString : string[] =  [];7
 
         console.log(filtersString);
 
-            // Arrays para los strings de atributos y rareza
+        // Arrays para los strings de atributos y rareza
         const attributeFilterString: string[] = []; 
         const rarityFilterString: string[] = [];
 
@@ -301,8 +283,72 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             setIngredientsCopy(ingredients);
         }
         closeModal();  
-
     }
+
+    const filtersColumn: filters[] = [
+        {
+            func: () => setIsHpSelected(prevState => !prevState), // Envuelve el setter en una función
+            name: 'HP',
+            selected: isHpSelected
+        },
+        {
+            func: () => setIsIntSelected(prevState => !prevState),
+            name: 'INT',
+            selected: isIntSelected
+        },
+        {
+            func: () => setIsConstitutionSelected(prevState => !prevState),
+            name : 'CONS',
+            selected: isConstitutionSelected
+        },
+        {
+            func: () => setIsDexteritySelected(prevState => !prevState),
+            name: 'DEX',
+            selected: isDexteritySelected
+        },
+        {
+            func: () => setIsCharismaSelected(prevState => !prevState),
+            name : "CHA",
+            selected: isCharismaSelected
+        },
+        {
+            func: () => setIsInsanitySelected(prevState => !prevState),
+            name: "INS",
+            selected: isInsanitySelected
+        }
+    ];
+
+    const filtersColumn2 : filters[] = [{
+            func: () => setIsLeastSelected(prevState => !prevState),
+            name: 'LEAST',
+            selected: isLeastSelected
+        },
+        {
+            func: () => setIsLesserSelected(prevState => !prevState),
+            name: 'LESSER',
+            selected: isLesserSelected
+        },
+        {
+            func: () => setIsDefaultSelected(prevState => !prevState),
+            name: 'NORMAL',
+            selected: isDefaultSelected
+        },
+        {
+            func: () => setIsGreaterSelected(prevState => !prevState),
+            name: 'GREATER',
+            selected: isGreaterSelected
+        },
+        {
+            func: () => setIsCalmSelected(prevState => !prevState),
+            name: 'CALM',
+            selected: isCalmSelected
+        },
+        {
+            func: () => setIsFrenzySelected(prevState => !prevState),
+            name: 'LESSER',
+            selected: isFrenzySelected
+        }   
+    ];
 
     return (
         <ModalContainer>
@@ -311,74 +357,27 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                 
                 {/* Contenedor que agrupa las dos columnas */}
                 <FilterOptionsContainer>
-                    
+
                     {/* Columna izquierda (atributos) */}
                     <ColumnContainer>
-                        <FilterOptionTouchable
-                            selected={isHpSelected}
-                            onPress={() => setIsHpSelected(!isHpSelected)}>
-                            <FilterOptionText>HP</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isIntSelected}
-                            onPress={() => setIsIntSelected(!isIntSelected)}>
-                            <FilterOptionText>INT</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isConstitutionSelected}
-                            onPress={() => setIsConstitutionSelected(!isConstitutionSelected)}>
-                            <FilterOptionText>CONS</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isDexteritySelected}
-                            onPress={() => setIsDexteritySelected(!isDexteritySelected)}>
-                            <FilterOptionText>DEX</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isCharismaSelected}
-                            onPress={() => setIsCharismaSelected(!isCharismaSelected)}>
-                            <FilterOptionText>CHA</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isInsanitySelected}
-                            onPress={() => setIsInsanitySelected(!isInsanitySelected)}>
-                            <FilterOptionText>INS</FilterOptionText>
-                        </FilterOptionTouchable>
+                        { filtersColumn.map(filter => 
+                            <FilterOption 
+                                selected={filter.selected}
+                                name={filter.name}
+                                func={filter.func}
+                            />
+                        )} 
                     </ColumnContainer>
 
                     {/* Columna derecha (rareza) */}
                     <ColumnContainer2>
-                        <FilterOptionTouchable
-                            selected={isLeastSelected}
-                            onPress={() => setIsLeastSelected(!isLeastSelected)}>
-                            <FilterOptionText>LEAST</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isLesserSelected}
-                            onPress={() => setIsLesserSelected(!isLesserSelected)}>
-                            <FilterOptionText>LESSER</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isDefaultSelected}
-                            onPress={() => setIsDefaultSelected(!isDefaultSelected)}>
-                            <FilterOptionText>NORMAL</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isGreaterSelected}
-                            onPress={() => setIsGreaterSelected(!isGreaterSelected)}>
-                            <FilterOptionText>GREATER</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isCalmSelected}
-                            onPress={() => setIsCalmSelected(!isCalmSelected)}>
-                            <FilterOptionText>CALM</FilterOptionText>
-                        </FilterOptionTouchable>
-                        <FilterOptionTouchable
-                            selected={isFrenzySelected}
-                            onPress={() => setIsFrenzySelected(!isFrenzySelected)}>
-                            <FilterOptionText>FRENZY</FilterOptionText>
-                        </FilterOptionTouchable>
-
+                        { filtersColumn2.map(filter => 
+                            <FilterOption
+                                selected={filter.selected}
+                                name={filter.name}
+                                func={filter.func}
+                            />
+                        )}
                     </ColumnContainer2>
 
                 </FilterOptionsContainer>

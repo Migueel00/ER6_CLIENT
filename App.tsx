@@ -13,7 +13,7 @@ import { getAllPlayers } from './src/API/getAllPlayers';
 import MainScreens from './components/mainScreens';
 import { LogBox } from 'react-native';
 import AppContext from './helpers/context';
-import { ProfileAttributes } from './components/profileScreen';
+import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
