@@ -7,9 +7,10 @@ const { width, height } = Dimensions.get('window');
 interface HelpModalProps {
     visible: boolean;
     onClose: () => void;
+    onOpenRecipeModal: () => void; 
 }
 
-const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose }) => {
+const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose, onOpenRecipeModal }) => {
     return (
         <Modal
             transparent={true}
@@ -39,7 +40,14 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose }) => {
                         <Section>
                             <SingleColumn>
                                 <ModalSectionTitle>ANTIDOTE</ModalSectionTitle>
-                                <SectionText>Antidotes have their own recipe which are combinations of RESTORE effects. Refer to the recipe book for more information.</SectionText>
+                                <SectionText>
+                                    Antidotes have their own recipe which are combinations of RESTORE effects. Refer to the{' '}
+                                    {/* Make the "recipe book" text clickable and styled */}
+                                    <RecipeBookText onPress={() => { onClose(); onOpenRecipeModal(); }}>
+                                        RECIPE BOOK
+                                    </RecipeBookText>{' '}
+                                    for more information.
+                                </SectionText>
                             </SingleColumn>
                         </Section>
                     </SectionContainer>
@@ -54,6 +62,11 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose }) => {
 };
 
 // STYLED COMPONENTS
+const RecipeBookText = styled.Text`
+    font-size: ${width * 0.06}px;
+    color: #C19A6B;   /* Highlight the text with the specified color */
+    text-decoration: underline;
+`;
 
 const ModalContainer = styled.View`
     flex: 1;

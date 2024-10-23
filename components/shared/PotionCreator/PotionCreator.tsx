@@ -221,10 +221,11 @@ const PotionCreator = () => {
                 </Modal>
 
 
-                    <HelpModal 
-                        visible={helpModalVisible}
-                        onClose={() => setHelpModalVisible(false)}
-                    />
+                <HelpModal 
+                    visible={helpModalVisible}
+                    onClose={() => setHelpModalVisible(false)}
+                    onOpenRecipeModal={handlePressRecipe}  // Pass the function to open the RecipeModal
+                />
 
 
 
