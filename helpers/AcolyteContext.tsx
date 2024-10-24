@@ -7,6 +7,8 @@ interface AcolyteContextType {
     setIsMenuLabLoaded: (loaded: boolean) => void;
     isMenuInsideLabLoaded: boolean;
     setIsMenuInsideLabLoaded: (loaded: boolean) => void;
+    isMenuTowerLoaded: boolean;
+    setIsMenuTowerLoaded: (loaded: boolean) => void;
     isInsideLab: boolean | null;
     isInsideTower: boolean | null;
 }

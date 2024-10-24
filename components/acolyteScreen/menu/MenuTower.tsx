@@ -18,7 +18,7 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuLab = () => {
+const MenuTower = () => {
     const acolyteContext = useContext(AcolyteContext);
     const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
 
@@ -114,4 +114,4 @@ const MenuLab = () => {
     );
 }
 
-export default MenuLab
+export default MenuTower

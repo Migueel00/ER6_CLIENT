@@ -5,6 +5,7 @@ import AppContext from '../../helpers/context';
 import MenuHome from './menu/MenuHome';
 import MenuLab from './menu/MenuLab';
 import MenuLabInside from './menu/MenuLabInside';
+import MenuTower from './menu/MenuTower';
 import { Vibration } from 'react-native';
 
 const MenuContainer = styled.View`
@@ -27,6 +28,7 @@ const socket = appContext?.socket;
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
 const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
+const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
 
 useEffect(() => {
   // Escuchar el evento
@@ -58,11 +60,17 @@ useEffect(() => {
         setIsMenuLabLoaded,
         isMenuInsideLabLoaded,
         setIsMenuInsideLabLoaded,
+        isMenuTowerLoaded,
+        setIsMenuTowerLoaded,
         isInsideLab,
         isInsideTower
       }}>
       <MenuContainer>
-          {isInsideLab ? <MenuLabInside/> : location === 'LAB' ? <MenuLab/> : <MenuHome />}
+        {isInsideLab ? <MenuLabInside />
+        : isInsideTower ? <MenuTower /> 
+        : location === 'LAB' ? <MenuLab />   
+        : <MenuHome />}    
+                    
       </MenuContainer>
     </AcolyteContext.Provider>
   );

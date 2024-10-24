@@ -26,20 +26,24 @@ const BackgroundImage = styled.ImageBackground`
 
 const HomeIcon = styled.Image`
     width: ${width * 0.2}px;
-    height: ${height * 0.1}px;
+    height: ${width * 0.2}px;
     border-radius: 50px;
     z-index: 2; 
 `;
 
 const LabIcon = styled.Image`
     width: ${width * 0.2}px; 
-    height: ${height * 0.1}px;
+    height: ${width * 0.2}px;
     border-radius: 50px;
     z-index: 1;
 `;
 
 const TouchableIcon = styled.TouchableOpacity`
     position: absolute;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 100px;
+    padding: -30px;
 `
 
 const MapScreen = () => {
@@ -76,18 +80,33 @@ const MapScreen = () => {
         }
     }   
 
+    const handleTowerIconPress = () => {
+        setLocation('HOME');
+        if(isMenuLoaded){
+            navigation.navigate('Home');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
             <TouchableIcon 
                 onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.02 }}
+                style={{ top: height * 0.37, left: width * 0.05 }}
             >
                 <LabIcon source={labIcon}  /> 
             </TouchableIcon>
+
             <TouchableIcon
                 onPress={handleHomeIconPress}
                 style={{ top: height * 0.53, right: width * 0.37 }}
+            >
+                <HomeIcon source={homeIcon} />
+            </TouchableIcon>
+
+            <TouchableIcon
+                onPress={handleHomeIconPress}
+                style={{ top: height * 0.28, right: width * 0.13 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
