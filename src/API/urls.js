@@ -6,9 +6,3 @@ export const URL = {
 
 }
 
-
-export const URL_TEST = {
-
-
-}
-
