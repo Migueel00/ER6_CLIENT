@@ -211,10 +211,11 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
 
+      
     
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
-      
+      console.log(playerDataToPost);
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 

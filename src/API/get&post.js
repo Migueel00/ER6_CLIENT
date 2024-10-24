@@ -7,11 +7,25 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
+
+        const responseJSON = await response.json();
+
+        console.log("RESPONSE JSON");
+        console.log(responseJSON.data.isInsideTower);
+
         
         if(response.ok){
                 console.log(`El correo ${email} ya está registrado`);
+
+                const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
+
+                console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
+                console.log(updatedPlayerData.data);
                 
-                const player = await updatePlayerByEmail(playerData);
+                console.log("PLAYERDATA IN RESPONSE OK");
+                console.log(playerData);
+
+                const player = await updatePlayerByEmail(updatedPlayerData.data);
 
                 return player;
 
@@ -125,6 +139,32 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
     });
 
     console.log(updateResponse);
+}
+
+
+
+export const updateNewAtributtes = async (responseJSON, playerData) => {
+    
+    const newPlayerData = playerData;
+
+    const newAtributtes = ['isInsideLab', 'isInsideTower'];
+
+    newAtributtes.forEach(attr => {
+        if (attr in responseJSON.data) {
+            newPlayerData[attr] = responseJSON.data[attr];
+        } else {
+            newPlayerData[attr] = false;
+        }
+    });
+
+    let newObj = {};
+
+    newObj.data = {};
+
+    newObj.data = newPlayerData;
+
+    return newObj;
+
 }
 
 module.exports = {
