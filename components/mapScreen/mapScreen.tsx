@@ -8,6 +8,7 @@ import AcolyteContext from "../../helpers/AcolyteContext";
 const mapImage = require('../../assets/backgrounds/map_background.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
+const towerIcon = require('../../assets/icons/towerIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -22,6 +23,12 @@ const BackgroundImage = styled.ImageBackground`
     height: ${height}px;
     position: absolute;
     z-index: -1;
+`;
+const TowerIcon = styled.Image`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: 50px;
+    z-index: 2; 
 `;
 
 const HomeIcon = styled.Image`
@@ -81,9 +88,9 @@ const MapScreen = () => {
     }   
 
     const handleTowerIconPress = () => {
-        setLocation('HOME');
+        setLocation('TOWER');
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('TOWER');
         }
     }   
 
@@ -92,23 +99,23 @@ const MapScreen = () => {
             <BackgroundImage source={mapImage} />
             <TouchableIcon 
                 onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.05 }}
+                style={{ top: height * 0.37, left: width * 0.1 }}
             >
                 <LabIcon source={labIcon}  /> 
             </TouchableIcon>
 
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.53, right: width * 0.37 }}
+                style={{ top: height * 0.55, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
 
             <TouchableIcon
-                onPress={handleHomeIconPress}
+                onPress={handleTowerIconPress}
                 style={{ top: height * 0.28, right: width * 0.13 }}
             >
-                <HomeIcon source={homeIcon} />
+                <TowerIcon source={towerIcon} />
             </TouchableIcon>
         </Container>
     );
