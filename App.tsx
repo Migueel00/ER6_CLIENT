@@ -264,6 +264,7 @@ function App(): React.JSX.Element {
       const nickname    = playersData[i].nickname;
       const email       = playersData[i].email;
       const isInsideLab = playersData[i].isInsideLab;
+      const isInsideTower = playersData[i].isInsideTower;
       const socketId    = playersData[i].socketId;
       const avatar      = playersData[i].avatar;
       const role        = playersData[i].role;
@@ -274,6 +275,7 @@ function App(): React.JSX.Element {
         nickname:       nickname,
         email:          email,
         isInsideLab:    isInsideLab,
+        isInsideTower:  isInsideTower,
         socketId:       socketId,
         avatar:         avatar,
         id:             id,

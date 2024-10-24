@@ -21,6 +21,7 @@ export interface Player {
   email:        string,
   nickname:     string,
   isInsideLab:  boolean,
+  isInsideTower: boolean,
   avatar:       string,
   id:           string,
   role:         string

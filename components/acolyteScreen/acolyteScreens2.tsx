@@ -21,6 +21,7 @@ const appContext = useContext(AppContext);
 const location = appContext?.location;
 const [player, setPlayer] = useState(appContext?.player);
 const isInsideLab = player?.isInsideLab!;
+const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
@@ -57,7 +58,8 @@ useEffect(() => {
         setIsMenuLabLoaded,
         isMenuInsideLabLoaded,
         setIsMenuInsideLabLoaded,
-        isInsideLab
+        isInsideLab,
+        isInsideTower
       }}>
       <MenuContainer>
           {isInsideLab ? <MenuLabInside/> : location === 'LAB' ? <MenuLab/> : <MenuHome />}
