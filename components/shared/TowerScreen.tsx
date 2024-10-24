@@ -1,19 +1,19 @@
 import React, { useContext} from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import InsideLab from './InsideLab';
-import OutsideLab from './OutsideLab';
 import AcolyteContext from '../../helpers/AcolyteContext';
+import OutsideTower from './OutsideTower';
+import InsideTower from './InsideTower';
 
-const LabScreen = () => {
+const TowerScreen = () => {
     const acolyteContext = useContext(AcolyteContext);
-    const isInsideLab = acolyteContext?.isInsideLab;
+    const isInsideLab = acolyteContext?.isInsideTower;
 
     return (
         <View style={styles.container}>
             {isInsideLab ? (
-                <InsideLab/>
+                <InsideTower/>
             ) : (
-                <OutsideLab/>
+                <OutsideTower/>
             )}
         </View>
     );
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LabScreen;
+export default TowerScreen;

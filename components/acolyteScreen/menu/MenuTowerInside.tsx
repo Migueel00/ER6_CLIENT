@@ -1,36 +1,26 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LabScreen from "../../shared/labScreen";
-import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
-import AcolyteContext from "../../../helpers/AcolyteContext";
-import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
 import * as CONSTANTS from "../../../src/constants";
 import TowerScreen from "../../shared/TowerScreen";
+
 
 const Tab = createMaterialTopTabNavigator();
 
 const { height, width } = Dimensions.get('window');
+
 const Icon = styled.Image`
     width: ${CONSTANTS.ICON_WIDTH * width}px;
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuTower = () => {
-    const acolyteContext = useContext(AcolyteContext);
-    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
-
-    useEffect(() => {
-        setIsMenuLabLoaded(true)
-
-        // Se ejecuta al desmontar el componente
-        return () => {
-            setIsMenuLabLoaded(false);
-        }
-    }, []);
+const MenuTowerInside = () => {
+    
 
     return (
         <NavigationContainer>
@@ -60,32 +50,7 @@ const MenuTower = () => {
                         height: '100%',
                     },
                 })}
-            >   
-
-                <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
-                    name="LAB"
-                    component={TowerScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/towerIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                    />
+            >
                 <Tab.Screen
                         name="Profile"
                         component={ProfileScreen3}
@@ -98,7 +63,7 @@ const MenuTower = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
+                <Tab.Screen
                         name="Settings"
                         component={SettingsScreen}
                         options={{
@@ -110,9 +75,21 @@ const MenuTower = () => {
                             tabBarLabel: '',
                         }}
                     />
+                <Tab.Screen
+                    name="TOWER"
+                    component={TowerScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/towerIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
+                    }}
+                    />
             </Tab.Navigator>
         </NavigationContainer>
     );
 }
 
-export default MenuTower
+export default MenuTowerInside

@@ -7,6 +7,7 @@ import MenuLab from './menu/MenuLab';
 import MenuLabInside from './menu/MenuLabInside';
 import MenuTower from './menu/MenuTower';
 import { Vibration } from 'react-native';
+import MenuTowerInside from './menu/MenuTowerInside';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -52,6 +53,10 @@ useEffect(() => {
     console.log("ESTADO DE isInsideLab " + isInsideLab);
   }, [isInsideLab]);
 
+  useEffect(() => {
+    console.log("ESTADO DE isInsideTower " + isInsideTower);
+  }, [isInsideTower]);
+
   return (
     <AcolyteContext.Provider value={{ 
         isMenuLoaded, 
@@ -65,10 +70,13 @@ useEffect(() => {
         isInsideLab,
         isInsideTower
       }}>
+
+
       <MenuContainer>
         {isInsideLab ? <MenuLabInside />
-        : isInsideTower ? <MenuTower /> 
-        : location === 'LAB' ? <MenuLab />   
+        : isInsideTower ? <MenuTowerInside /> 
+        : location === 'LAB' ? <MenuLab />
+        : location === 'TOWER' ? <MenuTower/>
         : <MenuHome />}    
                     
       </MenuContainer>
