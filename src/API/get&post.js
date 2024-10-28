@@ -19,11 +19,11 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
                 const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
 
-                console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
-                console.log(updatedPlayerData.data);
+                // console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
+                // console.log(updatedPlayerData.data);
                 
-                console.log("PLAYERDATA IN RESPONSE OK");
-                console.log(playerData);
+                // console.log("PLAYERDATA IN RESPONSE OK");
+                // console.log(playerData);
 
                 const player = await updatePlayerByEmail(updatedPlayerData.data);
 

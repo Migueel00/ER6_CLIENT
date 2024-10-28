@@ -1,5 +1,6 @@
 
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 import LoadSpinner from './components/utils/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import React, { useEffect, useState } from 'react';
@@ -61,6 +62,16 @@ function App(): React.JSX.Element {
     }
   };
   
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
 
   useEffect(() => {
     SplashScreen.hide();
@@ -110,6 +121,9 @@ function App(): React.JSX.Element {
     const idTokenResult = await auth().currentUser?.getIdTokenResult();
 
     const idToken = idTokenResult?.token;
+
+    console.log("TOKEN: " + idToken);
+    
 
     // Envía el idToken al servidor
     const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
