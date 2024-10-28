@@ -63,6 +63,8 @@ function App(): React.JSX.Element {
   };
   
   async function requestUserPermission() {
+    console.log("PIDIENDO PERMISOS PARA NOTIFICACIONES");
+    
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -190,7 +192,7 @@ function App(): React.JSX.Element {
 
       console.log("IS VERIFIED?" + isVerified);
       
-
+      await requestUserPermission();
 
       if(!isVerified)
       {
@@ -229,7 +231,7 @@ function App(): React.JSX.Element {
     
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
-      console.log(playerDataToPost);
+      //console.log(playerDataToPost);
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
