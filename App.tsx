@@ -18,6 +18,7 @@ import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
+import { URL } from './src/API/urls';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -149,7 +150,7 @@ function App(): React.JSX.Element {
     
 
     // Envía el idToken al servidor
-    const fireBaseResponse = await fetch('https://er6-staging-server.onrender.com/verify-token', {
+    const fireBaseResponse = await fetch('http://10.80.128.213:3000/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -201,8 +202,8 @@ function App(): React.JSX.Element {
       setIsSpinner(true);
       setError(null);
       // Iniciar socket
-      const socket = io('https://er6-staging-server.onrender.com'); 
-      // Settear socket
+      const socket = io('http://10.80.128.213:3000'); 
+      // Settear socket 
       setSocket(socket);
       // Funcion gestionar sockets
       handleSockets(socket);
