@@ -62,6 +62,27 @@ function App(): React.JSX.Element {
     }
   };
   
+  async function requestNotificationPermission() {
+    try {
+      const hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+      
+      if (!hasPermission) {
+        // Si no tiene permiso, solicitarlo
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+        
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("Permiso de notificaciones concedido");
+        } else {
+          console.log("Permiso de notificaciones denegado");
+        }
+      } else {
+        console.log("El usuario ya tiene el permiso de notificaciones activado");
+      }
+    } catch (error) {
+      console.error("Error al solicitar permiso de notificaciones:", error);
+    }
+  }
+
   async function requestUserPermission() {
     console.log("PIDIENDO PERMISOS PARA NOTIFICACIONES");
     
@@ -193,6 +214,8 @@ function App(): React.JSX.Element {
       console.log("IS VERIFIED?" + isVerified);
       
       await requestUserPermission();
+
+      await requestNotificationPermission();
 
       if(!isVerified)
       {
