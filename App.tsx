@@ -97,6 +97,20 @@ function App(): React.JSX.Element {
     }
   }
 
+  async function getFCMToken() {
+    try {
+      const token = await messaging().getToken();
+      if (token) {
+        console.log('FCM Token:', token);
+        return token;
+      } else {
+        console.log('No se pudo obtener el token FCM');
+      }
+    } catch (error) {
+      console.error('Error obteniendo el token FCM:', error);
+    }
+  }
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -150,7 +164,7 @@ function App(): React.JSX.Element {
     
 
     // Envía el idToken al servidor
-    const fireBaseResponse = await fetch('http://10.80.128.213:3000/verify-token', {
+    const fireBaseResponse = await fetch(URL.VERIFY_TOKEN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -202,7 +216,7 @@ function App(): React.JSX.Element {
       setIsSpinner(true);
       setError(null);
       // Iniciar socket
-      const socket = io('http://10.80.128.213:3000'); 
+      const socket = io(URL.SOCKET); 
       // Settear socket 
       setSocket(socket);
       // Funcion gestionar sockets
@@ -214,6 +228,8 @@ function App(): React.JSX.Element {
 
       console.log("IS VERIFIED?" + isVerified);
       
+      await getFCMToken();
+
       await requestUserPermission();
 
       await requestNotificationPermission();
