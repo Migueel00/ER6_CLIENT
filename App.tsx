@@ -19,6 +19,7 @@ import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
 import { URL } from './src/API/urls';
+import { requestUserPermission, onMessageReceived, onNotificationOpenedApp } from './components/notificationService';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -63,6 +64,30 @@ function App(): React.JSX.Element {
     }
   };
   
+  const sendNotificationToUser = async (fcmToken: any) => {
+    try {
+      const response = await fetch(URL.NOTIFICATION, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fcmToken: fcmToken,
+          title: "Bienvenido a KAOTIKA",
+          body: "¡Gracias por unirte a la aventura!",
+        }),
+      });
+  
+      if (response.ok) {
+        console.log('Notificación enviada exitosamente');
+      } else {
+        console.error('Error al enviar la notificación:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error en la solicitud de notificación:', error);
+    }
+  };
+
   async function requestNotificationPermission() {
     try {
       const hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -115,6 +140,11 @@ function App(): React.JSX.Element {
     SplashScreen.hide();
   }, []);
     
+  useEffect(() => {
+    requestUserPermission();
+    onMessageReceived();
+    onNotificationOpenedApp();
+  }, []);
 
   // Simular obtener los datos del perfil
   useEffect(() => {
@@ -153,14 +183,14 @@ function App(): React.JSX.Element {
       googleCredential,
     );
 
-    console.log(signInWithCredential);
+    //console.log(signInWithCredential);
 
     //Get the token from the current User
     const idTokenResult = await auth().currentUser?.getIdTokenResult();
 
     const idToken = idTokenResult?.token;
 
-    console.log("TOKEN: " + idToken);
+    //console.log("TOKEN: " + idToken);
     
 
     // Envía el idToken al servidor
@@ -228,7 +258,8 @@ function App(): React.JSX.Element {
 
       console.log("IS VERIFIED?" + isVerified);
       
-      await getFCMToken();
+      const FCMToken = await getFCMToken();
+
 
       await requestUserPermission();
 
@@ -239,6 +270,10 @@ function App(): React.JSX.Element {
         await verifyUser();
       }
       
+      if (FCMToken) {
+        await sendNotificationToUser(FCMToken);
+      }
+
       await AsyncStorage.setItem('isVerified', 'true');
 
       const email = await AsyncStorage.getItem('email');;
