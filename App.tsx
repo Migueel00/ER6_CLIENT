@@ -19,7 +19,7 @@ import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
 import { URL } from './src/API/urls';
-import { requestUserPermission, onMessageReceived, onNotificationOpenedApp } from './components/notificationService';
+import { requestUserPermission, onMessageReceived, onNotificationOpenedApp } from './components/notifications/notificationService';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
