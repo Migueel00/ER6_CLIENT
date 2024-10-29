@@ -21,6 +21,7 @@ import getIngredientsAndFilter from './src/API/getIngredients';
 import { URL } from './src/API/urls';
 import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
 import { Alert } from 'react-native';
+import SignInScreen from './components/SignIn';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -424,18 +425,7 @@ function App(): React.JSX.Element {
           {isSpinner ? (
             <LoadSpinner />
           ) : (
-              <View style={styles.container}>
-                <View style={styles.overlayText}>
-                  <Text style={styles.kaotikaFont}>
-                      <Text style={styles.kaotika}>KA<Text style={styles.o}>O</Text>TIKA</Text>
-                  </Text>
-                  <Text style={styles.kaotikaFont}>The Dark Age</Text>
-                  
-                </View>
-                <TouchableOpacity onPress={() => handleButtonPress()} style={styles.overlayButton}>
-                  <Text style={styles.kaotikaFont}>Sign in with google</Text>
-                </TouchableOpacity>
-              </View>
+            <SignInScreen handleButtonPress={handleButtonPress} />
           )}
         </ScrollView>
         </ImageBackground>
