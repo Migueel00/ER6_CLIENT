@@ -19,7 +19,8 @@ import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
 import getIngredientsAndFilter from './src/API/getIngredients';
 import { URL } from './src/API/urls';
-import { requestUserPermission, onMessageReceived, onNotificationOpenedApp } from './components/notifications/notificationService';
+import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
+import { Alert } from 'react-native';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -50,6 +51,13 @@ function App(): React.JSX.Element {
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]); 
+
+  const onMessageReceived = () => {
+    messaging().onMessage(async remoteMessage => {
+      console.log('Notificación recibida en primer plano:', remoteMessage);
+      Alert.alert(remoteMessage?.notification?.title!, remoteMessage?.notification?.body);
+    });
+  };
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');

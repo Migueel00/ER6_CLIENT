@@ -16,8 +16,8 @@ export const requestUserPermission = async () => {
 };
 
 // Maneja la notificación cuando la aplicación está en primer plano
-export const onMessageReceived = () => {
-  messaging().onMessage(remoteMessage => {
+export const onMessageReceivedService = () => {
+  messaging().onMessage(async remoteMessage => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
     Alert.alert(remoteMessage?.notification?.title!, remoteMessage?.notification?.body);
   });
