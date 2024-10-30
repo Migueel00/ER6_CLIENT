@@ -4,6 +4,7 @@ import MenuMortimer from './components/MenuMortimer';
 import MortimerContext from '../../helpers/MortimerConttext';
 import AppContext from '../../helpers/context';
 import MenuInsideConnection from './components/MenuInsideConnections';
+import MenuMortimerTower from './components/MenuMortimerTower';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -25,7 +26,9 @@ const MortimerProvider = () => {
       setIsMenuConnectionLoaded
     }}>
       <MenuContainer>
-        {location === 'CONNECTION' ? <MenuInsideConnection/> : <MenuMortimer/>}
+        {location === 'CONNECTION' ? <MenuInsideConnection/> 
+        : location === 'TOWER' ? <MenuMortimerTower/>
+        : <MenuMortimer/>}
       </MenuContainer>
     </MortimerContext.Provider>
   
