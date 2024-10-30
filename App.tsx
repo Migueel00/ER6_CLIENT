@@ -310,7 +310,7 @@ function App(): React.JSX.Element {
       const profileDataAttr = profileData.data.attributes
       setProfileAttributes(profileDataAttr);
 
-
+      
       
     
       const playerDataToPost    = profileData.data;
@@ -319,6 +319,7 @@ function App(): React.JSX.Element {
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
+      player.role = 'MORTIMER';
 
       setPlayer(player);
       await fetchIngredients(player.role);
