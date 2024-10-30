@@ -18,12 +18,16 @@ const MortimerProvider = () => {
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
+  const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
+
   return (
     <MortimerContext.Provider value={{
       isMenuLoaded,
       setIsMenuLoaded,
       isMenuConnectionLoaded,
-      setIsMenuConnectionLoaded
+      setIsMenuConnectionLoaded,
+      isMenuTowerLoaded,
+      setIsMenuTowerLoaded
     }}>
       <MenuContainer>
         {location === 'CONNECTION' ? <MenuInsideConnection/> 

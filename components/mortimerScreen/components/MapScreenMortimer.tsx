@@ -61,31 +61,26 @@ const MapScreenMortimer = () => {
     const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
     const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
+    const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
         console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
-
-        if(isMenuConnectionLoaded){
+        console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
+    
+        if (isMenuConnectionLoaded) {
             setTimeout(() => {
                 navigation.navigate('Connections');
-
             }, 200);
-        }
-    }, [isMenuConnectionLoaded]);
-
-    useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
-
-        if(isMenuConnectionLoaded){
+        } else if (isMenuTowerLoaded) {
             setTimeout(() => {
-                navigation.navigate('Connections');
-
+                navigation.navigate('TOWER');
             }, 200);
         }
-    }, [isMenuConnectionLoaded]);
+    }, [isMenuConnectionLoaded, isMenuTowerLoaded]);
+    
     
     const handleLabIconPress = () => {
         setLocation('CONNECTION');
@@ -104,7 +99,7 @@ const MapScreenMortimer = () => {
 
     const handleTowerIconPress = () => {
         setLocation('TOWER');
-        if(isMenuLoaded){
+        if(isMenuTowerLoaded){
             navigation.navigate('TOWER');
         }
     }   

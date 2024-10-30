@@ -25,13 +25,13 @@ const MenuMortimerTower = () => {
     const Tab = createMaterialTopTabNavigator();
 
     const mortimerContext = useContext(MortimerContext);
-    const setIsMenuConnectionLoaded = mortimerContext?.setIsMenuConnectionLoaded!;
+    const setIsMenuTowerLoaded = mortimerContext?.setIsMenuTowerLoaded!;
 
     useEffect(() => {
-        setIsMenuConnectionLoaded(true);
+        setIsMenuTowerLoaded(true);
 
         return() => {
-            setIsMenuConnectionLoaded(false);
+            setIsMenuTowerLoaded(false);
         }
     }, []);
 
