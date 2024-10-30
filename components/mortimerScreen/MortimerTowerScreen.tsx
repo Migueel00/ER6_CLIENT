@@ -9,8 +9,10 @@ interface updateTowerEvent {
     isInsideTower: boolean;
 }
 
+const { height, width } = Dimensions.get('window');
+
 const MortimerTowerScreen = () => {
-    const { height, width } = Dimensions.get('window');
+
     const radius = width * 0.3;
     
     const socket = useContext(AppContext)?.socket;
@@ -42,12 +44,24 @@ const MortimerTowerScreen = () => {
 
     const activePlayers = players.filter(player => player.isInsideTower);
     const playerPositions = activePlayers.map((_, index) => {
-        const angle = (2 * Math.PI / activePlayers.length) * index;
+        if (activePlayers.length === 1) {
+            //For a single player, set up positions in 0
+            return { x: 0, y: 0 };
+        } else {
+        const angle = ((2 * Math.PI) / activePlayers.length) * index + Math.PI / 2;
         const x = radius * Math.cos(angle);
         const y = radius * Math.sin(angle);
         return { x, y };
+        }
     });
 
+    console.log("ACTIVE PLAYERS IN THE TOWER");
+    console.log(activePlayers);
+    
+    console.log("PLAYERS POSITIONS");
+    console.log(playerPositions);
+    
+    
 
     return (
         <AppContext.Consumer>
@@ -141,20 +155,21 @@ const styles = StyleSheet.create({
 
 // Styled components
 const PlayerContainer = styled.View`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: ${Dimensions.get('window').width}px;
-    height: ${Dimensions.get('window').width}px;
+    position: relative;
+    width: ${width}px;
+    height: ${width}px;
     justify-content: center;
     align-items: center;
+    background: rgba(0, 0, 0, 0);
 `;
 
 const AvatarWrapper = styled.View`
     position: absolute;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    border-width: 2px;
+    border-color: white;
     overflow: hidden;
 `;
 
