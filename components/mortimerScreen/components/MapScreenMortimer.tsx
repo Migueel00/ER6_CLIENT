@@ -49,6 +49,10 @@ const TowerIcon = styled.Image`
 
 const TouchableIcon = styled.TouchableOpacity`
     position: absolute;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 100px;
+    padding: -30px;
 `
 
 const MapScreenMortimer = () => {
