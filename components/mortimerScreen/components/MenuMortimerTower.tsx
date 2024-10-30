@@ -88,7 +88,7 @@ const MenuMortimerTower = () => {
                     component={MortimerTowerScreen}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/conections-icon.png')} />
+                            <Icon source={require('../../../assets/icons/towerIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 
