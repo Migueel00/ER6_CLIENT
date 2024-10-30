@@ -269,7 +269,11 @@ function App(): React.JSX.Element {
       
       const FCMToken = await getFCMToken();
 
-
+      console.log("FCM TOKEN AFTER RETRIEVING");
+      console.log(FCMToken);
+      
+      
+        
       await requestUserPermission();
 
       await requestNotificationPermission();
@@ -315,6 +319,7 @@ function App(): React.JSX.Element {
     
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
+      playerDataToPost.fcmToken = FCMToken;
       //console.log(playerDataToPost);
 
       const player = await searchAndIfDontExistPost(playerDataToPost);

@@ -5,25 +5,30 @@ export const searchAndIfDontExistPost = async (playerData) => {
     const email = playerData.email;
     const { _id, ...data } = playerData;
 
+    console.log("PLAYERDATA FCM TOKEN");
+    console.log(playerData.fcmToken);
+    
+
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
 
         const responseJSON = await response.json();
 
         console.log("RESPONSE JSON");
-        console.log(responseJSON.data.isInsideTower);
+        console.log(responseJSON.data.fcmToken);
 
         
         if(response.ok){
                 console.log(`El correo ${email} ya está registrado`);
 
+                console.log("PLAYERDATA FCM TOKEN");
+                console.log(playerData.fcmToken);
+
                 const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
 
-                // console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
-                // console.log(updatedPlayerData.data);
-                
-                // console.log("PLAYERDATA IN RESPONSE OK");
-                // console.log(playerData);
+                console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
+                console.log(updatedPlayerData.data.fcmToken);
+
 
                 const player = await updatePlayerByEmail(updatedPlayerData.data);
 
@@ -147,11 +152,20 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
     
     const newPlayerData = playerData;
 
-    const newAtributtes = ['isInsideLab', 'isInsideTower'];
+    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken'];
 
     newAtributtes.forEach(attr => {
         if (attr in responseJSON.data) {
-            newPlayerData[attr] = responseJSON.data[attr];
+            if(attr === 'fcmToken')
+            {
+                console.log("EXISTE FCM TOKEN");
+                console.log(playerData[attr]);
+                newPlayerData[attr] = playerData[attr];
+            }
+            else
+            {
+                newPlayerData[attr] = responseJSON.data[attr];
+            }
         } else {
             newPlayerData[attr] = false;
         }
