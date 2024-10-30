@@ -9,6 +9,8 @@ import ConnectionScreen from '../connectionsScreen';
 import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerConttext';
+import TowerScreen from '../../shared/TowerScreen';
+import MortimerTowerScreen from '../MortimerTowerScreen';
 
 
 const { width, height } = Dimensions.get('window');
@@ -82,8 +84,8 @@ const MenuMortimerTower = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Connections"
-                    component={ConnectionScreen}
+                    name="TOWER"
+                    component={MortimerTowerScreen}
                     options={{
                         tabBarIcon: ({ }) => (
                             <Icon source={require('../../../assets/icons/conections-icon.png')} />
