@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AppContext from '../../helpers/context'; // Asegúrate de ajustar esta ruta
+import AppContext from '../../helpers/context';
+import styled from 'styled-components/native';
 
 interface updateTowerEvent {
     playerId: string;
@@ -10,6 +11,7 @@ interface updateTowerEvent {
 
 const MortimerTowerScreen = () => {
     const { height, width } = Dimensions.get('window');
+    const radius = width * 0.3;
     
     const socket = useContext(AppContext)?.socket;
     const players = useContext(AppContext)?.players!;
@@ -37,6 +39,16 @@ const MortimerTowerScreen = () => {
         };
     }, [players, setPlayers]);
 
+
+    const activePlayers = players.filter(player => player.isInsideTower);
+    const playerPositions = activePlayers.map((_, index) => {
+        const angle = (2 * Math.PI / activePlayers.length) * index;
+        const x = radius * Math.cos(angle);
+        const y = radius * Math.sin(angle);
+        return { x, y };
+    });
+
+
     return (
         <AppContext.Consumer>
             {({ players}: any) => {
@@ -50,19 +62,22 @@ const MortimerTowerScreen = () => {
                             <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
                             <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
                             <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
-                            <View style={styles.playersList}>
-                                {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
-                                    <View key={player.id} style={styles.playerItem}>
-                                        <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
-                                        <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
-                                        <Icon
-                                            name={player.isInsideLab ? 'circle' : 'circle-o'}
-                                            size={width * 0.07}
-                                            color={player.isInsideLab ? 'green' : 'grey'}
-                                        />
-                                    </View>
+                           
+                            <PlayerContainer>
+                                {activePlayers.map((player, index) => (
+                                    <AvatarWrapper
+                                        key={player.id}
+                                        style={{
+                                            transform: [
+                                                { translateX: playerPositions[index].x },
+                                                { translateY: playerPositions[index].y }
+                                            ]
+                                        }}
+                                    >
+                                        <Avatar source={{ uri: player.avatar }} />
+                                    </AvatarWrapper>
                                 ))}
-                            </View>
+                            </PlayerContainer>
                         </View>
                     </ImageBackground>
                 );
@@ -123,5 +138,30 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 });
+
+// Styled components
+const PlayerContainer = styled.View`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: ${Dimensions.get('window').width}px;
+    height: ${Dimensions.get('window').width}px;
+    justify-content: center;
+    align-items: center;
+`;
+
+const AvatarWrapper = styled.View`
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    overflow: hidden;
+`;
+
+const Avatar = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+`;
 
 export default MortimerTowerScreen;

@@ -75,6 +75,17 @@ const MapScreenMortimer = () => {
             }, 200);
         }
     }, [isMenuConnectionLoaded]);
+
+    useEffect(() => {
+        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
+
+        if(isMenuConnectionLoaded){
+            setTimeout(() => {
+                navigation.navigate('Connections');
+
+            }, 200);
+        }
+    }, [isMenuConnectionLoaded]);
     
     const handleLabIconPress = () => {
         setLocation('CONNECTION');
