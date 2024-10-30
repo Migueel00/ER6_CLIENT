@@ -11,13 +11,31 @@ interface updateTowerEvent {
 
 const { height, width } = Dimensions.get('window');
 
-const MortimerTowerScreen = () => {
+const radius = width * 0.3;
 
-    const radius = width * 0.3;
-    
+const calculatePlayerPositions = (activePlayers: any[]) => {
+    return activePlayers.map((_: any, index: any) => {
+        if (activePlayers.length === 1) {
+            return { x: 0, y: 0 };
+        } else {
+            const angle = ((2 * Math.PI) / activePlayers.length) * index + Math.PI / 2;
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+            return { x, y };
+        }
+    });
+}
+
+
+
+
+const MortimerTowerScreen = () => {
     const socket = useContext(AppContext)?.socket;
     const players = useContext(AppContext)?.players!;
     const setPlayers = useContext(AppContext)?.setPlayers;
+    const [activePlayers, setActivePlayers] = useState(players.filter(player => player.isInsideTower));
+    const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(activePlayers));
+
 
     useEffect(() => {
         console.log("ENTRA AL USEFFECT")
@@ -33,27 +51,20 @@ const MortimerTowerScreen = () => {
             console.log("PLAYER ID" + playerId);
             console.log("IS INSIDE TOWER " + isInsideTower);
             console.log("ENTRA AL EVENTO DE UPDATE");
+
+            const newActivePlayers = updatePlayers.filter(player => player.isInsideTower);
+            setActivePlayers(newActivePlayers);
         });
 
         // Limpiar el evento socket
         return () => {
             socket.off('update');
         };
-    }, [players, setPlayers]);
+    }, [socket, players, setPlayers]);
 
-
-    const activePlayers = players.filter(player => player.isInsideTower);
-    const playerPositions = activePlayers.map((_, index) => {
-        if (activePlayers.length === 1) {
-            //For a single player, set up positions in 0
-            return { x: 0, y: 0 };
-        } else {
-        const angle = ((2 * Math.PI) / activePlayers.length) * index + Math.PI / 2;
-        const x = radius * Math.cos(angle);
-        const y = radius * Math.sin(angle);
-        return { x, y };
-        }
-    });
+    useEffect(() => {
+        setPlayerPositions(calculatePlayerPositions(activePlayers));
+    }, [activePlayers]);
 
     console.log("ACTIVE PLAYERS IN THE TOWER");
     console.log(activePlayers);
@@ -78,19 +89,24 @@ const MortimerTowerScreen = () => {
                             <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
                            
                             <PlayerContainer>
-                                {activePlayers.map((player, index) => (
-                                    <AvatarWrapper
-                                        key={player.id}
-                                        style={{
-                                            transform: [
-                                                { translateX: playerPositions[index].x },
-                                                { translateY: playerPositions[index].y }
-                                            ]
-                                        }}
-                                    >
-                                        <Avatar source={{ uri: player.avatar }} />
-                                    </AvatarWrapper>
-                                ))}
+                                {activePlayers.map((player, index) => {
+                                    const position = playerPositions[index]; // Get the position for the current player
+                                    if (!position) return null; // Check if the position is undefined; if so, skip rendering
+
+                                    return (
+                                        <AvatarWrapper
+                                            key={player.id}
+                                            style={{
+                                                transform: [
+                                                    { translateX: position.x }, // Use the x coordinate for translation
+                                                    { translateY: position.y }  // Use the y coordinate for translation
+                                                ]
+                                            }}
+                                        >
+                                            <Avatar source={{ uri: player.avatar }} />
+                                        </AvatarWrapper>
+                                    );
+                                })}
                             </PlayerContainer>
                         </View>
                     </ImageBackground>
