@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 import MenuMortimer from './components/MenuMortimer';
-import MortimerContext from '../../helpers/MortimerConttext';
+import MortimerContext from '../../helpers/MortimerContext';
 import AppContext from '../../helpers/context';
 import MenuInsideConnection from './components/MenuInsideConnections';
 import MenuMortimerTower from './components/MenuMortimerTower';

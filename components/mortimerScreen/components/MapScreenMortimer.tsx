@@ -3,7 +3,7 @@ import { Dimensions} from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
-import MortimerContext from "../../../helpers/MortimerConttext";
+import MortimerContext from "../../../helpers/MortimerContext";
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
