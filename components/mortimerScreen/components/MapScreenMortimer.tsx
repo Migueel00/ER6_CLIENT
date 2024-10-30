@@ -9,6 +9,7 @@ import MortimerContext from "../../../helpers/MortimerConttext";
 const mapImage = require('../../../assets/backgrounds/map_background.png');
 const connections = require('../../../assets/icons/conections-icon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
+const towerIcon = require('../../../assets/icons/towerIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -37,6 +38,13 @@ const LabIcon = styled.Image`
     height: ${height * 0.1}px;
     border-radius: 50px;
     z-index: 1;
+`;
+
+const TowerIcon = styled.Image`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: 50px;
+    z-index: 2; 
 `;
 
 const TouchableIcon = styled.TouchableOpacity`
@@ -79,6 +87,13 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleTowerIconPress = () => {
+        setLocation('TOWER');
+        if(isMenuLoaded){
+            navigation.navigate('TOWER');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -93,6 +108,12 @@ const MapScreenMortimer = () => {
                 style={{ top: height * 0.53, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleTowerIconPress}
+                style={{ top: height * 0.28, right: width * 0.13 }}
+            >
+                <TowerIcon source={towerIcon} />
             </TouchableIcon>
         </Container>
     );
