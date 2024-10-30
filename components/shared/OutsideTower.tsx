@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../../helpers/context';
@@ -8,6 +8,21 @@ const outsideTowerImage = require('../../assets/png/outsideTower.png');
 const OutsideTower = () => {
     const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
+    const socket = useContext(AppContext)?.socket;
+    
+    useEffect(() => {
+
+        console.log("EN USEFFECT");
+        
+        // Botton will shown up when receiving door is open from server!
+        socket.on('EnterToTower', (message: string) => {
+            console.log("Mensaje del servidor:", message);
+        });
+
+        return () => {
+            socket.off('EnterToTower')
+        }
+    }, []);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
     const isInsideTower = context?.player.isInsideTower;
