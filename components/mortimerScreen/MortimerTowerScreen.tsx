@@ -54,6 +54,7 @@ const MortimerTowerScreen = () => {
 
             const newActivePlayers = updatePlayers.filter(player => player.isInsideTower);
             setActivePlayers(newActivePlayers);
+            socket.emit("CloseDoor", "Close the door");
         });
 
         // Limpiar el evento socket
