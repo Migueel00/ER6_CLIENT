@@ -10,7 +10,6 @@ const InsideTower = () => {
     const context = useContext(AppContext);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const isInsideTower = context?.player.isInsideTower;
     const [modalVisible, setModalVisible] = useState(false);
     const [towerBackgroundImage, setTowerBackgroundImage] = useState(insideTowerImage);
 

@@ -17,6 +17,11 @@ interface updateEvent {
   isInsideLab: boolean;
 }
 
+interface updateTowerEvent {
+  playerId: string;
+  isInsideTower: boolean;
+}
+
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
@@ -49,8 +54,26 @@ useEffect(() => {
   };
 }, [player, setPlayer, socket]);
 
+useEffect(() => {
+  // Escuchar el evento
+  socket?.on('updateTower', ({  playerId, isInsideTower }: updateTowerEvent) => {
+    if (player && setPlayer) {
+      if(player._id === playerId){
+        const updatedPlayer = { ...player, isInsideTower };
+        setPlayer(updatedPlayer);
+        Vibration.vibrate(100);
+      }
+    }
+  });
+
+  // Limpiar el evento socket al desmontar el componente
+  return () => {
+    socket?.off('updateTower');
+  };
+}, [player, setPlayer, socket]);
+
   useEffect(() => {
-    console.log("ESTADO DE isInsideLab " + isInsideLab);
+    // console.log("ESTADO DE isInsideLab " + isInsideLab);
   }, [isInsideLab]);
 
   useEffect(() => {
