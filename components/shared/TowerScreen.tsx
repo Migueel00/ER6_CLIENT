@@ -1,16 +1,16 @@
-import React, { useContext} from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import React, { useContext, useEffect, useState} from 'react';
+import { Dimensions, StyleSheet, Vibration, View } from 'react-native';
 import AcolyteContext from '../../helpers/AcolyteContext';
 import OutsideTower from './OutsideTower';
 import InsideTower from './InsideTower';
 
 const TowerScreen = () => {
     const acolyteContext = useContext(AcolyteContext);
-    const isInsideLab = acolyteContext?.isInsideTower;
+    const isInsideTower = acolyteContext?.isInsideTower;
 
     return (
         <View style={styles.container}>
-            {isInsideLab ? (
+            {isInsideTower ? (
                 <InsideTower/>
             ) : (
                 <OutsideTower/>

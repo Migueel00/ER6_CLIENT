@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Vibration } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../../helpers/context';
 
@@ -8,9 +8,6 @@ const outsideTowerImage = require('../../assets/png/outsideTower.png');
 const OutsideTower = () => {
     const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
-
-    // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const isInsideTower = context?.player.isInsideTower;
     const [modalVisible, setModalVisible] = useState(false);
     const [towerBackgroundImage, setTowerBackgroundImage] = useState(outsideTowerImage);
 
