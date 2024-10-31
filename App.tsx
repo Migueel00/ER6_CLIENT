@@ -310,7 +310,7 @@ function App(): React.JSX.Element {
       const profileDataAttr = profileData.data.attributes
       setProfileAttributes(profileDataAttr);
 
-
+      
       
     
       const playerDataToPost    = profileData.data;

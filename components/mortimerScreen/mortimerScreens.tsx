@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 import MenuMortimer from './components/MenuMortimer';
-import MortimerContext from '../../helpers/MortimerConttext';
+import MortimerContext from '../../helpers/MortimerContext';
 import AppContext from '../../helpers/context';
 import MenuInsideConnection from './components/MenuInsideConnections';
+import MenuMortimerTower from './components/MenuMortimerTower';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -17,15 +18,21 @@ const MortimerProvider = () => {
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
+  const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
+
   return (
     <MortimerContext.Provider value={{
       isMenuLoaded,
       setIsMenuLoaded,
       isMenuConnectionLoaded,
-      setIsMenuConnectionLoaded
+      setIsMenuConnectionLoaded,
+      isMenuTowerLoaded,
+      setIsMenuTowerLoaded
     }}>
       <MenuContainer>
-        {location === 'CONNECTION' ? <MenuInsideConnection/> : <MenuMortimer/>}
+        {location === 'CONNECTION' ? <MenuInsideConnection/> 
+        : location === 'TOWER' ? <MenuMortimerTower/>
+        : <MenuMortimer/>}
       </MenuContainer>
     </MortimerContext.Provider>
   

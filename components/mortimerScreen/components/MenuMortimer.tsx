@@ -8,7 +8,7 @@ import ProfileScreen3 from '../../shared/ProfileScreen';
 import SettingsScreen from '../../settings/settingsScreen';
 import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
-import MortimerContext from '../../../helpers/MortimerConttext';
+import MortimerContext from '../../../helpers/MortimerContext';
 
 
 const { width, height } = Dimensions.get('window');

@@ -5,6 +5,8 @@ interface MortimerContextType {
     setIsMenuLoaded: (loaded: boolean) => void;
     isMenuConnectionLoaded: boolean;
     setIsMenuConnectionLoaded: (loaded: boolean) => void;
+    isMenuTowerLoaded: boolean;
+    setIsMenuTowerLoaded: (loaded: boolean) => void;
 }
 
 const MortimerContext = createContext<MortimerContextType | null>(null);

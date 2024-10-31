@@ -9,6 +9,8 @@ import ConnectionScreen from '../connectionsScreen';
 import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerContext';
+import TowerScreen from '../../shared/TowerScreen';
+import MortimerTowerScreen from '../MortimerTowerScreen';
 
 
 const { width, height } = Dimensions.get('window');
@@ -18,18 +20,18 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuInsideConnection = () => {
+const MenuMortimerTower = () => {
 
     const Tab = createMaterialTopTabNavigator();
 
     const mortimerContext = useContext(MortimerContext);
-    const setIsMenuConnectionLoaded = mortimerContext?.setIsMenuConnectionLoaded!;
+    const setIsMenuTowerLoaded = mortimerContext?.setIsMenuTowerLoaded!;
 
     useEffect(() => {
-        setIsMenuConnectionLoaded(true);
+        setIsMenuTowerLoaded(true);
 
         return() => {
-            setIsMenuConnectionLoaded(false);
+            setIsMenuTowerLoaded(false);
         }
     }, []);
 
@@ -82,11 +84,11 @@ const MenuInsideConnection = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Connections"
-                    component={ConnectionScreen}
+                    name="TOWER"
+                    component={MortimerTowerScreen}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/conections-icon.png')} />
+                            <Icon source={require('../../../assets/icons/towerIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 
@@ -109,4 +111,4 @@ const MenuInsideConnection = () => {
     )
 }
 
-export default MenuInsideConnection;
+export default MenuMortimerTower;
