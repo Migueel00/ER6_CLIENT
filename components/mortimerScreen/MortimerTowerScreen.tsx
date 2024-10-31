@@ -26,42 +26,54 @@ const calculatePlayerPositions = (activePlayers: any[]) => {
     });
 }
 
-
-
-
 const MortimerTowerScreen = () => {
     const socket = useContext(AppContext)?.socket;
     const players = useContext(AppContext)?.players!;
     const setPlayers = useContext(AppContext)?.setPlayers;
     const [activePlayers, setActivePlayers] = useState(players.filter(player => player.isInsideTower));
     const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(activePlayers));
-
+    const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
     useEffect(() => {
-        console.log("ENTRA AL USEFFECT")
+        console.log("ENTRA AL USEFFECT");
+
         // Escuchar el evento
-        socket.on('updateTower', ({ playerId  , isInsideTower } : updateTowerEvent) => {
-            const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideTower } : player );
+        socket.on('updateTower', ({ playerId, isInsideTower }: updateTowerEvent) => {
+            const updatePlayers = players.map(player =>
+                player.id === playerId ? { ...player, isInsideTower } : player
+            );
 
             console.log(updatePlayers);
-            
-            // Settear players
             setPlayers(updatePlayers);
-            
+
             console.log("PLAYER ID" + playerId);
             console.log("IS INSIDE TOWER " + isInsideTower);
             console.log("ENTRA AL EVENTO DE UPDATE");
 
             const newActivePlayers = updatePlayers.filter(player => player.isInsideTower);
             setActivePlayers(newActivePlayers);
-            socket.emit("CloseDoor", "Close the door");
+
+            if (!hasEmitted) { // Verifica si ya se hizo emit
+                socket.emit("CloseDoor", "Close the door");
+                setHasEmitted(true); // Marca el emit como hecho
+            }
         });
 
         // Limpiar el evento socket
         return () => {
-            socket.off('update');
+            socket.off('updateTower');
         };
-    }, [socket, players, setPlayers]);
+    }, [socket, players, setPlayers, hasEmitted]);
+
+    useEffect(() => {
+        // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
+        const resetEmit = setTimeout(() => {
+            setHasEmitted(false);
+        }, 5000);
+
+        // Limpiar el timeout si el componente se desmonta o se actualiza
+        return () => clearTimeout(resetEmit);
+    }, [hasEmitted]);
 
     useEffect(() => {
         setPlayerPositions(calculatePlayerPositions(activePlayers));
