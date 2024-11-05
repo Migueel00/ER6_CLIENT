@@ -1,5 +1,5 @@
 import Ingredient from "./ingredient.tsx";
-import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
+import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion, PurificationPotion } from "./potion.tsx";
 import { essence_ingredients_number, essence_ingridient_multipliers } from "./constants.tsx";
 import { Effect } from "./potionsInterface.tsx";
 import Curse from "./curse.tsx";
@@ -37,13 +37,19 @@ export default class Cauldron {
         console.log("COMMON EFFECTS");
         console.log(commonEffects);
 
-        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
-        const matchingAttribute = attributes.find(attr => allEffects.includes(attr));
+        const attributes = ["hit_points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
+        const matchingAttribute = attributes.find(attr => 
+            allEffects.some(effect => effect.includes(attr))
+        );
 
         console.log("COMMON EFFECT 2");
         console.log(matchingAttribute);
         
-        
+        if (ingredients.length === 2 &&
+            ingredients.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
+            ingredients.some(ingredient => ingredient.name === "Gloomshade Moss")) {
+            this.createPurificationPotion();
+        }
         
         // Si no hay efectos comunes
         if (!commonEffects) {
@@ -594,4 +600,7 @@ export default class Cauldron {
         return totalDuration;
     }
     
+    private createPurificationPotion(){
+        return new PurificationPotion("Purification Potion", 0);
+    }
 }
