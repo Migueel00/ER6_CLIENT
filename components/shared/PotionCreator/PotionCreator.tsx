@@ -13,7 +13,7 @@ import Octicons from "react-native-vector-icons/Octicons";
 import HelpModal from './HelpModal';
 import RecipeModal from './RecipeModal';
 
-const backgroundImageURL = require('../../../assets/png/settingsBackground1.png');
+const backgroundImageURL = require('./../../../assets/backgrounds/potionCreationBG.png');
 const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
 const goBackImage = require('../../../assets/icons/back-arrow.png');
 const createPotionImage = require('../../../assets/icons/darkButton2.png');
@@ -32,7 +32,7 @@ const CONSTANTS = {
     WIDTH: width,
     SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
     HEIGHT: height,
-    BUTTON_SPACING: 0.02,
+    BUTTON_SPACING: 0.01,
     BUTTON_RIGHT: 0.05
 };
 
@@ -373,12 +373,10 @@ const FilterButton = styled.TouchableOpacity`
     right: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
 `;
 
 const HelpButton = styled.TouchableOpacity`
@@ -387,12 +385,10 @@ const HelpButton = styled.TouchableOpacity`
     left: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
 `;
 
 const RecipeButton = styled.TouchableOpacity`
@@ -401,18 +397,17 @@ const RecipeButton = styled.TouchableOpacity`
     left: ${CONSTANTS.WIDTH * 0.43}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px; 
+
+
 `;
 
 const IconImage = styled.Image`
     width: 100%;
     height: 100%;
     border-radius: 20px;
+    background-color: transparent;
 `;
 
 
