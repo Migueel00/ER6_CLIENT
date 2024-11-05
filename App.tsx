@@ -188,7 +188,7 @@ function App(): React.JSX.Element {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
-    const email = userInfo.data?.user.email;
+    const email = 'oskar.calvo@aeg.eus';
     const googleIdToken = userInfo.data?.idToken;
     
     // Create a Google credential with the token
@@ -330,7 +330,7 @@ function App(): React.JSX.Element {
       playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
-      
+
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
