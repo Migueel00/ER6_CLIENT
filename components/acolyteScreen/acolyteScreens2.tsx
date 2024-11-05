@@ -116,8 +116,8 @@ useEffect(() => {
       <MenuContainer>
         {isInsideLab ? <MenuLabInside />
         : isInsideTower ? <MenuTowerInside /> 
-        : player?.location === 'LAB' ? <MenuLab />
-        : player?.location === 'TOWER' ? <MenuTower/>
+        : acolyteLocation === 'LAB' ? <MenuLab />
+        : acolyteLocation === 'TOWER' ? <MenuTower/>
         : <MenuHome />}    
                     
       </MenuContainer>
