@@ -124,3 +124,14 @@ export class FailedPotion extends Potion {
         this.modifier_value = modifier_value;
     }
 }
+
+// Poción fallida
+export class PurificationPotion extends Potion {
+
+    modifier_value: number
+    
+    constructor(name: string, modifier_value: number) {
+        super(name);
+        this.modifier_value = modifier_value;
+    }
+}
