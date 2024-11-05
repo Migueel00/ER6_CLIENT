@@ -37,7 +37,7 @@ export default class Cauldron {
         console.log("COMMON EFFECTS");
         console.log(commonEffects);
 
-        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
         const matchingAttribute = attributes.find(attr => allEffects.includes(attr));
 
         console.log("COMMON EFFECT 2");
