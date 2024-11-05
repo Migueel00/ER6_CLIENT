@@ -52,6 +52,8 @@ const PotionCreator = () => {
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
     const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
     const [createText, setCreateText] = useState<string>("Create Potion");
+    const parchmentState = context?.parchment;
+    const towerIngredientsState = context?.tower_ingredients;
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
