@@ -29,8 +29,7 @@ const [player, setPlayer] = useState(appContext?.player);
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
-
-console.log("PLAYER LOCATION: " + player?.location);
+const acolyteLocation = appContext?.location;
 
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
