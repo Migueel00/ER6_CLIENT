@@ -4,6 +4,9 @@ import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../../helpers/context';
 
 const insideTowerImage = require('../../assets/png/insideTower.png');
+const parchmentImage = require('');
+const towerIngredientsImage = require('');
+
 
 const InsideTower = () => {
     const { height, width } = Dimensions.get('window');
