@@ -477,7 +477,7 @@ export default class Cauldron {
     }
 
     private findCommonEffects(ingredients: Ingredient[]): boolean {
-        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
     
         // Check if any attribute is present in the effects array of every ingredient
         return attributes.some(attribute =>
