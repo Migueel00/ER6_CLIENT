@@ -61,7 +61,7 @@ const PotionCreator = () => {
 
     useEffect(() => {
         if (!potionFactory) {
-            setPotionFactory(new Cauldron(ingredients, curses));
+            setPotionFactory(new Cauldron(ingredients, curses.data));
         }
     }, []);
 

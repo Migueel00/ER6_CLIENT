@@ -82,8 +82,10 @@ export default class Cauldron {
         let potionToCreate = null;
 
         if(hasRestore){
+            console.log("Has restore");        
             potionToCreate = this.compareEffectsWithCursesToCreateAntidote(allEffects);
         } else if(hasDamage){
+            console.log("Has damage");  
             potionToCreate = this.compareEffectsWithCursesToCreatePoison(allEffects);
         }
        
@@ -239,6 +241,12 @@ export default class Cauldron {
     {
         for(let i = 0; i < this.curses.length; i++)
         {
+            console.log("POISON EFFECTS");
+            console.log(this.curses[i].poison_effects.sort().join(','));
+    
+            console.log("ANTIDOTE EFFECTS");
+            console.log(this.curses[i].antidote_effects.sort().join(','));
+
             if(this.curses[i].antidote_effects.sort().join(',') === effectsToCompare.sort().join(',')){
                 //SAME EFFECTS
                 return this.curses[i];
@@ -250,13 +258,34 @@ export default class Cauldron {
 
     private compareEffectsWithCursesToCreatePoison(effectsToCompare: string[])
     {
+        let isPoison = false;
+        let isAntidote = false;
         for(let i = 0; i < this.curses.length; i++)
         {
+            console.log("POISON EFFECTS");
+            console.log(this.curses[i].poison_effects.sort().join(','));
+
+            console.log("ANTIDOTE EFFECTS");
+            console.log(this.curses[i].antidote_effects.sort().join(','));
+            
             if(this.curses[i].poison_effects.sort().join(',') === effectsToCompare.sort().join(',')){
                 //SAME EFFECTS
+                isPoison = true;
+                console.log("CREADO POISON");
+                
+            }
+
+            if (this.curses[i].antidote_effects.sort().join(',') === effectsToCompare.sort().join(',')){
+                isAntidote = true;
+                console.log("CREADO ANTIDOTE");     
+            }
+
+            if(isPoison || isAntidote) {
                 return this.curses[i];
             }
         }
+
+
 
         return null;
     }
