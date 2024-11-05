@@ -320,7 +320,7 @@ function App(): React.JSX.Element {
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
-      //console.log(playerDataToPost);
+      playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
