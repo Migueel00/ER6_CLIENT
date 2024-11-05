@@ -10,8 +10,7 @@ export interface ContextInterface {
     setPlayers: any,
     setIsLoggedIn: any,
     socket: any,
-    location: string,
-    setLocation: any,
+    setLocation: String,
     ingredients: Ingredient[] | null
 }
 
@@ -24,7 +23,8 @@ export interface Player {
   isInsideTower: boolean,
   avatar:       string,
   id:           string,
-  role:         string
+  role:         string,
+  location:     string
 }
 export interface Ingredient {
   _id: string,

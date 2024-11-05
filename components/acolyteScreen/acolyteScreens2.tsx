@@ -25,7 +25,6 @@ interface updateTowerEvent {
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
-const location = appContext?.location;
 const [player, setPlayer] = useState(appContext?.player);
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
@@ -115,8 +114,8 @@ useEffect(() => {
       <MenuContainer>
         {isInsideLab ? <MenuLabInside />
         : isInsideTower ? <MenuTowerInside /> 
-        : location === 'LAB' ? <MenuLab />
-        : location === 'TOWER' ? <MenuTower/>
+        : player?.location === 'LAB' ? <MenuLab />
+        : player?.location === 'TOWER' ? <MenuTower/>
         : <MenuHome />}    
                     
       </MenuContainer>
