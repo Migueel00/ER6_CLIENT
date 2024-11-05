@@ -17,7 +17,7 @@ import AppContext from './helpers/context';
 import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
-import getIngredientsAndFilter from './src/API/getIngredients';
+import { getIngredientsAndFilter, getParchmentIngredients} from './src/API/getIngredients';
 import { URL } from './src/API/urls';
 import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
 import { Alert } from 'react-native';
@@ -164,7 +164,10 @@ function App(): React.JSX.Element {
   const fetchIngredients = async (playerRole : string) => {
     try {
       const ingredients = await getIngredientsAndFilter(playerRole);
-          
+      const newIngredients = await getParchmentIngredients();
+
+      console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
+
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
     } catch (error) {
       console.error("Error fetching ingredients:", error);
