@@ -32,7 +32,6 @@ const MortimerTowerScreen = () => {
     const setPlayers = useContext(AppContext)?.setPlayers;
     const [activePlayers, setActivePlayers] = useState(players.filter(player => player.isInsideTower));
     const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(activePlayers));
-    const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
     useEffect(() => {
         console.log("ENTRA AL USEFFECT");
@@ -53,10 +52,6 @@ const MortimerTowerScreen = () => {
             const newActivePlayers = updatePlayers.filter(player => player.isInsideTower);
             setActivePlayers(newActivePlayers);
 
-            // if (!hasEmitted) { // Verifica si ya se hizo emit
-            //     socket.emit("CloseDoor", "Close the door");
-            //     setHasEmitted(true); // Marca el emit como hecho
-            // }
         });
 
         // Limpiar el evento socket
@@ -64,16 +59,6 @@ const MortimerTowerScreen = () => {
             socket.off('updateTower');
         };
     }, [socket, players, setPlayers]);
-
-    // useEffect(() => {
-    //     // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
-    //     const resetEmit = setTimeout(() => {
-    //         setHasEmitted(false);
-    //     }, 5000);
-
-    //     // Limpiar el timeout si el componente se desmonta o se actualiza
-    //     return () => clearTimeout(resetEmit);
-    // }, [hasEmitted]);
 
     useEffect(() => {
         setPlayerPositions(calculatePlayerPositions(activePlayers));
@@ -84,8 +69,6 @@ const MortimerTowerScreen = () => {
     
     console.log("PLAYERS POSITIONS");
     console.log(playerPositions);
-    
-    
 
     return (
         <AppContext.Consumer>
@@ -100,7 +83,6 @@ const MortimerTowerScreen = () => {
                             <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
                             <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
                             <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
-                           
                             <PlayerContainer>
                                 {activePlayers.map((player, index) => {
                                     const position = playerPositions[index]; // Get the position for the current player
