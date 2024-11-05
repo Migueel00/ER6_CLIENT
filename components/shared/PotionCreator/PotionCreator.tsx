@@ -19,7 +19,9 @@ const goBackImage = require('../../../assets/icons/back-arrow.png');
 const createPotionImage = require('../../../assets/icons/darkButton2.png');
 const gridImage = require('../../../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
-const filterIconImage = require('../../../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
+const filterIcon = require('./../../../assets/icons/magnifyingGlassIcon.png');  // Añade la ruta de tu icono
+const recipeBookIcon = require('./../../../assets/icons/bookIcon.png')
+const questionMarkIcon = require('./../../../assets/icons/questionMarkIcon.png')
 const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
@@ -127,13 +129,13 @@ const PotionCreator = () => {
                 {/* Flalist de los ingredientes */}
                 <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress}/>
                 <FilterButton onPress={handlePressFilter}>
-                    <MaterialCommunityIcons name='filter-menu' size={35} color={'white'}></MaterialCommunityIcons>
+                    <IconImage source={filterIcon}></IconImage>
                 </FilterButton>
                 <HelpButton onPress={handlePressHelp}>
-                    <Octicons name='question' size={35} color={'white'}></Octicons>
+                    <IconImage source={questionMarkIcon}></IconImage>
                 </HelpButton>
                 <RecipeButton onPress={handlePressRecipe}>
-                    <MaterialCommunityIcons name='book-open-variant' size={35} color={'white'}></MaterialCommunityIcons>
+                    <IconImage source={recipeBookIcon}></IconImage>
                 </RecipeButton>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
@@ -342,6 +344,9 @@ const IngredientEffects = styled.Text`
     margin-top: ${height * 0.005}px;
 `;
 
+const HelpIcon = styled.Image`
+`
+
 
 
 const styles = StyleSheet.create({
@@ -404,6 +409,11 @@ const RecipeButton = styled.TouchableOpacity`
     border-color:  #C19A6B;
 `;
 
+const IconImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+`;
 
 
 export default PotionCreator;
