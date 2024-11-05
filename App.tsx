@@ -172,7 +172,7 @@ function App(): React.JSX.Element {
       console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
 
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
-      setIngredients(newIngredients);
+      setCleanseIngredients(newIngredients);
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
