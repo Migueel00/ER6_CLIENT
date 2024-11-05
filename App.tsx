@@ -407,6 +407,7 @@ function App(): React.JSX.Element {
         setPlayers:setPlayers,
         setIsLoggedIn:setIsLoggedIn ,
         socket: socket,
+        location: player?.location!,
         setLocation: setLocation,
         ingredients
       }}>

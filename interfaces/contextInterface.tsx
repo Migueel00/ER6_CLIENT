@@ -10,7 +10,8 @@ export interface ContextInterface {
     setPlayers: any,
     setIsLoggedIn: any,
     socket: any,
-    setLocation: String,
+    location: string,
+    setLocation: any,
     ingredients: Ingredient[] | null
 }
 
