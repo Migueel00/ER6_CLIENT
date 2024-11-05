@@ -51,7 +51,7 @@ const PotionCreator = () => {
     const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
     const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
-    const [createText, setCreateText] = useState<string>("Create Potion");
+    const [createText, setCreateText] = useState<string>("Create Potion of Purification");
     const parchmentState = context?.parchment;
     const towerIngredientsState = context?.tower_ingredients;
 
@@ -192,7 +192,11 @@ const PotionCreator = () => {
                         }}> 
 
                             <CreatePotionIcon source={createPotionImage} />
-                            <PotionCreationText>{createText}</PotionCreationText>
+                            {createText === "Create Potion of Purification" ? (
+                                <PurificationCreationText>{createText}</PurificationCreationText>
+                            ) : (
+                                <PotionCreationText>{createText}</PotionCreationText>
+                            )}
                         </CreatePotionButton>
                     </CreatePotionButton>
                 )}
@@ -268,11 +272,20 @@ const CreatePotionButton = styled.TouchableOpacity`
 
 const PotionCreationText = styled.Text`
     position: absolute;
-    top: ${height * 0.04}px;
-    font-size: ${width * 0.10}px;
+    top: ${height * 0.045}px;
+    font-size: ${width * 0.1}px;
     font-family: 'KochAltschrift';
     text-align: center;
 `;
+
+const PurificationCreationText = styled.Text`
+    position: absolute;
+    top: ${height * 0.045}px;
+    font-size: ${width * 0.068}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
+`;
+
 
 const IngredientBackButton = styled.TouchableOpacity`
     background-color: transparent;
