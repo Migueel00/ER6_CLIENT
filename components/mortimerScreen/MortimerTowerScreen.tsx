@@ -53,27 +53,27 @@ const MortimerTowerScreen = () => {
             const newActivePlayers = updatePlayers.filter(player => player.isInsideTower);
             setActivePlayers(newActivePlayers);
 
-            if (!hasEmitted) { // Verifica si ya se hizo emit
-                socket.emit("CloseDoor", "Close the door");
-                setHasEmitted(true); // Marca el emit como hecho
-            }
+            // if (!hasEmitted) { // Verifica si ya se hizo emit
+            //     socket.emit("CloseDoor", "Close the door");
+            //     setHasEmitted(true); // Marca el emit como hecho
+            // }
         });
 
         // Limpiar el evento socket
         return () => {
             socket.off('updateTower');
         };
-    }, [socket, players, setPlayers, hasEmitted]);
+    }, [socket, players, setPlayers]);
 
-    useEffect(() => {
-        // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
-        const resetEmit = setTimeout(() => {
-            setHasEmitted(false);
-        }, 5000);
+    // useEffect(() => {
+    //     // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
+    //     const resetEmit = setTimeout(() => {
+    //         setHasEmitted(false);
+    //     }, 5000);
 
-        // Limpiar el timeout si el componente se desmonta o se actualiza
-        return () => clearTimeout(resetEmit);
-    }, [hasEmitted]);
+    //     // Limpiar el timeout si el componente se desmonta o se actualiza
+    //     return () => clearTimeout(resetEmit);
+    // }, [hasEmitted]);
 
     useEffect(() => {
         setPlayerPositions(calculatePlayerPositions(activePlayers));
