@@ -1,5 +1,5 @@
 import Ingredient from "./ingredient.tsx";
-import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion } from "./potion.tsx";
+import Potion,{Antidote, Poison, Elixir, Venom, Essence, Stench, FailedPotion, PurificationPotion } from "./potion.tsx";
 import { essence_ingredients_number, essence_ingridient_multipliers } from "./constants.tsx";
 import { Effect } from "./potionsInterface.tsx";
 import Curse from "./curse.tsx";
@@ -37,13 +37,19 @@ export default class Cauldron {
         console.log("COMMON EFFECTS");
         console.log(commonEffects);
 
-        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
-        const matchingAttribute = attributes.find(attr => allEffects.includes(attr));
+        const attributes = ["hit_points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
+        const matchingAttribute = attributes.find(attr => 
+            allEffects.some(effect => effect.includes(attr))
+        );
 
         console.log("COMMON EFFECT 2");
         console.log(matchingAttribute);
         
-        
+        if (ingredients.length === 2 &&
+            ingredients.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
+            ingredients.some(ingredient => ingredient.name === "Gloomshade Moss")) {
+            this.createPurificationPotion();
+        }
         
         // Si no hay efectos comunes
         if (!commonEffects) {
@@ -82,8 +88,10 @@ export default class Cauldron {
         let potionToCreate = null;
 
         if(hasRestore){
+            console.log("Has restore");        
             potionToCreate = this.compareEffectsWithCursesToCreateAntidote(allEffects);
         } else if(hasDamage){
+            console.log("Has damage");  
             potionToCreate = this.compareEffectsWithCursesToCreatePoison(allEffects);
         }
        
@@ -239,6 +247,12 @@ export default class Cauldron {
     {
         for(let i = 0; i < this.curses.length; i++)
         {
+            console.log("POISON EFFECTS");
+            console.log(this.curses[i].poison_effects.sort().join(','));
+    
+            console.log("ANTIDOTE EFFECTS");
+            console.log(this.curses[i].antidote_effects.sort().join(','));
+
             if(this.curses[i].antidote_effects.sort().join(',') === effectsToCompare.sort().join(',')){
                 //SAME EFFECTS
                 return this.curses[i];
@@ -250,13 +264,34 @@ export default class Cauldron {
 
     private compareEffectsWithCursesToCreatePoison(effectsToCompare: string[])
     {
+        let isPoison = false;
+        let isAntidote = false;
         for(let i = 0; i < this.curses.length; i++)
         {
+            console.log("POISON EFFECTS");
+            console.log(this.curses[i].poison_effects.sort().join(','));
+
+            console.log("ANTIDOTE EFFECTS");
+            console.log(this.curses[i].antidote_effects.sort().join(','));
+            
             if(this.curses[i].poison_effects.sort().join(',') === effectsToCompare.sort().join(',')){
                 //SAME EFFECTS
+                isPoison = true;
+                console.log("CREADO POISON");
+                
+            }
+
+            if (this.curses[i].antidote_effects.sort().join(',') === effectsToCompare.sort().join(',')){
+                isAntidote = true;
+                console.log("CREADO ANTIDOTE");     
+            }
+
+            if(isPoison || isAntidote) {
                 return this.curses[i];
             }
         }
+
+
 
         return null;
     }
@@ -477,7 +512,7 @@ export default class Cauldron {
     }
 
     private findCommonEffects(ingredients: Ingredient[]): boolean {
-        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
+        const attributes = ["points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
     
         // Check if any attribute is present in the effects array of every ingredient
         return attributes.some(attribute =>
@@ -565,4 +600,7 @@ export default class Cauldron {
         return totalDuration;
     }
     
+    private createPurificationPotion(){
+        return new PurificationPotion("Purification Potion", 0);
+    }
 }
