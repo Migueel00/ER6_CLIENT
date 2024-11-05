@@ -20,7 +20,7 @@ const createPotionImage = require('../../../assets/icons/darkButton2.png');
 const gridImage = require('../../../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
 const filterIconImage = require('../../../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
-
+const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
 
@@ -145,7 +145,7 @@ const PotionCreator = () => {
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
                             {item ? (
-                                <IngredientListImage key={index} source={defaultPotionImage} />
+                                <IngredientListImage key={index} source={{ uri: `${kaotikaApiUrl + item.image}` }}  />
                             ) : (
                                 <IngredientListImage key={index} source ={gridImage}/>
                             )}
@@ -153,26 +153,6 @@ const PotionCreator = () => {
                     ))}
                 </Grid>
                 {showCreatePotionButton && (  // Condición para mostrar el botón
-                    <CreatePotionButton
-                        onPress={() => {
-                            if (potionFactory && typeof potionFactory.createPotion === 'function') {
-
-                            const potion = potionFactory.createPotion(selectedIngredientArray);
-                            setCreatedPotion(potion);
-                            console.log("Potion created successfully");
-                            console.log(potion);
-                        
-                            if (potion) { // Si la poción se ha creado correctamente
-                                console.log("Potion created successfully");
-                                console.log(potion);
-                                setCreatedPotion(potion);
-                                toggleModal(); // Mostrar el modal
-                            }
-                            
-                        } else {
-                            console.log("PotionFactory or createPotion method is not available");
-                        }
-                    }}>
                         <CreatePotionButton
                         onPress={() => {
                             if (potionFactory && typeof potionFactory.createPotion === 'function' && selectedIngredientArray.length >= 2) {
@@ -198,7 +178,6 @@ const PotionCreator = () => {
                                 <PotionCreationText>{createText}</PotionCreationText>
                             )}
                         </CreatePotionButton>
-                    </CreatePotionButton>
                 )}
 
                 {showBackButton && (
@@ -262,17 +241,22 @@ const Container = styled.View`
     padding-bottom: 50px;
 `
 const CreatePotionButton = styled.TouchableOpacity`
-    border-radius: 10px;
+border-radius: 10px;
     align-items: center;
-    position: relative;
-    padding: 10px;
+    justify-content: center;
+    position: relative; 
     bottom: ${height * 0.035}px;
+    background-color: transparent;
+    width: ${width * 0.62}px;
+    height: ${height * 0.10}px;
+    margin-left: auto; 
+    margin-right: auto; 
 `;
 
 
 const PotionCreationText = styled.Text`
     position: absolute;
-    top: ${height * 0.045}px;
+    top: ${height * 0.03}px;
     font-size: ${width * 0.1}px;
     font-family: 'KochAltschrift';
     text-align: center;
@@ -280,7 +264,7 @@ const PotionCreationText = styled.Text`
 
 const PurificationCreationText = styled.Text`
     position: absolute;
-    top: ${height * 0.045}px;
+    top: ${height * 0.03}px;
     font-size: ${width * 0.068}px;
     font-family: 'KochAltschrift';
     text-align: center;

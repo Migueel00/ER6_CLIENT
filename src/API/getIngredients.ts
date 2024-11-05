@@ -7,12 +7,13 @@ export const getIngredientsAndFilter = async (userRole: string) => {
         if (!response.ok) throw new Error('Error en la respuesta de la API');
         
         const jsonData = await response.json();
-        const ingredientsData: Ingredient[] = jsonData.data.map(({ _id, name, description, value, effects, type }: Ingredient) => ({
+        const ingredientsData: Ingredient[] = jsonData.data.map(({ _id, name, description, value, effects, image, type }: Ingredient) => ({
             id: _id,
             name,
             description,
             value,
             effects,
+            image,
             type,
         }));
 
