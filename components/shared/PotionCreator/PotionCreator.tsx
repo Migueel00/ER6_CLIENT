@@ -66,6 +66,17 @@ const PotionCreator = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (selectedIngredientArray.length === 2 &&
+            selectedIngredientArray.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
+            selectedIngredientArray.some(ingredient => ingredient.name === "Gloomshade Moss")) {
+            setCreateText("Create Potion of Purification");
+        } else {
+            setCreateText("Create Potion");
+        }
+
+    }, selectedIngredientArray);
+
 
     const handlePressFilter = () => {
         setFilterModalVisible(true);
