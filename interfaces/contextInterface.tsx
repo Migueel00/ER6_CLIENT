@@ -12,7 +12,13 @@ export interface ContextInterface {
     socket: any,
     location: string,
     setLocation: any,
-    ingredients: Ingredient[] | null
+    ingredients: Ingredient[] | null,
+    setIngredients: (state: Ingredient[]) => void,
+    cleanse_ingredients: Ingredient[] | null,
+    parchment: boolean,
+    setParchment: (state: boolean) => void,
+    tower_ingredients: boolean,
+    setTowerIngredients: (state: boolean) => void,
 }
 
 export interface Player {

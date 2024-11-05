@@ -1,7 +1,7 @@
 import Ingredient from "../../components/potions/ingredient";
 
 // Función para obtener ingredientes
-const getIngredientsAndFilter = async (userRole: string) => {
+export const getIngredientsAndFilter = async (userRole: string) => {
     try {
         const response = await fetch('https://kaotika-server.fly.dev/ingredients');
         if (!response.ok) throw new Error('Error en la respuesta de la API');
@@ -51,4 +51,27 @@ const getIngredientsAndFilter = async (userRole: string) => {
     }
 };
 
-export default getIngredientsAndFilter;
+// Funcion para obtener ingredientes de la torre
+export const getParchmentIngredients = async() => {
+    try {
+        const response = await fetch('https://kaotika-server.fly.dev/ingredients/zachariah-herbal');    
+
+        if(!response.ok) throw new Error('Error en la respuesta de la API');
+
+        const jsonData = await response.json();
+
+        const ingredients : Ingredient [] = jsonData.data["Zachariah's herbal"].ingredients.map(({ _id, name, description, value, effects, type }: Ingredient) => ({
+            id: _id,
+            name,
+            description,
+            value,
+            effects,
+            type,
+        }));
+
+        return ingredients;
+    }
+    catch (error){
+        console.log(error);
+    }
+}

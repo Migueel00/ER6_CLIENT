@@ -17,7 +17,7 @@ import AppContext from './helpers/context';
 import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
-import getIngredientsAndFilter from './src/API/getIngredients';
+import { getIngredientsAndFilter, getParchmentIngredients} from './src/API/getIngredients';
 import { URL } from './src/API/urls';
 import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
 import { Alert } from 'react-native';
@@ -52,6 +52,9 @@ function App(): React.JSX.Element {
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]); 
+  const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]); 
+  const [parchmentState, setParchmentState] = useState<boolean>(false);
+  const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(false);
 
   const onMessageReceived = () => {
     messaging().onMessage(async remoteMessage => {
@@ -164,8 +167,12 @@ function App(): React.JSX.Element {
   const fetchIngredients = async (playerRole : string) => {
     try {
       const ingredients = await getIngredientsAndFilter(playerRole);
-          
+      const newIngredients = await getParchmentIngredients();
+
+      console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
+
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
+      setIngredients(newIngredients);
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
@@ -409,7 +416,13 @@ function App(): React.JSX.Element {
         socket: socket,
         location: player?.location!,
         setLocation: setLocation,
-        ingredients
+        ingredients,
+        setIngredients: setIngredients,
+        cleanse_ingredients: cleanseIngredients,
+        parchment: parchmentState,
+        setParchment: setParchmentState,
+        tower_ingredients: towerIngredientsState,
+        setTowerIngredients: setTowerIngredientsState
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

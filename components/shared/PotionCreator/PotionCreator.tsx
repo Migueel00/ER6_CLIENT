@@ -51,6 +51,7 @@ const PotionCreator = () => {
     const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
     const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
+    const [createText, setCreateText] = useState<string>("Create Potion");
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -61,7 +62,7 @@ const PotionCreator = () => {
 
     useEffect(() => {
         if (!potionFactory) {
-            setPotionFactory(new Cauldron(ingredients, curses));
+            setPotionFactory(new Cauldron(ingredients, curses.data));
         }
     }, []);
 
@@ -176,7 +177,7 @@ const PotionCreator = () => {
                         }}> 
 
                             <CreatePotionIcon source={createPotionImage} />
-                            <PotionCreationText>Create Potion</PotionCreationText>
+                            <PotionCreationText>{createText}</PotionCreationText>
                         </CreatePotionButton>
                     </CreatePotionButton>
                 )}
