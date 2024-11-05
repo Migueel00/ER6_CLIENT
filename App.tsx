@@ -330,7 +330,8 @@ function App(): React.JSX.Element {
       playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
-
+      
+      setLocation(player.location);
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
@@ -414,7 +415,7 @@ function App(): React.JSX.Element {
         setPlayers:setPlayers,
         setIsLoggedIn:setIsLoggedIn ,
         socket: socket,
-        location: player?.location!,
+        location: location,
         setLocation: setLocation,
         ingredients,
         setIngredients: setIngredients,

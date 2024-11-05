@@ -57,7 +57,8 @@ const TouchableIcon = styled.TouchableOpacity`
 
 const MapScreenMortimer = () => {
     
-    const setLocation = useContext(AppContext)?.setLocation;
+    const appContext = useContext(AppContext);
+    const setLocation = appContext?.setLocation;
     const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
     const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
@@ -84,6 +85,7 @@ const MapScreenMortimer = () => {
     
     const handleLabIconPress = () => {
         setLocation('CONNECTION');
+        
         if(isMenuConnectionLoaded){
             navigation.navigate('Connections');
         }
