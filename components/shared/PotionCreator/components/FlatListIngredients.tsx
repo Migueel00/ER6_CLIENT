@@ -12,6 +12,7 @@ interface FlatListIngredients {
 }
 
 const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
+const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
 
@@ -44,6 +45,9 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
     const scrollX = useRef(new Animated.Value(0)).current;
     const flatListRef = useRef<Animated.FlatList>(null); 
 
+    console.log("INGREDIENTS");
+    console.log(ingredients[1]);
+    
     useEffect(() => {
         console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
         
@@ -92,7 +96,7 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
                             <IngredientContainer>
                                 <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <IngredientName>{item.name}</IngredientName>
-                                    <IngredientImage source={ defaultPotionImage }/>
+                                    <IngredientImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
 
                                     <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
                                 </IngredientItem>

@@ -52,6 +52,9 @@ function App(): React.JSX.Element {
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]);
+  const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]); 
+  const [parchmentState, setParchmentState] = useState<boolean>(false);
+  const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(false);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
 
   const onMessageReceived = () => {
@@ -170,6 +173,7 @@ function App(): React.JSX.Element {
       console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
 
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
+      setCleanseIngredients(newIngredients);
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
@@ -185,6 +189,7 @@ function App(): React.JSX.Element {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
+    // const email = 'oskar.calvo@aeg.eus';
     const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
@@ -324,11 +329,11 @@ function App(): React.JSX.Element {
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
-      //console.log(playerDataToPost);
+      playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
-
-
+      
+      setLocation(player.location);
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
@@ -378,6 +383,7 @@ function App(): React.JSX.Element {
       const avatar      = playersData[i].avatar;
       const role        = playersData[i].role;
       const id          = playersData[i]._id;
+      const location    = playersData[i].location;
 
       const player  = {
 
@@ -390,11 +396,10 @@ function App(): React.JSX.Element {
         id:             id,
         role:           role,
         _id:            id,
+        location:       location,
       };
 
-      newPlayers.push(player);    
-
-      
+      newPlayers.push(player);
   }
 
   setPlayers(newPlayers);
@@ -416,7 +421,12 @@ function App(): React.JSX.Element {
         setLocation: setLocation,
         ingredients,
         setIngredients,
-        newIngredients
+        newIngredients,
+        cleanse_ingredients: cleanseIngredients,
+        parchment: parchmentState,
+        setParchment: setParchmentState,
+        tower_ingredients: towerIngredientsState,
+        setTowerIngredients: setTowerIngredientsState
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

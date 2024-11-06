@@ -14,7 +14,7 @@ const MenuContainer = styled.View`
 const MortimerProvider = () => {
 
   const appContext = useContext(AppContext);
-  const location   = appContext?.location;
+  const mortimerLocation   = appContext?.location;
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
@@ -30,8 +30,8 @@ const MortimerProvider = () => {
       setIsMenuTowerLoaded
     }}>
       <MenuContainer>
-        {location === 'CONNECTION' ? <MenuInsideConnection/> 
-        : location === 'TOWER' ? <MenuMortimerTower/>
+        {mortimerLocation === 'CONNECTION' ? <MenuInsideConnection/> 
+        : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
         : <MenuMortimer/>}
       </MenuContainer>
     </MortimerContext.Provider>

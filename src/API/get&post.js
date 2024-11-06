@@ -7,7 +7,8 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
     console.log("PLAYERDATA FCM TOKEN");
     console.log(playerData.fcmToken);
-    
+    console.log("PLAYERDATA LOCATION");
+    console.log(playerData.location);
 
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
@@ -152,7 +153,7 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
     
     const newPlayerData = playerData;
 
-    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken'];
+    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location'];
 
     newAtributtes.forEach(attr => {
         if (attr in responseJSON.data) {
@@ -171,6 +172,8 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
         }
     });
 
+    console.log('location: ' + newPlayerData.location);
+    
     let newObj = {};
 
     newObj.data = {};

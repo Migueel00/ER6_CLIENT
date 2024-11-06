@@ -13,14 +13,16 @@ import Octicons from "react-native-vector-icons/Octicons";
 import HelpModal from './HelpModal';
 import RecipeModal from './RecipeModal';
 
-const backgroundImageURL = require('../../../assets/png/settingsBackground1.png');
+const backgroundImageURL = require('./../../../assets/backgrounds/potionCreationBG.png');
 const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
 const goBackImage = require('../../../assets/icons/back-arrow.png');
 const createPotionImage = require('../../../assets/icons/darkButton2.png');
 const gridImage = require('../../../assets/png/gridImage.jpeg');
 const { width, height } = Dimensions.get('window');
-const filterIconImage = require('../../../assets/icons/filterIcon.png');  // Añade la ruta de tu icono
-
+const filterIcon = require('./../../../assets/icons/magnifyingGlassIcon.png');  // Añade la ruta de tu icono
+const recipeBookIcon = require('./../../../assets/icons/bookIcon.png')
+const questionMarkIcon = require('./../../../assets/icons/questionMarkIcon.png')
+const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
 
@@ -30,7 +32,7 @@ const CONSTANTS = {
     WIDTH: width,
     SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
     HEIGHT: height,
-    BUTTON_SPACING: 0.02,
+    BUTTON_SPACING: 0.01,
     BUTTON_RIGHT: 0.05
 };
 
@@ -51,7 +53,9 @@ const PotionCreator = () => {
     const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
     const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
-    const [createText, setCreateText] = useState<string>("Create Potion");
+    const [createText, setCreateText] = useState<string>("Create Potion of Purification");
+    const parchmentState = context?.parchment;
+    const towerIngredientsState = context?.tower_ingredients;
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
@@ -65,6 +69,19 @@ const PotionCreator = () => {
             setPotionFactory(new Cauldron(ingredients, curses.data));
         }
     }, []);
+
+    useEffect(() => {
+        if (selectedIngredientArray.length === 2 &&
+            selectedIngredientArray.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
+            selectedIngredientArray.some(ingredient => ingredient.name === "Gloomshade Moss") && 
+            parchmentState && 
+            towerIngredientsState) {
+            setCreateText("Create Potion of Purification");
+        } else {
+            setCreateText("Create Potion");
+        }
+
+    }, selectedIngredientArray);
 
 
     const handlePressFilter = () => {
@@ -112,13 +129,13 @@ const PotionCreator = () => {
                 {/* Flalist de los ingredientes */}
                 <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress}/>
                 <FilterButton onPress={handlePressFilter}>
-                    <MaterialCommunityIcons name='filter-menu' size={35} color={'white'}></MaterialCommunityIcons>
+                    <IconImage source={filterIcon}></IconImage>
                 </FilterButton>
                 <HelpButton onPress={handlePressHelp}>
-                    <Octicons name='question' size={35} color={'white'}></Octicons>
+                    <IconImage source={questionMarkIcon}></IconImage>
                 </HelpButton>
                 <RecipeButton onPress={handlePressRecipe}>
-                    <MaterialCommunityIcons name='book-open-variant' size={35} color={'white'}></MaterialCommunityIcons>
+                    <IconImage source={recipeBookIcon}></IconImage>
                 </RecipeButton>
                 {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
                     <IngredientInfoContainer>
@@ -130,7 +147,7 @@ const PotionCreator = () => {
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
                             {item ? (
-                                <IngredientListImage key={index} source={defaultPotionImage} />
+                                <IngredientListImage key={index} source={{ uri: `${kaotikaApiUrl + item.image}` }}  />
                             ) : (
                                 <IngredientListImage key={index} source ={gridImage}/>
                             )}
@@ -138,26 +155,6 @@ const PotionCreator = () => {
                     ))}
                 </Grid>
                 {showCreatePotionButton && (  // Condición para mostrar el botón
-                    <CreatePotionButton
-                        onPress={() => {
-                            if (potionFactory && typeof potionFactory.createPotion === 'function') {
-
-                            const potion = potionFactory.createPotion(selectedIngredientArray);
-                            setCreatedPotion(potion);
-                            console.log("Potion created successfully");
-                            console.log(potion);
-                        
-                            if (potion) { // Si la poción se ha creado correctamente
-                                console.log("Potion created successfully");
-                                console.log(potion);
-                                setCreatedPotion(potion);
-                                toggleModal(); // Mostrar el modal
-                            }
-                            
-                        } else {
-                            console.log("PotionFactory or createPotion method is not available");
-                        }
-                    }}>
                         <CreatePotionButton
                         onPress={() => {
                             if (potionFactory && typeof potionFactory.createPotion === 'function' && selectedIngredientArray.length >= 2) {
@@ -177,9 +174,12 @@ const PotionCreator = () => {
                         }}> 
 
                             <CreatePotionIcon source={createPotionImage} />
-                            <PotionCreationText>{createText}</PotionCreationText>
+                            {createText === "Create Potion of Purification" ? (
+                                <PurificationCreationText>{createText}</PurificationCreationText>
+                            ) : (
+                                <PotionCreationText>{createText}</PotionCreationText>
+                            )}
                         </CreatePotionButton>
-                    </CreatePotionButton>
                 )}
 
                 {showBackButton && (
@@ -243,21 +243,35 @@ const Container = styled.View`
     padding-bottom: 50px;
 `
 const CreatePotionButton = styled.TouchableOpacity`
-    border-radius: 10px;
+border-radius: 10px;
     align-items: center;
-    position: relative;
-    padding: 10px;
+    justify-content: center;
+    position: relative; 
     bottom: ${height * 0.035}px;
+    background-color: transparent;
+    width: ${width * 0.62}px;
+    height: ${height * 0.10}px;
+    margin-left: auto; 
+    margin-right: auto; 
 `;
 
 
 const PotionCreationText = styled.Text`
     position: absolute;
-    top: ${height * 0.04}px;
-    font-size: ${width * 0.10}px;
+    top: ${height * 0.03}px;
+    font-size: ${width * 0.1}px;
     font-family: 'KochAltschrift';
     text-align: center;
 `;
+
+const PurificationCreationText = styled.Text`
+    position: absolute;
+    top: ${height * 0.03}px;
+    font-size: ${width * 0.068}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
+`;
+
 
 const IngredientBackButton = styled.TouchableOpacity`
     background-color: transparent;
@@ -330,6 +344,9 @@ const IngredientEffects = styled.Text`
     margin-top: ${height * 0.005}px;
 `;
 
+const HelpIcon = styled.Image`
+`
+
 
 
 const styles = StyleSheet.create({
@@ -356,12 +373,10 @@ const FilterButton = styled.TouchableOpacity`
     right: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
 `;
 
 const HelpButton = styled.TouchableOpacity`
@@ -370,12 +385,10 @@ const HelpButton = styled.TouchableOpacity`
     left: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
 `;
 
 const RecipeButton = styled.TouchableOpacity`
@@ -384,14 +397,18 @@ const RecipeButton = styled.TouchableOpacity`
     left: ${CONSTANTS.WIDTH * 0.43}px;
     align-items: center;
     justify-content: center;
-    width: ${CONSTANTS.WIDTH * 0.14}px;
-    height: ${CONSTANTS.WIDTH * 0.14}px; 
-    background-color: rgba(0, 0, 0, 0.8); 
-    border-radius: ${CONSTANTS.WIDTH * 0.04}px; 
-    border-width: 2px;
-    border-color:  #C19A6B;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px; 
+
+
 `;
 
+const IconImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: transparent;
+`;
 
 
 export default PotionCreator;

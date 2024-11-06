@@ -9,6 +9,7 @@ import AcolyteContext from "../../../helpers/AcolyteContext";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import * as CONSTANTS from "../../../src/constants";
+import AppContext from "../../../helpers/context";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,10 +21,19 @@ const Icon = styled.Image`
 
 const MenuLab = () => {
     const acolyteContext = useContext(AcolyteContext);
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
     const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
 
     useEffect(() => {
-        setIsMenuLabLoaded(true)
+        setIsMenuLabLoaded(true);
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
 
         // Se ejecuta al desmontar el componente
         return () => {

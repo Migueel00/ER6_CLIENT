@@ -25,16 +25,18 @@ interface updateTowerEvent {
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
-const location = appContext?.location;
 const [player, setPlayer] = useState(appContext?.player);
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
+const acolyteLocation = appContext?.location;
+
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
 const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
 const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
+const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
 useEffect(() => {
   // Escuchar el evento
@@ -62,6 +64,11 @@ useEffect(() => {
         const updatedPlayer = { ...player, isInsideTower };
         setPlayer(updatedPlayer);
         Vibration.vibrate(100);
+
+        if (!hasEmitted) { // Verifica si ya se hizo emit
+          socket.emit("CloseDoor", "Close the door");
+          setHasEmitted(true); // Marca el emit como hecho
+      }
       }
     }
   });
@@ -70,7 +77,18 @@ useEffect(() => {
   return () => {
     socket?.off('updateTower');
   };
-}, [player, setPlayer, socket]);
+}, [player, setPlayer, socket, hasEmitted]);
+
+
+useEffect(() => {
+  // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
+  const resetEmit = setTimeout(() => {
+      setHasEmitted(false);
+  }, 5000);
+
+  // Limpiar el timeout si el componente se desmonta o se actualiza
+  return () => clearTimeout(resetEmit);
+}, [hasEmitted]);
 
   useEffect(() => {
     // console.log("ESTADO DE isInsideLab " + isInsideLab);
@@ -98,8 +116,8 @@ useEffect(() => {
       <MenuContainer>
         {isInsideLab ? <MenuLabInside />
         : isInsideTower ? <MenuTowerInside /> 
-        : location === 'LAB' ? <MenuLab />
-        : location === 'TOWER' ? <MenuTower/>
+        : acolyteLocation === 'LAB' ? <MenuLab />
+        : acolyteLocation === 'TOWER' ? <MenuTower/>
         : <MenuHome />}    
                     
       </MenuContainer>

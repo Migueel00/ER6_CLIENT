@@ -13,8 +13,13 @@ export interface ContextInterface {
     location: string,
     setLocation: any,
     ingredients: Ingredient[] | null,
-    setIngredients: any,
     newIngredients: Ingredient[] | undefined,
+    setIngredients: (state: Ingredient[]) => void,
+    cleanse_ingredients: Ingredient[] | null,
+    parchment: boolean,
+    setParchment: (state: boolean) => void,
+    tower_ingredients: boolean,
+    setTowerIngredients: (state: boolean) => void,
 }
 
 export interface Player {
@@ -26,7 +31,8 @@ export interface Player {
   isInsideTower: boolean,
   avatar:       string,
   id:           string,
-  role:         string
+  role:         string,
+  location:     string
 }
 
 export interface Ingredient {
