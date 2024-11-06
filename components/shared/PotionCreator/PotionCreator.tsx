@@ -54,6 +54,7 @@ const PotionCreator = () => {
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
     const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
     const [createText, setCreateText] = useState<string>("Create Potion of Purification");
+    const [showNotFoundText, setShowNotFoundText] = useState<boolean>(false);
     const parchmentState = context?.parchment;
     const towerIngredientsState = context?.tower_ingredients;
 
@@ -127,7 +128,7 @@ const PotionCreator = () => {
             <StatusBar />
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 {/* Flalist de los ingredientes */}
-                <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress}/>
+                <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText}/>
                 <FilterButton onPress={handlePressFilter}>
                     <IconImage source={filterIcon}></IconImage>
                 </FilterButton>
@@ -143,6 +144,7 @@ const PotionCreator = () => {
                         <IngredientEffects numberOfLines={3}>{selectedIngredient.effects}</IngredientEffects>
                     </IngredientInfoContainer>
                 )}
+
                 <Grid>
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
@@ -213,6 +215,7 @@ const PotionCreator = () => {
                         setFilterBooleans={setFilterBooleans}
                         ingredientsCopy={ingredientsCopy}
                         setIngredientsCopy={setIngredientCopy}
+                        setShowNotFoundText={setShowNotFoundText}
                     />
                 </Modal>
                 <HelpModal 
