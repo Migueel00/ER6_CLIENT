@@ -103,6 +103,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isGreaterSelected, setIsGreaterSelected] = useState<boolean>(false);
     const [isCalmSelected, setIsCalmSelected] = useState<boolean>(false);
     const [isFrenzySelected, setIsFrenzySelected] = useState<boolean>(false);
+    const [isCleanseSelected, setIsCleanseSelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
 
     const filtersBoolean : boolean[] = [
@@ -118,7 +119,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         isCalmSelected,
         isFrenzySelected,
         isDefaultSelected,
-
+        isCleanseSelected,
 
     ];
     
@@ -135,6 +136,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         setIsCalmSelected,
         setIsFrenzySelected,
         setIsDefaultSelected,
+        setIsCleanseSelected
     ];
 
     const CONSTANTS = {
