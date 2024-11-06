@@ -152,6 +152,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_CALM: 9,
         IS_FRENZY: 10,
         IS_DEFAULT: 11,
+        IS_CLEANSE: 12,
     }
 
     useEffect(() => {
@@ -227,6 +228,11 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                 case CONSTANTS.IS_DEFAULT:
                     filterBoolean ? rarityFilterString.push('default') : filterBoolean;
                     break;
+
+                case CONSTANTS.IS_CLEANSE:
+                    filterBoolean ? rarityFilterString.push('cleanse') : filterBoolean;
+                    break;
+
                 default:
 
                     break;
@@ -351,7 +357,13 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             func: () => setIsFrenzySelected(prevState => !prevState),
             name: 'FRENZY',
             selected: isFrenzySelected
+        },
+        {
+            func: () => setIsCleanseSelected(prevState => !prevState),
+            name: 'CLEANSE',
+            selected: isCleanseSelected
         }   
+
     ];
 
     return (
