@@ -51,7 +51,8 @@ function App(): React.JSX.Element {
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
-  const [ingredients, setIngredients] = useState<Ingredient[] | any>([]); 
+  const [ingredients, setIngredients] = useState<Ingredient[] | any>([]);
+  const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
 
   const onMessageReceived = () => {
     messaging().onMessage(async remoteMessage => {
@@ -165,7 +166,7 @@ function App(): React.JSX.Element {
     try {
       const ingredients = await getIngredientsAndFilter(playerRole);
       const newIngredients = await getParchmentIngredients();
-
+      setNewIngredients(newIngredients);
       console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
 
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
@@ -413,7 +414,9 @@ function App(): React.JSX.Element {
         socket: socket,
         location: location,
         setLocation: setLocation,
-        ingredients
+        ingredients,
+        setIngredients,
+        newIngredients
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

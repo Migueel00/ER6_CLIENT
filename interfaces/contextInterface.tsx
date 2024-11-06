@@ -12,7 +12,9 @@ export interface ContextInterface {
     socket: any,
     location: string,
     setLocation: any,
-    ingredients: Ingredient[] | null
+    ingredients: Ingredient[] | null,
+    setIngredients: any,
+    newIngredients: Ingredient[] | undefined,
 }
 
 export interface Player {
@@ -26,6 +28,7 @@ export interface Player {
   id:           string,
   role:         string
 }
+
 export interface Ingredient {
   _id: string,
   name: string,

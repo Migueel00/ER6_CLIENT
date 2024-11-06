@@ -1,73 +1,85 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
+import styled from 'styled-components/native';
 import AppContext from '../../helpers/context';
 
 const insideTowerImage = require('../../assets/png/insideTower.png');
-const parchmentImage = require('');
-const towerIngredientsImage = require('');
+const parchmentImage = require('../../assets/png/scroll.png');
+const towerIngredientsImage = require('../../assets/png/bag.png');
+const { width, height } = Dimensions.get('window');
 
+const TouchableImage = styled.Image`
+    width: ${width * 0.40}px;
+    height: ${width * 0.75}px;
+    margin-right: ${width * 0.05}px
+`;  
+
+const BackgroundImage = styled.ImageBackground`
+    width: ${width}px;
+    height: ${height}px;
+`;
+
+const ImageContainer = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+`;
 
 const InsideTower = () => {
-    const { height, width } = Dimensions.get('window');
-    const context = useContext(AppContext);
+    const appContext = useContext(AppContext);
+    const [showParchmentImage, setShowParchmentImage] = useState<boolean>(true);
+    const [showIngredientsImage, setShowIngredientsImage] = useState<boolean>(true);
+    const ingredients = appContext?.ingredients;
+    const newIngredients = appContext?.newIngredients;
+    const setIngredients = appContext?.setIngredients;
 
-    // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const [modalVisible, setModalVisible] = useState(false);
-    const [towerBackgroundImage, setTowerBackgroundImage] = useState(insideTowerImage);
+    const handleBag = () => {
+        setShowIngredientsImage(false);
+        console.log("Ingredientes nuevos sin añadir : " + ingredients?.length);
 
+        newIngredients?.map(newIngredient => {
+            ingredients?.push(newIngredient);
+        });
+
+        console.log("Ingredientes nuevos añadidos " + ingredients?.length);
+    }
+
+    const handleScroll = () => {
+        setShowParchmentImage(false);
+    }
     
-    const toggleModal = () => {
-        setModalVisible(!modalVisible);
-    };
-
     return (
-        <ImageBackground
-        source={towerBackgroundImage}
-        style={[styles.background, { width: width, height: height }]}
+        <BackgroundImage
+        source={insideTowerImage}
         >
         <View style={styles.container}>
             <Text style={styles.kaotikaFont}>Inside the tower</Text>
+            <ImageContainer>
+                { showParchmentImage ?    
+                    <TouchableOpacity onPress={handleScroll}>
+                        <TouchableImage source={parchmentImage}/>
+                    </TouchableOpacity> 
+                : null}
+                { showIngredientsImage ? 
+                    <TouchableOpacity onPress={handleBag}>
+                        <TouchableImage source={towerIngredientsImage}/>
+                    </TouchableOpacity> 
+                : null}
+            </ImageContainer>
         </View>
-        </ImageBackground>
+        </BackgroundImage>
     );
 };
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     container: {
         flex: 1,
-        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        paddingTop: 20
     },
-    permissionButton: {
-        padding: 10,
-        borderRadius: 5,
-    },
-    buttonImageBackground: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 315,
-        height: 80,
-    },
-    kaotikaButton: {
-        backgroundColor: 'transparent',
-        fontFamily: 'KochAltschrift',
-        fontSize: 30
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    },
+
     kaotikaFont: {
         paddingTop: 20,
         fontFamily: 'KochAltschrift',
