@@ -33,7 +33,7 @@ const FilterOptionTouchable = styled.TouchableOpacity<{ selected: boolean }>`
 `;
 
 const FilterOptionText = styled.Text`
-    font-size: ${width * 0.05}px;
+    font-size: ${width * 0.04}px;
     font-family: 'KochAltschrift';
     color: black;
     text-align: center;

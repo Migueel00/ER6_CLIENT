@@ -44,7 +44,9 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
       socket.emit("qrScanned", qrValue);
       searchAndChangeIsInsideLabState(parsedQrValue);
       Vibration.vibrate(100);
-      setIsScanned(false);
+      setTimeout(() => {
+        setIsScanned(false);
+      }, 2000);
     }
   };
 
