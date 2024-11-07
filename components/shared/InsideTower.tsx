@@ -41,13 +41,24 @@ const InsideTower = () => {
 
     const handleBag = () => {
         setShowIngredientsImage(false);
-        console.log("Ingredientes nuevos sin añadir : " + ingredients?.length);
+        console.log("Ingredientes nuevos sin añadir : ");
+        console.log(ingredients![0]);
         
-        const updatedIngredients = [...(ingredients || []), ...(newIngredients || [])];
+        // Crear el array con los ingredientes, sin incluir el último elemento vacío
+        const ingredientsWithoutLast = ingredients?.slice(0, -1) || [];
+        
+        // Añadir los nuevos ingredientes en la penúltima posición
+        const updatedIngredients = [...ingredientsWithoutLast, ...(newIngredients || []), { key: 'right-spacer' }];
         
         console.log("Ingredientes nuevos añadidos " + updatedIngredients.length);
+        
         setTowerIngredientState(false);
-        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients, { key: 'right-spacer' }]);        
+        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients]);    
+        
+        console.log("INGREDIENTS UPDATED");
+        console.log(ingredients);
+        
+        
     }
 
     const handleScroll = () => {
