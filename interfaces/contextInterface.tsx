@@ -14,12 +14,12 @@ export interface ContextInterface {
     setLocation: any,
     ingredients: Ingredient[] | null,
     newIngredients: Ingredient[] | undefined,
-    setIngredients: (state: Ingredient[]) => void,
+    setIngredients: any,
     cleanse_ingredients: Ingredient[] | null,
     parchment: boolean,
     setParchment: (state: boolean) => void,
     tower_ingredients: boolean,
-    setTowerIngredients: (state: boolean) => void,
+    setTowerIngredientsState: (state: boolean) => void,
 }
 
 export interface Player {

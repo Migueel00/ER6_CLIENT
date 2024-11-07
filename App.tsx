@@ -53,8 +53,8 @@ function App(): React.JSX.Element {
   const [location, setLocation] = useState<string>("");
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]);
   const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]); 
-  const [parchmentState, setParchmentState] = useState<boolean>(false);
-  const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(false);
+  const [parchmentState, setParchmentState] = useState<boolean>(true);
+  const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(true);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
 
   const onMessageReceived = () => {
@@ -426,7 +426,7 @@ function App(): React.JSX.Element {
         parchment: parchmentState,
         setParchment: setParchmentState,
         tower_ingredients: towerIngredientsState,
-        setTowerIngredients: setTowerIngredientsState
+        setTowerIngredientsState
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>

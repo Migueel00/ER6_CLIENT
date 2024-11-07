@@ -9,9 +9,9 @@ const towerIngredientsImage = require('../../assets/png/bag.png');
 const { width, height } = Dimensions.get('window');
 
 const TouchableImage = styled.Image`
-    width: ${width * 0.40}px;
-    height: ${width * 0.75}px;
-    margin-right: ${width * 0.05}px
+    width: ${width * 0.30}px;
+    height: ${width * 0.65}px;
+    margin-top: ${width * 0.2}px;
 `;  
 
 const BackgroundImage = styled.ImageBackground`
@@ -21,7 +21,7 @@ const BackgroundImage = styled.ImageBackground`
 
 const ImageContainer = styled.View`
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-top: 20px;
 `;
@@ -32,21 +32,27 @@ const InsideTower = () => {
     const [showIngredientsImage, setShowIngredientsImage] = useState<boolean>(true);
     const ingredients = appContext?.ingredients;
     const newIngredients = appContext?.newIngredients;
-    const setIngredients = appContext?.setIngredients;
+    const setIngredients = appContext?.setIngredients!;
+    const towerIngredientState = appContext?.tower_ingredients;
+    const parchmentState = appContext?.parchment;
+    const setParchmentState = appContext?.setParchment!;
+    const setTowerIngredientState = appContext?.setTowerIngredientsState!;
+
 
     const handleBag = () => {
         setShowIngredientsImage(false);
         console.log("Ingredientes nuevos sin añadir : " + ingredients?.length);
-
-        newIngredients?.map(newIngredient => {
-            ingredients?.push(newIngredient);
-        });
-
-        console.log("Ingredientes nuevos añadidos " + ingredients?.length);
+        
+        const updatedIngredients = [...(ingredients || []), ...(newIngredients || [])];
+        
+        console.log("Ingredientes nuevos añadidos " + updatedIngredients.length);
+        setTowerIngredientState(false);
+        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients, { key: 'right-spacer' }]);        
     }
 
     const handleScroll = () => {
         setShowParchmentImage(false);
+        setParchmentState(false);
     }
     
     return (
@@ -56,12 +62,13 @@ const InsideTower = () => {
         <View style={styles.container}>
             <Text style={styles.kaotikaFont}>Inside the tower</Text>
             <ImageContainer>
-                { showParchmentImage ?    
+                { parchmentState &&
+                    showParchmentImage ?    
                     <TouchableOpacity onPress={handleScroll}>
                         <TouchableImage source={parchmentImage}/>
                     </TouchableOpacity> 
                 : null}
-                { showIngredientsImage ? 
+                { towerIngredientState && showIngredientsImage ? 
                     <TouchableOpacity onPress={handleBag}>
                         <TouchableImage source={towerIngredientsImage}/>
                     </TouchableOpacity> 
