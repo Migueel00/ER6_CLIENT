@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, ToastAndroid } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../../helpers/context';
 
@@ -12,6 +12,8 @@ const TouchableImage = styled.Image`
     width: ${width * 0.30}px;
     height: ${width * 0.65}px;
     margin-top: ${width * 0.2}px;
+    margin-right: ${width * 0.10}px;
+    margin-left: ${width * 0.10}px;
 `;  
 
 const BackgroundImage = styled.ImageBackground`
@@ -25,6 +27,29 @@ const ImageContainer = styled.View`
     align-items: center;
     margin-top: 20px;
 `;
+
+const TextContainer = styled.View`  
+    width: ${width * 0.80}px;
+    height: ${width * 0.55}px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: ${width * 0.08}px;
+    margin-top: ${width * 0.05}px;
+    padding: ${width * 0.06}px;
+`;
+
+const TextHelper = styled.Text`
+    font-size: ${width * 0.10}px;
+    font-family: 'KochAltschrift';
+    color: white;
+    text-align: center;
+`
+const TextTitle = styled.Text`
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
+    color: white;
+    text-align: left;
+`
+
 
 const InsideTower = () => {
     const appContext = useContext(AppContext);
@@ -69,12 +94,13 @@ const InsideTower = () => {
         console.log("INGREDIENTS UPDATED");
         console.log(ingredients);
         
-        
+        ToastAndroid.show("New ingredients obtained!!", ToastAndroid.SHORT);
     }
 
     const handleScroll = () => {
         setShowParchmentImage(false);
         setParchmentState(false);
+        ToastAndroid.show("Scroll obtained!!", ToastAndroid.SHORT);
     }
     
     return (
@@ -96,6 +122,15 @@ const InsideTower = () => {
                     </TouchableOpacity> 
                 : null}
             </ImageContainer>
+            { parchmentState || towerIngredientState ?          
+                <TextContainer>
+                    <TextTitle>Info: </TextTitle>    
+                    <TextHelper>Press The items to get its</TextHelper>
+                </TextContainer> : 
+                <TextContainer>
+                    <TextHelper>Items already obtained</TextHelper>
+                </TextContainer>
+            }
         </View>
         </BackgroundImage>
     );
