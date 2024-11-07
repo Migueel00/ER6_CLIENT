@@ -601,6 +601,6 @@ export default class Cauldron {
     }
     
     private createPurificationPotion(){
-        return new PurificationPotion("Purification Potion", 0);
+        return new PurificationPotion("Potion of Purification", 0);
     }
 }
