@@ -33,6 +33,7 @@ const InsideTower = () => {
     const ingredients = appContext?.ingredients;
     const newIngredients = appContext?.newIngredients;
     const setIngredients = appContext?.setIngredients!;
+    const unmodifiedIngredients = appContext?.ingredientsUnmodified;
     const towerIngredientState = appContext?.tower_ingredients;
     const parchmentState = appContext?.parchment;
     const setParchmentState = appContext?.setParchment!;
@@ -42,7 +43,7 @@ const InsideTower = () => {
     const handleBag = () => {
         setShowIngredientsImage(false);
         console.log("Ingredientes nuevos sin añadir : ");
-        console.log(ingredients![0]);
+        console.log(newIngredients![1]);
         
         // Crear el array con los ingredientes, sin incluir el último elemento vacío
         const ingredientsWithoutLast = ingredients?.slice(0, -1) || [];
@@ -50,10 +51,20 @@ const InsideTower = () => {
         // Añadir los nuevos ingredientes en la penúltima posición
         const updatedIngredients = [...ingredientsWithoutLast, ...(newIngredients || [])];
         
+        console.log("NEW INGREDIENTS TO ADD");
+        
+        for(let i = 0; i < newIngredients?.length!; i++) {
+            unmodifiedIngredients!.push(newIngredients![i])
+        }
+
+        console.log("UNMODIFIED INGREDIENTS AFTER PUSH");
+        console.log(unmodifiedIngredients);
+        
+
         console.log("Ingredientes nuevos añadidos " + updatedIngredients.length);
         
         setTowerIngredientState(false);
-        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients], { key: 'right-spacer' });    
+        setIngredients([{ key: 'left-spacer' }, ...(unmodifiedIngredients || []), { key: 'right-spacer' }]);    
         
         console.log("INGREDIENTS UPDATED");
         console.log(ingredients);

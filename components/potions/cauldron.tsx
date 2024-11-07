@@ -48,8 +48,18 @@ export default class Cauldron {
         if (ingredients.length === 2 &&
             ingredients.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
             ingredients.some(ingredient => ingredient.name === "Gloomshade Moss")) {
-            this.createPurificationPotion();
+            console.log("HA ENTRADO A CREAR POCION DE PURIFICACION");
+                
+            return this.createPurificationPotion();
         }
+
+        console.log(ingredients);
+        
+        console.log(ingredients.length);
+        console.log(ingredients[0].name);
+        console.log(ingredients[1].name);
+        
+        
         
         // Si no hay efectos comunes
         if (!commonEffects) {

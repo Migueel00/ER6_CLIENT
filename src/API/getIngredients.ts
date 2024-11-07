@@ -61,12 +61,13 @@ export const getParchmentIngredients = async() => {
 
         const jsonData = await response.json();
 
-        const ingredients : Ingredient [] = jsonData.data["Zachariah's herbal"].ingredients.map(({ _id, name, description, value, effects, type }: Ingredient) => ({
+        const ingredients : Ingredient [] = jsonData.data["Zachariah's herbal"].ingredients.map(({ _id, name, description, value,  effects, image, type }: Ingredient) => ({
             id: _id,
             name,
             description,
             value,
             effects,
+            image,
             type,
         }));
 

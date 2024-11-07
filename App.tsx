@@ -56,6 +56,7 @@ function App(): React.JSX.Element {
   const [parchmentState, setParchmentState] = useState<boolean>(true);
   const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(true);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
+  const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
 
   const onMessageReceived = () => {
     messaging().onMessage(async remoteMessage => {
@@ -171,7 +172,7 @@ function App(): React.JSX.Element {
       const newIngredients = await getParchmentIngredients();
       setNewIngredients(newIngredients);
       console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
-
+      setIngredientsUnmodified(ingredients);
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
       setCleanseIngredients(newIngredients);
     } catch (error) {
@@ -422,6 +423,8 @@ function App(): React.JSX.Element {
         ingredients,
         setIngredients,
         newIngredients,
+        ingredientsUnmodified,
+        setIngredientsUnmodified,
         cleanse_ingredients: cleanseIngredients,
         parchment: parchmentState,
         setParchment: setParchmentState,

@@ -15,6 +15,8 @@ export interface ContextInterface {
     ingredients: Ingredient[] | null,
     newIngredients: Ingredient[] | undefined,
     setIngredients: any,
+    ingredientsUnmodified:  Ingredient[] | null,
+    setIngredientsUnmodified: any
     cleanse_ingredients: Ingredient[] | null,
     parchment: boolean,
     setParchment: (state: boolean) => void,

@@ -75,14 +75,19 @@ const PotionCreator = () => {
         if (selectedIngredientArray.length === 2 &&
             selectedIngredientArray.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
             selectedIngredientArray.some(ingredient => ingredient.name === "Gloomshade Moss") && 
-            parchmentState && 
-            towerIngredientsState) {
+            !parchmentState && 
+            !towerIngredientsState) {
             setCreateText("Create Potion of Purification");
         } else {
             setCreateText("Create Potion");
         }
 
-    }, selectedIngredientArray);
+        console.log("PARCHMENT:" + parchmentState);
+        console.log("TOWER INGREDIENTS: " + towerIngredientsState);
+        console.log("SELECTED INGREDIENTS ARRAY");
+        console.log(selectedIngredientArray);
+    
+    }, [selectedIngredientArray]);
 
 
     const handlePressFilter = () => {

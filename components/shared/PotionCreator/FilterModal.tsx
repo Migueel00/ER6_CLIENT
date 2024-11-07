@@ -304,6 +304,9 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         }
         else {
             console.log("NO INGREDIENTS AND NO FILTERS");
+            console.log("INGREDIENTS BASE");
+            console.log(ingredients);
+            
             
             setShowNotFoundText(false);
             setIngredientsCopy(ingredients);
