@@ -48,12 +48,12 @@ const InsideTower = () => {
         const ingredientsWithoutLast = ingredients?.slice(0, -1) || [];
         
         // Añadir los nuevos ingredientes en la penúltima posición
-        const updatedIngredients = [...ingredientsWithoutLast, ...(newIngredients || []), { key: 'right-spacer' }];
+        const updatedIngredients = [...ingredientsWithoutLast, ...(newIngredients || [])];
         
         console.log("Ingredientes nuevos añadidos " + updatedIngredients.length);
         
         setTowerIngredientState(false);
-        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients]);    
+        setIngredients([{ key: 'left-spacer' }, ...updatedIngredients], { key: 'right-spacer' });    
         
         console.log("INGREDIENTS UPDATED");
         console.log(ingredients);
