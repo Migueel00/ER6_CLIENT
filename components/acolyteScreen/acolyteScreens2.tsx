@@ -66,7 +66,7 @@ useEffect(() => {
         Vibration.vibrate(100);
 
         if (!hasEmitted) { // Verifica si ya se hizo emit
-          socket.emit("CloseDoor", "Close the door");
+          socket.emit("AnatiCloseDoor", "Close the door");
           setHasEmitted(true); // Marca el emit como hecho
       }
       }
