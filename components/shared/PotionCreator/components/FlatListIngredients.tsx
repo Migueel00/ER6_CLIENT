@@ -1,7 +1,7 @@
 import { Dimensions, TouchableWithoutFeedback } from "react-native";
 import styled from "styled-components/native";
 import { Animated } from "react-native";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Ingredient from "../../../potions/ingredient";
 
 const { width, height } = Dimensions.get('window');
@@ -9,6 +9,8 @@ const { width, height } = Dimensions.get('window');
 interface FlatListIngredients {
     ingredients: Ingredient[];
     handleLongPress: (item : Ingredient) => void;
+    showNotFoundText: boolean;
+    
 }
 
 const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
@@ -41,7 +43,7 @@ const formatEffects = (effects: string[]): string => {
 
 
 
-const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, handleLongPress}) => {
+const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, handleLongPress, showNotFoundText}) => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const flatListRef = useRef<Animated.FlatList>(null); 
 
@@ -61,6 +63,12 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
 
     return(
         <FlatListView>
+             {showNotFoundText ? (
+               <NotFoundTextContainer>
+               <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
+               <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
+           </NotFoundTextContainer>
+            ) : (
             <Animated.FlatList
                 initialNumToRender={ingredients.length}
                 maxToRenderPerBatch={ingredients.length}
@@ -107,6 +115,7 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
                 
             />
             
+        )}
         </FlatListView>
     );
 }
@@ -159,6 +168,27 @@ const IngredientItem = styled.View`
     border-color: #C19A6B;
     border-radius: ${width * 0.02}px;
     height: ${height * 0.385}px;
+`;
+
+const NotFoundTextContainer = styled.View`
+    margin-top: ${height * 0.02}px;
+    align-items: center;
+    top: 25%;
+`;
+
+const NotFoundTextOutline = styled.Text`
+    font-size: ${width * 0.15}px;
+    font-family: 'KochAltschrift';
+    color: #000; 
+    position: absolute; 
+    text-align: center;
+`;
+
+const NotFoundText = styled.Text`
+    font-size: ${width * 0.150}px;
+    font-family: 'KochAltschrift';
+    color: #FFF; /* Black color for main text */
+    text-align: center;
 `;
 
 export default FlatListIngredients;

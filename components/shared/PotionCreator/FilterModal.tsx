@@ -15,6 +15,7 @@ interface FilterModalProps {
     setFilterBooleans: any;
     ingredientsCopy: Ingredient[];
     setIngredientsCopy: any;
+    setShowNotFoundText: (loaded: boolean) => void;
 }
 
 interface filters {
@@ -90,7 +91,7 @@ const ColumnContainer2 = styled.View`
 
 
 
-const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy}) => {
+const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy, setShowNotFoundText}) => {
     const [isHpSelected, setIsHpSelected] = useState<boolean>(false);
     const [isLeastSelected, setIsLeastSelected] = useState<boolean>(false);
     const [isIntSelected, setIsIntSelected] = useState<boolean>(false);
@@ -103,6 +104,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isGreaterSelected, setIsGreaterSelected] = useState<boolean>(false);
     const [isCalmSelected, setIsCalmSelected] = useState<boolean>(false);
     const [isFrenzySelected, setIsFrenzySelected] = useState<boolean>(false);
+    const [isCleanseSelected, setIsCleanseSelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
 
     const filtersBoolean : boolean[] = [
@@ -118,7 +120,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         isCalmSelected,
         isFrenzySelected,
         isDefaultSelected,
-
+        isCleanseSelected,
 
     ];
     
@@ -135,6 +137,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         setIsCalmSelected,
         setIsFrenzySelected,
         setIsDefaultSelected,
+        setIsCleanseSelected
     ];
 
     const CONSTANTS = {
@@ -150,6 +153,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         IS_CALM: 9,
         IS_FRENZY: 10,
         IS_DEFAULT: 11,
+        IS_CLEANSE: 12,
     }
 
     useEffect(() => {
@@ -225,6 +229,11 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                 case CONSTANTS.IS_DEFAULT:
                     filterBoolean ? rarityFilterString.push('default') : filterBoolean;
                     break;
+
+                case CONSTANTS.IS_CLEANSE:
+                    filterBoolean ? attributeFilterString.push('cleanse') : filterBoolean;
+                    break;
+
                 default:
 
                     break;
@@ -277,13 +286,29 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             return matchesAttribute || matchesRarity;
         });
 
+        console.log("FILTERED INGREDIENTS");
+        console.log(filteredIngredients);
+        
+        
+
         // Si hay filtros aplicados, se actualiza la lista de ingredientes filtrados
-        if (filteredIngredients.length > 0) {
+        if (filteredIngredients.length > 0 && (rarityFilterString.length > 0 || attributeFilterString.length > 0)) {
+            console.log("FILTERS APPLIED AND RESULTS");
+            
+            setShowNotFoundText(false);
             setIngredientsCopy([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
-        } else {
+        } else if (filteredIngredients.length === 0 && rarityFilterString.length > 0 || attributeFilterString.length > 0){
             // Si no hay filtros aplicados o no hay resultados, se muestra la lista completa
+            console.log("FILTERS APPLIED BUT NO RESULTS");
+            setShowNotFoundText(true);
+        }
+        else {
+            console.log("NO INGREDIENTS AND NO FILTERS");
+            
+            setShowNotFoundText(false);
             setIngredientsCopy(ingredients);
         }
+        
         closeModal();  
     }
 
@@ -349,7 +374,13 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             func: () => setIsFrenzySelected(prevState => !prevState),
             name: 'FRENZY',
             selected: isFrenzySelected
+        },
+        {
+            func: () => setIsCleanseSelected(prevState => !prevState),
+            name: 'CLEANSE',
+            selected: isCleanseSelected
         }   
+
     ];
 
     return (
