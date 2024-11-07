@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Modal, Text} from "react-native";
 import styled from "styled-components/native";
 import Potion from "../../../potions/potion";
@@ -17,7 +17,33 @@ const parchmentText = "This scroll contains the story of the legendary epic armo
 "The armor was lost in the 2nd Era, but manuals detailing how it was forged still remain. Each of the pieces required for its construction rests within a tomb in the Obituary. The problem is that the entrance remains sealed by the rosette of the four arcane artifacts necessary to unlock it." + 
 "The artifacts were lost throughout the swamp, but little more is known. The only available material is an old manuscript with a map of the area; however, apart from some strange symbols, it lacks any relevant details. No one has been able to understand their meaning, but they might indicate the whereabouts of each artifact.";
 
+const typingSpeed = 20; // Speed of typing effect in milliseconds
+
+
+
 const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) => {
+
+    const [animatedText, setAnimatedText] = useState(""); // To store the progressively revealed text
+
+    useEffect(() => {
+        if (visible && createdPotion?.name !== "Potion of Purification") {
+            setAnimatedText(""); // Reset text when modal opens
+            let currentIndex = 0;
+
+            const intervalId = setInterval(() => {
+                if (currentIndex < parchmentText.length) {
+                    setAnimatedText((prev) => prev + parchmentText[currentIndex]);
+                    currentIndex++;
+                } else {
+                    clearInterval(intervalId); // Stop the interval when done
+                }
+            }, typingSpeed);
+
+            return () => clearInterval(intervalId); // Cleanup on unmount or modal close
+        } else {
+            setAnimatedText(""); // Reset if modal is closed
+        }
+    }, [visible, createdPotion]);
 
     return (
         <Modal 
@@ -27,7 +53,7 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
             onRequestClose = {onClose}>
             <ModalContainer>
                 {/* Imagen de fondo */}
-                {createdPotion?.name === "Potion of Purification" ? (
+                {createdPotion?.name !== "Potion of Purification" ? (
                     <PotionImageBackground source={backgroundImage}>
                         <PotionCreatedMessage>
                             Potion Created
@@ -49,10 +75,11 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
                             Parchment Cleansed
                         </ParchmentCleansedMessage>
 
-
-                        <ParchmentMessage>
-                            {parchmentText}
-                        </ParchmentMessage>
+                        <StyledScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <ParchmentMessage>
+                                {animatedText}
+                            </ParchmentMessage>
+                        </StyledScrollView>
 
                         <CloseButton2 onPress={onClose}>
                             <CloseButtonText2>ADD TO INVENTORY</CloseButtonText2>
@@ -129,12 +156,11 @@ const PotionMessage = styled.Text`
 `;
 
 const ParchmentMessage = styled.Text`
-    position: relative;
-    top: ${width * 0.03}px; /* Alinea el texto en la parte superior de la imagen */
     color: #ffffff;
-    font-size: ${width * 0.07}px;
+    font-size: ${width * 0.08}px;
     font-family: 'KochAltschrift';
     text-align: center;
+    width: 100%;
 `;
 
 const CloseButton = styled.TouchableOpacity`
@@ -164,6 +190,15 @@ const CloseButtonText2 = styled.Text`
     color: #ffffff;
     font-size: ${width * 0.05}px;
     font-family: 'KochAltschrift';
+`;
+
+const StyledScrollView = styled.ScrollView`
+    width: 90%;
+    flex: 1;
+    padding: 0 ${width * 0.05}px; /* Add padding on the sides */
+    position: relative;
+    max-height: ${height * 0.63}px; /* Set a maximum height to limit the scrollable area */
+    bottom: ${height * 0.02}px;
 `;
 
 export default PotionModal;
