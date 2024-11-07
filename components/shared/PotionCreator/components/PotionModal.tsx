@@ -10,8 +10,9 @@ interface PotionModal {
 }
 
 const { width, height } = Dimensions.get('window');
-const backgroundImage = require('../../../../assets/png/darkModal.png');
-const createdPotionImage = require('../../../../assets/png/createdPotion.png');
+const backgroundImage = require('./../../../../assets/png/darkModal.png');
+const createdPotionImage = require('./../../../../assets/png/createdPotion.png');
+const cleansedParchmentImage = require('./../../../../assets/png/cleanParchment.png');
 
 const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) => {
 
@@ -23,22 +24,39 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
             onRequestClose = {onClose}>
             <ModalContainer>
                 {/* Imagen de fondo */}
-                <PotionImageBackground source={backgroundImage}>
-                    <PotionCreatedMessage>
-                        Potion Created
-                    </PotionCreatedMessage>
+                {createdPotion?.name !== "Potion of Purification" ? (
+                    <PotionImageBackground source={backgroundImage}>
+                        <PotionCreatedMessage>
+                            Potion Created
+                        </PotionCreatedMessage>
 
-                    {/* Imagen centrada sobre la imagen principa */}
-                    <CenteredPotionImage source={createdPotionImage}/>
+                        <CenteredPotionImage source={createdPotionImage} />
 
-                    <PotionMessage>
-                        {createdPotion?.name}
-                    </PotionMessage>
+                        <PotionMessage>
+                            {createdPotion?.name}
+                        </PotionMessage>
 
-                    <CloseButton onPress={onClose}>
-                        <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
-                    </CloseButton>
-                </PotionImageBackground>
+                        <CloseButton onPress={onClose}>
+                            <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
+                        </CloseButton>
+                    </PotionImageBackground>
+                ) : (
+                    <PotionImageBackground source={backgroundImage}>
+                        <PotionCreatedMessage>
+                            Parchment Cleansed
+                        </PotionCreatedMessage>
+
+                        <CenteredPotionImage source={cleansedParchmentImage} />
+
+                        <PotionMessage>
+                            {createdPotion?.name}
+                        </PotionMessage>
+
+                        <CloseButton onPress={onClose}>
+                            <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
+                        </CloseButton>
+                    </PotionImageBackground>
+                )}
             </ModalContainer>
 
         </Modal>
