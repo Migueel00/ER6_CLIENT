@@ -9,6 +9,7 @@ import ConnectionScreen from '../connectionsScreen';
 import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerContext';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -23,10 +24,19 @@ const MenuInsideConnection = () => {
     const Tab = createMaterialTopTabNavigator();
 
     const mortimerContext = useContext(MortimerContext);
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
     const setIsMenuConnectionLoaded = mortimerContext?.setIsMenuConnectionLoaded!;
 
     useEffect(() => {
         setIsMenuConnectionLoaded(true);
+
+        const value = {
+            playerID: appContext?.player,
+            location: appContext?.location
+        }
+
+        socket.emit("UpdateLocation", value);
 
         return() => {
             setIsMenuConnectionLoaded(false);

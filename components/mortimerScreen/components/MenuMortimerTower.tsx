@@ -11,6 +11,7 @@ import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerContext';
 import TowerScreen from '../../shared/TowerScreen';
 import MortimerTowerScreen from '../MortimerTowerScreen';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -25,10 +26,19 @@ const MenuMortimerTower = () => {
     const Tab = createMaterialTopTabNavigator();
 
     const mortimerContext = useContext(MortimerContext);
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
     const setIsMenuTowerLoaded = mortimerContext?.setIsMenuTowerLoaded!;
 
     useEffect(() => {
         setIsMenuTowerLoaded(true);
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        }
+
+        socket.emit("UpdateLocation", value);
 
         return() => {
             setIsMenuTowerLoaded(false);
