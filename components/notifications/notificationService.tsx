@@ -1,7 +1,7 @@
 // src/NotificationService.js
 
 import messaging from '@react-native-firebase/messaging';
-import { Alert } from 'react-native';
+import { Alert, ToastAndroid} from 'react-native';
 
 // Solicita permisos para recibir notificaciones (en iOS)
 export const requestUserPermission = async () => {
@@ -19,7 +19,8 @@ export const requestUserPermission = async () => {
 export const onMessageReceivedService = () => {
   messaging().onMessage(async remoteMessage => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
-    Alert.alert(remoteMessage?.notification?.title!, remoteMessage?.notification?.body);
+    // Alert.alert(remoteMessage?.notification?.title!, remoteMessage?.notification?.body);
+    ToastAndroid.showWithGravity(remoteMessage.notification?.body!, ToastAndroid.SHORT, ToastAndroid.CENTER);
   });
 };
 
