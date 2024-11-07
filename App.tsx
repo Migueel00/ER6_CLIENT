@@ -58,13 +58,6 @@ function App(): React.JSX.Element {
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
 
-  const onMessageReceived = () => {
-    messaging().onMessage(async remoteMessage => {
-      console.log('Notificación recibida en primer plano:', remoteMessage);
-      Alert.alert(remoteMessage?.notification?.title!, remoteMessage?.notification?.body);
-    });
-  };
-
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
     if (email !== null) {
@@ -156,7 +149,7 @@ function App(): React.JSX.Element {
     
   useEffect(() => {
     requestUserPermission();
-    onMessageReceived();
+    onMessageReceivedService();
     onNotificationOpenedApp();
   }, []);
 
