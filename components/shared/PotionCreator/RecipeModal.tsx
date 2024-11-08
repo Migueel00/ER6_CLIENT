@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, ScrollView, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import AppContext from '../../../helpers/context';
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,6 +12,10 @@ interface RecipeModalProps {
 }
 
 const RecipeModal: React.FC<RecipeModalProps> = ({ visible, onClose, curses }) => {
+
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+    const role = player?.role;
 
     const formatEffectText = (effect: string): string => {
         return effect
@@ -43,8 +48,11 @@ const RecipeModal: React.FC<RecipeModalProps> = ({ visible, onClose, curses }) =
                                     <CurseDescription>{curse.description}</CurseDescription>
                                     
                                     <SectionTitle>Needed Effects</SectionTitle>
-                                    {curse.antidote_effects.map((effect: string, idx: number) => (
-                                          <EffectText key={idx}>{idx + 1 + "- "}{formatEffectText(effect)}</EffectText>
+                                    {/* Renderizar antidote_effects o poison_effects según el rol */}
+                                    {(role === "ACOLYTE" ? curse.antidote_effects : curse.poison_effects).map((effect: string, idx: number) => (
+                                        <EffectText key={idx}>
+                                            {idx + 1 + "- "}{formatEffectText(effect)}
+                                        </EffectText>
                                     ))}
 
                                 </CurseCard>
