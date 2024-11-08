@@ -285,10 +285,6 @@ function App(): React.JSX.Element {
       {
         await verifyUser();
       }
-      
-      if (FCMToken) {
-        await sendNotificationToUser(FCMToken);
-      }
 
       await AsyncStorage.setItem('isVerified', 'true');
 
