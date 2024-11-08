@@ -26,7 +26,7 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
     const [animatedText, setAnimatedText] = useState(""); // To store the progressively revealed text
 
     useEffect(() => {
-        if (visible && createdPotion?.name !== "Potion of Purification") {
+        if (visible && createdPotion?.name === "Potion of Purification") {
             setAnimatedText(""); // Reset text when modal opens
             let currentIndex = 0;
 
