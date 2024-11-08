@@ -30,7 +30,7 @@ const MortimerProvider = () => {
       setIsMenuTowerLoaded
     }}>
       <MenuContainer>
-        {mortimerLocation === 'CONNECTION' ? <MenuInsideConnection/> 
+        {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
         : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
         : <MenuMortimer/>}
       </MenuContainer>

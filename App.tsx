@@ -322,7 +322,7 @@ function App(): React.JSX.Element {
       playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
-      
+      player.role = 'MORTIMER';
       setLocation(player.location);
       setPlayer(player);
       await fetchIngredients(player.role);

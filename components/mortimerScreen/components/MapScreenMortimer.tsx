@@ -73,7 +73,7 @@ const MapScreenMortimer = () => {
     
         if (isMenuConnectionLoaded) {
             setTimeout(() => {
-                navigation.navigate('Connections');
+                navigation.navigate('LAB');
             }, 200);
         } else if (isMenuTowerLoaded) {
             setTimeout(() => {
@@ -84,10 +84,10 @@ const MapScreenMortimer = () => {
     
     
     const handleLabIconPress = () => {
-        setLocation('CONNECTION');
+        setLocation('LAB');
         
         if(isMenuConnectionLoaded){
-            navigation.navigate('Connections');
+            navigation.navigate('LAB');
         }
     }
 
