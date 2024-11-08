@@ -10,6 +10,8 @@ import VillainContext from "../../../helpers/VillainContext";
 const mapImage = require('../../../assets/backgrounds/map_background.png');
 const labIcon = require('../../../assets/icons/lab-icon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
+const towerIcon = require('../../../assets/icons/towerIcon.png');
+
 
 
 const { width, height } = Dimensions.get('window');
@@ -44,12 +46,21 @@ const TouchableIcon = styled.TouchableOpacity`
     position: absolute;
 `
 
+const TowerIcon = styled.Image`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: 50px;
+    z-index: 2; 
+`;
+
+
 const MapScreenVillain = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
     const villainContext = useContext(VillainContext);
     const isMenuLoaded = villainContext?.isMenuLoaded
     const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
+    const isMenuTowerLoaded = villainContext?.isMenuTowerLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -64,6 +75,16 @@ const MapScreenVillain = () => {
             }, 200);
         }
     }, [isMenuLabLoaded]);
+
+    useEffect(() => {
+
+        if(isMenuTowerLoaded){
+            setTimeout(() => {
+                navigation.navigate('TOWER');
+
+            }, 200);
+        }
+    }, [isMenuTowerLoaded]);
     
     const handleLabIconPress = () => {
         setLocation('INSIDE_LAB');
@@ -77,6 +98,13 @@ const MapScreenVillain = () => {
         console.log(isMenuLoaded);
         if(isMenuLoaded){
             navigation.navigate('Home');
+        }
+    }   
+
+    const handleTowerIconPress = () => {
+        setLocation('TOWER');
+        if(isMenuTowerLoaded){
+            navigation.navigate('TOWER');
         }
     }   
 
@@ -94,6 +122,12 @@ const MapScreenVillain = () => {
                 style={{ top: height * 0.53, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleTowerIconPress}
+                style={{ top: height * 0.28, right: width * 0.13 }}
+            >
+                <TowerIcon source={towerIcon} />
             </TouchableIcon>
         </Container>
     );

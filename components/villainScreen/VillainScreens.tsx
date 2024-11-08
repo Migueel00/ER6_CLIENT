@@ -4,6 +4,7 @@ import AppContext from '../../helpers/context';
 import VillainContext from '../../helpers/VillainContext';
 import MenuVillain from './components/MenuVillain';
 import MenuVillainInsideLab from './components/MenuVillainInsideLab';
+import MenuVillainTower from './components/MenuVillainTower';
 
 
 const MenuContainer = styled.View`
@@ -18,14 +19,17 @@ const VillainProvider = () => {
 
     const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
     const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
-
+    const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
     
 
     return (
         <VillainContext.Provider
-            value={{isMenuLoaded, setIsMenuLoaded, isMenuLabLoaded, setIsMenuLabLoaded}}>
+            value={{isMenuLoaded, setIsMenuLoaded, isMenuLabLoaded, setIsMenuLabLoaded, 
+                isMenuTowerLoaded, 
+                setIsMenuTowerLoaded
+            }}>
                 <MenuContainer>
-                    {location === 'INSIDE_LAB' ? <MenuVillainInsideLab/> : <MenuVillain/>  }
+                    {location === 'INSIDE_LAB' ? <MenuVillainInsideLab/> : location === 'TOWER' ? <MenuVillainTower/> : <MenuVillain/>  }
                 </MenuContainer>  
         </VillainContext.Provider>
     );

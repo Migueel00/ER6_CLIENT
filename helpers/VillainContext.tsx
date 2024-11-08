@@ -5,6 +5,8 @@ interface VillainContexType {
     setIsMenuLoaded: (loaded: boolean) => void;
     isMenuLabLoaded: boolean;
     setIsMenuLabLoaded: (loaded: boolean) => void;
+    isMenuTowerLoaded: boolean;
+    setIsMenuTowerLoaded: (loaded: boolean) => void;
 }
 
 const VillainContext = createContext<VillainContexType | null>(null);
