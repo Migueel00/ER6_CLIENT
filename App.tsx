@@ -150,7 +150,7 @@ function App(): React.JSX.Element {
   useEffect(() => {
     requestUserPermission();
     onMessageReceivedService();
-    onNotificationOpenedApp();
+    //onNotificationOpenedApp();
   }, []);
 
   // Simular obtener los datos del perfil
@@ -183,7 +183,7 @@ function App(): React.JSX.Element {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
-    // const email = 'oskar.calvo@aeg.eus';
+    //const email = 'oskar.calvo@aeg.eus';
     const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
@@ -322,8 +322,6 @@ function App(): React.JSX.Element {
       playerDataToPost.location = "HOME";
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
-      player.role = "VILLAIN";
-
       setLocation(player.location);
       setPlayer(player);
       await fetchIngredients(player.role);

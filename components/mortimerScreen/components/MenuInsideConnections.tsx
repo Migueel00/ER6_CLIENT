@@ -92,7 +92,7 @@ const MenuInsideConnection = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Connections"
+                    name="LAB"
                     component={ConnectionScreen}
                     options={{
                         tabBarIcon: ({ }) => (
