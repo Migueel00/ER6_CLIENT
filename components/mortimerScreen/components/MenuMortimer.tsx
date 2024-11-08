@@ -9,6 +9,7 @@ import SettingsScreen from '../../settings/settingsScreen';
 import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerContext';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -25,10 +26,21 @@ const MenuMortimer = () => {
     const mortimerContex = useContext(MortimerContext);
     const setIsMenuLoaded = mortimerContex?.setIsMenuLoaded!;
 
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
+
     useEffect(() => {
         setIsMenuLoaded(true);
 
-        return() => {
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
+
+        // Se ejecuta al desmontar el componente
+        return () => {
             setIsMenuLoaded(false);
         }
     }, []);

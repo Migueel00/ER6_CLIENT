@@ -9,6 +9,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import * as CONSTANTS from "../../../src/constants";
+import AppContext from "../../../helpers/context";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,15 +23,26 @@ const Icon = styled.Image`
 const MenuHome = () => {
     const acolyteContext = useContext(AcolyteContext);
     const setMenuIsLoaded = acolyteContext?.setIsMenuLoaded!;
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
 
     useEffect(() => {
         setMenuIsLoaded(true);
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
 
         // Se ejecuta al desmontar el componente
         return () => {
             setMenuIsLoaded(false);
         }
     }, []);
+
+
 
     return (
             <NavigationContainer>
