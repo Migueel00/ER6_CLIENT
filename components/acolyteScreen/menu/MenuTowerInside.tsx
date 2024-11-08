@@ -52,6 +52,18 @@ const MenuTowerInside = () => {
                 })}
             >
                 <Tab.Screen
+                    name="TOWER"
+                    component={TowerScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/towerIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
+                    }}
+                    />
+                <Tab.Screen
                         name="Profile"
                         component={ProfileScreen3}
                         options={{
@@ -75,18 +87,7 @@ const MenuTowerInside = () => {
                             tabBarLabel: '',
                         }}
                     />
-                <Tab.Screen
-                    name="TOWER"
-                    component={TowerScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/towerIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                    />
+
             </Tab.Navigator>
         </NavigationContainer>
     );

@@ -71,7 +71,6 @@ const MenuTower = () => {
                     },
                 })}
             >   
-
                 <Tab.Screen
                     name="MAP"
                     component={MapScreen}
@@ -85,18 +84,6 @@ const MenuTower = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="LAB"
-                    component={TowerScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/towerIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                    />
-                <Tab.Screen
                         name="Profile"
                         component={ProfileScreen3}
                         options={{
@@ -108,7 +95,7 @@ const MenuTower = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
+                <Tab.Screen
                         name="Settings"
                         component={SettingsScreen}
                         options={{
@@ -119,6 +106,19 @@ const MenuTower = () => {
                             ),
                             tabBarLabel: '',
                         }}
+                    />
+
+                <Tab.Screen
+                    name="LAB"
+                    component={TowerScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/towerIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: '',
+                    }}
                     />
             </Tab.Navigator>
         </NavigationContainer>
