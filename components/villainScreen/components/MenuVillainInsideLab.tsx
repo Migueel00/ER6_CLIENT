@@ -10,6 +10,7 @@ import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
 import PotionCreator from '../../shared/PotionCreator/PotionCreator';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -25,9 +26,19 @@ const MenuVillainInsideLab = () => {
 
     const villainContext = useContext(VillainContext);
     const setIsMenuLabLoaded = villainContext?.setIsMenuLabLoaded!;
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
 
     useEffect(() => {
         setIsMenuLabLoaded(true);
+
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
 
         return() => {
             setIsMenuLabLoaded(false);

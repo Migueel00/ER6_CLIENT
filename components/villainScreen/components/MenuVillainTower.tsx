@@ -10,6 +10,7 @@ import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
 import OutsideTower from '../../shared/OutsideTower';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -25,9 +26,18 @@ const MenuVillainTower = () => {
 
     const villainContext = useContext(VillainContext);
     const setIsMenuTowerLoaded = villainContext?.setIsMenuTowerLoaded!;
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
 
     useEffect(() => {
         setIsMenuTowerLoaded(true);
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
 
         return() => {
             setIsMenuTowerLoaded(false);

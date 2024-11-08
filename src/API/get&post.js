@@ -168,7 +168,14 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
                 newPlayerData[attr] = responseJSON.data[attr];
             }
         } else {
-            newPlayerData[attr] = false;
+            if(attr === 'location'){
+                newPlayerData[attr] = 'HOME';
+            }
+            else
+            {
+                newPlayerData[attr] = false;
+            }
+        
         }
     });
 

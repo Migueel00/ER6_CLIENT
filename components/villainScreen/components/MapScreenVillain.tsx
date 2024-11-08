@@ -61,12 +61,22 @@ const MapScreenVillain = () => {
     const isMenuLoaded = villainContext?.isMenuLoaded
     const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
     const isMenuTowerLoaded = villainContext?.isMenuTowerLoaded;
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
         console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
+
+
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
 
         if(isMenuLabLoaded){
             setTimeout(() => {

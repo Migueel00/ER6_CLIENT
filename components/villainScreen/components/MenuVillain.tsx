@@ -9,6 +9,7 @@ import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
+import AppContext from '../../../helpers/context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -24,11 +25,21 @@ const MenuVillain = () => {
 
     const villainContext = useContext(VillainContext);
     const setIsMenuLoaded = villainContext?.setIsMenuLoaded!;
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
 
     useEffect(() => {
         setIsMenuLoaded(true);
 
-        return() => {
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
+
+        // Se ejecuta al desmontar el componente
+        return () => {
             setIsMenuLoaded(false);
         }
     }, []);
