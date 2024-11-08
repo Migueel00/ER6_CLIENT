@@ -38,7 +38,7 @@ const TextContainer = styled.View`
 `;
 
 const TextHelper = styled.Text`
-    font-size: ${width * 0.10}px;
+    font-size: ${width * 0.14}px;
     font-family: 'KochAltschrift';
     color: white;
     text-align: center;
@@ -108,7 +108,7 @@ const InsideTower = () => {
         source={insideTowerImage}
         >
         <View style={styles.container}>
-            <Text style={styles.kaotikaFont}>Inside the tower</Text>
+            <Text style={styles.kaotikaFont}>You are Inside the tower</Text>
             <ImageContainer>
                 { parchmentState &&
                     showParchmentImage ?    
@@ -124,8 +124,7 @@ const InsideTower = () => {
             </ImageContainer>
             { parchmentState || towerIngredientState ?          
                 <TextContainer>
-                    <TextTitle>Info: </TextTitle>    
-                    <TextHelper>Press The items to get its</TextHelper>
+                    <TextHelper>Press the items to get them</TextHelper>
                 </TextContainer> : 
                 <TextContainer>
                     <TextHelper>Items already obtained</TextHelper>
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
     kaotikaFont: {
         paddingTop: 20,
         fontFamily: 'KochAltschrift',
-        fontSize: 40,
+        fontSize: width*0.10,
         color: 'white',
     },
 });
