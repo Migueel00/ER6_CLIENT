@@ -2,12 +2,9 @@ import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../shared/labScreen";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
-import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
@@ -24,10 +21,10 @@ const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
+    const setIsSwampLoaded = acolyteContext?.setIsSwampLoaded!;
 
     useEffect(() => {
-        setIsMenuLabLoaded(true);
+        setIsSwampLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -38,7 +35,7 @@ const MenuSwamp = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuLabLoaded(false);
+            setIsSwampLoaded(false);
         }
     }, []);
 
