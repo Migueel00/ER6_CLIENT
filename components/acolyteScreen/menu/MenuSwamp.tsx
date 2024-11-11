@@ -87,7 +87,7 @@ const MenuSwamp = () => {
                         options={{
                             tabBarIcon: () => (
                                 <Icon
-                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                    source={require('../../../assets/icons/swampIcon.png')}
                                 />
                             ),
                             tabBarLabel: '',

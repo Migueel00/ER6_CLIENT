@@ -3,31 +3,14 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimen
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
-const buttonImage = require('../../assets/png/button1.png');
-const swampImage = require('../../assets/png/LabEntrance.png');
+const swampImage = require('./../../assets/backgrounds/swampBackground.png');
 const { height, width } = Dimensions.get('window');
 
 const SwampScreen = () => {
 
     const context = useContext(AppContext);
-
-    // Inicializa el estado isInsideLab con el valor de player.isInsideLab
-    const isInsideLab = context?.player.isInsideLab;
-    const [modalVisible, setModalVisible] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
 
-    
-    const toggleModal = () => {
-        setModalVisible(!modalVisible);
-    };
-
-    const handleButtonPress = () => {
-        if (isInsideLab) {
-        setModalVisible(!modalVisible);
-        } else {
-        toggleModal();
-        }
-    };
 
     return (
         <SwampBackground source={swampBackgroundImage} width={width} height={height}>

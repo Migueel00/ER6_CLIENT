@@ -8,6 +8,7 @@ import MenuLabInside from './menu/MenuLabInside';
 import MenuTower from './menu/MenuTower';
 import { Vibration } from 'react-native';
 import MenuTowerInside from './menu/MenuTowerInside';
+import MenuSwamp from './menu/MenuSwamp';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -36,6 +37,8 @@ const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
 const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
 const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
+const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
+
 const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
 useEffect(() => {
@@ -108,6 +111,8 @@ useEffect(() => {
         setIsMenuInsideLabLoaded,
         isMenuTowerLoaded,
         setIsMenuTowerLoaded,
+        isMenuSwampLoaded,
+        setIsMenuSwampLoaded,
         isInsideLab,
         isInsideTower
       }}>
@@ -118,6 +123,7 @@ useEffect(() => {
         : isInsideTower ? <MenuTowerInside /> 
         : acolyteLocation === 'LAB' ? <MenuLab />
         : acolyteLocation === 'TOWER' ? <MenuTower/>
+        : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
         : <MenuHome />}    
                     
       </MenuContainer>

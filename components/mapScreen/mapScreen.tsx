@@ -9,7 +9,7 @@ const mapImage = require('../../assets/backgrounds/map_background.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../assets/icons/towerIcon.png');
-const swampIcon =  require('../../assets/icons/towerIcon.png');
+const swampIcon =  require('../../assets/icons/swampIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
