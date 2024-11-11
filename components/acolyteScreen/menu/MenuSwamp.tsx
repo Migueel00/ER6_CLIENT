@@ -42,6 +42,7 @@ const MenuSwamp = () => {
     return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({
+                    animationEnabled: false,
                     swipeEnabled: true,
                     tabBarStyle: {
                         backgroundColor: 'black',
