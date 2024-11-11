@@ -21,7 +21,7 @@ const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsSwampLoaded = acolyteContext?.setIsSwampLoaded!;
+    const setIsSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
         setIsSwampLoaded(true);

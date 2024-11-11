@@ -60,6 +60,8 @@ const MapScreen = () => {
     const acolyteContext = useContext(AcolyteContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
+    const isMenuTowerLoaded = acolyteContext?.isMenuTowerLoaded;
+    const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
@@ -90,14 +92,14 @@ const MapScreen = () => {
 
     const handleTowerIconPress = () => {
         setLocation('TOWER');
-        if(isMenuLoaded){
+        if(isMenuTowerLoaded){
             navigation.navigate('TOWER');
         }
     }   
 
     const handleSwampIconPress = () => {
         setLocation('SWAMP');
-        if(isMenuLoaded){
+        if(isMenuSwampLoaded){
             navigation.navigate('SWAMP');
         }
     }   
