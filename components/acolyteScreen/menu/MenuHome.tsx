@@ -45,7 +45,7 @@ const MenuHome = () => {
 
 
     return (
-            <NavigationContainer>
+
                 <Tab.Navigator
                     screenOptions={({ route }) => ({
                         swipeEnabled: true,
@@ -123,7 +123,6 @@ const MenuHome = () => {
                         }}
                     />
                 </Tab.Navigator>
-            </NavigationContainer>
     );
 }
 

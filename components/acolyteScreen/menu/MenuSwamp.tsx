@@ -40,7 +40,6 @@ const MenuSwamp = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     swipeEnabled: true,
@@ -93,7 +92,6 @@ const MenuSwamp = () => {
                     }}
                 />
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
 

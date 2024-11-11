@@ -9,6 +9,7 @@ import MenuTower from './menu/MenuTower';
 import { Vibration } from 'react-native';
 import MenuTowerInside from './menu/MenuTowerInside';
 import MenuSwamp from './menu/MenuSwamp';
+import { NavigationContainer } from '@react-navigation/native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -117,16 +118,17 @@ useEffect(() => {
         isInsideTower
       }}>
 
-
-      <MenuContainer>
-        {isInsideLab ? <MenuLabInside />
-        : isInsideTower ? <MenuTowerInside /> 
-        : acolyteLocation === 'LAB' ? <MenuLab />
-        : acolyteLocation === 'TOWER' ? <MenuTower/>
-        : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
-        : <MenuHome />}    
-                    
-      </MenuContainer>
+      <NavigationContainer>
+        <MenuContainer>
+          {isInsideLab ? <MenuLabInside />
+          : isInsideTower ? <MenuTowerInside /> 
+          : acolyteLocation === 'LAB' ? <MenuLab />
+          : acolyteLocation === 'TOWER' ? <MenuTower/>
+          : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
+          : <MenuHome />}    
+                      
+        </MenuContainer>
+      </NavigationContainer>
     </AcolyteContext.Provider>
   );
 };

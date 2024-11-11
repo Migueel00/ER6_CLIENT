@@ -43,7 +43,6 @@ const MenuTower = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     animationEnabled: false,
@@ -122,7 +121,6 @@ const MenuTower = () => {
                     }}
                     />
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
 

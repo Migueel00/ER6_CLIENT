@@ -42,7 +42,6 @@ const MenuLab = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     swipeEnabled: true,
@@ -120,7 +119,6 @@ const MenuLab = () => {
                         }}
                     />
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
 

@@ -23,7 +23,6 @@ const MenuTowerInside = () => {
     
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     swipeEnabled: true,
@@ -89,7 +88,7 @@ const MenuTowerInside = () => {
                     />
 
             </Tab.Navigator>
-        </NavigationContainer>
+
     );
 }
 
