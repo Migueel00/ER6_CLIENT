@@ -46,6 +46,7 @@ const MenuTower = () => {
         <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
+                    animationEnabled: false,
                     swipeEnabled: true,
                     tabBarStyle: {
                         backgroundColor: 'black',

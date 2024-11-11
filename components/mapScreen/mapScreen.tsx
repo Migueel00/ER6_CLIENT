@@ -9,6 +9,7 @@ const mapImage = require('../../assets/backgrounds/map_background.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../assets/icons/towerIcon.png');
+const swampIcon =  require('../../assets/icons/towerIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -94,6 +95,13 @@ const MapScreen = () => {
         }
     }   
 
+    const handleSwampIconPress = () => {
+        setLocation('SWAMP');
+        if(isMenuLoaded){
+            navigation.navigate('SWAMP');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -116,6 +124,13 @@ const MapScreen = () => {
                 style={{ top: height * 0.28, right: width * 0.13 }}
             >
                 <TowerIcon source={towerIcon} />
+            </TouchableIcon>
+
+            <TouchableIcon
+                onPress={handleSwampIconPress}
+                style={{ top: height * 0.39, right: width * 0.02 }}
+            >
+                <TowerIcon source={swampIcon} />
             </TouchableIcon>
         </Container>
     );
