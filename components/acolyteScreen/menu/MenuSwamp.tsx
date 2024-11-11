@@ -21,10 +21,10 @@ const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
+    const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
-        setIsSwampLoaded(true);
+        setIsMenuSwampLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -35,7 +35,7 @@ const MenuSwamp = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsSwampLoaded(false);
+            setIsMenuSwampLoaded(false);
         }
     }, []);
 
@@ -68,7 +68,6 @@ const MenuSwamp = () => {
                     },
                 })}
             >   
-
                 <Tab.Screen
                     name="MAP"
                     component={MapScreen}
@@ -81,18 +80,18 @@ const MenuSwamp = () => {
                         tabBarLabel: ''
                     }}
                 />
-                    <Tab.Screen
-                        name="Settings"
-                        component={SwampScreen}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/swampIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
+                <Tab.Screen
+                    name="SWAMP"
+                    component={SwampScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/swampIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: '',
+                    }}
+                />
             </Tab.Navigator>
         </NavigationContainer>
     );

@@ -24,10 +24,10 @@ const MenuTower = () => {
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
+    const setIsMenuTowerLoaded = acolyteContext?.setIsMenuTowerLoaded!;
 
     useEffect(() => {
-        setIsMenuLabLoaded(true);
+        setIsMenuTowerLoaded(true);
         
         const value = {
             playerID: appContext?.player._id,
@@ -38,7 +38,7 @@ const MenuTower = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuLabLoaded(false);
+            setIsMenuTowerLoaded(false);
         }
     }, []);
 

@@ -62,20 +62,48 @@ const MapScreen = () => {
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
     const isMenuTowerLoaded = acolyteContext?.isMenuTowerLoaded;
     const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
+
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
-    useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
+useEffect(() => {
+    console.log("States of loaded mennús: ", {
+        isMenuLoaded,
+        isMenuLabLoaded,
+        isMenuTowerLoaded,
+        isMenuSwampLoaded,
+    });
 
-        if(isMenuLabLoaded){
-            setTimeout(() => {
-                navigation.navigate('LAB');
-
-            }, 200);
+    const navigateToMenu = () => {
+        switch (true) {
+            case isMenuLabLoaded:
+                setTimeout(() => {
+                    navigation.navigate('LAB');
+                }, 200);
+                break;
+            case isMenuTowerLoaded:
+                setTimeout(() => {
+                    navigation.navigate('TOWER');
+                }, 200);
+                break;
+            case isMenuSwampLoaded:
+                setTimeout(() => {
+                    navigation.navigate('SWAMP');
+                }, 200);
+                break;
+            case isMenuLoaded:
+                setTimeout(() => {
+                    navigation.navigate('Home');
+                }, 200);
+                break;
+            default:
+                break;
         }
-    }, [isMenuLabLoaded]);
+    };
+
+    navigateToMenu();
     
+}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded]);
     const handleLabIconPress = () => {
         setLocation('LAB');
         if(isMenuLabLoaded){
@@ -98,8 +126,12 @@ const MapScreen = () => {
     }   
 
     const handleSwampIconPress = () => {
+        console.log("PRESSED SWAMP BUTTON IN MAP");
+        
         setLocation('SWAMP');
         if(isMenuSwampLoaded){
+            console.log("NAVIGATING TO SWAMP");
+            
             navigation.navigate('SWAMP');
         }
     }   
