@@ -109,7 +109,7 @@ const MenuTower = () => {
                     />
 
                 <Tab.Screen
-                    name="LAB"
+                    name="TOWER"
                     component={TowerScreen}
                     options={{
                         tabBarIcon: () => (
