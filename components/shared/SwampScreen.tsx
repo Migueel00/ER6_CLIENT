@@ -1,17 +1,27 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import MapView, {Marker} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
+console.log("INFO OF GEOLOCATION");
+Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
 const { height, width } = Dimensions.get('window');
 
+type LocationType = {
+    latitude: number;
+    longitude: number;
+};
+
 const SwampScreen = () => {
 
     const context = useContext(AppContext);
+    const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
+    const [userLocation, setUserLocation] = useState<LocationType | null>(null);
 
     const markers = [
         {
@@ -26,6 +36,45 @@ const SwampScreen = () => {
                         longitude: -2.002456,
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001}
+
+
+   
+    useEffect(() => {
+        const requestLocationPermission = async () => {
+            if (Platform.OS === 'android') {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    setLocationPermissionGranted(true);
+                } else {
+                    console.log("Permiso de localización denegado");
+                }
+            } else {
+                // En iOS o cualquier otro caso, asumimos que el permiso ya se solicitó
+                setLocationPermissionGranted(true);
+            }
+        };
+
+        requestLocationPermission();
+    }, []);
+
+    useEffect(() => {
+        if (locationPermissionGranted) {
+            const watchId = Geolocation.watchPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    console.log("Posición actual del usuario:", latitude, longitude);
+                    setUserLocation({ latitude, longitude });
+                },
+                (error) => console.log("Error de geolocalización:", error),
+                { enableHighAccuracy: true, timeout: 20000, distanceFilter: 0 }
+            );
+
+            // Limpia `watchPosition` cuando el componente se desmonte
+            return () => Geolocation.clearWatch(watchId);
+        }
+    }, [locationPermissionGranted]); // Solo ejecuta si el permiso fue concedido
 
     return (
 
@@ -42,6 +91,14 @@ const SwampScreen = () => {
                         description={marker.description}
                     />
                 ))}
+
+            {userLocation && (
+                    <Marker
+                        coordinate={userLocation}
+                        title="Mi ubicación"
+                        description="Estás aquí"
+                    />
+                )}
         </MapView>
     </SwampBackground>
 
