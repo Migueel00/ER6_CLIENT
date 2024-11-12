@@ -32,6 +32,14 @@ const SwampScreen = () => {
         }
     ];
 
+
+    // Function to handle location updates
+    const handleLocationUpdate = (position: any) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log("Posición actual del usuario:", latitude, longitude);
+        setUserLocation({ latitude, longitude });
+    };
     
 
     const regionAEG = { latitude: 43.309682,
@@ -60,31 +68,53 @@ const SwampScreen = () => {
 
         requestLocationPermission();
     }, []);
+    useEffect(() => {
+        if (locationPermissionGranted) {
+          console.log("PERMISOS OTORGADOS");
+    
+          // Obtener la ubicación actual del usuario
+          Geolocation.getCurrentPosition(
+            (position) => {
+              // Acceder a la ubicación cuando la promesa se resuelva
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+              console.log("Posición actual del usuario:", latitude, longitude);
+              setUserLocation({ latitude, longitude });
+            },
+            (error) => {
+              // Manejo de errores si no se puede obtener la ubicación
+              console.log("Error al obtener la ubicación:", error);
+            }
+          );
+        }
+      }, [locationPermissionGranted]); // Dependencia: se ejecuta cuando 'locationPermissionGranted' cambia
 
     useEffect(() => {
-        console.log("ENTRA AL USEFFECT PARA OBTENER LA POSICION");
-        
         if (locationPermissionGranted) {
             console.log("PERMISSIONS GRANTED");
             
-            Geolocation.getCurrentPosition((position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    console.log("Posición actual del usuario:", latitude, longitude);
-                    const location = {latitude, longitude}
-                    setUserLocation(location)
-                    console.log("USER LOCATION");
-                    console.log(userLocation);
-                    
-                    
+            // Start watching the user position
+            const watchId = Geolocation.watchPosition(
+                (position) => {
+                    console.log("Actualización de ubicación:", position);  // Verifica que recibas datos del watcher
+                    handleLocationUpdate(position);
                 },
-                (error) => console.log("Error de geolocalización:", error),
-                { enableHighAccuracy: true, timeout: 20000, distanceFilter: 0 }
+                (error) => console.log("Error de geolocalización 2:", error),
+                { enableHighAccuracy: true, distanceFilter: 0, interval: 3000 } // Update every 3 seconds
             );
 
-        }
-    }, [locationPermissionGranted]); // Solo ejecuta si el permiso fue concedido
+            // Log to confirm watching started
+            console.log("Started watching location");
+            console.log(watchId);
+            
 
+            // Cleanup the watcher when the component is unmounted or permission is revoked
+            return () => {
+                Geolocation.clearWatch(watchId);
+                console.log("Stopped watching location");
+            };
+        }
+    }, [locationPermissionGranted]);
     return (
 
         <SwampBackground source={swampBackgroundImage}>
