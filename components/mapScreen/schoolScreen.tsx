@@ -74,7 +74,7 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded]);
+}, [isMenuLoaded, isMenuHallOfSagesLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -85,7 +85,7 @@ useEffect(() => {
 
     const handleHallIconPress = () => {
         setLocation('HALL_OF_SAGES');
-        if(isMenuLoaded){
+        if(isMenuHallOfSagesLoaded){
             navigation.navigate('HALL_OF_SAGES');
         }
     }   
