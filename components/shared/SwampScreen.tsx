@@ -2,21 +2,23 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Callout, Marker} from 'react-native-maps';
+import MapView, {Callout, Marker, Circle} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
+import * as geolib from 'geolib';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
-Marker
 const artifact1Image = require('./../../assets/png/Artifcats/Marker1.png');
 const artifact2Image = require('./../../assets/png/Artifcats/Marker2.png');
 const artifact3Image = require('./../../assets/png/Artifcats/Marker3.png');
 const artifact4Image = require('./../../assets/png/Artifcats/Marker4.png');
 
 const { height, width } = Dimensions.get('window');
+
+//43.3246148, -1.9351902
 
 type LocationType = {
     latitude: number;
@@ -106,6 +108,14 @@ const SwampScreen = () => {
           // Obtener la ubicación actual del usuario
           Geolocation.getCurrentPosition(
             (position) => {
+                console.log(
+                    'You are ',
+                    geolib.getDistance(position.coords, {
+                        latitude: markers[0].coordinate.latitude,
+                        longitude: markers[0].coordinate.longitude,
+                    }),
+                    'meters away from 51.525, 7.4575'
+                );
               // Acceder a la ubicación cuando la promesa se resuelva
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
@@ -161,7 +171,12 @@ const SwampScreen = () => {
                         description={marker.description}
                         image={marker.image}
                     >
-
+                        <Circle
+                            center={marker.coordinate}
+                            radius={1}  // Radio de 1 metro
+                            strokeColor="rgba(255, 0, 0, 1)"  // Color del borde
+                            fillColor="rgba(255, 0, 0, 1)"  // Color de relleno
+                    />
                     </Marker>
                     
                 ))}
