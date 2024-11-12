@@ -9,6 +9,12 @@ console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
+
+const artifact1Image = require('./../../assets/png/Artifcats/Artifact1.png');
+const artifact2Image = require('./../../assets/png/Artifcats/Artifact2.png');
+const artifact3Image = require('./../../assets/png/Artifcats/Artifact3.png');
+const artifact4Image = require('./../../assets/png/Artifcats/Artifact4.png');
+
 const { height, width } = Dimensions.get('window');
 
 type LocationType = {
