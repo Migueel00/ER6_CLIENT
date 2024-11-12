@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
@@ -13,11 +13,19 @@ const SwampScreen = () => {
     const context = useContext(AppContext);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
 
+    const markers = [
+        {
+            id: 1,
+            title: 'Swamp Marker',
+            description: 'A marker in the swamp area',
+            coordinate: { latitude: 43.309682, longitude: -2.002456 }
+        }
+    ];
+
     const regionAEG = { latitude: 43.309682,
                         longitude: -2.002456,
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001}
-
 
     return (
 
@@ -25,7 +33,16 @@ const SwampScreen = () => {
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
             initialRegion={regionAEG}
-        />
+        >
+            {markers.map(marker => (
+                    <Marker
+                        key={marker.id}
+                        coordinate={marker.coordinate}
+                        title={marker.title}
+                        description={marker.description}
+                    />
+                ))}
+        </MapView>
     </SwampBackground>
 
     );
