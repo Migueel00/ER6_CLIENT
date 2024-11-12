@@ -26,6 +26,8 @@ type LocationType = {
 const SwampScreen = () => {  
 
     const context = useContext(AppContext);
+    const player = context?.player;
+    const avatar = player?.avatar;
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
@@ -169,7 +171,11 @@ const SwampScreen = () => {
                         coordinate={userLocation}  
                         title="Mi ubicación"
                         description="Estás aquí"
-                    />
+                    >
+                        <AvatarContainer>
+                            <AvatarImage source={{ uri: avatar }} />
+                        </AvatarContainer>
+                    </Marker>
                 )}
         </MapView>
     </SwampBackground>
@@ -183,13 +189,18 @@ const SwampBackground = styled.ImageBackground`
     width: ${width}px;
     height: ${height}px;
 `;
-const Container = styled.View`
-    flex: 1;
-    justify-content: space-between;
+
+const AvatarContainer = styled.View`
     align-items: center;
-    width: 100%;
-    height: 100%;
-    padding-top: 20px;
+    justify-content: center;
+    border-radius: 25px;
+    overflow: hidden;
+`;
+
+const AvatarImage = styled.Image`
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
 `;
 
 const PermissionButton = styled(TouchableOpacity)`
