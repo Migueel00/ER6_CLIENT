@@ -11,6 +11,8 @@ interface AcolyteContextType {
     setIsMenuTowerLoaded: (loaded: boolean) => void;
     isMenuSwampLoaded: boolean;
     setIsMenuSwampLoaded:  (loaded: boolean) => void;
+    isMenuOldSchoolLoaded: boolean;
+    setIsMenuOldSchoolLoaded:  (loaded: boolean) => void;
     isInsideLab: boolean | null;
     isInsideTower: boolean | null;
 }
