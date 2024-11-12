@@ -17,6 +17,7 @@ interface AcolyteContextType {
     setIsMenuHallOfSagesLoaded:  (loaded: boolean) => void;
     isInsideLab: boolean | null;
     isInsideTower: boolean | null;
+    isInsideHall: boolean | null;
 }
 
 const AcolyteContext = createContext<AcolyteContextType | null>(null);

@@ -11,6 +11,7 @@ import MenuTowerInside from './menu/MenuTowerInside';
 import MenuSwamp from './menu/MenuSwamp';
 import { NavigationContainer } from '@react-navigation/native';
 import MenuOldSchool from './menu/MenuOldSchool';
+import MenuHallInside from './menu/MenuHallInside';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -33,7 +34,7 @@ const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-
+const isInsideHall = true;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
@@ -41,6 +42,7 @@ const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(fals
 const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
 const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
 const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
+const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
 
 const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
@@ -118,8 +120,11 @@ useEffect(() => {
         setIsMenuSwampLoaded,
         isMenuOldSchoolLoaded,
         setIsMenuOldSchoolLoaded,
+        isMenuHallOfSagesLoaded,
+        setIsMenuHallOfSagesLoaded,
         isInsideLab,
-        isInsideTower
+        isInsideTower,
+        isInsideHall
       }}>
 
       <NavigationContainer>
@@ -130,6 +135,7 @@ useEffect(() => {
           : acolyteLocation === 'TOWER' ? <MenuTower/>
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
           : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
+          : isInsideHall ? <MenuHallInside/>
           : <MenuHome />}    
                       
         </MenuContainer>
