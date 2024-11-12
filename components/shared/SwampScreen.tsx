@@ -26,9 +26,27 @@ const SwampScreen = () => {
     const markers = [
         {
             id: 1,
-            title: 'Swamp Marker',
-            description: 'A marker in the swamp area',
-            coordinate: { latitude: 43.309682, longitude: -2.002456 }
+            title: 'Artifact 1',
+            description: 'First Artifact',
+            coordinate: { latitude: 43.310625, longitude: -2.003209 }
+        },
+        {
+            id: 2,
+            title: 'Artifact 2',
+            description: 'Second Artifact',
+            coordinate: { latitude: 43.310673, longitude: -2.002441 }
+        },
+        {
+            id: 3,
+            title: 'Artifact 3',
+            description: 'Third Artifact',
+            coordinate: { latitude: 43.309534, longitude: -2.002030}
+        },
+        {
+            id: 4,
+            title: 'Artifact 4',
+            description: 'Fourth Artifact',
+            coordinate: { latitude:  43.309801, longitude: -2.003381}
         }
     ];
 
@@ -62,7 +80,7 @@ const SwampScreen = () => {
                 }
             } else {
                 // En iOS o cualquier otro caso, asumimos que el permiso ya se solicitó
-                setLocationPermissionGranted(true);
+                setLocationPermissionGranted(true); 
             }
         };
 
