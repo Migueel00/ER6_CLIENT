@@ -13,18 +13,18 @@ const SwampScreen = () => {
     const context = useContext(AppContext);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
 
+    const regionAEG = { latitude: 43.309682,
+                        longitude: -2.002456,
+                        latitudeDelta: 0.001,
+                        longitudeDelta: 0.001}
+
 
     return (
 
         <SwampBackground source={swampBackgroundImage}>
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
-            initialRegion={{
-                latitude: 43.309682,
-                longitude: -2.002456,
-                latitudeDelta: 0.001,
-                longitudeDelta: 0.001,
-            }}
+            initialRegion={regionAEG}
         />
     </SwampBackground>
 
