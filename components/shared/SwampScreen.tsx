@@ -16,7 +16,7 @@ type LocationType = {
     longitude: number;
 };
 
-const SwampScreen = () => {
+const SwampScreen = () => {  
 
     const context = useContext(AppContext);
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
@@ -31,6 +31,8 @@ const SwampScreen = () => {
             coordinate: { latitude: 43.309682, longitude: -2.002456 }
         }
     ];
+
+    
 
     const regionAEG = { latitude: 43.309682,
                         longitude: -2.002456,
@@ -60,19 +62,26 @@ const SwampScreen = () => {
     }, []);
 
     useEffect(() => {
+        console.log("ENTRA AL USEFFECT PARA OBTENER LA POSICION");
+        
         if (locationPermissionGranted) {
-            const watchId = Geolocation.watchPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
+            console.log("PERMISSIONS GRANTED");
+            
+            Geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
                     console.log("Posición actual del usuario:", latitude, longitude);
-                    setUserLocation({ latitude, longitude });
+                    const location = {latitude, longitude}
+                    setUserLocation(location)
+                    console.log("USER LOCATION");
+                    console.log(userLocation);
+                    
+                    
                 },
                 (error) => console.log("Error de geolocalización:", error),
                 { enableHighAccuracy: true, timeout: 20000, distanceFilter: 0 }
             );
 
-            // Limpia `watchPosition` cuando el componente se desmonte
-            return () => Geolocation.clearWatch(watchId);
         }
     }, [locationPermissionGranted]); // Solo ejecuta si el permiso fue concedido
 
@@ -81,7 +90,7 @@ const SwampScreen = () => {
         <SwampBackground source={swampBackgroundImage}>
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
-            initialRegion={regionAEG}
+            initialRegion={regionAEG} 
         >
             {markers.map(marker => (
                     <Marker
@@ -94,7 +103,7 @@ const SwampScreen = () => {
 
             {userLocation && (
                     <Marker
-                        coordinate={userLocation}
+                        coordinate={userLocation}  
                         title="Mi ubicación"
                         description="Estás aquí"
                     />
