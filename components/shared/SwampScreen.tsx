@@ -34,25 +34,29 @@ const SwampScreen = () => {
             id: 1,
             title: 'Artifact 1',
             description: 'First Artifact',
-            coordinate: { latitude: 43.310625, longitude: -2.003209 }
+            coordinate: { latitude: 43.310625, longitude: -2.003209 },
+            image: artifact1Image
         },
         {
             id: 2,
             title: 'Artifact 2',
             description: 'Second Artifact',
-            coordinate: { latitude: 43.310673, longitude: -2.002441 }
+            coordinate: { latitude: 43.310673, longitude: -2.002441 },
+            image: artifact2Image,
         },
         {
             id: 3,
             title: 'Artifact 3',
             description: 'Third Artifact',
-            coordinate: { latitude: 43.309534, longitude: -2.002030}
+            coordinate: { latitude: 43.309534, longitude: -2.002030},
+            image: artifact3Image,
         },
         {
             id: 4,
             title: 'Artifact 4',
             description: 'Fourth Artifact',
-            coordinate: { latitude:  43.309801, longitude: -2.003381}
+            coordinate: { latitude:  43.309801, longitude: -2.003381},
+            image: artifact4Image
         }
     ];
 
