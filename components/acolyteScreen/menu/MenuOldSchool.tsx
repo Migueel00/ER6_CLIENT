@@ -82,7 +82,7 @@ const MenuOldSchool = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="HALL_OF_SAGES"
+                    name="OLDSCHOOL"
                     component={HallOfSages}
                     options={{
                         tabBarIcon: () => (

@@ -48,7 +48,7 @@ const IstvanScreens = () => {
             },
         })}>
                 <Tab.Screen
-            name='home'
+            name='HOME'
             component={HomeScreen}
             options={{
                 tabBarIcon: ({}) => (

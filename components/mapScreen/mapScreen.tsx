@@ -96,12 +96,12 @@ useEffect(() => {
                 break;
             case isMenuLoaded:
                 setTimeout(() => {
-                    navigation.navigate('Home');
+                    navigation.navigate('HOME');
                 }, 200);
                 break;
             case isMenuOldSchoolLoaded:
                 setTimeout(() => {
-                    navigation.navigate('Home');
+                    navigation.navigate('OLDSCHOOL');
                 }, 200);
                 break;
             default:
@@ -122,7 +122,7 @@ useEffect(() => {
     const handleHomeIconPress = () => {
         setLocation('HOME');
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('HOME');
         }
     }   
 
@@ -145,7 +145,7 @@ useEffect(() => {
     }   
 
     const handleSchoolIconPress = () => {
-        console.log("PRESSED SWAMP BUTTON IN MAP");
+        console.log("PRESSED SCHOOL BUTTON IN MAP");
         
         setLocation('OLDSCHOOL');
         if(isMenuSwampLoaded){
