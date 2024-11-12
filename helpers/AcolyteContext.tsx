@@ -13,6 +13,8 @@ interface AcolyteContextType {
     setIsMenuSwampLoaded:  (loaded: boolean) => void;
     isMenuOldSchoolLoaded: boolean;
     setIsMenuOldSchoolLoaded:  (loaded: boolean) => void;
+    isMenuHallOfSagesLoaded: boolean;
+    setIsMenuHallOfSagesLoaded:  (loaded: boolean) => void;
     isInsideLab: boolean | null;
     isInsideTower: boolean | null;
 }

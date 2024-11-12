@@ -7,6 +7,7 @@ import AcolyteContext from "../../helpers/AcolyteContext";
 
 const mapImage = require('../../assets/backgrounds/map_background.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
+const hallOfSagesIcon = require('../../assets/icons/statsIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -43,6 +44,7 @@ const SchoolScreen = () => {
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
+    const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -50,6 +52,7 @@ const SchoolScreen = () => {
 useEffect(() => {
     console.log("States of loaded mennús: ", {
         isMenuLoaded,
+        isMenuHallOfSagesLoaded,
     });
 
     const navigateToMenu = () => {
@@ -57,6 +60,11 @@ useEffect(() => {
             case isMenuLoaded:
                 setTimeout(() => {
                     navigation.navigate('HOME');
+                }, 200);
+                break;
+            case isMenuHallOfSagesLoaded:
+                setTimeout(() => {
+                    navigation.navigate('HALL_OF_SAGES');
                 }, 200);
                 break;
             default:
@@ -75,6 +83,13 @@ useEffect(() => {
         }
     }   
 
+    const handleHallIconPress = () => {
+        setLocation('HALL_OF_SAGES');
+        if(isMenuLoaded){
+            navigation.navigate('HALL_OF_SAGES');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -84,6 +99,12 @@ useEffect(() => {
                 style={{ top: height * 0.72, right: width * 0.35 }}
             >
                 <HomeIcon source={homeIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleHallIconPress}
+                style={{ top: height * 0.35, right: width * 0.15 }}
+            >
+                <HomeIcon source={hallOfSagesIcon} />
             </TouchableIcon>
 
         </Container>
