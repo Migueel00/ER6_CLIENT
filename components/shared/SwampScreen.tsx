@@ -6,6 +6,7 @@ import MapView, {Callout, Marker, Circle} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
+import { mapStyle } from './mapStyle';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -33,6 +34,10 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
+    const [circleColor, setCircleColor] = useState<string | null>('rgba(255, 0, 0, 0.8)')
+    const [insideCircleColor, setInsideCircleColor] = useState<string | null>('rgba(255, 0, 0, 0.3)')
+
+    const circleRadius = 1;
 
     const markers = [
         {
@@ -162,22 +167,23 @@ const SwampScreen = () => {
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
             initialRegion={regionAEG} 
+            customMapStyle={mapStyle}
         >
             {markers.map(marker => (
+                <React.Fragment key={marker.id}>
                     <Marker
-                        key={marker.id}
                         coordinate={marker.coordinate}
                         title={marker.title}
                         description={marker.description}
                         image={marker.image}
-                    >
-                        <Circle
-                            center={marker.coordinate}
-                            radius={1}  // Radio de 1 metro
-                            strokeColor="rgba(255, 0, 0, 1)"  // Color del borde
-                            fillColor="rgba(255, 0, 0, 1)"  // Color de relleno
                     />
-                    </Marker>
+                    <Circle
+                        center={marker.coordinate}
+                        radius={4}  // Cambiado temporalmente a 10 metros
+                        strokeColor={circleColor!}
+                        fillColor={insideCircleColor!}
+                    />
+                </React.Fragment>
                     
                 ))}
 
