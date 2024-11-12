@@ -9,6 +9,7 @@ import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
 import HallOfSages from "../../shared/HallOfSages";
+import SchoolScreen from "../../mapScreen/schoolScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -83,7 +84,7 @@ const MenuOldSchool = () => {
                 />
                 <Tab.Screen
                     name="OLDSCHOOL"
-                    component={HallOfSages}
+                    component={SchoolScreen}
                     options={{
                         tabBarIcon: () => (
                             <Icon
