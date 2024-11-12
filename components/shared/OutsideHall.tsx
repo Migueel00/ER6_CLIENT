@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
 const { height, width } = Dimensions.get('window');
 
-const HallOfSages = () => {
+const OutsideHall = () => {
 
     const context = useContext(AppContext);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
@@ -66,4 +66,4 @@ const KaotikaFont = styled.Text`
     color: white;
 `;
 
-export default HallOfSages;
+export default OutsideHall;

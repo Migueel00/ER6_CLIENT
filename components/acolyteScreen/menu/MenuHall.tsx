@@ -6,7 +6,7 @@ import * as CONSTANTS from "../../../src/constants";
 import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
-import InsideHall from "../../shared/InsideHall";
+import OutsideHall from "../../shared/OutsideHall";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -18,7 +18,7 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuHallInside = () => {
+const MenuHall = () => {
     
 
     return (
@@ -50,8 +50,8 @@ const MenuHallInside = () => {
                 })}
             >
                 <Tab.Screen
-                    name="INSIDEHALL"
-                    component={InsideHall}
+                    name="OUTSIDEHALL"
+                    component={OutsideHall}
                     options={{
                         tabBarIcon: () => (
                             <Icon
@@ -103,4 +103,4 @@ const MenuHallInside = () => {
     );
 }
 
-export default MenuHallInside
+export default MenuHall

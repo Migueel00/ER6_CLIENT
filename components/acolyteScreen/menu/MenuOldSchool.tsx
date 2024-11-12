@@ -1,14 +1,11 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
-import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
-import SwampScreen from "../../shared/SwampScreen";
-import HallOfSages from "../../shared/HallOfSages";
+import * as CONSTANTS from "../../../src/constants";
+import MapScreen from "../../mapScreen/mapScreen";
 import SchoolScreen from "../../mapScreen/schoolScreen";
 
 const Tab = createMaterialTopTabNavigator();
