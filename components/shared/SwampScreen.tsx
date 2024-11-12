@@ -2,18 +2,19 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Callout, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import { Image } from 'react-native';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
-
-const artifact1Image = require('./../../assets/png/Artifcats/Artifact1.png');
-const artifact2Image = require('./../../assets/png/Artifcats/Artifact2.png');
-const artifact3Image = require('./../../assets/png/Artifcats/Artifact3.png');
-const artifact4Image = require('./../../assets/png/Artifcats/Artifact4.png');
+Marker
+const artifact1Image = require('./../../assets/png/Artifcats/Marker1.png');
+const artifact2Image = require('./../../assets/png/Artifcats/Marker2.png');
+const artifact3Image = require('./../../assets/png/Artifcats/Marker3.png');
+const artifact4Image = require('./../../assets/png/Artifcats/Marker4.png');
 
 const { height, width } = Dimensions.get('window');
 
@@ -156,7 +157,11 @@ const SwampScreen = () => {
                         coordinate={marker.coordinate}
                         title={marker.title}
                         description={marker.description}
-                    />
+                        image={marker.image}
+                    >
+
+                    </Marker>
+                    
                 ))}
 
             {userLocation && (
