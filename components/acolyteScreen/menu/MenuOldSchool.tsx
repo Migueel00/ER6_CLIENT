@@ -85,7 +85,7 @@ const MenuOldSchool = () => {
                     options={{
                         tabBarIcon: () => (
                             <Icon
-                                source={require('../../../assets/icons/equipmentIcon.png')}
+                                source={require('../../../assets/icons/schoolIcon.png')}
                             />
                         ),
                         tabBarLabel: '',
