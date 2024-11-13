@@ -22,6 +22,7 @@ export interface ContextInterface {
     setParchment: (state: boolean) => void,
     tower_ingredients: boolean,
     setTowerIngredientsState: (state: boolean) => void,
+    setPlayer: any,
 }
 
 export interface Player {

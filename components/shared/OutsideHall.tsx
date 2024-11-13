@@ -18,19 +18,6 @@ const OutsideHall = () => {
         isInsideHall: player?.isInsideHall,
     };
 
-    useEffect(() => {
-        const value = {
-            playerID: appContext?.player._id,
-            isInsideHall: player?.isInsideHall,
-        };
-
-        console.log("OTUSIDEHALL MOUNTED");
-        
-        // Se ejecuta al desmontar el componente
-        return () => {
-
-        }
-    }, []);
 
     const handleEnterHall = () => {
         console.log("ENTERING HALL");

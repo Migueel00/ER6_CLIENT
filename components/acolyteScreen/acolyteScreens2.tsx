@@ -35,7 +35,9 @@ interface updateHallEvent {
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
-const [player, setPlayer] = useState(appContext?.player);
+// const [player, setPlayer] = useState(appContext?.player);
+const player = appContext?.player;
+const setPlayer = appContext?.setPlayer;
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;

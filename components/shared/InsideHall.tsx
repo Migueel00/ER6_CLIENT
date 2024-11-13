@@ -28,7 +28,7 @@ const InsideHall = () => {
         const values = {
             socketId: appContext?.socketID,
             playerID: appContext?.player._id,
-            isInsideHall: !player?.isInsideHall,
+            isInsideHall: player?.isInsideHall,
         };
 
         socket.emit("HallDoorPressed", values);
@@ -52,7 +52,7 @@ const InsideHall = () => {
 
 const StyledButtonText = styled.Text`
     color: white;
-    font-size: ${width * 0.07};
+    font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
     padding: 10px;
 `;
