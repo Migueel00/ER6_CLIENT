@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-native-community/geolocation": "^3.4.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^21.2.0",
     "@react-native-firebase/auth": "^21.2.0",
@@ -26,6 +27,7 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "firebase-messaging": "^1.0.6",
+    "geolib": "^3.3.4",
     "patch-package": "^8.0.0",
     "react": "18.3.1",
     "react-native": "^0.75.3",

@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -12,6 +14,10 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyDi0qvlTsLlm_yz_9xfF-RXfbqVa6m9rwc"/>
+      
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
