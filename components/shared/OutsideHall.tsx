@@ -11,22 +11,21 @@ const OutsideHall = () => {
     const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
 
     return (
-        <SwampBackground source={outsideHallBackgroundImage}>
-            <StyledButton onPress={() => console.log("Botón presionado")}>
+        <OutsideHallBackground source={outsideHallBackgroundImage}>
+            <StyledButton onPress={() =>
+                console.log("Botón presionado")}>
             </StyledButton>
-        </SwampBackground>
+        </OutsideHallBackground>
     );
 };
 
-// Estilos del fondo
-const SwampBackground = styled.ImageBackground`
+const OutsideHallBackground = styled.ImageBackground`
     width: 100%;
     height: 100%;
     align-items: center;
     justify-content: center;
 `;
 
-// Estilos del botón
 const StyledButton = styled(TouchableOpacity)`
     backgroundColor: 'rgba(0, 0, 0, 0.3)';
     margin-top: ${height * -0.10}px;
