@@ -240,8 +240,10 @@ const SwampScreen = () => {
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
                         {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
-                                <Text>{marker.title}</Text>
-                                <Text>{marker.description}</Text>
+                                <CalloutContainer>
+                                    <TextTitle>{marker.title}</TextTitle>
+                                    <TextDescription>{marker.description}</TextDescription>
+                                </CalloutContainer>
                             </Callout>
                         )}
                     </Marker>
@@ -298,6 +300,31 @@ const KaotikaFont = styled.Text`
     font-family: 'KochAltschrift';
     font-size: 40px;
     color: white;
+`;
+
+const CalloutContainer = styled.View`
+  background-color: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: ${width * 0.5}px; 
+`;
+
+const TextTitle = styled.Text`
+font-family: 'KochAltschrift';
+  font-size: ${width * 0.07}px;
+  color: #000;
+  margin-bottom: 10px;
+  flex-wrap: wrap;  
+
+`;
+
+const TextDescription = styled.Text`
+  font-size: ${width * 0.06}px;
+  color: #333;
+  flex-wrap: wrap;
+font-family: 'KochAltschrift';
 `;
 
 export default SwampScreen;
