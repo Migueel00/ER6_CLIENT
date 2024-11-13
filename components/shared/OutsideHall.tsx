@@ -7,63 +7,34 @@ const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
 
 const OutsideHall = () => {
-
     const context = useContext(AppContext);
-    const [outsideHallBackgroundIMage, setLabBackgroundImage] = useState(outsideHallImage);
-
+    const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
 
     return (
-        <SwampBackground source={outsideHallBackgroundIMage} width={width} height={height}>
-        {/* Other components can go here */}
+        <SwampBackground source={outsideHallBackgroundImage}>
+            <StyledButton onPress={() => console.log("Botón presionado")}>
+            </StyledButton>
         </SwampBackground>
     );
 };
+
+// Estilos del fondo
 const SwampBackground = styled.ImageBackground`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    width: ${width}px;
-    height: ${height}px;
-`;
-const Container = styled.View`
-    flex: 1;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
     height: 100%;
-    padding-top: 20px;
-`;
-
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
     align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
     justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const KaotikaFont = styled.Text`
-    padding-top: 20px;
-    font-family: 'KochAltschrift';
-    font-size: 40px;
-    color: white;
+// Estilos del botón
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.3)';
+    margin-top: ${height * -0.10}px;
+    height: ${height * 0.5}px;
+    width: ${width * 1}px;
+    align-items: 'center';
+    border-radius: ${width * 1}px;
 `;
+
 
 export default OutsideHall;
