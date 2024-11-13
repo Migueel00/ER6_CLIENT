@@ -6,7 +6,7 @@ import MapView, {Callout, Marker, Circle} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
-import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA } from './mapStyle';
+import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG} from './mapStyle';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -88,10 +88,6 @@ const SwampScreen = () => {
         setUserLocation({ latitude, longitude });
     };
 
-    const regionAEG = { latitude: 43.309682,
-                        longitude: -2.002456,
-                        latitudeDelta: 0.001,
-                        longitudeDelta: 0.001}
 
 
     // Comprobar si el usuario está dentro de algún círculo

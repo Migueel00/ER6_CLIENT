@@ -190,3 +190,9 @@ export     const mapStyle = [
 
   export const greenRGBA = 'rgba(34, 139, 34, 0.8)';
   export const greenInsideRGBA = 'rgba(34, 139, 34, 0.3)';
+
+
+  export const regionAEG = { latitude: 43.309682,
+    longitude: -2.002456,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001}
