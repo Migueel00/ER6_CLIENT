@@ -34,8 +34,6 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [circleColor, setCircleColor] = useState<string | null>(redRGBA);
-    const [insideCircleColor, setInsideCircleColor] = useState<string | null>(redInsideRGBA);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
