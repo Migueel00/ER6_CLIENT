@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import MapView, {Callout, Marker, Circle} from 'react-native-maps';
@@ -273,6 +273,23 @@ const SwampScreen = () => {
 
 
         </MapView>
+
+        {retrievedArtifacts.length > 0 && (
+        <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <GridContainer>
+                {markersState.map((marker) => (
+                    <GridItem key={marker.id}>
+                        {marker.isRetrieved ? (
+                            <ArtifactImage source={marker.image} />
+                        ) : (
+                            <EmptyArtifactBox />
+                        )}
+                    </GridItem>
+                ))}
+            </GridContainer>
+        </StyledScrollView>
+    )}
+
         {userLocation && (
                 <CoordinatesContainer>
                      <CoordinatesText>
@@ -283,6 +300,8 @@ const SwampScreen = () => {
                     </CoordinatesText>
                 </CoordinatesContainer>
             )}  
+
+
     </SwampBackground>
 
     );
@@ -340,26 +359,44 @@ const TextDescription = styled.Text`
 font-family: 'KochAltschrift';
 `;
 
+const StyledScrollView = styled.ScrollView`
+    position: absolute;
+    bottom: ${height * 0.15}px; 
+    left: 10px;
+    right: 10px;
+    flex-direction: row;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.4); 
+    border-radius: 10px;
+`;
+
 const GridContainer = styled.View`
-  flex: 1;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 10px;
-  margin-top: 20px;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px;
 `;
 
 const GridItem = styled.View`
-  width: 45%;
-  margin: 5px;
-  align-items: center;
-  justify-content: center;
+    width: ${width * 0.28}px; 
+    height: ${width * 0.28}px;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+`;
+
+const EmptyArtifactBox = styled.View`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3); 
+    align-items: center;
+    justify-content: center;
 `;
 
 const ArtifactImage = styled.Image`
-  width: 100%;
-  height: 150px;
-  border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 `;
 
 const ArtifactTitle = styled.Text`
@@ -372,7 +409,7 @@ const ArtifactTitle = styled.Text`
 
 const CoordinatesContainer = styled.View`
     position: absolute;
-    bottom: 40px;
+    bottom: ${height * 0.04}px;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
     border-radius: 10px;
