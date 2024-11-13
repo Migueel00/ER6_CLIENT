@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
@@ -18,13 +18,37 @@ const OutsideHall = () => {
         isInsideHall: player?.isInsideHall,
     };
 
-    const handleButtonPress = () => {
+    useEffect(() => {
+        const value = {
+            playerID: appContext?.player._id,
+            isInsideHall: player?.isInsideHall,
+        };
+
+        console.log("OTUSIDEHALL MOUNTED");
+        
+        // Se ejecuta al desmontar el componente
+        return () => {
+
+        }
+    }, []);
+
+    const handleEnterHall = () => {
+        console.log("ENTERING HALL");
+        console.log("ACTUAL IS INSIDE HALL STATE:");
+        console.log(player?.isInsideHall);
+
+        const values = {
+            socketId: appContext?.socketID,
+            playerID: appContext?.player._id,
+            isInsideHall: player?.isInsideHall,
+        };
+
         socket.emit("HallDoorPressed", values);
     };
 
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
-            <StyledButton onPress={handleButtonPress}>
+            <StyledButton onPress={handleEnterHall}>
             </StyledButton>
         </OutsideHallBackground>
     );

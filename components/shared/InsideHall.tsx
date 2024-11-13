@@ -16,7 +16,24 @@ const InsideHall = () => {
     const appContext = useContext(AppContext);
     const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
     const player = appContext?.player!;
+    const socket = appContext?.socket;
     const players = appContext?.players;
+
+
+    const handleExitHall = () => {
+        console.log("EXITING HALL");
+        console.log("ACTUAL IS INSIDE HALL STATE:");
+        console.log(player.isInsideHall);
+
+        const values = {
+            socketId: appContext?.socketID,
+            playerID: appContext?.player._id,
+            isInsideHall: !player?.isInsideHall,
+        };
+
+        socket.emit("HallDoorPressed", values);
+    };
+
 
     return (
         <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
@@ -25,9 +42,32 @@ const InsideHall = () => {
                         <Avatar source={{ uri: player.avatar }} />
                     </AvatarWrapper>
             </PlayerRow>
+
+            <StyledButton onPress={handleExitHall}>
+                <StyledButtonText>Exit from the Hall</StyledButtonText>
+            </StyledButton>
         </InsideHallBackground>
     );
 };
+
+const StyledButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07};
+    font-family: 'KochAltschrift';
+    padding: 10px;
+`;
+
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.5}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.05}px;
+`;
+
 const InsideHallBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
