@@ -7,13 +7,23 @@ const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
 
 const OutsideHall = () => {
-    const context = useContext(AppContext);
+    const appContext = useContext(AppContext);
     const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
+    const socket = appContext?.socket;
+    
+    const values = {
+        userEmail: appContext?.player.email,
+        socketId: appContext?.socketID,
+        playerID: appContext?.player._id
+    };
+
+    const handleButtonPress = () => {
+        socket.emit("HallDoorPressed", values); // Asegúrate de tener 'values' en el contexto o reemplázalo con la variable adecuada
+    };
 
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
-            <StyledButton onPress={() =>
-                console.log("Botón presionado")}>
+            <StyledButton onPress={handleButtonPress}>
             </StyledButton>
         </OutsideHallBackground>
     );
