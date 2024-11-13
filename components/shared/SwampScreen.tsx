@@ -79,7 +79,7 @@ const SwampScreen = () => {
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
     ]);
 
-    const circleRadius = 1;
+    const circleRadius = 20;
 
 
 
@@ -250,7 +250,7 @@ const SwampScreen = () => {
                     </Marker>
                     <Circle
                         center={marker.coordinate}
-                        radius={4}  // Cambiado temporalmente a 10 metros
+                        radius={circleRadius}  // Cambiado temporalmente a 10 metros
                         strokeColor={markerColors[index].circleColor}
                         fillColor={markerColors[index].insideCircleColor}
                     />
@@ -275,8 +275,11 @@ const SwampScreen = () => {
         </MapView>
         {userLocation && (
                 <CoordinatesContainer>
+                     <CoordinatesText>
+                       Your position
+                    </CoordinatesText>
                     <CoordinatesText>
-                        Latitud: {userLocation.latitude.toFixed(6)}, Longitud: {userLocation.longitude.toFixed(6)}
+                        Latitude: {userLocation.latitude.toFixed(6)}, Longitude: {userLocation.longitude.toFixed(6)}
                     </CoordinatesText>
                 </CoordinatesContainer>
             )}  
@@ -376,8 +379,12 @@ const CoordinatesContainer = styled.View`
 `;
 
 const CoordinatesText = styled.Text`
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     color: white;
-    font-size: 16px;
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
 `;
 
 export default SwampScreen;
