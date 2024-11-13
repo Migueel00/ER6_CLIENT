@@ -184,3 +184,9 @@ export     const mapStyle = [
       ]
     }
   ];
+
+  export const redRGBA = 'rgba(255, 0, 0, 0.8)';
+  export const redInsideRGBA = 'rgba(255, 0, 0, 0.3)'
+
+  export const greenRGBA = 'rgba(34, 139, 34, 0.8)';
+  export const greenInsideRGBA = 'rgba(34, 139, 34, 0.3)';

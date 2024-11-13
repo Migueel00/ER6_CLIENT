@@ -6,7 +6,7 @@ import MapView, {Callout, Marker, Circle} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
-import { mapStyle } from './mapStyle';
+import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA } from './mapStyle';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -34,8 +34,8 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [circleColor, setCircleColor] = useState<string | null>('rgba(255, 0, 0, 0.8)')
-    const [insideCircleColor, setInsideCircleColor] = useState<string | null>('rgba(255, 0, 0, 0.3)')
+    const [circleColor, setCircleColor] = useState<string | null>(redRGBA)
+    const [insideCircleColor, setInsideCircleColor] = useState<string | null>(redInsideRGBA)
 
     const circleRadius = 1;
 
@@ -78,6 +78,12 @@ const SwampScreen = () => {
         console.log("Posición actual del usuario:", latitude, longitude);
         setUserLocation({ latitude, longitude });
     };
+
+    const isUserWithinMarker1Circle = userLocation && geolib.isPointWithinRadius(
+        userLocation,                            //User location
+        markers[0].coordinate,                   //Marker 1 coords (testing)
+        circleRadius                            //Radius in meters
+    );
     
 
     const regionAEG = { latitude: 43.309682,
@@ -86,6 +92,11 @@ const SwampScreen = () => {
                         longitudeDelta: 0.001}
 
 
+    useEffect(() => {
+        if (isUserWithinMarker1Circle) {
+            console.log("El usuario está dentro del círculo de 1 metro de Marker 1.");
+        }
+    }, [userLocation]);
    
     useEffect(() => {
         const requestLocationPermission = async () => {
@@ -106,6 +117,7 @@ const SwampScreen = () => {
 
         requestLocationPermission();
     }, []);
+    
     useEffect(() => {
         if (locationPermissionGranted) {
           console.log("PERMISOS OTORGADOS");
@@ -124,7 +136,7 @@ const SwampScreen = () => {
               // Acceder a la ubicación cuando la promesa se resuelva
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
-              console.log("Posición actual del usuario:", latitude, longitude);
+              console.log("Posición inicial del usuario:", latitude, longitude);
               setUserLocation({ latitude, longitude });
             },
             (error) => {
@@ -142,7 +154,7 @@ const SwampScreen = () => {
             // Start watching the user position
             const watchId = Geolocation.watchPosition(
                 (position) => {
-                    console.log("Actualización de ubicación:", position);  // Verifica que recibas datos del watcher
+                    //console.log("Actualización de ubicación:", position);  // Verifica que recibas datos del watcher
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
