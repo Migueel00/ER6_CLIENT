@@ -34,8 +34,15 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [circleColor, setCircleColor] = useState<string | null>(redRGBA)
-    const [insideCircleColor, setInsideCircleColor] = useState<string | null>(redInsideRGBA)
+    const [circleColor, setCircleColor] = useState<string | null>(redRGBA);
+    const [insideCircleColor, setInsideCircleColor] = useState<string | null>(redInsideRGBA);
+
+    const [markerColors, setMarkerColors] = useState([
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
+    ]);
 
     const circleRadius = 1;
 
@@ -92,9 +99,23 @@ const SwampScreen = () => {
                         longitudeDelta: 0.001}
 
 
+    // Comprobar si el usuario está dentro de algún círculo
     useEffect(() => {
-        if (isUserWithinMarker1Circle) {
-            console.log("El usuario está dentro del círculo de 1 metro de Marker 1.");
+        if (userLocation) {
+            const updatedColors = markerColors.map((color, index) => {
+                const isUserWithinCircle = geolib.isPointWithinRadius(
+                    userLocation,
+                    markers[index].coordinate,
+                    circleRadius
+                );
+
+                // Cambiar el color solo si está dentro del círculo
+                return isUserWithinCircle
+                    ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
+                    : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
+            });
+
+            setMarkerColors(updatedColors);
         }
     }, [userLocation]);
    
@@ -181,7 +202,7 @@ const SwampScreen = () => {
             initialRegion={regionAEG} 
             customMapStyle={mapStyle}
         >
-            {markers.map(marker => (
+            {markers.map((marker, index) => (
                 <React.Fragment key={marker.id}>
                     <Marker
                         coordinate={marker.coordinate}
@@ -192,8 +213,8 @@ const SwampScreen = () => {
                     <Circle
                         center={marker.coordinate}
                         radius={4}  // Cambiado temporalmente a 10 metros
-                        strokeColor={circleColor!}
-                        fillColor={insideCircleColor!}
+                        strokeColor={markerColors[index].circleColor}
+                        fillColor={markerColors[index].insideCircleColor}
                     />
                 </React.Fragment>
                     
