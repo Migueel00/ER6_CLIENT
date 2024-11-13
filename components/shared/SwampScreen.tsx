@@ -27,23 +27,7 @@ type LocationType = {
 };
 
 const SwampScreen = () => {  
-
-    const context = useContext(AppContext);
-    const player = context?.player;
-    const avatar = player?.avatar;
-    const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
-    const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
-    const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-
-    const [markerColors, setMarkerColors] = useState([
-        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
-        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
-        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
-        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
-    ]);
-
-    const circleRadius = 1;
-
+    
     const markers = [
         {
             id: 1,
@@ -78,6 +62,24 @@ const SwampScreen = () => {
             isRetrieved: false,
         }
     ];
+
+    const context = useContext(AppContext);
+    const player = context?.player;
+    const avatar = player?.avatar;
+    const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
+    const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
+    const [userLocation, setUserLocation] = useState<LocationType | null>(null);
+    const [markersState, setMarkersState] = useState(markers);
+
+    const [markerColors, setMarkerColors] = useState([
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }, 
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
+    ]);
+
+    const circleRadius = 1;
+
 
 
     // Function to handle location updates
@@ -185,6 +187,24 @@ const SwampScreen = () => {
             };
         }
     }, [locationPermissionGranted]);
+
+    const markArtifactAsRetrieved = (markerId: number) => {
+        console.log("MARKING ARTIFACT AS RETRIEVED");
+        
+        const updatedMarkers = markersState.map((marker) =>
+            marker.id === markerId ? { ...marker, isRetrieved: true } : marker
+        );
+
+        console.log("UPDATED MARKERS"); 
+        console.log(updatedMarkers);
+        
+        setMarkersState(updatedMarkers);
+
+        console.log("MARKERS AFTER SET");
+        console.log(markersState);
+        
+        
+    };
     return (
 
         <SwampBackground source={swampBackgroundImage}>
@@ -194,7 +214,7 @@ const SwampScreen = () => {
             customMapStyle={mapStyle}
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
-            markers.map((marker, index) => (
+            markersState.map((marker, index) => (
                 !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                     <Marker
@@ -202,6 +222,17 @@ const SwampScreen = () => {
                         title={marker.title}
                         description={marker.description}
                         image={marker.image}
+                        onPress={() => {
+                            // Verificar si el usuario está dentro del radio del marcador
+                            if (userLocation && !geolib.isPointWithinRadius(
+                                userLocation,
+                                marker.coordinate,
+                                circleRadius
+                            )) {
+                                // Marcar el artefacto como recogido
+                                markArtifactAsRetrieved(marker.id);
+                            }
+                        }}
                     />
                     <Circle
                         center={marker.coordinate}
