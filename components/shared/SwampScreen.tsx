@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Callout, Marker, Circle} from 'react-native-maps';
+import MapView, {Callout, Marker, Circle, BoundingBox} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
@@ -18,6 +18,17 @@ const marker1Image = require('./../../assets/png/Artifcats/Marker1.png');
 const marker2Image = require('./../../assets/png/Artifcats/Marker2.png');
 const marker3Image = require('./../../assets/png/Artifcats/Marker3.png');
 const marker4Image = require('./../../assets/png/Artifcats/Marker4.png');
+
+const getImage = (name: string) => {
+    const images: { [key: string]: any } = {
+        'Marker1.png': require('./../../assets/png/Artifcats/Marker1.png'),
+        'Marker2.png': require('./../../assets/png/Artifcats/Marker2.png'),
+        'Marker3.png': require('./../../assets/png/Artifcats/Marker3.png'),
+        'Marker4.png': require('./../../assets/png/Artifcats/Marker4.png'),
+    };
+
+    return images[name];
+};
 
 const { height, width } = Dimensions.get('window');
 
@@ -37,44 +48,45 @@ const SwampScreen = () => {
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+    const [isArtifacts, setIsArtifacts] = useState<boolean>(false);
 
-    const markers = [
-        {
-            id: 1,
-            title: 'Artifact 1',
-            description: 'First Artifact',
-            coordinate: { latitude: 43.310625, longitude: -2.003209 },
-            image: marker1Image,
-            isRetrieved: false,
-        },
-        {
-            id: 2,
-            title: 'Artifact 2',
-            description: 'Second Artifact',
-            coordinate: { latitude: 43.310673, longitude: -2.002441 },
-            image: marker2Image,
-            isRetrieved: false,
-        },
-        {
-            id: 3,
-            title: 'Artifact 3',
-            description: 'Third Artifact',
-            coordinate: { latitude: 43.309534, longitude: -2.002030},
-            image: marker3Image,
-            isRetrieved: false,
-        },
-        {
-            id: 4,
-            title: 'Artifact 4',
-            description: 'Fourth Artifact',
-            coordinate: { latitude:  43.309801, longitude: -2.003381},
-            image: marker4Image,
-            isRetrieved: false,
-        }
-    ];
+    // const markers = [
+    //     {
+    //         id: 1,
+    //         title: 'Artifact 1',
+    //         description: 'First Artifact',
+    //         coordinate: { latitude: 43.310625, longitude: -2.003209 },
+    //         image: marker1Image,
+    //         isRetrieved: false,
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Artifact 2',
+    //         description: 'Second Artifact',
+    //         coordinate: { latitude: 43.310673, longitude: -2.002441 },
+    //         image: marker2Image,
+    //         isRetrieved: false,
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Artifact 3',
+    //         description: 'Third Artifact',
+    //         coordinate: { latitude: 43.309534, longitude: -2.002030},
+    //         image: marker3Image,
+    //         isRetrieved: false,
+    //     },
+    //     {
+    //         id: 4,
+    //         title: 'Artifact 4',
+    //         description: 'Fourth Artifact',
+    //         coordinate: { latitude:  43.309801, longitude: -2.003381},
+    //         image: marker4Image,
+    //         isRetrieved: false,
+    //     }
+    // ];
 
     
-    const [markersState, setMarkersState] = useState(markers);
+    const [markersState, setMarkersState] = useState(artifacts);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState(markersState.filter((marker) => !marker.isRetrieved) || []);
 
     const [markerColors, setMarkerColors] = useState([
@@ -104,7 +116,7 @@ const SwampScreen = () => {
             const updatedColors = markerColors.map((color, index) => {
                 const isUserWithinCircle = geolib.isPointWithinRadius(
                     userLocation,
-                    markers[index].coordinate,
+                    artifacts[index].coordinate,
                     circleRadius
                 );
 
@@ -140,17 +152,18 @@ const SwampScreen = () => {
 
 
     useEffect(() => {
-        fetch('http://10.80.128.32:3000/api/artifacts')
+        fetch('http://192.168.1.136:3000/api/artifacts')
             .then((response) => response.json())
             .then((artifacts) => {
                 console.log(artifacts);
                 const data = artifacts.data;
                 setArtifacts(data);
+                setIsArtifacts(true);
             });
     }, []);
 
     useEffect(() => {
-        if (locationPermissionGranted) {
+        if (locationPermissionGranted && isArtifacts) {
           console.log("PERMISOS OTORGADOS");
     
           // Obtener la ubicación actual del usuario
@@ -159,8 +172,8 @@ const SwampScreen = () => {
                 console.log(
                     'You are ',
                     geolib.getDistance(position.coords, {
-                        latitude: markers[0].coordinate.latitude,
-                        longitude: markers[0].coordinate.longitude,
+                        latitude: artifacts[0].coordinate.latitude,
+                        longitude: artifacts[0].coordinate.longitude,
                     }),
                     'meters away from 51.525, 7.4575'
                 );
@@ -231,12 +244,12 @@ const SwampScreen = () => {
             customMapStyle={mapStyle}
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
-            markersState.map((marker, index) => (
+            artifacts.map((marker, index) => (
                 !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                      <Marker
                         coordinate={marker.coordinate}
-                        image={marker.image}
+                        image={getImage(marker.markerImage)}
                         onPress={() => {
                             // Verificar si el usuario está dentro o fuera del radio del marcador
                             if (userLocation) {
@@ -311,7 +324,7 @@ const SwampScreen = () => {
                     {markersState.map((marker) => (
                         <GridItem key={marker.id}>
                             {marker.isRetrieved ? (
-                                <ArtifactImage source={marker.image} />
+                                <ArtifactImage source={getImage(marker.markerImage)} />
                             ) : (
                                 <EmptyArtifactBox />
                             )}

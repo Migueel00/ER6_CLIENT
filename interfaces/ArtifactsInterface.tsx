@@ -2,7 +2,7 @@ import { Key } from "react"
 import { ImageURISource } from "react-native"
 
 export default interface Artifact {
-    id: Key,
+    id: number,
     title: string,
     description: string,
     markerImage: string,
@@ -11,5 +11,5 @@ export default interface Artifact {
     coordinate: {
         latitude: number,
         longitude: number
-    }
+    },
 }
