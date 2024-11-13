@@ -10,11 +10,12 @@ const OutsideHall = () => {
     const appContext = useContext(AppContext);
     const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
     const socket = appContext?.socket;
+    const player = appContext?.player;
     
     const values = {
-        userEmail: appContext?.player.email,
         socketId: appContext?.socketID,
-        playerID: appContext?.player._id
+        playerID: appContext?.player._id,
+        isInsideHall: player?.isInsideHall,
     };
 
     const handleButtonPress = () => {
