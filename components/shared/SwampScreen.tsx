@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import MapView, {Callout, Marker, Circle} from 'react-native-maps';
@@ -7,6 +7,7 @@ import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
 import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG} from './mapStyle';
+import Toast from 'react-native-toast-message';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -234,6 +235,19 @@ const SwampScreen = () => {
                                 if (isWithinRadius) {
                                     // Marcar el artefacto como recogido
                                     markArtifactAsRetrieved(marker.id);
+                                    //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                    Toast.show({
+                                        type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
+                                        position: 'top',   // Posición en la pantalla ('top', 'bottom')
+                                        text1: 'Artifact ' + marker.title + ' retrieved succesfully',
+                                        text1Style: {
+                                          color: 'white',   // Estilo para el primer texto
+                                          fontSize: 18,
+                                          fontWeight: 'bold',
+                                        },
+                                        visibilityTime: 3000, // Duración del toast (en milisegundos)
+                                        topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
+                                      });
                                 }
                             }
                         }}
@@ -250,7 +264,7 @@ const SwampScreen = () => {
                     </Marker>
                     <Circle
                         center={marker.coordinate}
-                        radius={circleRadius}  // Cambiado temporalmente a 10 metros
+                        radius={circleRadius}  // Cambiado temporalmente a 10 metros    
                         strokeColor={markerColors[index].circleColor}
                         fillColor={markerColors[index].insideCircleColor}
                     />

@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import LoadSpinner from './components/utils/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions, PermissionsAndroid} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -22,6 +22,8 @@ import { URL } from './src/API/urls';
 import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
 import { Alert } from 'react-native';
 import SignInScreen from './components/SignIn';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from './src/constants';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -421,6 +423,7 @@ function App(): React.JSX.Element {
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
+
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
@@ -442,6 +445,7 @@ function App(): React.JSX.Element {
         </ScrollView>
         </ImageBackground>
       )}
+      <Toast config={toastConfig}/>
     </SafeAreaView>
     </AppContext.Provider>
   );
