@@ -250,31 +250,6 @@ const AvatarImage = styled.Image`
     border-radius: 40px;
 `;
 
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
-    align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-`;
-
 const KaotikaFont = styled.Text`
     padding-top: 20px;
     font-family: 'KochAltschrift';
