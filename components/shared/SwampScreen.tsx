@@ -217,23 +217,34 @@ const SwampScreen = () => {
             markersState.map((marker, index) => (
                 !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
-                    <Marker
+                     <Marker
                         coordinate={marker.coordinate}
-                        title={marker.title}
-                        description={marker.description}
                         image={marker.image}
                         onPress={() => {
-                            // Verificar si el usuario está dentro del radio del marcador
-                            if (userLocation && !geolib.isPointWithinRadius(
-                                userLocation,
-                                marker.coordinate,
-                                circleRadius
-                            )) {
-                                // Marcar el artefacto como recogido
-                                markArtifactAsRetrieved(marker.id);
+                            // Verificar si el usuario está dentro o fuera del radio del marcador
+                            if (userLocation) {
+                                const isWithinRadius = geolib.isPointWithinRadius(
+                                    userLocation,
+                                    marker.coordinate,
+                                    circleRadius
+                                );
+
+                                // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
+                                if (isWithinRadius) {
+                                    // Marcar el artefacto como recogido
+                                    markArtifactAsRetrieved(marker.id);
+                                }
                             }
                         }}
-                    />
+                    >
+                        {/* Solo mostrar el Callout si el usuario está fuera del rango */}
+                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                            <Callout>
+                                <Text>{marker.title}</Text>
+                                <Text>{marker.description}</Text>
+                            </Callout>
+                        )}
+                    </Marker>
                     <Circle
                         center={marker.coordinate}
                         radius={4}  // Cambiado temporalmente a 10 metros
