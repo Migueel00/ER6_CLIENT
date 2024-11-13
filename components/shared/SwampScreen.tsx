@@ -201,6 +201,7 @@ const SwampScreen = () => {
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
             markers.map((marker, index) => (
+                !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                     <Marker
                         coordinate={marker.coordinate}
@@ -215,7 +216,7 @@ const SwampScreen = () => {
                         fillColor={markerColors[index].insideCircleColor}
                     />
                 </React.Fragment>
-                    
+                )
                 ))
             )}
 
