@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
+import Artifact from '../../interfaces/ArtifactsInterface';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -31,6 +32,7 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
+    const [artifacts, setArtifacts] = useState<Artifact[]>([]);
 
     const markers = [
         {
@@ -99,6 +101,18 @@ const SwampScreen = () => {
 
         requestLocationPermission();
     }, []);
+
+
+    useEffect(() => {
+        fetch('http://10.80.128.32:3000/api/artifacts')
+            .then((response) => response.json())
+            .then((artifacts) => {
+                console.log(artifacts);
+                const data = artifacts.data;
+                setArtifacts(data);
+            });
+    }, []);
+
     useEffect(() => {
         if (locationPermissionGranted) {
           console.log("PERMISOS OTORGADOS");
@@ -152,20 +166,20 @@ const SwampScreen = () => {
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
             initialRegion={regionAEG} 
-        >
-            {markers.map(marker => (
+        >   
+        {
+            artifacts.map((artifact, index) => (
+            
                     <Marker
-                        key={marker.id}
-                        coordinate={marker.coordinate}
-                        title={marker.title}
-                        description={marker.description}
-                        image={marker.image}
+                        key={index}
+                        coordinate={artifact.coordinate}
+                        title={artifact.title}
+                        description={artifact.description}
+                        image={require(`./../../assets/png/Artifcats/${artifact.markerImage}`)}
                     >
-
                     </Marker>
-                    
-                ))}
-
+            ))
+        }
             {userLocation && (
                     <Marker
                         coordinate={userLocation}  

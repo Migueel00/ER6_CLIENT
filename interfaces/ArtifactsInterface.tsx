@@ -1,0 +1,15 @@
+import { Key } from "react"
+import { ImageURISource } from "react-native"
+
+export default interface Artifact {
+    id: Key,
+    title: string,
+    description: string,
+    markerImage: string,
+    image: string,
+    isRetrieved: boolean,
+    coordinate: {
+        latitude: number,
+        longitude: number
+    }
+}
