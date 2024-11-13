@@ -15,44 +15,7 @@ const InsideHall = () => {
 
     const appContext = useContext(AppContext);
     const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
-    const socket = appContext?.socket;
-    const player = appContext?.player;
     const players = useContext(AppContext)?.players!;
-    const setPlayers = useContext(AppContext)?.setPlayers;
-    const [activePlayers, setActivePlayers] = useState(players.filter(player => player.isInsideHall));
-
-    useEffect(() => {
-
-        console.log("EN EL USEFFECT DE INSIDEHALL");
-        
-        // Escuchar el evento
-        socket.on('updateHall', ({ playerId, isInsideHall }: updateHall) => {
-            console.log("ASÑLIDFJLKAÑSDJFLKÑASJDÑLFJAÑSDLKFJAÑLSDFJÑLAKSDJFÑLASDJFLÑAJSDÑLKFJSAÑDLF ");
-            const updatePlayers = players.map(player =>
-                player.id === playerId ? { ...player, isInsideHall } : player
-            );
-            
-            console.log(updatePlayers);
-            setPlayers(updatePlayers);
-
-            console.log("PLAYER ID" + playerId);
-            console.log("IS INSIDE HALL " + isInsideHall);
-            console.log("ENTRA AL EVENTO DE UPDATE");
-
-            const newActivePlayers = updatePlayers.filter(player => player.isInsideHall);
-            setActivePlayers(newActivePlayers);
-            
-            console.log("New active players: ");
-            console.log(newActivePlayers);
-
-        });
-
-        // Limpiar el evento socket
-        return () => {
-            socket.off('updateHall');
-        };
-    }, [socket, players, setPlayers, player]);
-
 
     return (
         <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
