@@ -3,22 +3,22 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimen
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
-const swampImage = require('./../../assets/backgrounds/swampBackground.png');
+const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const { height, width } = Dimensions.get('window');
 
 const InsideHall = () => {
 
     const context = useContext(AppContext);
-    const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
+    const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
 
 
     return (
-        <SwampBackground source={swampBackgroundImage} width={width} height={height}>
+        <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
         {/* Other components can go here */}
-        </SwampBackground>
+        </InsideHallBackground>
     );
 };
-const SwampBackground = styled.ImageBackground`
+const InsideHallBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
     align-items: center;

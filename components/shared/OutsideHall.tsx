@@ -19,7 +19,7 @@ const OutsideHall = () => {
     };
 
     const handleButtonPress = () => {
-        socket.emit("HallDoorPressed", values); // Asegúrate de tener 'values' en el contexto o reemplázalo con la variable adecuada
+        socket.emit("HallDoorPressed", values);
     };
 
     return (
