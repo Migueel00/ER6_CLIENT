@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimen
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
-const outsideHallImage = require('./../../assets/backgrounds/swampBackground.png');
+const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
 
 const OutsideHall = () => {
 
     const context = useContext(AppContext);
-    const [swampBackgroundImage, setLabBackgroundImage] = useState(outsideHallImage);
+    const [outsideHallBackgroundIMage, setLabBackgroundImage] = useState(outsideHallImage);
 
 
     return (
-        <SwampBackground source={swampBackgroundImage} width={width} height={height}>
+        <SwampBackground source={outsideHallBackgroundIMage} width={width} height={height}>
         {/* Other components can go here */}
         </SwampBackground>
     );

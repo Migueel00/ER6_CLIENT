@@ -64,7 +64,7 @@ useEffect(() => {
                 break;
             case isMenuHallOfSagesLoaded:
                 setTimeout(() => {
-                    navigation.navigate('HALL_OF_SAGES');
+                    navigation.navigate('HALL');
                 }, 200);
                 break;
             default:
@@ -84,9 +84,10 @@ useEffect(() => {
     }   
 
     const handleHallIconPress = () => {
-        setLocation('HALL_OF_SAGES');
+        setLocation('HALL');
         if(isMenuHallOfSagesLoaded){
-            navigation.navigate('HALL_OF_SAGES');
+            navigation.navigate('HALL');
+
         }
     }   
 

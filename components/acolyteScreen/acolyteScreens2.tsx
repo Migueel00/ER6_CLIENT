@@ -132,12 +132,12 @@ useEffect(() => {
         <MenuContainer>
           {isInsideLab ? <MenuLabInside />
           : isInsideTower ? <MenuTowerInside /> 
+          : isInsideHall ? <MenuHallInside/>
           : acolyteLocation === 'LAB' ? <MenuLab />
           : acolyteLocation === 'TOWER' ? <MenuTower/>
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
           : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
-          : acolyteLocation === 'OUTSIDEHALL' ? <MenuHall/>
-          : isInsideHall ? <MenuHallInside/>
+          : acolyteLocation === 'HALL' ? <MenuHall/>
           : <MenuHome />}    
                       
         </MenuContainer>

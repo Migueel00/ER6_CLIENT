@@ -50,7 +50,7 @@ const MenuHall = () => {
                 })}
             >
                 <Tab.Screen
-                    name="OUTSIDEHALL"
+                    name="HALL"
                     component={OutsideHall}
                     options={{
                         tabBarIcon: () => (
