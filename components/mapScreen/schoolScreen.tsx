@@ -7,7 +7,7 @@ import AcolyteContext from "../../helpers/AcolyteContext";
 
 const mapImage = require('../../assets/backgrounds/map_background.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
-const hallOfSagesIcon = require('../../assets/icons/statsIcon.png');
+const OutsideHall = require('../../assets/icons/OutsideHall.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -104,7 +104,7 @@ useEffect(() => {
                 onPress={handleHallIconPress}
                 style={{ top: height * 0.35, right: width * 0.15 }}
             >
-                <HomeIcon source={hallOfSagesIcon} />
+                <HomeIcon source={OutsideHall} />
             </TouchableIcon>
 
         </Container>
