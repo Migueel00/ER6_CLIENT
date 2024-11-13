@@ -12,10 +12,10 @@ console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
-const artifact1Image = require('./../../assets/png/Artifcats/Marker1.png');
-const artifact2Image = require('./../../assets/png/Artifcats/Marker2.png');
-const artifact3Image = require('./../../assets/png/Artifcats/Marker3.png');
-const artifact4Image = require('./../../assets/png/Artifcats/Marker4.png');
+const marker1Image = require('./../../assets/png/Artifcats/Marker1.png');
+const marker2Image = require('./../../assets/png/Artifcats/Marker2.png');
+const marker3Image = require('./../../assets/png/Artifcats/Marker3.png');
+const marker4Image = require('./../../assets/png/Artifcats/Marker4.png');
 
 const { height, width } = Dimensions.get('window');
 
@@ -50,7 +50,7 @@ const SwampScreen = () => {
             title: 'Artifact 1',
             description: 'First Artifact',
             coordinate: { latitude: 43.310625, longitude: -2.003209 },
-            image: artifact1Image,
+            image: marker1Image,
             isRetrieved: false,
         },
         {
@@ -58,7 +58,7 @@ const SwampScreen = () => {
             title: 'Artifact 2',
             description: 'Second Artifact',
             coordinate: { latitude: 43.310673, longitude: -2.002441 },
-            image: artifact2Image,
+            image: marker2Image,
             isRetrieved: false,
         },
         {
@@ -66,7 +66,7 @@ const SwampScreen = () => {
             title: 'Artifact 3',
             description: 'Third Artifact',
             coordinate: { latitude: 43.309534, longitude: -2.002030},
-            image: artifact3Image,
+            image: marker3Image,
             isRetrieved: false,
         },
         {
@@ -74,7 +74,7 @@ const SwampScreen = () => {
             title: 'Artifact 4',
             description: 'Fourth Artifact',
             coordinate: { latitude:  43.309801, longitude: -2.003381},
-            image: artifact4Image,
+            image: marker4Image,
             isRetrieved: false,
         }
     ];
