@@ -70,6 +70,7 @@ const SwampScreen = () => {
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
     const [markersState, setMarkersState] = useState(markers);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markers.filter((marker) => marker.isRetrieved) || []);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -325,6 +326,36 @@ const TextDescription = styled.Text`
   color: #333;
   flex-wrap: wrap;
 font-family: 'KochAltschrift';
+`;
+
+const GridContainer = styled.View`
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 20px;
+`;
+
+const GridItem = styled.View`
+  width: 45%;
+  margin: 5px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ArtifactImage = styled.Image`
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+`;
+
+const ArtifactTitle = styled.Text`
+  font-size: ${width * 0.05}px;
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'KochAltschrift';
 `;
 
 export default SwampScreen;
