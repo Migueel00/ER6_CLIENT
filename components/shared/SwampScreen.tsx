@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import MapView, {Callout, Marker, Circle} from 'react-native-maps';
@@ -70,7 +70,7 @@ const SwampScreen = () => {
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
     const [markersState, setMarkersState] = useState(markers);
-    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markers.filter((marker) => !marker.isRetrieved) || []);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markersState.filter((marker) => !marker.isRetrieved) || []);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -200,11 +200,11 @@ const SwampScreen = () => {
         console.log(updatedMarkers);
         
         setMarkersState(updatedMarkers);
-
+        setRetrievedArtifacts(updatedMarkers.filter((marker) => !marker.isRetrieved) || [])
         console.log("MARKERS AFTER SET");
         console.log(markersState);
         
-        
+        Vibration.vibrate(100);
     };
     return (
 
@@ -382,12 +382,15 @@ const GridItem = styled.View`
     margin-right: 10px;
     align-items: center;
     justify-content: center;
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: white;
 `;
 
 const EmptyArtifactBox = styled.View`
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.3); 
     align-items: center;
     justify-content: center;
