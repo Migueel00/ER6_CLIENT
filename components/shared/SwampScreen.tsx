@@ -245,9 +245,9 @@ const AvatarContainer = styled.View`
 `;
 
 const AvatarImage = styled.Image`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
+    width: ${width*0.12}px;
+    height: ${width*0.12}px;
+    border-radius: 40px;
 `;
 
 const PermissionButton = styled(TouchableOpacity)`
