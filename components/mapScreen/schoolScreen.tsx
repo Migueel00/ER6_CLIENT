@@ -5,7 +5,7 @@ import AppContext from "../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
 import AcolyteContext from "../../helpers/AcolyteContext";
 
-const mapImage = require('../../assets/backgrounds/map_background.png');
+const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const OutsideHall = require('../../assets/icons/OutsideHall.png');
 
@@ -92,17 +92,17 @@ useEffect(() => {
 
     return (
         <Container>
-            <BackgroundImage source={mapImage} />
+            <BackgroundImage source={schoolMap} />
 
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.72, right: width * 0.35 }}
+                style={{ top: height * 0.80, right: width * 0.395 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleHallIconPress}
-                style={{ top: height * 0.35, right: width * 0.15 }}
+                style={{ top: height * 0.20, right: width * 0.50 }}
             >
                 <HomeIcon source={OutsideHall} />
             </TouchableIcon>
