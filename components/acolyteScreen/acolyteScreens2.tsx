@@ -10,6 +10,9 @@ import { Vibration } from 'react-native';
 import MenuTowerInside from './menu/MenuTowerInside';
 import MenuSwamp from './menu/MenuSwamp';
 import { NavigationContainer } from '@react-navigation/native';
+import MenuOldSchool from './menu/MenuOldSchool';
+import MenuHallInside from './menu/MenuHallInside';
+import MenuHall from './menu/MenuHall';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -32,13 +35,15 @@ const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-
+const isInsideHall = false;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
 const [isMenuInsideLabLoaded, setIsMenuInsideLabLoaded] = useState<boolean>(false);
 const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
 const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
+const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
+const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
 
 const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
@@ -114,17 +119,25 @@ useEffect(() => {
         setIsMenuTowerLoaded,
         isMenuSwampLoaded,
         setIsMenuSwampLoaded,
+        isMenuOldSchoolLoaded,
+        setIsMenuOldSchoolLoaded,
+        isMenuHallOfSagesLoaded,
+        setIsMenuHallOfSagesLoaded,
         isInsideLab,
-        isInsideTower
+        isInsideTower,
+        isInsideHall
       }}>
 
       <NavigationContainer>
         <MenuContainer>
           {isInsideLab ? <MenuLabInside />
           : isInsideTower ? <MenuTowerInside /> 
+          : isInsideHall ? <MenuHallInside/>
           : acolyteLocation === 'LAB' ? <MenuLab />
           : acolyteLocation === 'TOWER' ? <MenuTower/>
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
+          : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
+          : acolyteLocation === 'HALL' ? <MenuHall/>
           : <MenuHome />}    
                       
         </MenuContainer>
