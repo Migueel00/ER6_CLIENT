@@ -35,7 +35,7 @@ const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-const isInsideHall = true;
+const isInsideHall = false;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
