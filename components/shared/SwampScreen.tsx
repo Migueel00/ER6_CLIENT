@@ -1,23 +1,27 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Callout, Marker} from 'react-native-maps';
+import MapView, {Callout, Marker, Circle} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
+import * as geolib from 'geolib';
+import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG} from './mapStyle';
+import Toast from 'react-native-toast-message';
 import Artifact from '../../interfaces/ArtifactsInterface';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
-Marker
-const artifact1Image = require('./../../assets/png/Artifcats/Marker1.png');
-const artifact2Image = require('./../../assets/png/Artifcats/Marker2.png');
-const artifact3Image = require('./../../assets/png/Artifcats/Marker3.png');
-const artifact4Image = require('./../../assets/png/Artifcats/Marker4.png');
+const marker1Image = require('./../../assets/png/Artifcats/Marker1.png');
+const marker2Image = require('./../../assets/png/Artifcats/Marker2.png');
+const marker3Image = require('./../../assets/png/Artifcats/Marker3.png');
+const marker4Image = require('./../../assets/png/Artifcats/Marker4.png');
 
 const { height, width } = Dimensions.get('window');
+
+//43.3246148, -1.9351902
 
 type LocationType = {
     latitude: number;
@@ -40,30 +44,48 @@ const SwampScreen = () => {
             title: 'Artifact 1',
             description: 'First Artifact',
             coordinate: { latitude: 43.310625, longitude: -2.003209 },
-            image: artifact1Image
+            image: marker1Image,
+            isRetrieved: false,
         },
         {
             id: 2,
             title: 'Artifact 2',
             description: 'Second Artifact',
             coordinate: { latitude: 43.310673, longitude: -2.002441 },
-            image: artifact2Image,
+            image: marker2Image,
+            isRetrieved: false,
         },
         {
             id: 3,
             title: 'Artifact 3',
             description: 'Third Artifact',
             coordinate: { latitude: 43.309534, longitude: -2.002030},
-            image: artifact3Image,
+            image: marker3Image,
+            isRetrieved: false,
         },
         {
             id: 4,
             title: 'Artifact 4',
             description: 'Fourth Artifact',
             coordinate: { latitude:  43.309801, longitude: -2.003381},
-            image: artifact4Image
+            image: marker4Image,
+            isRetrieved: false,
         }
     ];
+
+    
+    const [markersState, setMarkersState] = useState(markers);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markersState.filter((marker) => !marker.isRetrieved) || []);
+
+    const [markerColors, setMarkerColors] = useState([
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }, 
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
+    ]);
+
+    const circleRadius = 20;
+
 
 
     // Function to handle location updates
@@ -73,14 +95,28 @@ const SwampScreen = () => {
         console.log("Posición actual del usuario:", latitude, longitude);
         setUserLocation({ latitude, longitude });
     };
-    
-
-    const regionAEG = { latitude: 43.309682,
-                        longitude: -2.002456,
-                        latitudeDelta: 0.001,
-                        longitudeDelta: 0.001}
 
 
+
+    // Comprobar si el usuario está dentro de algún círculo
+    useEffect(() => {
+        if (userLocation) {
+            const updatedColors = markerColors.map((color, index) => {
+                const isUserWithinCircle = geolib.isPointWithinRadius(
+                    userLocation,
+                    markers[index].coordinate,
+                    circleRadius
+                );
+
+                // Cambiar el color solo si está dentro del círculo
+                return isUserWithinCircle
+                    ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
+                    : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
+            });
+
+            setMarkerColors(updatedColors);
+        }
+    }, [userLocation]);
    
     useEffect(() => {
         const requestLocationPermission = async () => {
@@ -120,10 +156,18 @@ const SwampScreen = () => {
           // Obtener la ubicación actual del usuario
           Geolocation.getCurrentPosition(
             (position) => {
+                console.log(
+                    'You are ',
+                    geolib.getDistance(position.coords, {
+                        latitude: markers[0].coordinate.latitude,
+                        longitude: markers[0].coordinate.longitude,
+                    }),
+                    'meters away from 51.525, 7.4575'
+                );
               // Acceder a la ubicación cuando la promesa se resuelva
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
-              console.log("Posición actual del usuario:", latitude, longitude);
+              console.log("Posición inicial del usuario:", latitude, longitude);
               setUserLocation({ latitude, longitude });
             },
             (error) => {
@@ -132,7 +176,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted]); // Dependencia: se ejecuta cuando 'locationPermissionGranted' cambia
+      }, [locationPermissionGranted]); 
 
     useEffect(() => {
         if (locationPermissionGranted) {
@@ -141,11 +185,11 @@ const SwampScreen = () => {
             // Start watching the user position
             const watchId = Geolocation.watchPosition(
                 (position) => {
-                    console.log("Actualización de ubicación:", position);  // Verifica que recibas datos del watcher
+                    //console.log("Actualización de ubicación:", position);  // Verifica que recibas datos del watcher
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 0, interval: 3000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 1000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
@@ -160,26 +204,90 @@ const SwampScreen = () => {
             };
         }
     }, [locationPermissionGranted]);
+
+    const markArtifactAsRetrieved = (markerId: number) => {
+        console.log("MARKING ARTIFACT AS RETRIEVED");
+        
+        const updatedMarkers = markersState.map((marker) =>
+            marker.id === markerId ? { ...marker, isRetrieved: true } : marker
+        );
+
+        console.log("UPDATED MARKERS"); 
+        console.log(updatedMarkers);
+        
+        setMarkersState(updatedMarkers);
+        setRetrievedArtifacts(updatedMarkers.filter((marker) => !marker.isRetrieved) || [])
+        console.log("MARKERS AFTER SET");
+        console.log(markersState);
+        
+        Vibration.vibrate(100);
+    };
     return (
 
         <SwampBackground source={swampBackgroundImage}>
         <MapView
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
             initialRegion={regionAEG} 
-        >   
-        {
-            artifacts.map((artifact, index) => (
-            
-                    <Marker
-                        key={index}
-                        coordinate={artifact.coordinate}
-                        title={artifact.title}
-                        description={artifact.description}
-                        image={require(`./../../assets/png/Artifcats/${artifact.markerImage}`)}
+            customMapStyle={mapStyle}
+        >
+            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
+            markersState.map((marker, index) => (
+                !marker.isRetrieved && (
+                <React.Fragment key={marker.id}>
+                     <Marker
+                        coordinate={marker.coordinate}
+                        image={marker.image}
+                        onPress={() => {
+                            // Verificar si el usuario está dentro o fuera del radio del marcador
+                            if (userLocation) {
+                                const isWithinRadius = geolib.isPointWithinRadius(
+                                    userLocation,
+                                    marker.coordinate,
+                                    circleRadius
+                                );
+
+                                // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
+                                if (isWithinRadius) {
+                                    // Marcar el artefacto como recogido
+                                    markArtifactAsRetrieved(marker.id);
+                                    //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                    Toast.show({
+                                        type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
+                                        position: 'top',   // Posición en la pantalla ('top', 'bottom')
+                                        text1: 'Artifact ' + marker.title + ' retrieved succesfully',
+                                        text1Style: {
+                                          color: 'white',   // Estilo para el primer texto
+                                          fontSize: 18,
+                                          fontWeight: 'bold',
+                                        },
+                                        visibilityTime: 3000, // Duración del toast (en milisegundos)
+                                        topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
+                                      });
+                                }
+                            }
+                        }}
                     >
+                        {/* Solo mostrar el Callout si el usuario está fuera del rango */}
+                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                            <Callout>
+                                <CalloutContainer>
+                                    <TextTitle>{marker.title}</TextTitle>
+                                    <TextDescription>{marker.description}</TextDescription>
+                                </CalloutContainer>
+                            </Callout>
+                        )}
                     </Marker>
-            ))
-        }
+                    <Circle
+                        center={marker.coordinate}
+                        radius={circleRadius}  // Cambiado temporalmente a 10 metros    
+                        strokeColor={markerColors[index].circleColor}
+                        fillColor={markerColors[index].insideCircleColor}
+                    />
+                </React.Fragment>
+                )
+                ))
+            )}
+
             {userLocation && (
                     <Marker
                         coordinate={userLocation}  
@@ -191,7 +299,41 @@ const SwampScreen = () => {
                         </AvatarContainer>
                     </Marker>
                 )}
+
+
         </MapView>
+
+        {retrievedArtifacts.length > 0 && (
+            <>
+            <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
+            <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <GridContainer>
+                    {markersState.map((marker) => (
+                        <GridItem key={marker.id}>
+                            {marker.isRetrieved ? (
+                                <ArtifactImage source={marker.image} />
+                            ) : (
+                                <EmptyArtifactBox />
+                            )}
+                        </GridItem>
+                    ))}
+                </GridContainer>
+            </StyledScrollView>
+    </>
+    )}
+
+        {userLocation && (
+                <CoordinatesContainer>
+                     <CoordinatesText>
+                       Your position
+                    </CoordinatesText>
+                    <CoordinatesText>
+                        Latitude: {userLocation.latitude.toFixed(6)}, Longitude: {userLocation.longitude.toFixed(6)}
+                    </CoordinatesText>
+                </CoordinatesContainer>
+            )}  
+
+
     </SwampBackground>
 
     );
@@ -212,34 +354,9 @@ const AvatarContainer = styled.View`
 `;
 
 const AvatarImage = styled.Image`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-`;
-
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
-    align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
+    width: ${width*0.12}px;
+    height: ${width*0.12}px;
+    border-radius: 40px;
 `;
 
 const KaotikaFont = styled.Text`
@@ -247,6 +364,114 @@ const KaotikaFont = styled.Text`
     font-family: 'KochAltschrift';
     font-size: 40px;
     color: white;
+`;
+
+const CalloutContainer = styled.View`
+  background-color: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: ${width * 0.5}px; 
+`;
+
+const TextTitle = styled.Text`
+font-family: 'KochAltschrift';
+  font-size: ${width * 0.07}px;
+  color: #000;
+  margin-bottom: 10px;
+  flex-wrap: wrap;  
+
+`;
+
+const TextDescription = styled.Text`
+  font-size: ${width * 0.06}px;
+  color: #333;
+  flex-wrap: wrap;
+font-family: 'KochAltschrift';
+`;
+
+const ScrollViewContent = styled.View`
+    align-items: center;
+`;
+
+const ScrollViewTitle = styled.Text`
+    font-size: ${width * 0.08}px;
+    color: white;
+    font-family: 'KochAltschrift';
+    align-self: center; 
+    position: absolute;
+    bottom: ${height * 0.34}px;
+    background-color:  rgba(0, 0, 0, 0.4);
+    padding: 20px 20px;
+    border-radius: 40px;
+`;
+
+const StyledScrollView = styled.ScrollView`
+    position: absolute;
+    bottom: ${height * 0.15}px;
+    left: 10px;
+    right: 10px;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+`;
+
+const GridContainer = styled.View`
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px;
+`;
+
+const GridItem = styled.View`
+    width: ${width * 0.26}px; 
+    height: ${width * 0.26}px;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: white;
+`;
+
+const EmptyArtifactBox = styled.View`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3); 
+    align-items: center;
+    justify-content: center;
+`;
+
+const ArtifactImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+`;
+
+const ArtifactTitle = styled.Text`
+  font-size: ${width * 0.05}px;
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'KochAltschrift';
+`;
+
+const CoordinatesContainer = styled.View`
+    position: absolute;
+    bottom: ${height * 0.04}px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+`;
+
+const CoordinatesText = styled.Text`
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
 `;
 
 export default SwampScreen;

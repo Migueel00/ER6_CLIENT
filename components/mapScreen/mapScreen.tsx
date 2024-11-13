@@ -10,6 +10,7 @@ const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../assets/icons/towerIcon.png');
 const swampIcon =  require('../../assets/icons/swampIcon.png');
+const schoolIcon =  require('../../assets/icons/schoolIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -62,6 +63,7 @@ const MapScreen = () => {
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
     const isMenuTowerLoaded = acolyteContext?.isMenuTowerLoaded;
     const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
+    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -72,6 +74,7 @@ useEffect(() => {
         isMenuLabLoaded,
         isMenuTowerLoaded,
         isMenuSwampLoaded,
+        isMenuOldSchoolLoaded
     });
 
     const navigateToMenu = () => {
@@ -93,7 +96,12 @@ useEffect(() => {
                 break;
             case isMenuLoaded:
                 setTimeout(() => {
-                    navigation.navigate('Home');
+                    navigation.navigate('HOME');
+                }, 200);
+                break;
+            case isMenuOldSchoolLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OLDSCHOOL');
                 }, 200);
                 break;
             default:
@@ -103,7 +111,7 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded]);
+}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded]);
     const handleLabIconPress = () => {
         setLocation('LAB');
         if(isMenuLabLoaded){
@@ -114,7 +122,7 @@ useEffect(() => {
     const handleHomeIconPress = () => {
         setLocation('HOME');
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('HOME');
         }
     }   
 
@@ -136,6 +144,17 @@ useEffect(() => {
         }
     }   
 
+    const handleSchoolIconPress = () => {
+        console.log("PRESSED SCHOOL BUTTON IN MAP");
+        
+        setLocation('OLDSCHOOL');
+        if(isMenuSwampLoaded){
+            console.log("NAVIGATING TO OLDSCHOOL");
+            
+            navigation.navigate('OLDSCHOOL');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -148,7 +167,7 @@ useEffect(() => {
 
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.55, right: width * 0.37 }}
+                style={{ top: height * 0.72, right: width * 0.35 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
@@ -165,6 +184,12 @@ useEffect(() => {
                 style={{ top: height * 0.39, right: width * 0.02 }}
             >
                 <TowerIcon source={swampIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSchoolIconPress}
+                style={{ top: height * 0.60, right: width * 0.45 }}
+            >
+                <TowerIcon source={schoolIcon} />
             </TouchableIcon>
         </Container>
     );
