@@ -27,6 +27,11 @@ interface updateTowerEvent {
   isInsideTower: boolean;
 }
 
+interface updateHallEvent {
+  playerId: string;
+  isInsideTower: boolean;
+}
+
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
@@ -35,7 +40,7 @@ const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-const isInsideHall = false;
+const isInsideHall = player?.isInsideHall!;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
@@ -88,6 +93,24 @@ useEffect(() => {
   };
 }, [player, setPlayer, socket, hasEmitted]);
 
+useEffect(() => {
+  // Escuchar el evento
+  socket?.on('updateHall', ({  playerId, isInsideTower }: updateHallEvent) => {
+    if (player && setPlayer) {
+      if(player._id === playerId){
+        const updatedPlayer = { ...player, isInsideTower };
+        setPlayer(updatedPlayer);
+        Vibration.vibrate(100);
+      }
+    }
+  });
+
+  // Limpiar el evento socket al desmontar el componente
+  return () => {
+    socket?.off('updateHall');
+  };
+}, [player, setPlayer, socket]);
+
 
 useEffect(() => {
   // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
@@ -100,12 +123,16 @@ useEffect(() => {
 }, [hasEmitted]);
 
   useEffect(() => {
-    // console.log("ESTADO DE isInsideLab " + isInsideLab);
+    console.log("ESTADO DE isInsideLab " + isInsideLab);
   }, [isInsideLab]);
 
   useEffect(() => {
     console.log("ESTADO DE isInsideTower " + isInsideTower);
   }, [isInsideTower]);
+
+  useEffect(() => {
+    console.log("ESTADO DE isInsideHall " + isInsideHall);
+  }, [isInsideHall]);
 
   return (
     <AcolyteContext.Provider value={{ 
