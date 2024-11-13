@@ -275,19 +275,22 @@ const SwampScreen = () => {
         </MapView>
 
         {retrievedArtifacts.length > 0 && (
-        <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <GridContainer>
-                {markersState.map((marker) => (
-                    <GridItem key={marker.id}>
-                        {marker.isRetrieved ? (
-                            <ArtifactImage source={marker.image} />
-                        ) : (
-                            <EmptyArtifactBox />
-                        )}
-                    </GridItem>
-                ))}
-            </GridContainer>
-        </StyledScrollView>
+            <>
+            <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
+            <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <GridContainer>
+                    {markersState.map((marker) => (
+                        <GridItem key={marker.id}>
+                            {marker.isRetrieved ? (
+                                <ArtifactImage source={marker.image} />
+                            ) : (
+                                <EmptyArtifactBox />
+                            )}
+                        </GridItem>
+                    ))}
+                </GridContainer>
+            </StyledScrollView>
+    </>
     )}
 
         {userLocation && (
@@ -359,14 +362,29 @@ const TextDescription = styled.Text`
 font-family: 'KochAltschrift';
 `;
 
+const ScrollViewContent = styled.View`
+    align-items: center;
+`;
+
+const ScrollViewTitle = styled.Text`
+    font-size: ${width * 0.08}px;
+    color: white;
+    font-family: 'KochAltschrift';
+    align-self: center; 
+    position: absolute;
+    bottom: ${height * 0.34}px;
+    background-color:  rgba(0, 0, 0, 0.4);
+    padding: 20px 20px;
+    border-radius: 40px;
+`;
+
 const StyledScrollView = styled.ScrollView`
     position: absolute;
-    bottom: ${height * 0.15}px; 
+    bottom: ${height * 0.15}px;
     left: 10px;
     right: 10px;
-    flex-direction: row;
     padding: 10px 0;
-    background-color: rgba(0, 0, 0, 0.4); 
+    background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
 `;
 
@@ -377,8 +395,8 @@ const GridContainer = styled.View`
 `;
 
 const GridItem = styled.View`
-    width: ${width * 0.28}px; 
-    height: ${width * 0.28}px;
+    width: ${width * 0.26}px; 
+    height: ${width * 0.26}px;
     margin-right: 10px;
     align-items: center;
     justify-content: center;
