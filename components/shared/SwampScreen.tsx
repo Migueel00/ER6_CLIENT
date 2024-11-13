@@ -70,7 +70,7 @@ const SwampScreen = () => {
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
     const [markersState, setMarkersState] = useState(markers);
-    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markers.filter((marker) => marker.isRetrieved) || []);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markers.filter((marker) => !marker.isRetrieved) || []);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -160,7 +160,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted]); // Dependencia: se ejecuta cuando 'locationPermissionGranted' cambia
+      }, [locationPermissionGranted]); 
 
     useEffect(() => {
         if (locationPermissionGranted) {
@@ -173,7 +173,7 @@ const SwampScreen = () => {
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 0, interval: 3000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 1000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
@@ -270,7 +270,16 @@ const SwampScreen = () => {
                         </AvatarContainer>
                     </Marker>
                 )}
+
+
         </MapView>
+        {userLocation && (
+                <CoordinatesContainer>
+                    <CoordinatesText>
+                        Latitud: {userLocation.latitude.toFixed(6)}, Longitud: {userLocation.longitude.toFixed(6)}
+                    </CoordinatesText>
+                </CoordinatesContainer>
+            )}  
     </SwampBackground>
 
     );
@@ -356,6 +365,19 @@ const ArtifactTitle = styled.Text`
   text-align: center;
   margin-top: 10px;
   font-family: 'KochAltschrift';
+`;
+
+const CoordinatesContainer = styled.View`
+    position: absolute;
+    bottom: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+`;
+
+const CoordinatesText = styled.Text`
+    color: white;
+    font-size: 16px;
 `;
 
 export default SwampScreen;
