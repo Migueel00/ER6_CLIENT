@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
@@ -6,10 +6,52 @@ import styled from 'styled-components/native';
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const { height, width } = Dimensions.get('window');
 
+interface updateHall {
+    playerId: string;
+    isInsideHall: boolean;
+}
+
 const InsideHall = () => {
 
-    const context = useContext(AppContext);
+    const appContext = useContext(AppContext);
     const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
+    const socket = appContext?.socket;
+    const player = appContext?.player;
+    const players = useContext(AppContext)?.players!;
+    const setPlayers = useContext(AppContext)?.setPlayers;
+    const [activePlayers, setActivePlayers] = useState(players.filter(player => player.isInsideHall));
+
+    useEffect(() => {
+
+        console.log("EN EL USEFFECT DE INSIDEHALL");
+        
+        // Escuchar el evento
+        socket.on('updateHall', ({ playerId, isInsideHall }: updateHall) => {
+            console.log("ASÑLIDFJLKAÑSDJFLKÑASJDÑLFJAÑSDLKFJAÑLSDFJÑLAKSDJFÑLASDJFLÑAJSDÑLKFJSAÑDLF ");
+            const updatePlayers = players.map(player =>
+                player.id === playerId ? { ...player, isInsideHall } : player
+            );
+            
+            console.log(updatePlayers);
+            setPlayers(updatePlayers);
+
+            console.log("PLAYER ID" + playerId);
+            console.log("IS INSIDE HALL " + isInsideHall);
+            console.log("ENTRA AL EVENTO DE UPDATE");
+
+            const newActivePlayers = updatePlayers.filter(player => player.isInsideHall);
+            setActivePlayers(newActivePlayers);
+            
+            console.log("New active players: ");
+            console.log(newActivePlayers);
+
+        });
+
+        // Limpiar el evento socket
+        return () => {
+            socket.off('updateHall');
+        };
+    }, [socket, players, setPlayers, player]);
 
 
     return (
