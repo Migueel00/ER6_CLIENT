@@ -86,13 +86,6 @@ const SwampScreen = () => {
         setUserLocation({ latitude, longitude });
     };
 
-    const isUserWithinMarker1Circle = userLocation && geolib.isPointWithinRadius(
-        userLocation,                            //User location
-        markers[0].coordinate,                   //Marker 1 coords (testing)
-        circleRadius                            //Radius in meters
-    );
-    
-
     const regionAEG = { latitude: 43.309682,
                         longitude: -2.002456,
                         latitudeDelta: 0.001,
