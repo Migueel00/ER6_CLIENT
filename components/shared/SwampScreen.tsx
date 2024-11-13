@@ -195,7 +195,8 @@ const SwampScreen = () => {
             initialRegion={regionAEG} 
             customMapStyle={mapStyle}
         >
-            {markers.map((marker, index) => (
+            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
+            markers.map((marker, index) => (
                 <React.Fragment key={marker.id}>
                     <Marker
                         coordinate={marker.coordinate}
@@ -211,7 +212,8 @@ const SwampScreen = () => {
                     />
                 </React.Fragment>
                     
-                ))}
+                ))
+            )}
 
             {userLocation && (
                     <Marker
