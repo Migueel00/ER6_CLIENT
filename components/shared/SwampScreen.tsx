@@ -52,7 +52,8 @@ const SwampScreen = () => {
             title: 'Artifact 1',
             description: 'First Artifact',
             coordinate: { latitude: 43.310625, longitude: -2.003209 },
-            image: artifact1Image
+            image: artifact1Image,
+            isRetrieved: false,
         },
         {
             id: 2,
@@ -60,6 +61,7 @@ const SwampScreen = () => {
             description: 'Second Artifact',
             coordinate: { latitude: 43.310673, longitude: -2.002441 },
             image: artifact2Image,
+            isRetrieved: false,
         },
         {
             id: 3,
@@ -67,13 +69,15 @@ const SwampScreen = () => {
             description: 'Third Artifact',
             coordinate: { latitude: 43.309534, longitude: -2.002030},
             image: artifact3Image,
+            isRetrieved: false,
         },
         {
             id: 4,
             title: 'Artifact 4',
             description: 'Fourth Artifact',
             coordinate: { latitude:  43.309801, longitude: -2.003381},
-            image: artifact4Image
+            image: artifact4Image,
+            isRetrieved: false,
         }
     ];
 
