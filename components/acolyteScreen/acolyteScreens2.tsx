@@ -29,7 +29,7 @@ interface updateTowerEvent {
 
 interface updateHallEvent {
   playerId: string;
-  isInsideTower: boolean;
+  isInsideHall: boolean;
 }
 
 const AcolyteProvider = () => {
@@ -95,10 +95,10 @@ useEffect(() => {
 
 useEffect(() => {
   // Escuchar el evento
-  socket?.on('updateHall', ({  playerId, isInsideTower }: updateHallEvent) => {
+  socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
     if (player && setPlayer) {
       if(player._id === playerId){
-        const updatedPlayer = { ...player, isInsideTower };
+        const updatedPlayer = { ...player, isInsideHall };
         setPlayer(updatedPlayer);
         Vibration.vibrate(100);
       }
