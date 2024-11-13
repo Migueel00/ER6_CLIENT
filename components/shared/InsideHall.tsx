@@ -15,11 +15,16 @@ const InsideHall = () => {
 
     const appContext = useContext(AppContext);
     const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
-    const players = useContext(AppContext)?.players!;
+    const player = appContext?.player!;
+    const players = appContext?.players;
 
     return (
         <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
-        {/* Other components can go here */}
+            <PlayerRow>
+                    <AvatarWrapper>
+                        <Avatar source={{ uri: player.avatar }} />
+                    </AvatarWrapper>
+            </PlayerRow>
         </InsideHallBackground>
     );
 };
@@ -30,45 +35,28 @@ const InsideHallBackground = styled.ImageBackground`
     width: ${width}px;
     height: ${height}px;
 `;
-const Container = styled.View`
-    flex: 1;
-    justify-content: space-between;
+const PlayerRow = styled.View`
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+`;
+
+const AvatarWrapper = styled.View`
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border-width: 2px;
+    border-color: white;
+    overflow: hidden;
+    margin: 0 10px;
+`;
+
+const Avatar = styled.Image`
     width: 100%;
     height: 100%;
-    padding-top: 20px;
-`;
-
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
-    align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-`;
-
-const KaotikaFont = styled.Text`
-    padding-top: 20px;
-    font-family: 'KochAltschrift';
-    font-size: 40px;
-    color: white;
+    border-radius: 40px;
 `;
 
 export default InsideHall;
