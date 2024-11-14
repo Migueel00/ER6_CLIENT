@@ -9,6 +9,7 @@ import MenuOldSchool from '../acolyteScreen/menu/MenuOldSchool';
 import InsideHall from '../shared/InsideHall';
 import MenuHallMortimer from './components/MenuHallMortimer';
 import { NavigationContainer } from '@react-navigation/native';
+import MenuOldSchoolMortimer from '../acolyteScreen/menu/MenuOldSchoolMortimer';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -46,7 +47,7 @@ const MortimerProvider = () => {
         <MenuContainer>
           {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
           : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
-          : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
+          : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchoolMortimer/>
           : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
           : <MenuMortimer/>}
         </MenuContainer>
