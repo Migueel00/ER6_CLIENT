@@ -1,21 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Callout, Marker, Circle} from 'react-native-maps';
+import MapView, {Callout, Marker, Circle, BoundingBox} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
 import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG} from './mapStyle';
+import Toast from 'react-native-toast-message';
+import Artifact from '../../interfaces/ArtifactsInterface';
+import { URL } from '../../src/API/urls';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
 
 const swampImage = require('./../../assets/backgrounds/swampBackground.png');
-const marker1Image = require('./../../assets/png/Artifcats/Marker1.png');
-const marker2Image = require('./../../assets/png/Artifcats/Marker2.png');
-const marker3Image = require('./../../assets/png/Artifcats/Marker3.png');
-const marker4Image = require('./../../assets/png/Artifcats/Marker4.png');
+
+const getImage = (name: string) => {
+    const images: { [key: string]: any } = {
+        'Marker1.png': require('./../../assets/png/Artifcats/Marker1.png'),
+        'Marker2.png': require('./../../assets/png/Artifcats/Marker2.png'),
+        'Marker3.png': require('./../../assets/png/Artifcats/Marker3.png'),
+        'Marker4.png': require('./../../assets/png/Artifcats/Marker4.png'),
+    };
+
+    return images[name];
+};
 
 const { height, width } = Dimensions.get('window');
 
@@ -27,41 +37,6 @@ type LocationType = {
 };
 
 const SwampScreen = () => {  
-    
-    const markers = [
-        {
-            id: 1,
-            title: 'Artifact 1',
-            description: 'First Artifact',
-            coordinate: { latitude: 43.310625, longitude: -2.003209 },
-            image: marker1Image,
-            isRetrieved: false,
-        },
-        {
-            id: 2,
-            title: 'Artifact 2',
-            description: 'Second Artifact',
-            coordinate: { latitude: 43.310673, longitude: -2.002441 },
-            image: marker2Image,
-            isRetrieved: false,
-        },
-        {
-            id: 3,
-            title: 'Artifact 3',
-            description: 'Third Artifact',
-            coordinate: { latitude: 43.309534, longitude: -2.002030},
-            image: marker3Image,
-            isRetrieved: false,
-        },
-        {
-            id: 4,
-            title: 'Artifact 4',
-            description: 'Fourth Artifact',
-            coordinate: { latitude:  43.309801, longitude: -2.003381},
-            image: marker4Image,
-            isRetrieved: false,
-        }
-    ];
 
     const context = useContext(AppContext);
     const player = context?.player;
@@ -69,8 +44,9 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [markersState, setMarkersState] = useState(markers);
-    const [retrievedArtifacts, setRetrievedArtifacts] = useState(markers.filter((marker) => !marker.isRetrieved) || []);
+    const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+    const [isArtifacts, setIsArtifacts] = useState<boolean>(false);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState(artifacts.filter((marker) => !marker.isRetrieved) || []);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -79,7 +55,7 @@ const SwampScreen = () => {
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
     ]);
 
-    const circleRadius = 1;
+    const circleRadius = 20;
 
 
 
@@ -99,7 +75,7 @@ const SwampScreen = () => {
             const updatedColors = markerColors.map((color, index) => {
                 const isUserWithinCircle = geolib.isPointWithinRadius(
                     userLocation,
-                    markers[index].coordinate,
+                    artifacts[index].coordinate,
                     circleRadius
                 );
 
@@ -132,9 +108,21 @@ const SwampScreen = () => {
 
         requestLocationPermission();
     }, []);
-    
+
+
     useEffect(() => {
-        if (locationPermissionGranted) {
+        fetch(URL.GET_ARTIFACTS)
+            .then((response) => response.json())
+            .then((artifacts) => {
+                console.log(artifacts);
+                const data = artifacts.data;
+                setArtifacts(data);
+                setIsArtifacts(true);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (locationPermissionGranted && isArtifacts) {
           console.log("PERMISOS OTORGADOS");
     
           // Obtener la ubicación actual del usuario
@@ -143,8 +131,8 @@ const SwampScreen = () => {
                 console.log(
                     'You are ',
                     geolib.getDistance(position.coords, {
-                        latitude: markers[0].coordinate.latitude,
-                        longitude: markers[0].coordinate.longitude,
+                        latitude: artifacts[0].coordinate.latitude,
+                        longitude: artifacts[0].coordinate.longitude,
                     }),
                     'meters away from 51.525, 7.4575'
                 );
@@ -160,7 +148,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted]); 
+      }, [locationPermissionGranted, isArtifacts]); 
 
     useEffect(() => {
         if (locationPermissionGranted) {
@@ -192,19 +180,19 @@ const SwampScreen = () => {
     const markArtifactAsRetrieved = (markerId: number) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
         
-        const updatedMarkers = markersState.map((marker) =>
+        const updatedMarkers = artifacts.map((marker) =>
             marker.id === markerId ? { ...marker, isRetrieved: true } : marker
         );
 
         console.log("UPDATED MARKERS"); 
         console.log(updatedMarkers);
         
-        setMarkersState(updatedMarkers);
-
+        setArtifacts(updatedMarkers);
+        setRetrievedArtifacts(updatedMarkers.filter((marker) => !marker.isRetrieved) || [])
         console.log("MARKERS AFTER SET");
-        console.log(markersState);
+        console.log(artifacts);
         
-        
+        Vibration.vibrate(100);
     };
     return (
 
@@ -215,12 +203,12 @@ const SwampScreen = () => {
             customMapStyle={mapStyle}
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
-            markersState.map((marker, index) => (
+            artifacts.map((marker, index) => (
                 !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                      <Marker
                         coordinate={marker.coordinate}
-                        image={marker.image}
+                        image={getImage(marker.markerImage)}
                         onPress={() => {
                             // Verificar si el usuario está dentro o fuera del radio del marcador
                             if (userLocation) {
@@ -234,6 +222,19 @@ const SwampScreen = () => {
                                 if (isWithinRadius) {
                                     // Marcar el artefacto como recogido
                                     markArtifactAsRetrieved(marker.id);
+                                    //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                    Toast.show({
+                                        type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
+                                        position: 'top',   // Posición en la pantalla ('top', 'bottom')
+                                        text1: 'Artifact ' + marker.title + ' retrieved succesfully',
+                                        text1Style: {
+                                          color: 'white',   // Estilo para el primer texto
+                                          fontSize: 18,
+                                          fontWeight: 'bold',
+                                        },
+                                        visibilityTime: 3000, // Duración del toast (en milisegundos)
+                                        topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
+                                      });
                                 }
                             }
                         }}
@@ -250,7 +251,7 @@ const SwampScreen = () => {
                     </Marker>
                     <Circle
                         center={marker.coordinate}
-                        radius={4}  // Cambiado temporalmente a 10 metros
+                        radius={circleRadius}  // Cambiado temporalmente a 10 metros    
                         strokeColor={markerColors[index].circleColor}
                         fillColor={markerColors[index].insideCircleColor}
                     />
@@ -273,13 +274,38 @@ const SwampScreen = () => {
 
 
         </MapView>
+
+        {retrievedArtifacts  && (
+            <>
+            <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
+            <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <GridContainer>
+                    {artifacts.map((marker) => (
+                        <GridItem key={marker.id}>
+                            {marker.isRetrieved ? (
+                                <ArtifactImage source={getImage(marker.markerImage)} />
+                            ) : (
+                                <EmptyArtifactBox />
+                            )}
+                        </GridItem>
+                    ))}
+                </GridContainer>
+            </StyledScrollView>
+    </>
+    )}
+
         {userLocation && (
                 <CoordinatesContainer>
+                     <CoordinatesText>
+                       Your position
+                    </CoordinatesText>
                     <CoordinatesText>
-                        Latitud: {userLocation.latitude.toFixed(6)}, Longitud: {userLocation.longitude.toFixed(6)}
+                        Latitude: {userLocation.latitude.toFixed(6)}, Longitude: {userLocation.longitude.toFixed(6)}
                     </CoordinatesText>
                 </CoordinatesContainer>
             )}  
+
+
     </SwampBackground>
 
     );
@@ -337,26 +363,62 @@ const TextDescription = styled.Text`
 font-family: 'KochAltschrift';
 `;
 
+const ScrollViewContent = styled.View`
+    align-items: center;
+`;
+
+const ScrollViewTitle = styled.Text`
+    font-size: ${width * 0.08}px;
+    color: white;
+    font-family: 'KochAltschrift';
+    align-self: center; 
+    position: absolute;
+    bottom: ${height * 0.34}px;
+    background-color:  rgba(0, 0, 0, 0.4);
+    padding: 20px 20px;
+    border-radius: 40px;
+`;
+
+const StyledScrollView = styled.ScrollView`
+    position: absolute;
+    bottom: ${height * 0.15}px;
+    left: 10px;
+    right: 10px;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+`;
+
 const GridContainer = styled.View`
-  flex: 1;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 10px;
-  margin-top: 20px;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px;
 `;
 
 const GridItem = styled.View`
-  width: 45%;
-  margin: 5px;
-  align-items: center;
-  justify-content: center;
+    width: ${width * 0.26}px; 
+    height: ${width * 0.26}px;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: white;
+`;
+
+const EmptyArtifactBox = styled.View`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3); 
+    align-items: center;
+    justify-content: center;
 `;
 
 const ArtifactImage = styled.Image`
-  width: 100%;
-  height: 150px;
-  border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 `;
 
 const ArtifactTitle = styled.Text`
@@ -369,15 +431,19 @@ const ArtifactTitle = styled.Text`
 
 const CoordinatesContainer = styled.View`
     position: absolute;
-    bottom: 40px;
+    bottom: ${height * 0.04}px;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
     border-radius: 10px;
 `;
 
 const CoordinatesText = styled.Text`
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     color: white;
-    font-size: 16px;
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
 `;
 
 export default SwampScreen;
