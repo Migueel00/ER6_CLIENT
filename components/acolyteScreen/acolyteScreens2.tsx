@@ -112,19 +112,21 @@ useEffect(() => {
         setPlayer(updatedPlayer);
         console.log("UPDATED PLAYER ISINSIDEHALL");
         console.log(player.isInsideHall);
+        Vibration.vibrate(100);
       }
 
-        Vibration.vibrate(100);
-
+      else {
         const updatePlayers = players.map(player =>
           player.id === playerId ? { ...player, isInsideHall } : player
       );
 
-      console.log("UPDATED PLAYERS LIST:");
-      updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
-      setPlayers(updatePlayers);
-      Vibration.vibrate(100);
-      
+        console.log("UPDATED PLAYERS LIST:");
+        updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
+        setPlayers(updatePlayers);
+        Vibration.vibrate(100);
+      }
+
+
     }
   });
 
