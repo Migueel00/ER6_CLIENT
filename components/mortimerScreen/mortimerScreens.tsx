@@ -22,10 +22,6 @@ interface updateEvent {
   isInsideLab: boolean;
 }
 
-interface updateHallEvent {
-  playerId: string;
-  isInsideHall: boolean;
-}
 
 const MortimerProvider = () => {
 
@@ -67,43 +63,7 @@ const MortimerProvider = () => {
     };
 }, [players, setPlayers]);
 
-  useEffect(() => {
-    // Escuchar el evento
-    // Escuchar el evento
-    socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
-      if (player && setPlayer) {
-        if(player._id === playerId) {
-       
-          console.log("PLAYER ID MATCHES");
-          const updatedPlayer = { ...player, isInsideHall };
-  
-          setPlayer(updatedPlayer);
-          console.log("UPDATED PLAYER ISINSIDEHALL");
-          console.log(player.isInsideHall);
-  
-          Vibration.vibrate(100);
-        }
-  
-        else {
-  
-          if(player.location === 'HALL'){
-            Vibration.vibrate(100);
-          }
-  
-        }
-  
-        console.log("UPDATED PLAYERS LIST:");
-        const updatePlayers = players.map(player  => player._id === playerId ? { ...player, isInsideHall } : player );
-        updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
-        setPlayers(updatePlayers);
-      }
-    });
-  
-    // Limpiar el evento socket al desmontar el componente
-    return () => {
-      socket?.off('updateHall');
-    };
-  }, [player, setPlayer, socket]);
+
 
   return (
     <MortimerContext.Provider value={{
