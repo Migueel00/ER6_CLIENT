@@ -142,7 +142,7 @@ const SwampScreen = () => {
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
               console.log("Posición inicial del usuario:", latitude, longitude);
-              setUserLocation({ latitude: 43.309801, longitude: -2.003589});
+              setUserLocation({ latitude, longitude });
             },
             (error) => {
               // Manejo de errores si no se puede obtener la ubicación
@@ -207,7 +207,7 @@ const SwampScreen = () => {
 
         updatedMarkers.map(artifact => {
             if(artifact.id === markerId){
-                
+
                 updateArtifact(artifact._id, artifact.isRetrieved);
             }
         });
