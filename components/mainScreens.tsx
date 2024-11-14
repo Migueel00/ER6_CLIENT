@@ -7,6 +7,7 @@ import AppContext from "../helpers/context";
 import VillainScreens from "./villainScreen/VillainScreens";
 
 interface updateHallEvent {
+    nickname: string,
     playerId: string;
     isInsideHall: boolean;
 }
@@ -20,23 +21,31 @@ const MainScreens = () => {
     const setPlayers = appContext?.setPlayers;
 
     useEffect(() => {
-        socket?.on('updateMyHall', ({ playerId, isInsideHall }: updateHallEvent) => {
+        socket?.on('updateMyHall', ({ nickname, playerId, isInsideHall }: updateHallEvent) => {
             if (player && setPlayer) {
+                if(playerId === player._id){
+                    console.log("INCOMMING NICKNAME: " + nickname);
                     console.log("INCOMING IS INSIDE HALL:", isInsideHall);
+                    console.log("INCOMING PLAYERID:", playerId);
     
                     // Actualiza el jugador actual
                     const updatedPlayer = { ...player, isInsideHall };
                     setPlayer(updatedPlayer);
 
-
-
-                            // Actualiza el jugador en el array `players`
-                    if (players && setPlayers) {
-                        const updatedPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
-                        setPlayers(updatedPlayers);
-                    }
+                }
+                  
+                if (players && setPlayers) {
+                    const updatedPlayers = players.map(p => {
+                        if (p._id === playerId) {
+                            console.log("Nickname encontrado:", p.nickname); // Imprime el nickname del jugador
+                            return { ...p, isInsideHall };
+                        }
+                        return p;
+                    });
+                    setPlayers(updatedPlayers);
+                }
                     
-                    Vibration.vibrate(100);
+            Vibration.vibrate(100);
             }
         });
 
