@@ -312,9 +312,6 @@ function App(): React.JSX.Element {
       const profileData = await response.json();
       const profileDataAttr = profileData.data.attributes
       setProfileAttributes(profileDataAttr);
-
-      
-      
     
       const playerDataToPost    = profileData.data;
       playerDataToPost.socketId = socket?.id;
@@ -328,9 +325,7 @@ function App(): React.JSX.Element {
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
 
-      if(player.role === 'MORTIMER'){
-        await getDataAndAsign();
-      }
+      await getDataAndAsign();
       
       setIsLoggedIn(true);
       setIsSpinner(false);

@@ -19,6 +19,11 @@ const InsideHall = () => {
     const socket = appContext?.socket;
     const players = appContext?.players;
 
+    useEffect(() => {
+        if (players) {
+            players.map(player => console.log(player.nickname));
+        }
+    }, [players]);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
