@@ -41,6 +41,7 @@ const SwampScreen = () => {
     const context = useContext(AppContext);
     const player = context?.player;
     const avatar = player?.avatar;
+    const socket = context?.socket;
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
@@ -176,6 +177,17 @@ const SwampScreen = () => {
             };
         }
     }, [locationPermissionGranted]);
+    
+    useEffect(() => {         
+        socket?.on('updateArtifact', (updateArtifact: Artifact) => {             
+            const updatedArtifacts: Artifact[] = artifacts.map(artifact => 
+                artifact.id === updateArtifact.id ? updateArtifact : artifact
+            );             
+            
+            setArtifacts(updatedArtifacts);         
+        });      
+    }, []);
+    
 
     const markArtifactAsRetrieved = (markerId: number) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
@@ -194,6 +206,7 @@ const SwampScreen = () => {
         
         Vibration.vibrate(100);
     };
+
     return (
 
         <SwampBackground source={swampBackgroundImage}>
