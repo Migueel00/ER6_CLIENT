@@ -71,7 +71,7 @@ useEffect(() => {
                 break;
             case isMenuLabLoaded:
                 setTimeout(() => {
-                    navigation.navigate('HALL');
+                    navigation.navigate('LAB');
                 }, 200);
                 break;
             
