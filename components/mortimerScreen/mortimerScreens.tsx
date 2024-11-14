@@ -19,6 +19,9 @@ const MortimerProvider = () => {
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
   const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
+  const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
+  const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
+  const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
 
   return (
     <MortimerContext.Provider value={{
@@ -27,7 +30,13 @@ const MortimerProvider = () => {
       isMenuConnectionLoaded,
       setIsMenuConnectionLoaded,
       isMenuTowerLoaded,
-      setIsMenuTowerLoaded
+      setIsMenuTowerLoaded,
+      isMenuSwampLoaded,
+      setIsMenuSwampLoaded,
+      isMenuOldSchoolLoaded,
+      setIsMenuOldSchoolLoaded,
+      isMenuHallOfSagesLoaded,
+      setIsMenuHallOfSagesLoaded
     }}>
       <MenuContainer>
         {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 

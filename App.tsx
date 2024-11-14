@@ -186,6 +186,7 @@ function App(): React.JSX.Element {
     const userInfo = await GoogleSignin.signIn();
 
 
+    //const email = 'oskar.calvo@aeg.eus';
     const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
