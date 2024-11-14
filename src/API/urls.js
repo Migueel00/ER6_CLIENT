@@ -5,4 +5,5 @@ export const URL = {
     VERIFY_TOKEN:  'http://10.80.128.226:3000/verify-token',
     SOCKET: 'http://10.80.128.226:3000',
     NOTIFICATION: 'http://10.80.128.226:3000/send-notification',
+    GET_ARTIFACTS: 'http://10.80.128.226:3000/api/artifacts'
 }

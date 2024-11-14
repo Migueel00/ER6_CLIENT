@@ -85,18 +85,6 @@ const MenuHallInside = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
 
             </Tab.Navigator>
 

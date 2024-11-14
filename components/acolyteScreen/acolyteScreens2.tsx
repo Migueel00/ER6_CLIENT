@@ -27,15 +27,26 @@ interface updateTowerEvent {
   isInsideTower: boolean;
 }
 
+interface updateHallEvent {
+  playerId: string;
+  isInsideHall: boolean;
+}
+
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
-const [player, setPlayer] = useState(appContext?.player);
+// const [player, setPlayer] = useState(appContext?.player);
+const player = appContext?.player;
+const setPlayer = appContext?.setPlayer;
+
+const players = appContext?.players!;
+const setPlayers = useContext(AppContext)?.setPlayers;
+
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-const isInsideHall = false;
+const isInsideHall = player?.isInsideHall!;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
@@ -88,6 +99,39 @@ useEffect(() => {
   };
 }, [player, setPlayer, socket, hasEmitted]);
 
+useEffect(() => {
+  // Escuchar el evento
+  socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
+    if (player && setPlayer) {
+      if(player._id === playerId){
+        console.log("PLAYER ID MATCHES");
+        const updatedPlayer = { ...player, isInsideHall };
+
+        setPlayer(updatedPlayer);
+        console.log("UPDATED PLAYER ISINSIDEHALL");
+        console.log(player.isInsideHall);
+
+        Vibration.vibrate(100);
+      }
+      else {
+        const updatePlayers = players.map(player =>
+          player.id === playerId ? { ...player, isInsideHall } : player
+      );
+
+      console.log("UPDATED PLAYERS LIST:");
+      updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
+      setPlayers(updatePlayers);
+      Vibration.vibrate(100);
+      }
+    }
+  });
+
+  // Limpiar el evento socket al desmontar el componente
+  return () => {
+    socket?.off('updateHall');
+  };
+}, [player, setPlayer, socket]);
+
 
 useEffect(() => {
   // Resetear el emit después de 5 segundos si no se ha vuelto a emitir
@@ -100,12 +144,16 @@ useEffect(() => {
 }, [hasEmitted]);
 
   useEffect(() => {
-    // console.log("ESTADO DE isInsideLab " + isInsideLab);
+    console.log("ESTADO DE isInsideLab " + isInsideLab);
   }, [isInsideLab]);
 
   useEffect(() => {
     console.log("ESTADO DE isInsideTower " + isInsideTower);
   }, [isInsideTower]);
+
+  useEffect(() => {
+    console.log("ESTADO DE isInsideHall " + isInsideHall);
+  }, [isInsideHall]);
 
   return (
     <AcolyteContext.Provider value={{ 

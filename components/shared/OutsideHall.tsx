@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
@@ -7,63 +7,55 @@ const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
 
 const OutsideHall = () => {
+    const appContext = useContext(AppContext);
+    const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
+    const socket = appContext?.socket;
+    const player = appContext?.player;
+    
+    const values = {
+        socketId: appContext?.socketID,
+        playerID: appContext?.player._id,
+        isInsideHall: player?.isInsideHall,
+    };
 
-    const context = useContext(AppContext);
-    const [outsideHallBackgroundIMage, setLabBackgroundImage] = useState(outsideHallImage);
 
+    const handleEnterHall = () => {
+        console.log("ENTERING HALL");
+        console.log("ACTUAL IS INSIDE HALL STATE:");
+        console.log(player?.isInsideHall);
+
+        const values = {
+            socketId: appContext?.socketID,
+            playerID: appContext?.player._id,
+            isInsideHall: player?.isInsideHall,
+        };
+
+        socket.emit("HallDoorPressed", values);
+    };
 
     return (
-        <SwampBackground source={outsideHallBackgroundIMage} width={width} height={height}>
-        {/* Other components can go here */}
-        </SwampBackground>
+        <OutsideHallBackground source={outsideHallBackgroundImage}>
+            <StyledButton onPress={handleEnterHall}>
+            </StyledButton>
+        </OutsideHallBackground>
     );
 };
-const SwampBackground = styled.ImageBackground`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    width: ${width}px;
-    height: ${height}px;
-`;
-const Container = styled.View`
-    flex: 1;
-    justify-content: space-between;
-    align-items: center;
+
+const OutsideHallBackground = styled.ImageBackground`
     width: 100%;
     height: 100%;
-    padding-top: 20px;
-`;
-
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
     align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
     justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const KaotikaFont = styled.Text`
-    padding-top: 20px;
-    font-family: 'KochAltschrift';
-    font-size: 40px;
-    color: white;
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.3)';
+    margin-top: ${height * -0.10}px;
+    height: ${height * 0.5}px;
+    width: ${width * 1}px;
+    align-items: 'center';
+    border-radius: ${width * 1}px;
 `;
+
 
 export default OutsideHall;
