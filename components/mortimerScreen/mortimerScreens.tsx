@@ -69,35 +69,33 @@ const MortimerProvider = () => {
 
   useEffect(() => {
     // Escuchar el evento
+    // Escuchar el evento
     socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
       if (player && setPlayer) {
         if(player._id === playerId) {
-
-          console.log("PLAYER ID MATCHES FOR MORTIMER");
+       
+          console.log("PLAYER ID MATCHES");
           const updatedPlayer = { ...player, isInsideHall };
   
           setPlayer(updatedPlayer);
           console.log("UPDATED PLAYER ISINSIDEHALL");
           console.log(player.isInsideHall);
-
-          const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideHall } : player );
-
-          setPlayers(updatePlayers);
-          
-          Vibration.vibrate(100);
-        } else {
-          console.log("PLAYER ID DOESNT MATCH FOR MORTIMER");
-          const updatePlayers = players.map(player =>
-            player._id === playerId ? { ...player, isInsideHall } : player
-        );
   
-          console.log("UPDATED PLAYERS LIST:");
-          updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
-          setPlayers(updatePlayers);
           Vibration.vibrate(100);
         }
   
+        else {
   
+          if(player.location === 'HALL'){
+            Vibration.vibrate(100);
+          }
+  
+        }
+  
+        console.log("UPDATED PLAYERS LIST:");
+        const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideHall } : player );
+        updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
+        setPlayers(updatePlayers);
       }
     });
   
