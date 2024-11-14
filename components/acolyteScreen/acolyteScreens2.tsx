@@ -112,6 +112,11 @@ useEffect(() => {
         setPlayer(updatedPlayer);
         console.log("UPDATED PLAYER ISINSIDEHALL");
         console.log(player.isInsideHall);
+
+        const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideHall } : player );
+
+        setPlayers(updatePlayers);
+
         Vibration.vibrate(100);
       }
 
