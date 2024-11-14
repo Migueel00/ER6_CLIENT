@@ -90,24 +90,25 @@ const PlayerRow = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    padding-top: ${height * 0.2}px;
     width: 100%;
     padding: 20px;
 `;
 
 const AvatarWrapper = styled.View`
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    border-width: 2px;
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: ${width * 0.5}px;
+    border-width: ${width * 0.004}px;
     border-color: white;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 0 ${width * 0.05}px;
 `;
 
 const Avatar = styled.Image`
     width: 100%;
     height: 100%;
-    border-radius: 40px;
+    border-radius: ${width * 0.4}px;
 `;
 
 export default InsideHall;
