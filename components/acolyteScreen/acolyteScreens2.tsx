@@ -41,7 +41,7 @@ const player = appContext?.player;
 const setPlayer = appContext?.setPlayer;
 
 const players = appContext?.players!;
-const setPlayers = useContext(AppContext)?.setPlayers;
+const setPlayers = appContext?.setPlayers;
 
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
