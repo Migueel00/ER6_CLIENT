@@ -38,6 +38,10 @@ const appContext = useContext(AppContext);
 // const [player, setPlayer] = useState(appContext?.player);
 const player = appContext?.player;
 const setPlayer = appContext?.setPlayer;
+
+const players = appContext?.players!;
+const setPlayers = useContext(AppContext)?.setPlayers;
+
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
@@ -104,10 +108,16 @@ useEffect(() => {
         const updatedPlayer = { ...player, isInsideHall };
 
         setPlayer(updatedPlayer);
-
         console.log("UPDATED PLAYER ISINSIDEHALL");
         console.log(player.isInsideHall);
         
+        const updatePlayers = players.map(player =>
+          player.id === playerId ? { ...player, isInsideHall } : player
+      );
+
+      console.log("UPDATE PLAYERS:");
+      console.log(updatePlayers);
+      setPlayers(updatePlayers);
 
         Vibration.vibrate(100);
       }
