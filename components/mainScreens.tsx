@@ -43,19 +43,20 @@ const MainScreens = () => {
               if(player.location === 'HALL'){
                 Vibration.vibrate(100);
               }
+    
+              console.log("PLAYER_ID:");
+              console.log(player._id);
       
+              const updatePlayers = players.map(player  => player._id === playerId ? { ...player, isInsideHall } : player );
+              updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, Player Nickname: ${p.nickname}, isInsideHall: ${p.isInsideHall}`));
+      
+              console.log("UPDATED PLAYERS");
+              console.log(updatePlayers);
+              
+              setPlayers(updatePlayers);
             }
       
-            console.log("PLAYER_ID:");
-            console.log(player._id);
-    
-            const updatePlayers = players.map(player  => player._id === playerId ? { ...player, isInsideHall } : player );
-            updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, Player Nickname: ${p.nickname}, isInsideHall: ${p.isInsideHall}`));
-    
-            console.log("UPDATED PLAYERS");
-            console.log(updatePlayers);
-            
-            setPlayers(updatePlayers);
+
           }
         });
       
