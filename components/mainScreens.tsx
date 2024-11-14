@@ -25,7 +25,7 @@ const MainScreens = () => {
                     console.log("INCOMING IS INSIDE HALL:", isInsideHall);
     
                     // Actualiza el jugador actual
-                    const updatedPlayer = { ...player, isInsideHall: isInsideHall };
+                    const updatedPlayer = { ...player, isInsideHall };
                     setPlayer(updatedPlayer);
 
 
