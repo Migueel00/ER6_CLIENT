@@ -1,6 +1,3 @@
-import { Key } from "react"
-import { ImageURISource } from "react-native"
-
 export default interface Artifact {
     id: number,
     title: string,
