@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import AppContext from '../../helpers/context';
+import AcolyteContext from '../../helpers/AcolyteContext';
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 
 const buttonImage = require('../../assets/png/button1.png');
 const qrImage = require('../../assets/png/epicQR3.png');
@@ -10,13 +12,19 @@ const outsideLabImage = require('../../assets/png/LabEntrance.png');
 const OutsideLab = () => {
     const { height, width } = Dimensions.get('window');
     const context = useContext(AppContext);
+    const acolyteContext = useContext(AcolyteContext);
 
     // Inicializa el estado isInsideLab con el valor de player.isInsideLab
     const isInsideLab = context?.player.isInsideLab;
+    const setLocation = context?.setLocation;
+    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
     const [modalVisible, setModalVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Request entrance permission");
     const [screenText, setScreenText] = useState("Angelo's laboratory Door");
     const [labBackgroundImage, setLabBackgroundImage] = useState(outsideLabImage);
+
+    // Navigation tipado
+    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     
     const toggleModal = () => {
@@ -30,6 +38,17 @@ const OutsideLab = () => {
         toggleModal();
         }
     };
+
+    const handleGoToCorridor = () => {
+        console.log("PRESSED SCHOOL BUTTON IN MAP");
+        
+        setLocation('OLDSCHOOL');
+        if(isMenuOldSchoolLoaded){
+            console.log("NAVIGATING TO OLDSCHOOL");
+            
+            navigation.navigate('OLDSCHOOL');
+        }
+    }   
 
     const qrValue = {
         userEmail: context?.player.email,

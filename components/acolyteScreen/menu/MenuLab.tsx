@@ -69,19 +69,6 @@ const MenuLab = () => {
                     },
                 })}
             >   
-
-                <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
                 <Tab.Screen
                     name="LAB"
                     component={LabScreen}
@@ -118,6 +105,7 @@ const MenuLab = () => {
                             tabBarLabel: '',
                         }}
                     />
+
             </Tab.Navigator>
     );
 }
