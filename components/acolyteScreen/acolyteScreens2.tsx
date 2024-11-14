@@ -117,7 +117,7 @@ useEffect(() => {
 
       else {
         const updatePlayers = players.map(player =>
-          player.id === playerId ? { ...player, isInsideHall } : player
+          player._id === playerId ? { ...player, isInsideHall } : player
       );
 
         console.log("UPDATED PLAYERS LIST:");
