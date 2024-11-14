@@ -148,7 +148,7 @@ useEffect(() => {
         console.log("PRESSED SCHOOL BUTTON IN MAP");
         
         setLocation('OLDSCHOOL');
-        if(isMenuSwampLoaded){
+        if(isMenuOldSchoolLoaded){
             console.log("NAVIGATING TO OLDSCHOOL");
             
             navigation.navigate('OLDSCHOOL');
