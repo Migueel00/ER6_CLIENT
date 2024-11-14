@@ -418,7 +418,7 @@ function App(): React.JSX.Element {
         setParchment: setParchmentState,
         tower_ingredients: towerIngredientsState,
         setTowerIngredientsState,
-        setPlayer
+        setPlayer: setPlayer
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
