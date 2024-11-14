@@ -104,6 +104,7 @@ useEffect(() => {
   // Escuchar el evento
   socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
     if (player && setPlayer) {
+      if(player._id === playerId) {
      
         console.log("PLAYER ID MATCHES");
         const updatedPlayer = { ...player, isInsideHall };
@@ -111,6 +112,7 @@ useEffect(() => {
         setPlayer(updatedPlayer);
         console.log("UPDATED PLAYER ISINSIDEHALL");
         console.log(player.isInsideHall);
+      }
 
         Vibration.vibrate(100);
 
