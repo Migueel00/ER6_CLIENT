@@ -43,16 +43,22 @@ const InsideHall = () => {
     return (
         <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
             <PlayerRow>
-                    <AvatarWrapper>
-                        <Avatar source={{ uri: player.avatar }} />
-                    </AvatarWrapper>
+                {players && players
+                    .filter(player => player.isInsideHall)
+                    .map(player => (
+                        <AvatarWrapper key={player._id}>
+                            <Avatar source={{ uri: player.avatar }} />
+                        </AvatarWrapper>
+                    ))
+                }
             </PlayerRow>
-
+    
             <StyledButton onPress={handleExitHall}>
                 <StyledButtonText>Exit from the Hall</StyledButtonText>
             </StyledButton>
         </InsideHallBackground>
     );
+    
 };
 
 const StyledButtonText = styled.Text`
