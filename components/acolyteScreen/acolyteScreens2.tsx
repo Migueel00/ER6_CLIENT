@@ -125,7 +125,7 @@ useEffect(() => {
       }
 
       console.log("UPDATED PLAYERS LIST:");
-      const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideHall } : player );
+      const updatePlayers = players.map(player  => player._id === playerId ? { ...player, isInsideHall } : player );
       updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
       setPlayers(updatePlayers);
     }
