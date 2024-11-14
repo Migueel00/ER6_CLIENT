@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
+import AcolyteContext from '../../helpers/AcolyteContext';
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 
 const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
@@ -11,6 +13,11 @@ const OutsideHall = () => {
     const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
     const socket = appContext?.socket;
     const player = appContext?.player;
+    const acolyteContext = useContext(AcolyteContext);
+    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
+    const setLocation = appContext?.setLocation;
+
+    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
     
     const values = {
         socketId: appContext?.socketID,
@@ -33,10 +40,25 @@ const OutsideHall = () => {
         socket.emit("HallDoorPressed", values);
     };
 
+    const handleGoToCorridor = () => {
+        console.log("PRESSED SCHOOL BUTTON IN MAP");
+        
+        setLocation('OLDSCHOOL');
+        if(isMenuOldSchoolLoaded){
+            console.log("NAVIGATING TO OLDSCHOOL");
+            
+            navigation.navigate('OLDSCHOOL');
+        }
+    }   
+
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
             <StyledButton onPress={handleEnterHall}>
             </StyledButton>
+
+            <StyledCorridorButton onPress={handleGoToCorridor}>
+                <StyledButtonText>Go back to the corridor</StyledButtonText>
+            </StyledCorridorButton>
         </OutsideHallBackground>
     );
 };
@@ -55,6 +77,24 @@ const StyledButton = styled(TouchableOpacity)`
     width: ${width * 1}px;
     align-items: 'center';
     border-radius: ${width * 1}px;
+`;
+
+const StyledButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07}px;
+    font-family: 'KochAltschrift';
+    padding: 10px;
+`;
+
+const StyledCorridorButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.65}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.03}px;
 `;
 
 
