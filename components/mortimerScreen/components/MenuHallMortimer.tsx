@@ -1,45 +1,26 @@
-import React, { useContext, useEffect } from "react";
-import { Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../shared/labScreen";
-import MapScreen from "../../mapScreen/mapScreen";
+import React from "react";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
-import AcolyteContext from "../../../helpers/AcolyteContext";
+import * as CONSTANTS from "../../../src/constants";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
-import * as CONSTANTS from "../../../src/constants";
-import AppContext from "../../../helpers/context";
+import OutsideHall from "../../shared/OutsideHall";
+import HallScreen from "../../shared/HallScreen";
+import MapScreenMortimer from "./MapScreenMortimer";
+
 
 const Tab = createMaterialTopTabNavigator();
 
 const { height, width } = Dimensions.get('window');
+
 const Icon = styled.Image`
     width: ${CONSTANTS.ICON_WIDTH * width}px;
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuLab = () => {
-    const acolyteContext = useContext(AcolyteContext);
-    const appContext = useContext(AppContext);
-    const socket = appContext?.socket;
-    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
-
-    useEffect(() => {
-        setIsMenuLabLoaded(true);
-
-        const value = {
-            playerID: appContext?.player._id,
-            location: appContext?.location
-        };
-
-        socket.emit("UpdateLocation", value);
-
-        // Se ejecuta al desmontar el componente
-        return () => {
-            setIsMenuLabLoaded(false);
-        }
-    }, []);
+const MenuHallMortimer = () => {
+    
 
     return (
             <Tab.Navigator
@@ -68,17 +49,17 @@ const MenuLab = () => {
                         height: '100%',
                     },
                 })}
-            >   
+            >
                 <Tab.Screen
-                    name="LAB"
-                    component={LabScreen}
+                    name="HALL"
+                    component={HallScreen}
                     options={{
                         tabBarIcon: () => (
                             <Icon
-                                source={require('../../../assets/icons/lab-icon.png')}
+                                source={require('../../../assets/icons/settings-icon.png')}
                             />
                         ),
-                        tabBarLabel: '',
+                        tabBarLabel: ''
                     }}
                     />
                 <Tab.Screen
@@ -93,7 +74,7 @@ const MenuLab = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
+                <Tab.Screen
                         name="Settings"
                         component={SettingsScreen}
                         options={{
@@ -106,8 +87,10 @@ const MenuLab = () => {
                         }}
                     />
 
+
             </Tab.Navigator>
+
     );
 }
 
-export default MenuLab
+export default MenuHallMortimer

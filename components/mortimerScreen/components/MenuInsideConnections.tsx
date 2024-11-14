@@ -44,7 +44,6 @@ const MenuInsideConnection = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarStyle: {
@@ -113,9 +112,7 @@ const MenuInsideConnection = () => {
 
                     }}
                 />
-
             </Tab.Navigator>
-        </NavigationContainer>
     )
 }
 

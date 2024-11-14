@@ -1,15 +1,13 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../shared/labScreen";
-import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
-import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
-import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
+import * as CONSTANTS from "../../../src/constants";
+import SchoolScreen from "../../mapScreen/schoolScreen";
+import MortimerContext from "../../../helpers/MortimerContext";
+import MapScreenMortimer from "../../mortimerScreen/components/MapScreenMortimer";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,14 +17,14 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuLab = () => {
-    const acolyteContext = useContext(AcolyteContext);
+const MenuOldSchoolMortimer = () => {
+    const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuLabLoaded = acolyteContext?.setIsMenuLabLoaded!;
+    const setIsMenuOldSchoolLoaded = mortimerContext?.setIsMenuOldSchoolLoaded!;
 
     useEffect(() => {
-        setIsMenuLabLoaded(true);
+        setIsMenuOldSchoolLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -37,13 +35,14 @@ const MenuLab = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuLabLoaded(false);
+            setIsMenuOldSchoolLoaded(false);
         }
     }, []);
 
     return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({
+                    animationEnabled: false,
                     swipeEnabled: true,
                     tabBarStyle: {
                         backgroundColor: 'black',
@@ -70,44 +69,31 @@ const MenuLab = () => {
                 })}
             >   
                 <Tab.Screen
-                    name="LAB"
-                    component={LabScreen}
+                    name="MAP"
+                    component={MapScreenMortimer}
                     options={{
                         tabBarIcon: () => (
                             <Icon
-                                source={require('../../../assets/icons/lab-icon.png')}
+                                source={require('../../../assets/icons/mapIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
+                    }}
+                />
+                <Tab.Screen
+                    name="OLDSCHOOL"
+                    component={SchoolScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/schoolIcon.png')}
                             />
                         ),
                         tabBarLabel: '',
                     }}
-                    />
-                <Tab.Screen
-                        name="Profile"
-                        component={ProfileScreen3}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Settings"
-                        component={SettingsScreen}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-
+                />
             </Tab.Navigator>
     );
 }
 
-export default MenuLab
+export default MenuOldSchoolMortimer

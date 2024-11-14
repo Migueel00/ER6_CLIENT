@@ -13,6 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MenuOldSchool from './menu/MenuOldSchool';
 import MenuHallInside from './menu/MenuHallInside';
 import MenuHall from './menu/MenuHall';
+import MenuOldSchoolAcolyte from './menu/MenuOldSchoolAcolyte';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -27,15 +28,26 @@ interface updateTowerEvent {
   isInsideTower: boolean;
 }
 
+interface updateHallEvent {
+  playerId: string;
+  isInsideHall: boolean;
+}
+
 const AcolyteProvider = () => {
 
 const appContext = useContext(AppContext);
-const [player, setPlayer] = useState(appContext?.player);
+// const [player, setPlayer] = useState(appContext?.player);
+const player = appContext?.player;
+const setPlayer = appContext?.setPlayer;
+
+const players = appContext?.players!;
+const setPlayers = appContext?.setPlayers;
+
 const isInsideLab = player?.isInsideLab!;
 const isInsideTower = player?.isInsideTower!;
 const socket = appContext?.socket;
 const acolyteLocation = appContext?.location;
-const isInsideHall = false;
+const isInsideHall = player?.isInsideHall!;
 
 const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
 const [isMenuLabLoaded, setIsMenuLabLoaded] = useState<boolean>(false);
@@ -100,12 +112,16 @@ useEffect(() => {
 }, [hasEmitted]);
 
   useEffect(() => {
-    // console.log("ESTADO DE isInsideLab " + isInsideLab);
+    console.log("ESTADO DE isInsideLab " + isInsideLab);
   }, [isInsideLab]);
 
   useEffect(() => {
     console.log("ESTADO DE isInsideTower " + isInsideTower);
   }, [isInsideTower]);
+
+  useEffect(() => {
+    console.log("ESTADO DE isInsideHall " + isInsideHall);
+  }, [isInsideHall]);
 
   return (
     <AcolyteContext.Provider value={{ 
@@ -136,7 +152,7 @@ useEffect(() => {
           : acolyteLocation === 'LAB' ? <MenuLab />
           : acolyteLocation === 'TOWER' ? <MenuTower/>
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
-          : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
+          : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchoolAcolyte/>
           : acolyteLocation === 'HALL' ? <MenuHall/>
           : <MenuHome />}    
                       

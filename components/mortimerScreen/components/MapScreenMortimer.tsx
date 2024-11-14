@@ -8,9 +8,10 @@ import messaging from '@react-native-firebase/messaging';
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const connections = require('../../../assets/icons/conections-icon.png');
+const labIcon = require('../../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
+const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -64,6 +65,7 @@ const MapScreenMortimer = () => {
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
     const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
+    const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -71,7 +73,8 @@ const MapScreenMortimer = () => {
     useEffect(() => {
         console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
         console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
-    
+        console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
+
         if (isMenuConnectionLoaded) {
             setTimeout(() => {
                 navigation.navigate('LAB');
@@ -80,8 +83,12 @@ const MapScreenMortimer = () => {
             setTimeout(() => {
                 navigation.navigate('TOWER');
             }, 200);
+        } else if (isMenuOldSchoolLoaded){
+            setTimeout(() => {
+                navigation.navigate('OLDSCHOOL');
+            }, 200);
         }
-    }, [isMenuConnectionLoaded, isMenuTowerLoaded]);
+    }, [isMenuConnectionLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
@@ -120,6 +127,14 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleSchoolIconPress = () => {
+        setLocation('OLDSCHOOL');
+        if(isMenuOldSchoolLoaded){
+            navigation.navigate('OLDSCHOOL');
+        }
+    }   
+
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -127,7 +142,7 @@ const MapScreenMortimer = () => {
                 onPress={handleLabIconPress}
                 style={{ top: height * 0.37, left: width * 0.02 }}
             >
-                <LabIcon source={connections}  /> 
+                <LabIcon source={labIcon}  /> 
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
@@ -140,6 +155,12 @@ const MapScreenMortimer = () => {
                 style={{ top: height * 0.28, right: width * 0.13 }}
             >
                 <TowerIcon source={towerIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSchoolIconPress}
+                style={{ top: height * 0.60, right: width * 0.45 }}
+            >
+                <TowerIcon source={schoolIcon} />
             </TouchableIcon>
         </Container>
     );

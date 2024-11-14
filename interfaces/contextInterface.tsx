@@ -22,6 +22,7 @@ export interface ContextInterface {
     setParchment: (state: boolean) => void,
     tower_ingredients: boolean,
     setTowerIngredientsState: (state: boolean) => void,
+    setPlayer: any,
 }
 
 export interface Player {
@@ -31,6 +32,7 @@ export interface Player {
   nickname:     string,
   isInsideLab:  boolean,
   isInsideTower: boolean,
+  isInsideHall: boolean,
   avatar:       string,
   id:           string,
   role:         string,

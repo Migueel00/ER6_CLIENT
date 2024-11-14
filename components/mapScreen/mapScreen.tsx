@@ -148,7 +148,7 @@ useEffect(() => {
         console.log("PRESSED SCHOOL BUTTON IN MAP");
         
         setLocation('OLDSCHOOL');
-        if(isMenuSwampLoaded){
+        if(isMenuOldSchoolLoaded){
             console.log("NAVIGATING TO OLDSCHOOL");
             
             navigation.navigate('OLDSCHOOL');
@@ -158,13 +158,6 @@ useEffect(() => {
     return (
         <Container>
             <BackgroundImage source={mapImage} />
-            <TouchableIcon 
-                onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.1 }}
-            >
-                <LabIcon source={labIcon}  /> 
-            </TouchableIcon>
-
             <TouchableIcon
                 onPress={handleHomeIconPress}
                 style={{ top: height * 0.72, right: width * 0.35 }}

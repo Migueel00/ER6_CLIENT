@@ -1,69 +1,114 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
-const swampImage = require('./../../assets/backgrounds/swampBackground.png');
+const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const { height, width } = Dimensions.get('window');
+
+interface updateHall {
+    playerId: string;
+    isInsideHall: boolean;
+}
 
 const InsideHall = () => {
 
-    const context = useContext(AppContext);
-    const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
+    const appContext = useContext(AppContext);
+    const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
+    const player = appContext?.player!;
+    const socket = appContext?.socket;
+    const players = appContext?.players;
+
+    useEffect(() => {
+        if (players) {
+            players.map(player => console.log(player.nickname));
+        }
+    }, [players]);
+
+    const handleExitHall = () => {
+        console.log("EXITING HALL");
+        console.log("ACTUAL IS INSIDE HALL STATE:");
+        console.log(player.isInsideHall);
+
+        const values = {
+            socketId: appContext?.socketID,
+            playerID: appContext?.player._id,
+            isInsideHall: player?.isInsideHall,
+        };
+
+        socket.emit("HallDoorPressed", values);
+    };
 
 
     return (
-        <SwampBackground source={swampBackgroundImage} width={width} height={height}>
-        {/* Other components can go here */}
-        </SwampBackground>
+        <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
+            <PlayerRow>
+                {players && players
+                    .filter(player => player.isInsideHall)
+                    .map(player => (
+                        <AvatarWrapper key={player._id}>
+                            <Avatar source={{ uri: player.avatar }} />
+                        </AvatarWrapper>
+                    ))
+                }
+            </PlayerRow>
+    
+            <StyledButton onPress={handleExitHall}>
+                <StyledButtonText>Exit from the Hall</StyledButtonText>
+            </StyledButton>
+        </InsideHallBackground>
     );
+    
 };
-const SwampBackground = styled.ImageBackground`
+
+const StyledButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07}px;
+    font-family: 'KochAltschrift';
+    padding: 10px;
+`;
+
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.5}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.05}px;
+`;
+
+const InsideHallBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
     align-items: center;
     width: ${width}px;
     height: ${height}px;
 `;
-const Container = styled.View`
-    flex: 1;
-    justify-content: space-between;
+const PlayerRow = styled.View`
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    padding-top: ${height * 0.2}px;
+    width: 100%;
+    padding: 20px;
+`;
+
+const AvatarWrapper = styled.View`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: ${width * 0.5}px;
+    border-width: ${width * 0.004}px;
+    border-color: white;
+    overflow: hidden;
+    margin: 0 ${width * 0.05}px;
+`;
+
+const Avatar = styled.Image`
     width: 100%;
     height: 100%;
-    padding-top: 20px;
-`;
-
-const PermissionButton = styled(TouchableOpacity)`
-    padding: 10px;
-    border-radius: 5px;
-`;
-
-const ButtonImageBackground = styled.ImageBackground`
-    justify-content: center;
-    align-items: center;
-    width: 315px;
-    height: 80px;
-`;
-
-const KaotikaButton = styled.Text`
-    background-color: transparent;
-    font-family: 'KochAltschrift';
-    font-size: 30px;
-`;
-
-const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-`;
-
-const KaotikaFont = styled.Text`
-    padding-top: 20px;
-    font-family: 'KochAltschrift';
-    font-size: 40px;
-    color: white;
+    border-radius: ${width * 0.4}px;
 `;
 
 export default InsideHall;

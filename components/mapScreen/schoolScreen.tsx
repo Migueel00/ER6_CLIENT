@@ -4,10 +4,12 @@ import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
 import AcolyteContext from "../../helpers/AcolyteContext";
+import MortimerContext from "../../helpers/MortimerContext";
 
 const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
-const hallOfSages = require('../../assets/icons/hallOfSages.png');
+const hallIcon = require('../../assets/icons/hallOfSages.png');
+const labIcon = require('../../assets/icons/fixed/potionIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -43,8 +45,10 @@ const SchoolScreen = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
+    const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
+    const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -67,6 +71,12 @@ useEffect(() => {
                     navigation.navigate('HALL');
                 }, 200);
                 break;
+            case isMenuLabLoaded:
+                setTimeout(() => {
+                    navigation.navigate('LAB');
+                }, 200);
+                break;
+            
             default:
                 break;
         }
@@ -91,6 +101,14 @@ useEffect(() => {
         }
     }   
 
+    const handleLabIconPress = () => {
+        setLocation('LAB');
+        if(isMenuLabLoaded){
+            navigation.navigate('LAB');
+
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={schoolMap} />
@@ -105,8 +123,16 @@ useEffect(() => {
                 onPress={handleHallIconPress}
                 style={{ top: height * 0.20, right: width * 0.50 }}
             >
-                <HomeIcon source={hallOfSages} />
+                <HomeIcon source={hallIcon} />
             </TouchableIcon>
+
+            <TouchableIcon
+                onPress={handleLabIconPress}
+                style={{ top: height * 0.33, right: width * 0.28}}
+            >
+                <HomeIcon source={labIcon} />
+            </TouchableIcon>
+            
 
         </Container>
     );

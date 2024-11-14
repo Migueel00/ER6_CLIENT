@@ -3,73 +3,39 @@ import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'reac
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppContext from '../../helpers/context'; // Asegúrate de ajustar esta ruta
 
-interface updateEvent {
-    playerId: string;
-    isInsideLab: boolean;
-}
 
 const ConnectionScreen = () => {
     const { height, width } = Dimensions.get('window');
     
-    const socket = useContext(AppContext)?.socket;
-    const players = useContext(AppContext)?.players!;
-    const setPlayers = useContext(AppContext)?.setPlayers;
+    const appContext = useContext(AppContext);
+    const players = appContext?.players!;
 
-    useEffect(() => {
-        console.log("ENTRA AL USEFFECT")
-        // Escuchar el evento
-        socket.on('update', ({ playerId  , isInsideLab } : updateEvent) => {
-            const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideLab } : player );
-
-            console.log(updatePlayers);
-            
-            // Settear players
-            setPlayers(updatePlayers);
-            
-            console.log("PLAYER ID" + playerId);
-            console.log("IS INSIDE LAB " + isInsideLab);
-            console.log("ENTRA AL EVENTO DE UPDATE");
-        });
-
-        // Limpiar el evento socket
-        return () => {
-            socket.off('update');
-        };
-    }, [players, setPlayers]);
-
-    return (
-        <AppContext.Consumer>
-            {({ players}: any) => {
-
-                return (
-                    <ImageBackground
-                        source={require('../../assets/png/connectionsBackground.png')}
-                        style={[styles.background, { width: width, height: height }]}
-                    >
-                        <View style={styles.container}>
-                            <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
-                            <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
-                            <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
-                            <View style={styles.playersList}>
-                                {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
-                                    <View key={player.id} style={styles.playerItem}>
-                                        <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
-                                        <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
-                                        <Icon
-                                            name={player.isInsideLab ? 'circle' : 'circle-o'}
-                                            size={width * 0.07}
-                                            color={player.isInsideLab ? 'green' : 'grey'}
-                                        />
-                                    </View>
-                                ))}
+        return (
+            <ImageBackground
+                source={require('../../assets/png/connectionsBackground.png')}
+                style={[styles.background, { width: width, height: height }]}
+            >
+                <View style={styles.container}>
+                    <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
+                    <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
+                    <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
+                    <View style={styles.playersList}>
+                        {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
+                            <View key={player.id} style={styles.playerItem}>
+                                <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
+                                <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
+                                <Icon
+                                    name={player.isInsideLab ? 'circle' : 'circle-o'}
+                                    size={width * 0.07}
+                                    color={player.isInsideLab ? 'green' : 'grey'}
+                                />
                             </View>
-                        </View>
-                    </ImageBackground>
-                );
-            }}
-        </AppContext.Consumer>
-    );
-};
+                        ))}
+                    </View>
+                </View>
+            </ImageBackground>
+        );
+    }
 
 const styles = StyleSheet.create({
     container: {

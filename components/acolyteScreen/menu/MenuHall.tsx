@@ -7,6 +7,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import OutsideHall from "../../shared/OutsideHall";
+import HallScreen from "../../shared/HallScreen";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -51,7 +52,7 @@ const MenuHall = () => {
             >
                 <Tab.Screen
                     name="HALL"
-                    component={OutsideHall}
+                    component={HallScreen}
                     options={{
                         tabBarIcon: () => (
                             <Icon
@@ -85,18 +86,6 @@ const MenuHall = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
 
             </Tab.Navigator>
 
