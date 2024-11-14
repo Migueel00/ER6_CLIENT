@@ -103,7 +103,7 @@ useEffect(() => {
   // Escuchar el evento
   socket?.on('updateHall', ({  playerId, isInsideHall }: updateHallEvent) => {
     if (player && setPlayer) {
-      if(player._id === playerId){
+     
         console.log("PLAYER ID MATCHES");
         const updatedPlayer = { ...player, isInsideHall };
 
@@ -112,8 +112,7 @@ useEffect(() => {
         console.log(player.isInsideHall);
 
         Vibration.vibrate(100);
-      }
-      else {
+
         const updatePlayers = players.map(player =>
           player.id === playerId ? { ...player, isInsideHall } : player
       );
@@ -122,7 +121,7 @@ useEffect(() => {
       updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
       setPlayers(updatePlayers);
       Vibration.vibrate(100);
-      }
+      
     }
   });
 
