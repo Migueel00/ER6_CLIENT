@@ -115,8 +115,8 @@ useEffect(() => {
           player.id === playerId ? { ...player, isInsideHall } : player
       );
 
-      console.log("UPDATE PLAYERS:");
-      console.log(updatePlayers);
+      console.log("UPDATED PLAYERS LIST:");
+      updatePlayers.forEach(p => console.log(`Player ID: ${p.id}, isInsideHall: ${p.isInsideHall}`));
       setPlayers(updatePlayers);
 
         Vibration.vibrate(100);
