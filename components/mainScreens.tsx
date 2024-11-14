@@ -9,9 +9,7 @@ import VillainScreens from "./villainScreen/VillainScreens";
 interface updateHallEvent {
     playerId: string;
     isInsideHall: boolean;
-  }
-  
-
+}
 const MainScreens = () => {
     const userRole = useContext(AppContext)?.userRole;
     const appContext = useContext(AppContext);
@@ -22,46 +20,46 @@ const MainScreens = () => {
     const setPlayers = appContext?.setPlayers;
 
     useEffect(() => {
-        socket?.on('updateHall', async ({ playerId, isInsideHall }: updateHallEvent) => {
+        socket?.on('updateMyHall', ({ playerId, isInsideHall }: updateHallEvent) => {
             if (player && setPlayer) {
-                if (player._id === playerId) {
                     console.log("INCOMING IS INSIDE HALL:", isInsideHall);
-                    console.log("PLAYER ID MATCHES");
     
                     // Actualiza el jugador actual
                     const updatedPlayer = { ...player, isInsideHall };
                     setPlayer(updatedPlayer);
-    
-                    // Crea una copia de `players` y actualiza el jugador correspondiente
-                    const newPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
-                    setPlayers(newPlayers);
-    
-                    console.log("UPDATED PLAYER ISINSIDEHALL:", updatedPlayer.isInsideHall);
-                    Vibration.vibrate(100);
-                } else {
-                    if (player.location === 'HALL') {
-                        Vibration.vibrate(100);
+
+                    console.log("PLAYER IS INSIDE HALL?");
+                    
+                    console.log(player.isInsideHall);
+
+                            // Actualiza el jugador en el array `players`
+                    if (players && setPlayers) {
+                        const updatedPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
+                        setPlayers(updatedPlayers);
                     }
-    
-                    console.log("PLAYER_ID:", player._id);
-    
-                    // Mapea `players` y actualiza solo el jugador necesario
-                    const updatedPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
-                    updatedPlayers.forEach(p => console.log(`Player ID: ${p._id}, Player Nickname: ${p.nickname}, isInsideHall: ${p.isInsideHall}`));
-    
-                    console.log("UPDATED PLAYERS");
-                    console.log(updatedPlayers);
-    
-                    setPlayers(updatedPlayers);
-                }
+                    
+                    Vibration.vibrate(100);
             }
         });
-      
+
         // Limpiar el evento socket al desmontar el componente
         return () => {
-          socket?.off('updateHall');
+            socket?.off('updateMyHall');
         };
-      }, [player, setPlayer, socket]);
+    }, [player, setPlayer, players, setPlayers, socket]);
+
+    useEffect(() => {
+        socket?.on('updateOtherHall', ({ playerId, isInsideHall }: updateHallEvent) => {
+            if (players && setPlayers) {
+                const updatedPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
+                setPlayers(updatedPlayers);
+            }
+        });
+    
+        return () => {
+            socket?.off('updateOtherHall');
+        };
+    }, [players, setPlayers, socket]);
     
     return (
         <>

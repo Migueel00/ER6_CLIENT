@@ -18,13 +18,6 @@ const OutsideHall = () => {
     const setLocation = appContext?.setLocation;
 
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
-    
-    const values = {
-        socketId: appContext?.socketID,
-        playerID: appContext?.player._id,
-        isInsideHall: player?.isInsideHall,
-    };
-
 
     const handleEnterHall = () => {
         console.log("ENTERING HALL");
