@@ -46,7 +46,6 @@ const MenuMortimer = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarStyle: {
@@ -118,7 +117,6 @@ const MenuMortimer = () => {
                 />
 
             </Tab.Navigator>
-        </NavigationContainer>
     )
 }
 

@@ -8,6 +8,7 @@ import MenuMortimerTower from './components/MenuMortimerTower';
 import MenuOldSchool from '../acolyteScreen/menu/MenuOldSchool';
 import InsideHall from '../shared/InsideHall';
 import MenuHallMortimer from './components/MenuHallMortimer';
+import { NavigationContainer } from '@react-navigation/native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -41,13 +42,15 @@ const MortimerProvider = () => {
       isMenuHallOfSagesLoaded,
       setIsMenuHallOfSagesLoaded
     }}>
-      <MenuContainer>
-        {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
-        : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
-        : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
-        : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
-        : <MenuMortimer/>}
-      </MenuContainer>
+      <NavigationContainer>
+        <MenuContainer>
+          {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
+          : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
+          : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchool/>
+          : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
+          : <MenuMortimer/>}
+        </MenuContainer>
+      </NavigationContainer>
     </MortimerContext.Provider>
   
 );
