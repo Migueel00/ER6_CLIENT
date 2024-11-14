@@ -25,12 +25,10 @@ const MainScreens = () => {
                     console.log("INCOMING IS INSIDE HALL:", isInsideHall);
     
                     // Actualiza el jugador actual
-                    const updatedPlayer = { ...player, isInsideHall };
+                    const updatedPlayer = { ...player, isInsideHall: isInsideHall };
                     setPlayer(updatedPlayer);
 
-                    console.log("PLAYER IS INSIDE HALL?");
-                    
-                    console.log(player.isInsideHall);
+
 
                             // Actualiza el jugador en el array `players`
                     if (players && setPlayers) {
@@ -47,6 +45,10 @@ const MainScreens = () => {
             socket?.off('updateMyHall');
         };
     }, [player, setPlayer, players, setPlayers, socket]);
+
+    useEffect(() => {
+        console.log("PLAYER IS INSIDE HALL?", player!.isInsideHall);
+    }, [player!.isInsideHall]);
 
     useEffect(() => {
         socket?.on('updateOtherHall', ({ playerId, isInsideHall }: updateHallEvent) => {
