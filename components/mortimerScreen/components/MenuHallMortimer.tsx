@@ -86,18 +86,7 @@ const MenuHallMortimer = () => {
                             tabBarLabel: '',
                         }}
                     />
-                    <Tab.Screen
-                    name="MAP"
-                    component={MapScreenMortimer}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
+
 
             </Tab.Navigator>
 

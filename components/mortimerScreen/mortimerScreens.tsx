@@ -11,6 +11,7 @@ import MenuHallMortimer from './components/MenuHallMortimer';
 import { NavigationContainer } from '@react-navigation/native';
 import MenuOldSchoolMortimer from '../acolyteScreen/menu/MenuOldSchoolMortimer';
 import { Vibration } from 'react-native';
+import MenuHallInside from '../acolyteScreen/menu/MenuHallInside';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -35,6 +36,7 @@ const MortimerProvider = () => {
   const players = appContext?.players!;
   const setPlayer = appContext?.setPlayer;
   const setPlayers = appContext?.setPlayers;
+  const isInsideHall = player?.isInsideHall;
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
@@ -71,18 +73,17 @@ const MortimerProvider = () => {
       if (player && setPlayer) {
         if(player._id === playerId) {
 
-          console.log("PLAYER ID MATCHES");
+          console.log("PLAYER ID MATCHES FOR MORTIMER");
           const updatedPlayer = { ...player, isInsideHall };
   
           setPlayer(updatedPlayer);
           console.log("UPDATED PLAYER ISINSIDEHALL");
           console.log(player.isInsideHall);
           Vibration.vibrate(100);
-        }
-  
-        else {
+        } else {
+          console.log("PLAYER ID DOESNT MATCH FOR MORTIMER");
           const updatePlayers = players.map(player =>
-            player.id === playerId ? { ...player, isInsideHall } : player
+            player._id === playerId ? { ...player, isInsideHall } : player
         );
   
           console.log("UPDATED PLAYERS LIST:");
@@ -118,7 +119,8 @@ const MortimerProvider = () => {
     }}>
       <NavigationContainer>
         <MenuContainer>
-          {mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
+          {isInsideHall ? <MenuHallInside/> 
+          : mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
           : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
           : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchoolMortimer/>
           : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
