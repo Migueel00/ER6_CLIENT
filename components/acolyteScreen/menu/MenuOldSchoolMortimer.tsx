@@ -5,9 +5,9 @@ import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
-import MapScreen from "../../mapScreen/mapScreen";
 import SchoolScreen from "../../mapScreen/schoolScreen";
 import MortimerContext from "../../../helpers/MortimerContext";
+import MapScreenMortimer from "../../mortimerScreen/components/MapScreenMortimer";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -70,7 +70,7 @@ const MenuOldSchoolMortimer = () => {
             >   
                 <Tab.Screen
                     name="MAP"
-                    component={MapScreen}
+                    component={MapScreenMortimer}
                     options={{
                         tabBarIcon: () => (
                             <Icon

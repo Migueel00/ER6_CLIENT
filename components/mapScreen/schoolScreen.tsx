@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
 import AcolyteContext from "../../helpers/AcolyteContext";
+import MortimerContext from "../../helpers/MortimerContext";
 
 const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
@@ -44,6 +45,7 @@ const SchoolScreen = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
+    const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;

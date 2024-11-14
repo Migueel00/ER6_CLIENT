@@ -3,11 +3,11 @@ import React from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import * as CONSTANTS from "../../../src/constants";
-import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import OutsideHall from "../../shared/OutsideHall";
 import HallScreen from "../../shared/HallScreen";
+import MapScreenMortimer from "./MapScreenMortimer";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -88,7 +88,7 @@ const MenuHallMortimer = () => {
                     />
                     <Tab.Screen
                     name="MAP"
-                    component={MapScreen}
+                    component={MapScreenMortimer}
                     options={{
                         tabBarIcon: () => (
                             <Icon
