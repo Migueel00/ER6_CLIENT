@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import AcolyteContext from '../../helpers/AcolyteContext';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import VillainContext from '../../helpers/VillainContext';
 
 const outsideHallImage = require('./../../assets/backgrounds/outsideHall.png');
 const { height, width } = Dimensions.get('window');
@@ -13,8 +13,8 @@ const OutsideHall = () => {
     const [outsideHallBackgroundImage, setOutsideHallBackgroundImage] = useState(outsideHallImage);
     const socket = appContext?.socket;
     const player = appContext?.player;
-    const acolyteContext = useContext(AcolyteContext);
-    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
+    const villainContext = useContext(VillainContext);
+    const isMenuOldSchoolLoaded = villainContext?.isMenuOldSchoolLoaded;
     const setLocation = appContext?.setLocation;
 
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
