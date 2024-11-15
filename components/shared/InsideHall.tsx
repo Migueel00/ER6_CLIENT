@@ -6,11 +6,6 @@ import styled from 'styled-components/native';
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const { height, width } = Dimensions.get('window');
 
-interface updateHall {
-    playerId: string;
-    isInsideHall: boolean;
-}
-
 const InsideHall = () => {
 
     const appContext = useContext(AppContext);
@@ -27,7 +22,6 @@ const InsideHall = () => {
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
-        console.log("ACTUAL IS INSIDE HALL STATE:");
         console.log(player.isInsideHall);
 
         const values = {
@@ -88,11 +82,9 @@ const InsideHallBackground = styled.ImageBackground`
 `;
 const PlayerRow = styled.View`
     flex-direction: row;
-    align-items: center;
     justify-content: center;
-    padding-top: ${height * 0.2}px;
+    margin-top: ${width * 0.6}px;
     width: 100%;
-    padding: 20px;
 `;
 
 const AvatarWrapper = styled.View`
