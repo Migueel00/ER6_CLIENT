@@ -34,9 +34,18 @@ const VillainProvider = () => {
 
     return (
         <VillainContext.Provider
-            value={{isMenuLoaded, setIsMenuLoaded, isMenuLabLoaded, setIsMenuLabLoaded, 
-                isMenuTowerLoaded, 
-                setIsMenuTowerLoaded
+            value={{isMenuLoaded,
+                setIsMenuLoaded,
+                isMenuLabLoaded,
+                setIsMenuLabLoaded,
+                isMenuTowerLoaded,
+                setIsMenuTowerLoaded,
+                isMenuSwampLoaded,
+                setIsMenuSwampLoaded,
+                isMenuOldSchoolLoaded,
+                setIsMenuOldSchoolLoaded,
+                isMenuHallOfSagesLoaded,
+                setIsMenuHallOfSagesLoaded
             }}>
                 <MenuContainer>
                     {isInsideHall ? <MenuHallVillain/>

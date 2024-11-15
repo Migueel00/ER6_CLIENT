@@ -5,6 +5,7 @@ import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
 import MortimerContext from "../../../helpers/MortimerContext";
 import messaging from '@react-native-firebase/messaging';
+import VillainContext from "../../../helpers/VillainContext";
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
@@ -61,21 +62,21 @@ const MapScreenVillain = () => {
     
     const appContext = useContext(AppContext);
     const setLocation = appContext?.setLocation;
-    const mortimerContext = useContext(MortimerContext);
-    const isMenuLoaded = mortimerContext?.isMenuLoaded;
-    const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
-    const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
-    const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
+    const villainContext = useContext(VillainContext);
+    const isMenuLoaded = villainContext?.isMenuLoaded;
+    const isMenuTowerLoaded = villainContext?.isMenuTowerLoaded;
+    const isMenuOldSchoolLoaded = villainContext?.isMenuOldSchoolLoaded;
+    const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
+        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
         console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
         console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
 
-        if (isMenuConnectionLoaded) {
+        if (isMenuLabLoaded) {
             setTimeout(() => {
                 navigation.navigate('LAB');
             }, 200);
@@ -88,12 +89,12 @@ const MapScreenVillain = () => {
                 navigation.navigate('OLDSCHOOL');
             }, 200);
         }
-    }, [isMenuConnectionLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
     
     const handleLabIconPress = () => {
         setLocation('LAB');
         
-        if(isMenuConnectionLoaded){
+        if(isMenuLabLoaded){
             navigation.navigate('LAB');
         }
     }
