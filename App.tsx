@@ -186,8 +186,8 @@ function App(): React.JSX.Element {
     const userInfo = await GoogleSignin.signIn();
 
 
-    const email = 'ozarate@aeg.eus';
-    //const email = userInfo.data?.user.email;
+    //const email = 'ozarate@aeg.eus';
+    const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
     // Create a Google credential with the token
