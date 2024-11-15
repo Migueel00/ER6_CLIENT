@@ -9,4 +9,5 @@ export default interface Artifact {
         latitude: number,
         longitude: number
     },
+    _id: string
 }

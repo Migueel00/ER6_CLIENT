@@ -10,6 +10,7 @@ import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG
 import Toast from 'react-native-toast-message';
 import Artifact from '../../interfaces/ArtifactsInterface';
 import { URL } from '../../src/API/urls';
+import { updateArtifact } from '../../src/API/artifacts';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -41,6 +42,7 @@ const SwampScreen = () => {
     const context = useContext(AppContext);
     const player = context?.player;
     const avatar = player?.avatar;
+    const socket = context?.socket;
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
@@ -176,6 +178,25 @@ const SwampScreen = () => {
             };
         }
     }, [locationPermissionGranted]);
+    
+    useEffect(() => {         
+        socket?.on('updateArtifact', (updateArtifact: Artifact) => {       
+
+            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
+            
+            const updatedArtifacts: Artifact[] = artifacts.map(artifact => 
+                artifact.id === updateArtifact.id ? updateArtifact : artifact
+            );             
+            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
+            
+            setArtifacts(updatedArtifacts);         
+        });      
+    }, [artifacts]);
+
+    useEffect(() => {
+        console.log("USE EFFECT ARTIFACTS " + JSON.stringify(artifacts));
+    }, [artifacts])
+    
 
     const markArtifactAsRetrieved = (markerId: number) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
@@ -183,6 +204,13 @@ const SwampScreen = () => {
         const updatedMarkers = artifacts.map((marker) =>
             marker.id === markerId ? { ...marker, isRetrieved: true } : marker
         );
+
+        updatedMarkers.map(artifact => {
+            if(artifact.id === markerId){
+
+                updateArtifact(artifact._id, artifact.isRetrieved);
+            }
+        });
 
         console.log("UPDATED MARKERS"); 
         console.log(updatedMarkers);
@@ -194,6 +222,7 @@ const SwampScreen = () => {
         
         Vibration.vibrate(100);
     };
+
     return (
 
         <SwampBackground source={swampBackgroundImage}>
