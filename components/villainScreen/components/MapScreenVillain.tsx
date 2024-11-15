@@ -7,7 +7,6 @@ import VillainContext from "../../../helpers/VillainContext";
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const labIcon = require('../../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
