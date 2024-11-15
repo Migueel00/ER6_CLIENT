@@ -29,7 +29,9 @@ const VillainProvider = () => {
                 setIsMenuTowerLoaded
             }}>
                 <MenuContainer>
-                    {location === 'INSIDE_LAB' ? <MenuVillainInsideLab/> : location === 'TOWER' ? <MenuVillainTower/> : <MenuVillain/>  }
+                    {location === 'LAB' ? <MenuVillainInsideLab/> 
+                    : location === 'TOWER' ? <MenuVillainTower/> 
+                    : <MenuVillain/>  }
                 </MenuContainer>  
         </VillainContext.Provider>
     );

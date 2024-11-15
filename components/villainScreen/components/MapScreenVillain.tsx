@@ -97,7 +97,7 @@ const MapScreenVillain = () => {
     }, [isMenuTowerLoaded]);
     
     const handleLabIconPress = () => {
-        setLocation('INSIDE_LAB');
+        setLocation('LAB');
         if(isMenuLabLoaded){
             navigation.navigate('LAB');
         }
