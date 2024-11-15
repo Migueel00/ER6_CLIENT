@@ -3,15 +3,15 @@ import { Dimensions} from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
-
-import VillainContext from "../../../helpers/VillainContext";
+import MortimerContext from "../../../helpers/MortimerContext";
+import messaging from '@react-native-firebase/messaging';
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const labIcon = require('../../../assets/icons/lab-icon.png');
+const labIcon = require('../../../assets/icons/fixed/potionIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
-
+const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -42,10 +42,6 @@ const LabIcon = styled.Image`
     z-index: 1;
 `;
 
-const TouchableIcon = styled.TouchableOpacity`
-    position: absolute;
-`
-
 const TowerIcon = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
@@ -53,52 +49,51 @@ const TowerIcon = styled.Image`
     z-index: 2; 
 `;
 
+const TouchableIcon = styled.TouchableOpacity`
+    position: absolute;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 100px;
+    padding: -30px;
+`
 
 const MapScreenVillain = () => {
     
-    const setLocation = useContext(AppContext)?.setLocation;
-    const villainContext = useContext(VillainContext);
-    const isMenuLoaded = villainContext?.isMenuLoaded
-    const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
-    const isMenuTowerLoaded = villainContext?.isMenuTowerLoaded;
     const appContext = useContext(AppContext);
-    const socket = appContext?.socket;
+    const setLocation = appContext?.setLocation;
+    const mortimerContext = useContext(MortimerContext);
+    const isMenuLoaded = mortimerContext?.isMenuLoaded;
+    const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
+    const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
+    const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
+        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
+        console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
+        console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
 
-
-        const value = {
-            playerID: appContext?.player._id,
-            location: appContext?.location
-        };
-
-        socket.emit("UpdateLocation", value);
-
-        if(isMenuLabLoaded){
+        if (isMenuConnectionLoaded) {
             setTimeout(() => {
                 navigation.navigate('LAB');
-
             }, 200);
-        }
-    }, [isMenuLabLoaded]);
-
-    useEffect(() => {
-
-        if(isMenuTowerLoaded){
+        } else if (isMenuTowerLoaded) {
             setTimeout(() => {
                 navigation.navigate('TOWER');
-
+            }, 200);
+        } else if (isMenuOldSchoolLoaded){
+            setTimeout(() => {
+                navigation.navigate('OLDSCHOOL');
             }, 200);
         }
-    }, [isMenuTowerLoaded]);
+    }, [isMenuConnectionLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
     
     const handleLabIconPress = () => {
         setLocation('LAB');
-        if(isMenuLabLoaded){
+        
+        if(isMenuConnectionLoaded){
             navigation.navigate('LAB');
         }
     }
@@ -117,6 +112,14 @@ const MapScreenVillain = () => {
             navigation.navigate('TOWER');
         }
     }   
+
+    const handleSchoolIconPress = () => {
+        setLocation('OLDSCHOOL');
+        if(isMenuOldSchoolLoaded){
+            navigation.navigate('OLDSCHOOL');
+        }
+    }   
+
 
     return (
         <Container>
@@ -138,6 +141,12 @@ const MapScreenVillain = () => {
                 style={{ top: height * 0.28, right: width * 0.13 }}
             >
                 <TowerIcon source={towerIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSchoolIconPress}
+                style={{ top: height * 0.60, right: width * 0.45 }}
+            >
+                <TowerIcon source={schoolIcon} />
             </TouchableIcon>
         </Container>
     );
