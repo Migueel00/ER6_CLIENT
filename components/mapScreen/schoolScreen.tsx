@@ -60,11 +60,6 @@ useEffect(() => {
 
     const navigateToMenu = () => {
         switch (true) {
-            case isMenuLoaded:
-                setTimeout(() => {
-                    navigation.navigate('HOME');
-                }, 200);
-                break;
             case isMenuHallOfSagesLoaded:
                 setTimeout(() => {
                     navigation.navigate('HALL');
