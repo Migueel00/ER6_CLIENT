@@ -73,6 +73,17 @@ const MenuVillainInsideLab = () => {
                     },
                 })}>
                 <Tab.Screen
+                    name='LAB'
+                    component={PotionCreator}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/lab-icon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
+
+                    }}
+                />
+                <Tab.Screen
                     name="Profile"
                     component={ProfileScreen3}
                     options={{
@@ -104,17 +115,7 @@ const MenuVillainInsideLab = () => {
 
                     }}
                 />
-                <Tab.Screen
-                    name='LAB'
-                    component={PotionCreator}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/lab-icon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
 
-                    }}
-                />
 
             </Tab.Navigator>
         </NavigationContainer>
