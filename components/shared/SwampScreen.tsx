@@ -38,7 +38,7 @@ type LocationType = {
 };
 
 interface LocationAvatar {
-    coordinate : LocationType,
+    coordinates : LocationType,
     avatar: string,
     _id: string
 }
@@ -204,15 +204,18 @@ const SwampScreen = () => {
     // Socket to send player Location data and avatar
     useEffect(() => {
         // userLocation And Avatar
-        const userInfo = {
-            coordinates: userLocation,
-            avatar: player?.avatar,
-            _id: player?._id
+        if(userLocation !== null){
+            const userInfo = {
+                coordinates: userLocation,
+                avatar: player?.avatar,
+                _id: player?._id
+            }
+    
+            socket.emit('sendLocation' , userInfo);
+    
+            console.log("MANDO SOCKET ");
         }
 
-        socket.emit('sendLocation' , userInfo);
-
-        console.log("MANDO SOCKET ");
     }, [userLocation]);
 
     useEffect(() => {
@@ -344,11 +347,12 @@ const SwampScreen = () => {
                         </AvatarContainer>
                     </Marker>
             )}
-            
-        {othersUserLocations.length > 0 && othersUserLocations.map(user => (
+
+        {othersUserLocations.length > 0 && othersUserLocations.map(user =>        
+        (
             <Marker
                 key={user._id} // Es importante agregar una clave única
-                coordinate={user.coordinate}
+                coordinate={user.coordinates}
             >
                 <AvatarContainer>
                     <AvatarImage source={{ uri: user.avatar }}/>
