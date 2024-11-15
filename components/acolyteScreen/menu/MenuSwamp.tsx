@@ -8,6 +8,8 @@ import AcolyteContext from "../../../helpers/AcolyteContext";
 import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -80,6 +82,30 @@ const MenuSwamp = () => {
                         tabBarLabel: '',
                     }}
                 />
+                <Tab.Screen
+                        name="Profile"
+                        component={ProfileScreen3}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
                 <Tab.Screen
                     name="MAP"
                     component={MapScreen}
