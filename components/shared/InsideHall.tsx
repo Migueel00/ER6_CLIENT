@@ -12,7 +12,7 @@ const InsideHall = () => {
     const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
     const player = appContext?.player!;
     const socket = appContext?.socket;
-    const players = appContext?.players;
+    const players = appContext?.players!;
 
     useEffect(() => {
         if (players) {
@@ -33,26 +33,47 @@ const InsideHall = () => {
         socket.emit("HallDoorPressed", values);
     };
 
-
     return (
-        <InsideHallBackground source={insideHallBackgroundImage} width={width} height={height}>
-            <PlayerRow>
-                {players && players
-                    .filter(player => player.isInsideHall)
+        <InsideHallBackground source={insideHallBackgroundImage}>
+            <ContainerTopLeft>
+                {players
+                    .filter(player => player.isInsideHall && player.role === 'MORTIMER')
                     .map(player => (
                         <AvatarWrapper key={player._id}>
                             <Avatar source={{ uri: player.avatar }} />
                         </AvatarWrapper>
                     ))
                 }
-            </PlayerRow>
-    
+            </ContainerTopLeft>
+
+            <ContainerTopRight>
+                {players
+                    .filter(player => player.isInsideHall && player.role === 'VILLAIN')
+                    .map(player => (
+                        <AvatarWrapper key={player._id}>
+                            <Avatar source={{ uri: player.avatar }} />
+                        </AvatarWrapper>
+                    ))
+                }
+            </ContainerTopRight>
+
+            <ContainerBottom>
+                {players
+                    .filter(player => player.isInsideHall && player.role === 'ACOLYTE'
+                    )
+                    .map(p => (
+                        <AvatarWrapper key={p._id}>
+                            <Avatar source={{ uri: p.avatar }} />
+                        </AvatarWrapper>
+                    ))
+                }
+            </ContainerBottom>
+
             <StyledButton onPress={handleExitHall}>
                 <StyledButtonText>Exit from the Hall</StyledButtonText>
             </StyledButton>
         </InsideHallBackground>
-    );
-    
+    );    
 };
 
 const StyledButtonText = styled.Text`
@@ -80,12 +101,6 @@ const InsideHallBackground = styled.ImageBackground`
     width: ${width}px;
     height: ${height}px;
 `;
-const PlayerRow = styled.View`
-    flex-direction: row;
-    justify-content: center;
-    margin-top: ${width * 0.6}px;
-    width: 100%;
-`;
 
 const AvatarWrapper = styled.View`
     width: ${width * 0.2}px;
@@ -101,6 +116,28 @@ const Avatar = styled.Image`
     width: 100%;
     height: 100%;
     border-radius: ${width * 0.4}px;
+`;
+
+// Estilos de contenedores
+const ContainerTopLeft = styled.View`
+    position: absolute;
+    top: ${height * 0.1}px;
+    left: ${width * 0.1}px;
+    flex-direction: row;
+`;
+
+const ContainerTopRight = styled.View`
+    position: absolute;
+    top: ${height * 0.1}px;
+    right: ${width * 0.1}px;
+    flex-direction: row;
+`;
+
+const ContainerBottom = styled.View`
+    position: absolute;
+    bottom: ${height * 0.3}px; /* Espacio para el botón */
+    align-self: center;
+    flex-direction: row;
 `;
 
 export default InsideHall;
