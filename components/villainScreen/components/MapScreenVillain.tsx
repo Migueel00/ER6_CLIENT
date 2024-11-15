@@ -132,7 +132,7 @@ const MapScreenVillain = () => {
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.53, right: width * 0.37 }}
+                style={{ top: height * 0.72, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
