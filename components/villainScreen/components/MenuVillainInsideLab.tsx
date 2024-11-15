@@ -1,16 +1,14 @@
 import styled from 'styled-components/native';
 import * as CONSTANTS from "../../../src/constants";
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../../shared/homeScreen';
 import ProfileScreen3 from '../../shared/ProfileScreen';
 import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
-import MapScreenVillain from './MapScreenVillain';
 import PotionCreator from '../../shared/PotionCreator/PotionCreator';
 import AppContext from '../../../helpers/context';
+import ExitLab from '../../shared/ExitLab';
 
 
 const { width, height } = Dimensions.get('window');
@@ -76,10 +74,22 @@ const MenuVillainInsideLab = () => {
                     component={PotionCreator}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/lab-icon.png')} />
+
+                                <Icon source={require('../../../assets/icons/villainLabIcon.png')}  style={{ width: width * 0.16, height: width * 0.16, borderRadius: width * 0.5 }}  />
+
                         ),
                         tabBarLabel: ({ }) => null,
 
+                    }}
+                />
+                 <Tab.Screen
+                    name="EXITLAB"
+                    component={ExitLab}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/exitLabIcon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
                     }}
                 />
                 <Tab.Screen
@@ -98,17 +108,6 @@ const MenuVillainInsideLab = () => {
                     options={{
                         tabBarIcon: ({ }) => (
                             <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name='MAP'
-                    component={MapScreenVillain}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/mapIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 
