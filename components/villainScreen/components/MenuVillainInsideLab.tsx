@@ -46,7 +46,6 @@ const MenuVillainInsideLab = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarStyle: {
@@ -118,7 +117,6 @@ const MenuVillainInsideLab = () => {
 
 
             </Tab.Navigator>
-        </NavigationContainer>
     )
 }
 

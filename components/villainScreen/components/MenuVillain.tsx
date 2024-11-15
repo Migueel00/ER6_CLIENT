@@ -45,7 +45,6 @@ const MenuVillain = () => {
     }, []);
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarStyle: {
@@ -117,7 +116,6 @@ const MenuVillain = () => {
                 />
 
             </Tab.Navigator>
-        </NavigationContainer>
     )
 }
 
