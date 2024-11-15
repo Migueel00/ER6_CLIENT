@@ -68,18 +68,6 @@ const MenuOldSchoolAcolyte = () => {
                 })}
             >   
                 <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
                     name="OLDSCHOOL"
                     component={SchoolScreen}
                     options={{
@@ -89,6 +77,18 @@ const MenuOldSchoolAcolyte = () => {
                             />
                         ),
                         tabBarLabel: '',
+                    }}
+                />
+                <Tab.Screen
+                    name="MAP"
+                    component={MapScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/mapIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
                     }}
                 />
             </Tab.Navigator>

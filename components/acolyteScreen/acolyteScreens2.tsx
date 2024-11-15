@@ -10,7 +10,6 @@ import { Vibration } from 'react-native';
 import MenuTowerInside from './menu/MenuTowerInside';
 import MenuSwamp from './menu/MenuSwamp';
 import { NavigationContainer } from '@react-navigation/native';
-import MenuOldSchool from './menu/MenuOldSchool';
 import MenuHallInside from './menu/MenuHallInside';
 import MenuHall from './menu/MenuHall';
 import MenuOldSchoolAcolyte from './menu/MenuOldSchoolAcolyte';
@@ -26,11 +25,6 @@ interface updateEvent {
 interface updateTowerEvent {
   playerId: string;
   isInsideTower: boolean;
-}
-
-interface updateHallEvent {
-  playerId: string;
-  isInsideHall: boolean;
 }
 
 const AcolyteProvider = () => {
