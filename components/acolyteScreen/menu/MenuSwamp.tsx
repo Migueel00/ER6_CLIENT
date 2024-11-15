@@ -69,18 +69,6 @@ const MenuSwamp = () => {
                 })}
             >   
                 <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
                     name="SWAMP"
                     component={SwampScreen}
                     options={{
@@ -90,6 +78,18 @@ const MenuSwamp = () => {
                             />
                         ),
                         tabBarLabel: '',
+                    }}
+                />
+                <Tab.Screen
+                    name="MAP"
+                    component={MapScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/mapIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
                     }}
                 />
             </Tab.Navigator>
