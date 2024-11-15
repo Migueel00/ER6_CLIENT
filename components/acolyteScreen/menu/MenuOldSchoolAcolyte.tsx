@@ -7,6 +7,8 @@ import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
 import MapScreen from "../../mapScreen/mapScreen";
 import SchoolScreen from "../../mapScreen/schoolScreen";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -79,6 +81,30 @@ const MenuOldSchoolAcolyte = () => {
                         tabBarLabel: '',
                     }}
                 />
+                <Tab.Screen
+                        name="Profile"
+                        component={ProfileScreen3}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
                 <Tab.Screen
                     name="MAP"
                     component={MapScreen}
