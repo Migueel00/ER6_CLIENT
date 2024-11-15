@@ -45,7 +45,6 @@ const SchoolScreen = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
-    const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
@@ -84,14 +83,8 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuHallOfSagesLoaded]);
+}, [isMenuLoaded, isMenuHallOfSagesLoaded, isMenuLabLoaded]);
 
-    const handleHomeIconPress = () => {
-        setLocation('HOME');
-        if(isMenuLoaded){
-            navigation.navigate('HOME');
-        }
-    }   
 
     const handleHallIconPress = () => {
         setLocation('HALL');
@@ -112,13 +105,6 @@ useEffect(() => {
     return (
         <Container>
             <BackgroundImage source={schoolMap} />
-
-            <TouchableIcon
-                onPress={handleHomeIconPress}
-                style={{ top: height * 0.80, right: width * 0.395 }}
-            >
-                <HomeIcon source={homeIcon} />
-            </TouchableIcon>
             <TouchableIcon
                 onPress={handleHallIconPress}
                 style={{ top: height * 0.20, right: width * 0.50 }}
@@ -132,8 +118,6 @@ useEffect(() => {
             >
                 <HomeIcon source={labIcon} />
             </TouchableIcon>
-            
-
         </Container>
     );
 }
