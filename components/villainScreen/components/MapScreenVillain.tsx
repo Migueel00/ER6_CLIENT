@@ -3,8 +3,6 @@ import { Dimensions} from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
-import MortimerContext from "../../../helpers/MortimerContext";
-import messaging from '@react-native-firebase/messaging';
 import VillainContext from "../../../helpers/VillainContext";
 
 
@@ -90,14 +88,6 @@ const MapScreenVillain = () => {
             }, 200);
         }
     }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
-    
-    const handleLabIconPress = () => {
-        setLocation('LAB');
-        
-        if(isMenuLabLoaded){
-            navigation.navigate('LAB');
-        }
-    }
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -125,12 +115,6 @@ const MapScreenVillain = () => {
     return (
         <Container>
             <BackgroundImage source={mapImage} />
-            <TouchableIcon 
-                onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.02 }}
-            >
-                <LabIcon source={labIcon}  /> 
-            </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
                 style={{ top: height * 0.72, right: width * 0.37 }}
