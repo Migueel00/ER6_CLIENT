@@ -47,13 +47,14 @@ const InsideHall = () => {
             </ContainerTopLeft>
 
             <ContainerTopRight>
-                {players
-                    .filter(player => player.isInsideHall && player.role === 'VILLAIN')
-                    .map(player => (
-                        <AvatarWrapper key={player._id}>
-                            <Avatar source={{ uri: player.avatar }} />
-                        </AvatarWrapper>
-                    ))
+                {player.role != 'ACOLYTE' &&
+                    players
+                        .filter(player => player.isInsideHall && player.role === 'VILLAIN')
+                        .map(player => (
+                            <AvatarWrapper key={player._id}>
+                                <Avatar source={{ uri: player.avatar }} />
+                            </AvatarWrapper>
+                        ))
                 }
             </ContainerTopRight>
 
