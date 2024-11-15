@@ -37,6 +37,12 @@ type LocationType = {
     longitude: number;
 };
 
+interface LocationAvatar {
+    coordinate : LocationType,
+    avatar: string,
+    _id: string
+}
+
 const SwampScreen = () => {  
 
     const context = useContext(AppContext);
@@ -49,6 +55,7 @@ const SwampScreen = () => {
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [isArtifacts, setIsArtifacts] = useState<boolean>(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState(artifacts.filter((marker) => !marker.isRetrieved) || []);
+    const [othersUserLocations, setOthersUserLocation] = useState<LocationAvatar[]>([]);
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -67,6 +74,7 @@ const SwampScreen = () => {
         const longitude = position.coords.longitude;
         console.log("Posición actual del usuario:", latitude, longitude);
         setUserLocation({ latitude, longitude });
+        
     };
 
 
@@ -163,7 +171,7 @@ const SwampScreen = () => {
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 1000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 5, fastestInterval: 3000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
@@ -193,10 +201,46 @@ const SwampScreen = () => {
         });      
     }, [artifacts]);
 
+    // Socket to send player Location data and avatar
     useEffect(() => {
-        console.log("USE EFFECT ARTIFACTS " + JSON.stringify(artifacts));
-    }, [artifacts])
+        // userLocation And Avatar
+        const userInfo = {
+            coordinates: userLocation,
+            avatar: player?.avatar,
+            _id: player?._id
+        }
+
+        socket.emit('sendLocation' , userInfo);
+
+        console.log("MANDO SOCKET ");
+    }, [userLocation]);
+
+    useEffect(() => {
+        socket?.on('updatedCoordinates', (value: LocationAvatar) => {
+            console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
+            
+            setOthersUserLocation(prevLocations => {
+                const userIndex = prevLocations.findIndex(user => user._id === value._id);
+                
+                if (userIndex >= 0) {
+
+                    const updatedLocations = [...prevLocations];
+                    updatedLocations[userIndex] = value;
+                    return updatedLocations;
+                } else {
+
+                    return [...prevLocations, value];
+                }
+            });
+        });
     
+        // Clean the event at removing the component
+        return () => {
+            socket?.off('updatedCoordinates');
+        };
+    }, [socket]);
+    
+
 
     const markArtifactAsRetrieved = (markerId: number) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
@@ -299,9 +343,18 @@ const SwampScreen = () => {
                             <AvatarImage source={{ uri: avatar }} />
                         </AvatarContainer>
                     </Marker>
-                )}
-
-
+            )}
+            
+        {othersUserLocations.length > 0 && othersUserLocations.map(user => (
+            <Marker
+                key={user._id} // Es importante agregar una clave única
+                coordinate={user.coordinate}
+            >
+                <AvatarContainer>
+                    <AvatarImage source={{ uri: user.avatar }}/>
+                </AvatarContainer>
+            </Marker>
+        ))}
         </MapView>
 
         {retrievedArtifacts  && (
