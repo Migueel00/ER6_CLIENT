@@ -72,6 +72,7 @@ const MapScreenMortimer = () => {
     useEffect(() => {
         console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
         console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
+        console.log("ESTADO DE IS MENU HOME LOADED " + isMenuLoaded);
         
         if (isMenuTowerLoaded) {
             setTimeout(() => {
@@ -81,8 +82,12 @@ const MapScreenMortimer = () => {
             setTimeout(() => {
                 navigation.navigate('OLDSCHOOL');
             }, 200);
+        } else if (isMenuLoaded){
+            setTimeout(() => {
+                navigation.navigate('HOME');
+            }, 200);
         }
-    }, [isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+    }, [isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
@@ -100,9 +105,8 @@ const MapScreenMortimer = () => {
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
-        console.log(isMenuLoaded);
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('HOME');
         }
     }   
 
