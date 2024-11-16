@@ -72,6 +72,17 @@ const MenuMortimerTower = () => {
                     },
                 })}>
                 <Tab.Screen
+                    name="TOWER"
+                    component={MortimerTowerScreen}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/towerIcon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
+
+                    }}
+                />
+                <Tab.Screen
                     name="Profile"
                     component={ProfileScreen3}
                     options={{
@@ -87,17 +98,6 @@ const MenuMortimerTower = () => {
                     options={{
                         tabBarIcon: ({ }) => (
                             <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name="TOWER"
-                    component={MortimerTowerScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/towerIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 

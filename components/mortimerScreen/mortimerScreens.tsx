@@ -7,7 +7,7 @@ import MenuHallInside from '../acolyteScreen/menu/MenuHallInside';
 import MenuHallMortimer from './components/MenuHallMortimer';
 import MenuInsideConnection from './components/MenuInsideConnections';
 import MenuMortimer from './components/MenuMortimer';
-import MenuMortimerTower from './components/MenuMortimerTower';
+import MenuMortimerTower from './components/MenuTowerMortimer';
 import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
 
