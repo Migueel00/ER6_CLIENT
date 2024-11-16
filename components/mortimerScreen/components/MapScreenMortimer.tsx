@@ -63,7 +63,6 @@ const MapScreenMortimer = () => {
     const setLocation = appContext?.setLocation;
     const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
-    const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
 
@@ -83,7 +82,7 @@ const MapScreenMortimer = () => {
                 navigation.navigate('OLDSCHOOL');
             }, 200);
         }
-    }, [isMenuConnectionLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+    }, [isMenuTowerLoaded, isMenuOldSchoolLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
@@ -127,7 +126,7 @@ const MapScreenMortimer = () => {
             <BackgroundImage source={mapImage} />
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.53, right: width * 0.37 }}
+                style={{ top: height * 0.72, right: width * 0.35 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
