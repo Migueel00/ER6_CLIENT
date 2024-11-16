@@ -18,11 +18,8 @@ const ConnectionScreen = () => {
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
-        console.log("States of loaded menus: ", {
-            isMenuOldSchoolLoaded
-        });
 
-        const navigateToMenu = () => {
+        const navigateToSchool = () => {
             if (isMenuOldSchoolLoaded) {
                 setTimeout(() => {
                     navigation.navigate('OLDSCHOOL');
@@ -30,7 +27,7 @@ const ConnectionScreen = () => {
             }
         };
 
-        navigateToMenu();
+        navigateToSchool();
     }, [isMenuOldSchoolLoaded]);
 
     const handleExitLab = () => {
