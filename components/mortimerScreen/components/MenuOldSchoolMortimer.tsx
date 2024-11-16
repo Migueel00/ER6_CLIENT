@@ -7,6 +7,8 @@ import MortimerContext from "../../../helpers/MortimerContext";
 import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
 import MapScreenMortimer from "./MapScreenMortimer";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -77,6 +79,27 @@ const MenuOldSchoolMortimer = () => {
                             />
                         ),
                         tabBarLabel: '',
+                    }}
+                />
+                <Tab.Screen
+                    name="Profile"
+                    component={ProfileScreen3}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/fixed/profileIcon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
+                    }}
+                />
+                <Tab.Screen
+                    name="Settings"
+                    component={SettingsScreen}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
+
                     }}
                 />
                 <Tab.Screen
