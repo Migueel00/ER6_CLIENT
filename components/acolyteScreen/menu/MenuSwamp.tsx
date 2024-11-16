@@ -29,14 +29,6 @@ const MenuSwamp = () => {
     const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
     const setIsMenuMortimerSwampLoaded = mortimerContext?.setIsMenuSwampLoaded!;
 
-    console.log("SET IS MENU SWAMP LOADED ACOLYTE");
-    console.log(setIsMenuSwampLoaded);
-
-    console.log("SET IS MENU SWAMP LOADED MORTIMER");
-    console.log(setIsMenuMortimerSwampLoaded);
-
-    
-
     useEffect(() => {
         switch (player.role) {
             case 'MORTIMER':
@@ -48,7 +40,7 @@ const MenuSwamp = () => {
                 }
             case 'ACOLYTE':
                 setIsMenuSwampLoaded(true);
-                
+
                 //Dismount component
                 return () => {
                     setIsMenuSwampLoaded(false);
