@@ -71,15 +71,10 @@ const MapScreenMortimer = () => {
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
         console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
         console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
-
-        if (isMenuConnectionLoaded) {
-            setTimeout(() => {
-                navigation.navigate('LAB');
-            }, 200);
-        } else if (isMenuTowerLoaded) {
+        
+        if (isMenuTowerLoaded) {
             setTimeout(() => {
                 navigation.navigate('TOWER');
             }, 200);
@@ -92,25 +87,17 @@ const MapScreenMortimer = () => {
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('Notificación abierta desde el segundo plano:', remoteMessage);
-      // Maneja la lógica de la navegación aquí
-      setLocation('TOWER');
-      navigation.navigate('TOWER');
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log('Notificación abierta desde el segundo plano:', remoteMessage);
+            // Maneja la lógica de la navegación aquí
+            setLocation('TOWER');
+            navigation.navigate('TOWER');
     });
 }
     
     useEffect(() => {
         onNotificationOpenedApp();
     }, []);
-    
-    const handleLabIconPress = () => {
-        setLocation('LAB');
-        
-        if(isMenuConnectionLoaded){
-            navigation.navigate('LAB');
-        }
-    }
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -138,12 +125,6 @@ const MapScreenMortimer = () => {
     return (
         <Container>
             <BackgroundImage source={mapImage} />
-            <TouchableIcon 
-                onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.02 }}
-            >
-                <LabIcon source={labIcon}  /> 
-            </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
                 style={{ top: height * 0.53, right: width * 0.37 }}
