@@ -30,31 +30,29 @@ const MenuSwamp = () => {
     const setIsMenuMortimerSwampLoaded = mortimerContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
-        switch (player.role) {
-            case 'MORTIMER':
-                setIsMenuMortimerSwampLoaded(true);
 
-                //Dismount component
-                return () => {
-                    setIsMenuMortimerSwampLoaded(false);
-                }
-            case 'ACOLYTE':
-                setIsMenuSwampLoaded(true);
-
-                //Dismount component
-                return () => {
-                    setIsMenuSwampLoaded(false);
-                }
-            default:
-                break;
+        if (player.role === 'ACOLYTE'){
+            setIsMenuSwampLoaded(true);
+        } else if (player.role === 'MORTIMER'){
+            setIsMenuMortimerSwampLoaded(true);
         }
 
         const value = {
-            playerID: player._id,
-            location: player.location
+            playerID: appContext?.player._id,
+            location: appContext?.location
         };
 
         socket.emit("UpdateLocation", value);
+
+        // Se ejecuta al desmontar el componente
+        return () => {
+            if (player.role === 'ACOLYTE'){
+                setIsMenuSwampLoaded(false);
+            } else if (player.role === 'MORTIMER') {
+                setIsMenuMortimerSwampLoaded(false);
+            }
+
+        }
     }, []);
 
     return (

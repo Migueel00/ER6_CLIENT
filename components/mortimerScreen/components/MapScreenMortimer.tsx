@@ -146,6 +146,7 @@ useEffect(() => {
 
     const handleSwampIconPress = () => {
         console.log("PRESSED SWAMP BUTTON IN MAP");
+        console.log(isMenuSwampLoaded);
         
         setLocation('SWAMP');
         if(isMenuSwampLoaded){
