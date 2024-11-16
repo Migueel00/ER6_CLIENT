@@ -69,25 +69,38 @@ const MapScreenMortimer = () => {
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
-    useEffect(() => {
-        console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
-        console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
-        console.log("ESTADO DE IS MENU HOME LOADED " + isMenuLoaded);
-        
-        if (isMenuTowerLoaded) {
-            setTimeout(() => {
-                navigation.navigate('TOWER');
-            }, 200);
-        } else if (isMenuOldSchoolLoaded){
-            setTimeout(() => {
-                navigation.navigate('OLDSCHOOL');
-            }, 200);
-        } else if (isMenuLoaded){
-            setTimeout(() => {
-                navigation.navigate('HOME');
-            }, 200);
+useEffect(() => {
+    console.log("States of loaded mennús: ", {
+        isMenuLoaded,
+        isMenuTowerLoaded,
+        isMenuOldSchoolLoaded
+    });
+
+    const navigateToMenu = () => {
+        switch (true) {
+            case isMenuLoaded:
+                setTimeout(() => {
+                    navigation.navigate('LAB');
+                }, 200);
+                break;
+            case isMenuTowerLoaded:
+                setTimeout(() => {
+                    navigation.navigate('TOWER');
+                }, 200);
+                break;
+            case isMenuOldSchoolLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OLDSCHOOL');
+                }, 200);
+                break;
+            default:
+                break;
         }
-    }, [isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuLoaded]);
+    };
+
+    navigateToMenu();
+    
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
