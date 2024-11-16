@@ -1,17 +1,14 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import MenuMortimer from './components/MenuMortimer';
 import MortimerContext from '../../helpers/MortimerContext';
 import AppContext from '../../helpers/context';
-import MenuInsideConnection from './components/MenuInsideConnections';
-import MenuMortimerTower from './components/MenuMortimerTower';
-import MenuOldSchool from '../acolyteScreen/menu/MenuOldSchool';
-import InsideHall from '../shared/InsideHall';
-import MenuHallMortimer from './components/MenuHallMortimer';
-import { NavigationContainer } from '@react-navigation/native';
-import MenuOldSchoolMortimer from '../acolyteScreen/menu/MenuOldSchoolMortimer';
-import { Vibration } from 'react-native';
 import MenuHallInside from '../acolyteScreen/menu/MenuHallInside';
+import MenuHallMortimer from './components/MenuHallMortimer';
+import MenuInsideConnection from './components/MenuInsideConnections';
+import MenuMortimer from './components/MenuMortimer';
+import MenuMortimerTower from './components/MenuMortimerTower';
+import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 
 const MenuContainer = styled.View`
   flex: 1;

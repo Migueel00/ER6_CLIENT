@@ -2,12 +2,11 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
-import AcolyteContext from "../../../helpers/AcolyteContext";
 import AppContext from "../../../helpers/context";
+import MortimerContext from "../../../helpers/MortimerContext";
 import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
-import MortimerContext from "../../../helpers/MortimerContext";
-import MapScreenMortimer from "../../mortimerScreen/components/MapScreenMortimer";
+import MapScreenMortimer from "./MapScreenMortimer";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -69,18 +68,6 @@ const MenuOldSchoolMortimer = () => {
                 })}
             >   
                 <Tab.Screen
-                    name="MAP"
-                    component={MapScreenMortimer}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
                     name="OLDSCHOOL"
                     component={SchoolScreen}
                     options={{
@@ -90,6 +77,18 @@ const MenuOldSchoolMortimer = () => {
                             />
                         ),
                         tabBarLabel: '',
+                    }}
+                />
+                <Tab.Screen
+                    name="MAP"
+                    component={MapScreenMortimer}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/mapIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
                     }}
                 />
             </Tab.Navigator>
