@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Dimensions, Image } from 'react-native';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppContext from '../../helpers/context';
 import MortimerContext from '../../helpers/MortimerContext';
@@ -62,9 +62,9 @@ const ConnectionScreen = () => {
                     ))}
                 </PlayersList>
 
-                <ExitButton onPress={handleExitLab}>
-                    <ExitButtonText>Exit Lab</ExitButtonText>
-                </ExitButton>
+                <StyledButton onPress={handleExitLab}>
+                    <StyledButtonText>Go back to the corridor</StyledButtonText>
+                </StyledButton>
             </Container>
         </BackgroundImage>
     );
@@ -133,21 +133,22 @@ const Avatar = styled.Image`
     border-radius: 50px;
 `;
 
-const ExitButton = styled.TouchableOpacity`
-    position: absolute;
-    bottom: 30px;
-    width: 80%;
-    padding-vertical: 15px;
-    background-color: red;
-    border-radius: 10px;
-    align-items: center;
+const StyledButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07}px;
+    font-family: 'KochAltschrift';
+    padding: 10px;
 `;
 
-const ExitButtonText = styled.Text`
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: KochAltschrift;
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.5}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.05}px;
 `;
 
 export default ConnectionScreen;
