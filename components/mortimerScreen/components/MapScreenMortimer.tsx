@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const labIcon = require('../../../assets/icons/fixed/potionIcon.png');
+const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
@@ -65,6 +65,7 @@ const MapScreenMortimer = () => {
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
+    const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -73,7 +74,8 @@ useEffect(() => {
     console.log("States of loaded mennús: ", {
         isMenuLoaded,
         isMenuTowerLoaded,
-        isMenuOldSchoolLoaded
+        isMenuOldSchoolLoaded,
+        isMenuSwampLoaded
     });
 
     const navigateToMenu = () => {
@@ -93,6 +95,11 @@ useEffect(() => {
                     navigation.navigate('OLDSCHOOL');
                 }, 200);
                 break;
+            case isMenuSwampLoaded:
+                setTimeout(() => {
+                    navigation.navigate('SWAMP');
+                }, 200);
+                break;
             default:
                 break;
         }
@@ -100,7 +107,7 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
@@ -137,6 +144,17 @@ useEffect(() => {
         }
     }   
 
+    const handleSwampIconPress = () => {
+        console.log("PRESSED SWAMP BUTTON IN MAP");
+        
+        setLocation('SWAMP');
+        if(isMenuSwampLoaded){
+            console.log("NAVIGATING TO SWAMP");
+            
+            navigation.navigate('SWAMP');
+        }
+    }   
+
 
     return (
         <Container>
@@ -158,6 +176,12 @@ useEffect(() => {
                 style={{ top: height * 0.60, right: width * 0.45 }}
             >
                 <TowerIcon source={schoolIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSwampIconPress}
+                style={{ top: height * 0.39, right: width * 0.02 }}
+            >
+                <TowerIcon source={swampIcon} />
             </TouchableIcon>
         </Container>
     );

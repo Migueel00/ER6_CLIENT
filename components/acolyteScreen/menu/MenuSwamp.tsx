@@ -10,6 +10,7 @@ import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
+import MortimerContext from "../../../helpers/MortimerContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,16 +22,28 @@ const Icon = styled.Image`
 
 const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
+    const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
+    const player = appContext?.player!;
     const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
+    const setIsMenuMortimerSwampLoaded = mortimerContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
-        setIsMenuSwampLoaded(true);
+        switch (player.role) {
+            case 'MORTIMER':
+                setIsMenuMortimerSwampLoaded(true);
+                break;
+            case 'ACOLYTE':
+                setIsMenuSwampLoaded(true);
+                break;
+            default:
+                break;
+        }
 
         const value = {
-            playerID: appContext?.player._id,
-            location: appContext?.location
+            playerID: player._id,
+            location: player.location
         };
 
         socket.emit("UpdateLocation", value);
@@ -38,6 +51,7 @@ const MenuSwamp = () => {
         // Se ejecuta al desmontar el componente
         return () => {
             setIsMenuSwampLoaded(false);
+            setIsMenuMortimerSwampLoaded(false);
         }
     }, []);
 

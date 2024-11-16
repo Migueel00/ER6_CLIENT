@@ -9,6 +9,7 @@ import MenuInsideConnection from './components/MenuInsideConnections';
 import MenuMortimer from './components/MenuMortimer';
 import MenuMortimerTower from './components/MenuMortimerTower';
 import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
+import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -84,6 +85,7 @@ const MortimerProvider = () => {
           : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
           : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchoolMortimer/>
           : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
+          : mortimerLocation === 'SWAMP' ? <MenuSwamp/>
           : <MenuMortimer/>}
         </MenuContainer>
       </NavigationContainer>
