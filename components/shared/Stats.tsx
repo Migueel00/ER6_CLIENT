@@ -42,8 +42,8 @@ const Stats = () => {
                         height={height}
                     >
                         <Container padding={height * 0.01}>
-                            <TitleContainer width={width * 0.9} height={height * 0.1}>
-                                <TitleText fontSize={width * 0.1}>{player.nickname}</TitleText>
+                            <TitleContainer width={width * 0.9} height={height * 0.08}>
+                                <TitleText fontSize={width * 0.08}>{player.nickname}</TitleText>
                             </TitleContainer>
 
                             <StyledImage
@@ -185,7 +185,7 @@ const TitleContainer = styled.View<{ width: number; height: number }>`
     justify-content: center;
     align-items: center;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: ${height * 0.03}px;
     background-color: rgba(0, 0, 0, 0.5);
 `;
 
@@ -208,11 +208,11 @@ const Column = styled.View`
 `;
 
 const StyledImage = styled.Image`
-    width: ${width * 0.43}px;
-    height: ${width * 0.43}px;
+    width: ${width * 0.33}px;
+    height: ${width * 0.33}px;
     margin-bottom: ${height * 0.03}px;
     border-width: 2px;
-    border-radius: 100px;
+    border-radius: ${width * 0.5}px;
     border-color: #C19A6B;
     bottom: ${height * 0.015}px;
 `; 

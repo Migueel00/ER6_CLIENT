@@ -38,11 +38,12 @@ const Equipment = () => {
 
     //console.log(gridItems[0].image);
     
+    //INSERT BACKGROUNDIMAGE AFTER SAFEAREAVIEW
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-            <Container>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.95)' }}>
             <Header>Inventory</Header>
+            <Container>
                 <Grid>
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
@@ -55,6 +56,7 @@ const Equipment = () => {
                     ))}
                 </Grid>
             </Container>
+
         </SafeAreaView>
     );
         }}
@@ -69,6 +71,7 @@ const Header = styled.Text`
     text-align: center;
     margin-bottom: ${newHeight * 0.02}px;
     font-family: KochAltschrift;
+    text-decoration-line: underline;
 `;
 
 // Styled Components
@@ -79,10 +82,8 @@ const BackgroundImage = styled.ImageBackground`
     margin-top: 0px;
 `;
 
-const Container = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+const Container = styled.ScrollView`
+
     padding: 10px;
 `;
 

@@ -15,11 +15,12 @@ const activeOpacity = 1;
 const inactiveOpacity = 0.2;
 
 const Icon = styled.Image<{focused: boolean}>`
-    width: ${CONSTANTS.ICON_WIDTH * width}px;
-    height: ${CONSTANTS.ICON_WIDTH * width}px;
+    width: ${width * 0.12}px;
+    height: ${width * 0.12}px;
     opacity: ${({ focused }) => (focused ? activeOpacity : inactiveOpacity)};
     resize-mode: contain;
     margin: 0;
+    borderRadius: ${width * 0.5}px;
 `
 
 
@@ -57,17 +58,19 @@ const ProfileScreen3 = () => {
                                 tabBarIconStyle: {
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    width: height * 0.08, // Width for icons
-                                    height: height * 0.08, // Height for icons
+                                    width: height * 0.07, // Width for icons
+                                    height: height * 0.07, // Height for icons
+                                    borderRadius: width * 0.5
                                 },
                                 tabBarShowLabel: false,
                                 headerShown: false,
+                                
                                 tabBarItemStyle: {
-                                    justifyContent: 'center', // Center icons
-                                    borderRightWidth: 0.2, // Border between tabs
-                                    borderRightColor: 'white', // Border color
-                                    paddingHorizontal: 10,
-                                    height: '100%',
+                                    justifyContent: 'center',
+                                    borderRightWidth: height * 0.002,
+                                    borderRightColor: 'white',
+                                    paddingHorizontal: 0,
+                                    height: '100%'
                                 },
                             }}
                         >

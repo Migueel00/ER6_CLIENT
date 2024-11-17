@@ -9,7 +9,7 @@ const kaotikaAPI = 'https://kaotika.vercel.app/';
 
 const { width, height } = Dimensions.get('window');
 
-const newHeight = height * 0.96;
+const newHeight = height * 0.92;
 
 const Equipment = () => {
 
@@ -21,12 +21,9 @@ const Equipment = () => {
                 const nextLevelExp = 1750 * (player.level);
                 
             return (
-                <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-                <BackgroundImage source={backgroundImageURL}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.95)'  }}>
+                    <Header>Equipment</Header>
                     <Container>
-
-                        <Header>Equipment</Header>
-
                         <ProfileSection>
 
                             <TextContainer>
@@ -47,7 +44,7 @@ const Equipment = () => {
 
 
                         <MainEquipment>
-                        <CircularEquipmentContainer>
+                            <CircularEquipmentContainer>
                                 <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.weapon.image }} />
                             </CircularEquipmentContainer>
 
@@ -75,6 +72,9 @@ const Equipment = () => {
                                 <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.ring.image }} />
                             </CircularEquipmentContainer>
 
+                        </EquipmentGrid>
+
+                        <EquipmentGrid>
                             <PotionEquipmentContainer>
                                 <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.healing_potion.image }} />
                             </PotionEquipmentContainer>
@@ -88,7 +88,6 @@ const Equipment = () => {
                             </PotionEquipmentContainer>
 
                         </EquipmentGrid>
-
 
                         <InfoSectionGrid>
 
@@ -115,7 +114,6 @@ const Equipment = () => {
                         </InfoSectionGrid>
 
                     </Container>
-                </BackgroundImage>
                 </SafeAreaView>
             );
         }}
@@ -131,18 +129,19 @@ const BackgroundImage = styled.ImageBackground`
     margin-top: 0px;
 `;
 
-const Container = styled.View`
+const Container = styled.ScrollView`
     background-color: rgba(0, 0, 0, 0.9); /* Fondo semitransparente */
     padding: ${width * 0.03}px;
-
+    height: ${height * 0.9}px;
 `;
 
 const Header = styled.Text`
     font-size: ${width * 0.08}px;
     color: white;
     text-align: center;
-    margin-bottom: ${newHeight * 0.02}px;
     font-family: KochAltschrift;
+    text-decoration-line: underline;
+    background-color: 'rgba(0,0,0,0.95)';
 `;
 
 const ProfileSection = styled.View`
@@ -150,11 +149,12 @@ const ProfileSection = styled.View`
     justify-content: space-between;
     align-items: center;
     margin-bottom: ${newHeight * 0.01}px;
+
 `;
 
 const TextContainer = styled.View`
-    width: ${width * 0.25}px;
-    height: ${width * 0.25}px;
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
@@ -186,23 +186,24 @@ const EquipmentGrid = styled.View`
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+        margin-bottom: ${newHeight * 0.012}px;
 `;
 
 const EquipmentContainer = styled.View`
-    width: ${width * 0.25}px;
-    height: ${width * 0.25}px;
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
     align-items: center;
-    margin-bottom: ${newHeight * 0.02}px;
+
     border-radius: ${width * 0.03}px;
     background-color: rgba(0,0,0,0);
 `; 
 
 const CircularEquipmentContainer = styled.View`
-    width: ${width * 0.25}px;
-    height: ${width * 0.25}px;
+    width: ${width * 0.16}px;
+    height: ${width * 0.16}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
@@ -213,21 +214,20 @@ const CircularEquipmentContainer = styled.View`
 `; 
 
 const PotionEquipmentContainer = styled.View`
-    width: ${width * 0.2}px;
-    height: ${width * 0.2}px;
+    width: ${width * 0.17}px;
+    height: ${width * 0.17}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
     align-items: center;
-    margin-bottom: ${newHeight * 0.02}px;
     border-radius: ${width * 0.2}px;
     background-color: rgba(0,0,0,0);
 
 `; 
 
 const LargeEquipmentContainer = styled(EquipmentContainer)`
-    width: ${width * 0.35}px;
-    height: ${width * 0.35}px;
+    width: ${width * 0.28}px;
+    height: ${width * 0.28}px;
     background-color: rgba(0,0,0,0);
 
 `;
