@@ -10,6 +10,7 @@ import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
 import MortimerContext from '../../../helpers/MortimerContext';
 import AppContext from '../../../helpers/context';
+import MainTabNavigator from '../../shared/MainTabNavigator';
 
 
 const { width, height } = Dimensions.get('window');
@@ -19,9 +20,29 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuInsideConnection = () => {
+const MenuLabMortimer = () => {
 
     const Tab = createMaterialTopTabNavigator();
+
+    const screens = [
+        {
+            name: 'LAB',
+            component: ConnectionScreen,
+            iconSource: require('../../../assets/icons/fixed/potionIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        }
+    ];
 
     const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
@@ -44,65 +65,8 @@ const MenuInsideConnection = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10, // Incremento en la altura para más espacio
-                        paddingBottom: 1, // Añade espacio en la parte inferior de la barra
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,  // Puedes ajustar el ancho de los íconos
-                        height: 50, // Ajusta el alto para dar más espacio
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%'
-                    },
-                })}>
-                <Tab.Screen
-                    name="LAB"
-                    component={ConnectionScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/potionIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name="Profile"
-                    component={ProfileScreen3}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/profileIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-                    }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     )
 }
 
-export default MenuInsideConnection;
+export default MenuLabMortimer;

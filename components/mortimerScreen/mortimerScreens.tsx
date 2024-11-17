@@ -5,11 +5,11 @@ import MortimerContext from '../../helpers/MortimerContext';
 import AppContext from '../../helpers/context';
 import MenuHallInside from '../acolyteScreen/menu/MenuHallInside';
 import MenuHallMortimer from './components/MenuHallMortimer';
-import MenuInsideConnection from './components/MenuInsideConnections';
 import MenuMortimer from './components/MenuMortimer';
 import MenuMortimerTower from './components/MenuTowerMortimer';
 import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
+import MenuLabMortimer from './components/MenuInsideConnections';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -81,7 +81,7 @@ const MortimerProvider = () => {
       <NavigationContainer>
         <MenuContainer>
           {isInsideHall ? <MenuHallInside/> 
-          : mortimerLocation === 'LAB' ? <MenuInsideConnection/> 
+          : mortimerLocation === 'LAB' ? <MenuLabMortimer/> 
           : mortimerLocation === 'TOWER' ? <MenuMortimerTower/>
           : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchoolMortimer/>
           : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
