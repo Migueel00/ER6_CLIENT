@@ -26,6 +26,7 @@ const MainTabNavigator: React.FC<TabNavigatorComponentProps> = ({ Tab, screens }
     return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({
+                    animationEnabled: false,
                     tabBarStyle: {
                         backgroundColor: 'black',
                         height: height * 0.10, // Incremento en la altura para más espacio

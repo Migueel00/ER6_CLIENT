@@ -84,14 +84,18 @@ const MapScreenVillain = () => {
             setTimeout(() => {
                 navigation.navigate('SWAMP');
             }, 200);
+        } else if (isMenuLoaded){
+            setTimeout(() => {
+                navigation.navigate('HOME');
+            }, 200);
         }
-    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
         console.log(isMenuLoaded);
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('HOME');
         }
     }   
 
@@ -104,7 +108,7 @@ const MapScreenVillain = () => {
 
     const handleSwampIconPress = () => {
         setLocation('SWAMP');
-        if(isMenuTowerLoaded){
+        if(isMenuSwampLoaded){
             navigation.navigate('SWAMP');
         }
     }   

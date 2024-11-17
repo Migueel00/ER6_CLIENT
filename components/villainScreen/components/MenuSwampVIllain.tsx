@@ -9,6 +9,10 @@ import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
 import MapScreenVillain from "./MapScreenVillain";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
+import MainTabNavigator from "../../shared/MainTabNavigator";
+import VillainContext from "../../../helpers/VillainContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,10 +23,37 @@ const Icon = styled.Image`
 `
 
 const MenuSwampVillain = () => {
-    const acolyteContext = useContext(AcolyteContext);
+
+    const screens = [
+        {
+            name: 'SWAMP',
+            component: SwampScreen,
+            iconSource: require('./../../../assets/icons/swampIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'MAP',
+            component: MapScreenVillain,
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
+           
+        }
+    ];
+
+    const villainContext = useContext(VillainContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
+    const setIsMenuSwampLoaded = villainContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
         setIsMenuSwampLoaded(true);
@@ -41,59 +72,7 @@ const MenuSwampVillain = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    animationEnabled: false,
-                    swipeEnabled: true,
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10,
-                        paddingBottom: 1,
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,
-                        height: 50,
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%',
-                    },
-                })}
-            >   
-                <Tab.Screen
-                    name="MAP"
-                    component={MapScreenVillain}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
-                    name="SWAMP"
-                    component={SwampScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/swampIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                />
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     );
 }
 

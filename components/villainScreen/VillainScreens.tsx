@@ -10,6 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MenuHallInside from '../acolyteScreen/menu/MenuHallInside';
 import MenuOldSchoolVillain from './components/MenuOldSchoolVillain';
 import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
+import MenuSwampVillain from './components/MenuSwampVIllain';
 
 
 const MenuContainer = styled.View`
@@ -57,7 +58,7 @@ const VillainProvider = () => {
                     : location === 'LAB' ? <MenuVillainInsideLab/> 
                     : location === 'TOWER' ? <MenuVillainTower/> 
                     : location === 'OLDSCHOOL' ? <MenuOldSchoolVillain/>
-                    : location === 'SWAMP' ? <MenuSwamp/>
+                    : location === 'SWAMP' ? <MenuSwampVillain/>
                     : location === 'HALL' ? <MenuHallVillain/>
                     : <MenuVillain/>  }
                 </MenuContainer>  
