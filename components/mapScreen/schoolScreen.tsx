@@ -26,10 +26,10 @@ const BackgroundImage = styled.ImageBackground`
     z-index: -1;
 `;
 
-const HomeIcon = styled.Image`
+const Icon = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
-    border-radius: 50px;
+    border-radius: ${width * 0.5}px;
     z-index: 2; 
 `;
 
@@ -104,14 +104,14 @@ useEffect(() => {
                 onPress={handleHallIconPress}
                 style={{ top: height * 0.20, right: width * 0.50 }}
             >
-                <HomeIcon source={hallIcon} />
+                <Icon source={hallIcon} />
             </TouchableIcon>
 
             <TouchableIcon
                 onPress={handleLabIconPress}
                 style={{ top: height * 0.33, right: width * 0.28}}
             >
-                <HomeIcon source={labIcon} />
+                <Icon source={labIcon} />
             </TouchableIcon>
         </Container>
     );

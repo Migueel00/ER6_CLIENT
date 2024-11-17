@@ -7,6 +7,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import InsideHall from "../../shared/InsideHall";
+import MainTabNavigator from "../../shared/MainTabNavigator";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -19,74 +20,30 @@ const Icon = styled.Image`
 `
 
 const MenuHallInside = () => {
+
+    const screens = [
+        {
+            name: 'INSIDEHALL',
+            component: InsideHall,
+            iconSource: require('./../../../assets/icons/fixed/homeIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        }
+    ];
     
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    swipeEnabled: true,
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10,
-                        paddingBottom: 1,
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,
-                        height: 50,
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%',
-                    },
-                })}
-            >
-                <Tab.Screen
-                    name="INSIDEHALL"
-                    component={InsideHall}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/settings-icon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                    />
-                <Tab.Screen
-                        name="Profile"
-                        component={ProfileScreen3}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-                <Tab.Screen
-                        name="Settings"
-                        component={SettingsScreen}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
 
     );
 }

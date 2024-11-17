@@ -11,7 +11,9 @@ import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
 import OutsideTower from '../../shared/OutsideTower';
 import AppContext from '../../../helpers/context';
+import MainTabNavigator from '../../shared/MainTabNavigator';
 
+const Tab = createMaterialTopTabNavigator();
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,7 +24,31 @@ const Icon = styled.Image`
 
 const MenuVillainTower = () => {
 
-    const Tab = createMaterialTopTabNavigator();
+    const screens = [
+        {
+            name: 'TOWER',
+            component: OutsideTower,
+            iconSource: require('./../../../assets/icons/towerIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'MAP',
+            component: MapScreenVillain,
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
+
+        }
+    ];
 
     const villainContext = useContext(VillainContext);
     const setIsMenuTowerLoaded = villainContext?.setIsMenuTowerLoaded!;
@@ -45,76 +71,7 @@ const MenuVillainTower = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10, // Incremento en la altura para más espacio
-                        paddingBottom: 1, // Añade espacio en la parte inferior de la barra
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,  // Puedes ajustar el ancho de los íconos
-                        height: 50, // Ajusta el alto para dar más espacio
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%'
-                    },
-                })}>
-                <Tab.Screen
-                    name="Profile"
-                    component={ProfileScreen3}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/profileIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-                    }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name='MAP'
-                    component={MapScreenVillain}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/mapIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name='TOWER'
-                    component={OutsideTower}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/towerIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     )
 }
 

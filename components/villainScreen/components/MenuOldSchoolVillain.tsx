@@ -7,6 +7,9 @@ import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
 import MapScreenVillain from "./MapScreenVillain";
 import VillainContext from "../../../helpers/VillainContext";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
+import MainTabNavigator from "../../shared/MainTabNavigator";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,6 +20,33 @@ const Icon = styled.Image`
 `
 
 const MenuOldSchoolVillain = () => {
+
+    const screens = [
+        {
+            name: 'OLDSCHOOL',
+            component: SchoolScreen,
+            iconSource: require('./../../../assets/icons/schoolIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'MAP',
+            component: MapScreenVillain,
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
+
+        }
+    ];
+
     const villainContext = useContext(VillainContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
@@ -39,59 +69,7 @@ const MenuOldSchoolVillain = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    animationEnabled: false,
-                    swipeEnabled: true,
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10,
-                        paddingBottom: 1,
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,
-                        height: 50,
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%',
-                    },
-                })}
-            >   
-                <Tab.Screen
-                    name="MAP"
-                    component={MapScreenVillain}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
-                    name="OLDSCHOOL"
-                    component={SchoolScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/schoolIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                />
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     );
 }
 
