@@ -6,6 +6,7 @@ import SettingsScreen from '../settings/settingsScreen';
 import ScannerScreen from './ScannerScreen';
 import ProfileScreen3 from '../shared/ProfileScreen';
 import MainTabNavigator from '../shared/MainTabNavigator';
+import IstvanToolsScreen from './istvanToolsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -30,8 +31,8 @@ const IstvanScreens = () => {
 
         },
         {
-            name: 'CAM',
-            component: ScannerScreen,
+            name: 'TOOLS',
+            component: IstvanToolsScreen,
             iconSource: require('./../../assets/icons/istvanScannerIcon.png'),
            
         }
