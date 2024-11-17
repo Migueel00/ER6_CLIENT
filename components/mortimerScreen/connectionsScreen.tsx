@@ -43,7 +43,7 @@ const ConnectionScreen = () => {
         >
             <Container>
                 <LabTitle>LABORATORY</LabTitle>
-                <KaotikaFontHeads>Below you have displayed who's{' '}
+                <KaotikaFontHeads>Below you have checkmarked who's{' '}
                     <ColoredText color="green">INSIDE</ColoredText> or{' '}
                     <ColoredText color="red">OUTSIDE</ColoredText> the Lab
                 </KaotikaFontHeads>
@@ -105,6 +105,7 @@ const KaotikaFontHeads = styled.Text`
     color: white;
     margin-bottom:  ${width * 0.02}px;
     align-items: center;
+    text-align: center;
 `;
 
 const KaotikaFontHeads2 = styled(KaotikaFontHeads)`

@@ -29,7 +29,7 @@ const MortimerTowerScreen = () => {
     const players = useContext(AppContext)?.players!;
     const setPlayers = useContext(AppContext)?.setPlayers;
     const [activePlayers, setActivePlayers] = useState(
-        players.filter(player => !player.isInsideTower && player.role === 'ACOLYTE')
+        players.filter(player => player.isInsideTower && player.role === 'ACOLYTE')
     );
     const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(activePlayers));
 
@@ -57,9 +57,10 @@ const MortimerTowerScreen = () => {
         <Container>
             <BackgroundImage source={require('../../assets/png/insideTower.png')}>
                 <Content>
-                    <HeaderText>Check what the Acolytes'</HeaderText>
-                    <HeaderText>are doing with your</HeaderText>
-                    <SubHeaderText>GODLY EYE</SubHeaderText>
+                <TowerTitle>THE TOWER</TowerTitle>
+                <KaotikaFontHeads>Below you have displayed who's{' '}
+                    <ColoredText color="green">INSIDE</ColoredText> the Tower
+                </KaotikaFontHeads>
                     <PlayerContainer>
                         {activePlayers.map((player, index) => {
                             const position = playerPositions[index];
@@ -91,6 +92,12 @@ const Container = styled.View`
     flex: 1;
 `;
 
+const ColoredText = styled.Text<{ color: string }>`
+    font-family: KochAltschrift;
+    color: ${(props) => props.color};
+    font-size: ${width * 0.08}px;
+`;
+
 const BackgroundImage = styled.ImageBackground`
     flex: 1;
     justify-content: center;
@@ -104,18 +111,23 @@ const Content = styled.View`
     padding: 10px;
 `;
 
-const HeaderText = styled.Text`
-    font-family: 'KochAltschrift';
-    font-size: ${width * 0.11}px;
+const TowerTitle = styled.Text`
+    font-family: KochAltschrift;
+    font-size: ${width * 0.1}px;
     color: white;
-    margin-bottom: 0px;
+    text-decoration-line: underline;
+    margin-bottom:  ${width * 0.02}px;
+    color: purple;
 `;
 
-const SubHeaderText = styled.Text`
-    font-family: 'KochAltschrift';
-    font-size: ${width * 0.12}px;
-    color: red;
-    margin-bottom: 20px;
+const KaotikaFontHeads = styled.Text`
+    font-family: KochAltschrift;
+    font-size: ${width * 0.09}px;
+    color: white;
+    margin-bottom:  ${width * 0.02}px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 `;
 
 const PlayerContainer = styled.View`
@@ -128,12 +140,13 @@ const PlayerContainer = styled.View`
 
 const AvatarWrapper = styled.View`
     position: absolute;
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    border-width: 2px;
+    width: ${width * 0.3}px;
+    height: ${width * 0.3}px;
+    border-radius: ${width * 0.5}px;
+    border-width: ${width * 0.005}px;
     border-color: white;
     overflow: hidden;
+    background-color: orange;
 `;
 
 const Avatar = styled.Image`
