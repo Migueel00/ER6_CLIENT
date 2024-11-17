@@ -21,100 +21,102 @@ const Equipment = () => {
                 const nextLevelExp = 1750 * (player.level);
                 
             return (
-                <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.95)'  }}>
+               <StyledImageBackground source={require('./../../assets/png/profileBackground.png')}>
+                    <Overlay />
                     <Header>Equipment</Header>
-                    <Container>
-                        <ProfileSection>
+                    
+                    <ScrolleableEquipmentContainer>
+                        <EquipmentContainer>
+                            <ProfileSection>
 
-                            <TextContainer>
-                                <ProfileText>Profile</ProfileText>
-                                <ProfileSubText>{player.profile.name}</ProfileSubText>
-                            </TextContainer>
+                                <TextContainer>
+                                    <ProfileText>Profile</ProfileText>
+                                    <ProfileSubText>{player.profile.name}</ProfileSubText>
+                                </TextContainer>
 
-                            <EquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.helmet.image }} />
-                            </EquipmentContainer>
+                                <NormalEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.helmet.image }} />
+                                </NormalEquipmentContainer>
 
-                            <TextContainer>
-                                <ProfileText>Level</ProfileText>
-                                <ProfileSubText>{player.level}</ProfileSubText>
-                            </TextContainer>
+                                <TextContainer>
+                                    <ProfileText>Level</ProfileText>
+                                    <ProfileSubText>{player.level}</ProfileSubText>
+                                </TextContainer>
 
-                        </ProfileSection>
+                            </ProfileSection>
 
+                            <MainEquipment>
+                                <CircularEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.weapon.image }} />
+                                </CircularEquipmentContainer>
 
-                        <MainEquipment>
-                            <CircularEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.weapon.image }} />
-                            </CircularEquipmentContainer>
+                                <LargeEquipmentContainer>
+                                    <LargeEquipmentImage source={{ uri: kaotikaAPI + player.equipment.armor.image }} />
+                                </LargeEquipmentContainer>
 
-                            <LargeEquipmentContainer>
-                                <LargeEquipmentImage source={{ uri: kaotikaAPI + player.equipment.armor.image }} />
-                            </LargeEquipmentContainer>
+                                <CircularEquipmentContainer>
+                                    <EquipmentImage  source={{ uri: kaotikaAPI + player.equipment.shield.image }} />
+                                </CircularEquipmentContainer>
+                            </MainEquipment>
 
-                            <CircularEquipmentContainer>
-                                <EquipmentImage  source={{ uri: kaotikaAPI + player.equipment.shield.image }} />
-                            </CircularEquipmentContainer>
-                        </MainEquipment>
+                            <EquipmentGrid>
 
+                                <CircularEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.artifact.image }} />
+                                </CircularEquipmentContainer>
 
-                        <EquipmentGrid>
+                                <NormalEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.boot.image }} />
+                                </NormalEquipmentContainer>
 
-                            <CircularEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.artifact.image }} />
-                            </CircularEquipmentContainer>
+                                <CircularEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.ring.image }} />
+                                </CircularEquipmentContainer>
 
-                            <EquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.boot.image }} />
-                            </EquipmentContainer>
+                            </EquipmentGrid>
 
-                            <CircularEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.ring.image }} />
-                            </CircularEquipmentContainer>
+                            <EquipmentGrid>
+                                <PotionEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.healing_potion.image }} />
+                                </PotionEquipmentContainer>
 
-                        </EquipmentGrid>
+                                <PotionEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.antidote_potion.image }} />
+                                </PotionEquipmentContainer>
 
-                        <EquipmentGrid>
-                            <PotionEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.healing_potion.image }} />
-                            </PotionEquipmentContainer>
+                                <PotionEquipmentContainer>
+                                    <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.enhancer_potion.image }}/>
+                                </PotionEquipmentContainer>
 
-                            <PotionEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.antidote_potion.image }} />
-                            </PotionEquipmentContainer>
+                            </EquipmentGrid>
 
-                            <PotionEquipmentContainer>
-                                <EquipmentImage source={{ uri: kaotikaAPI + player.equipment.enhancer_potion.image }}/>
-                            </PotionEquipmentContainer>
+                            <InfoSectionGrid>
 
-                        </EquipmentGrid>
+                                <InfoSection>
+                                    <InfoText>EXP</InfoText>
+                                    <NextInfoContainer>
+                                    <InfoNumberText>{player.experience}</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                    </NextInfoContainer>
+                                </InfoSection>
+                                
+                                <InfoSection>
+                                    <InfoText>Next LVL</InfoText>
+                                    <NextInfoContainer>
+                                        <InfoNumberText> {nextLevelExp}</InfoNumberText><NextInfoText>XP</NextInfoText>
+                                    </NextInfoContainer>
+                                </InfoSection>
 
-                        <InfoSectionGrid>
+                                <InfoSection>
+                                    <InfoText>GOLD</InfoText>
+                                    <NextInfoContainer>
+                                        <InfoNumberText> {player.gold}</InfoNumberText>
+                                    </NextInfoContainer>
+                                </InfoSection>
+                            </InfoSectionGrid>
 
-                            <InfoSection>
-                                <InfoText>EXP</InfoText>
-                                <NextInfoContainer>
-                                <InfoNumberText>{player.experience}</InfoNumberText><NextInfoText>XP</NextInfoText>
-                                </NextInfoContainer>
-                            </InfoSection>
-                            
-                            <InfoSection>
-                                <InfoText>Next LVL</InfoText>
-                                <NextInfoContainer>
-                                    <InfoNumberText> {nextLevelExp}</InfoNumberText><NextInfoText>XP</NextInfoText>
-                                </NextInfoContainer>
-                            </InfoSection>
-
-                            <InfoSection>
-                                <InfoText>GOLD</InfoText>
-                                <NextInfoContainer>
-                                    <InfoNumberText> {player.gold}</InfoNumberText>
-                                </NextInfoContainer>
-                            </InfoSection>
-                        </InfoSectionGrid>
-
-                    </Container>
-                </SafeAreaView>
+                        </EquipmentContainer>
+                    </ScrolleableEquipmentContainer>
+                </StyledImageBackground>
             );
         }}
         </AppContext.Consumer>
@@ -122,17 +124,34 @@ const Equipment = () => {
 };
 
 // Styled Components
-const BackgroundImage = styled.ImageBackground`
-    width: ${width  * 1}px;
-    height: ${newHeight  * 0.8}px;
-    padding-bottom: ${width * 0.5}px;
-    margin-top: 0px;
+const StyledImageBackground = styled.ImageBackground`
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    width: ${width}px;
+    height: ${height}px;
+    background-color: rgba(0,0,0,0.95);
 `;
 
-const Container = styled.ScrollView`
-    background-color: rgba(0, 0, 0, 0.9); /* Fondo semitransparente */
-    padding: ${width * 0.03}px;
-    height: ${height * 0.9}px;
+const Overlay = styled.View`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+`;
+
+const EquipmentContainer = styled.View`
+    justify-content: space-between;
+    height: 90%;
+    width: 100%;
+
+`;
+
+const ScrolleableEquipmentContainer = styled.ScrollView`
+    width: 95%;
+    margin-bottom: ${height * 0.01}px;
 `;
 
 const Header = styled.Text`
@@ -141,7 +160,7 @@ const Header = styled.Text`
     text-align: center;
     font-family: KochAltschrift;
     text-decoration-line: underline;
-    background-color: 'rgba(0,0,0,0.95)';
+    margin-bottom: ${newHeight * 0.01}px;
 `;
 
 const ProfileSection = styled.View`
@@ -149,7 +168,6 @@ const ProfileSection = styled.View`
     justify-content: space-between;
     align-items: center;
     margin-bottom: ${newHeight * 0.01}px;
-
 `;
 
 const TextContainer = styled.View`
@@ -160,7 +178,6 @@ const TextContainer = styled.View`
     justify-content: center;
     align-items: center;
     border-radius: ${width * 0.05}px;
-    background-color: rgba(0,0,0,0.9);
 `;
 
 const ProfileText = styled.Text`
@@ -178,32 +195,32 @@ const ProfileSubText = styled.Text`
 const MainEquipment = styled.View`
     justify-content: space-between;
     align-items: center;
-    margin-bottom: ${newHeight * 0.01}px;
+    margin-bottom: ${newHeight * 0}px;
     flex-direction: row;
+    margin-bottom: ${newHeight * 0.01}px;
 `;
 
 const EquipmentGrid = styled.View`
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-        margin-bottom: ${newHeight * 0.012}px;
+    margin-bottom: ${newHeight * 0.012}px;
 `;
 
-const EquipmentContainer = styled.View`
-    width: ${width * 0.2}px;
-    height: ${width * 0.2}px;
+const NormalEquipmentContainer = styled.View`
+    width: ${width * 0.25}px;
+    height: ${width * 0.25}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
     align-items: center;
 
     border-radius: ${width * 0.03}px;
-    background-color: rgba(0,0,0,0);
 `; 
 
 const CircularEquipmentContainer = styled.View`
-    width: ${width * 0.16}px;
-    height: ${width * 0.16}px;
+    width: ${width * 0.25}px;
+    height: ${width * 0.25}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
@@ -211,11 +228,39 @@ const CircularEquipmentContainer = styled.View`
     margin-bottom: ${newHeight * 0.02}px;
     border-radius: ${width * 0.2}px;
     background-color: rgba(0,0,0,0);
+    margin-right: ${width * 0.01}px;
+    margin-left: ${width * 0.01}px;
+`; 
+
+const CircularEquipmentContainerRight = styled.View`
+    width: ${width * 0.25}px;
+    height: ${width * 0.25}px;
+    border-width: 2px;
+    border-color: #C19A6B;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: ${newHeight * 0.02}px;
+    border-radius: ${width * 0.2}px;
+    background-color: rgba(0,0,0,0);
+    margin-right: ${width * 0.05}px;
+`; 
+
+const CircularEquipmentContainerLeft = styled.View`
+    width: ${width * 0.25}px;
+    height: ${width * 0.25}px;
+    border-width: 2px;
+    border-color: #C19A6B;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: ${newHeight * 0.02}px;
+    border-radius: ${width * 0.2}px;
+    background-color: rgba(0,0,0,0);
+    margin-left: ${width * 0.05}px;
 `; 
 
 const PotionEquipmentContainer = styled.View`
-    width: ${width * 0.17}px;
-    height: ${width * 0.17}px;
+    width: ${width * 0.25}px;
+    height: ${width * 0.25}px;
     border-width: 2px;
     border-color: #C19A6B;
     justify-content: center;
@@ -226,10 +271,12 @@ const PotionEquipmentContainer = styled.View`
 `; 
 
 const LargeEquipmentContainer = styled(EquipmentContainer)`
-    width: ${width * 0.28}px;
-    height: ${width * 0.28}px;
+    width: ${width * 0.35}px;
+    height: ${width * 0.35}px;
     background-color: rgba(0,0,0,0);
-
+    border-width: 2px;
+    border-color: #C19A6B;
+    border-radius: ${width * 0.08}px;
 `;
 
 const EquipmentImage = styled.Image`
@@ -239,8 +286,9 @@ const EquipmentImage = styled.Image`
 `;
 
 const LargeEquipmentImage = styled(EquipmentImage)`
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 85%;
+    margin-top: ${height * 0.01}px;
 `;
 
 const InfoSection = styled.View`
