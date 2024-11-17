@@ -92,7 +92,7 @@ const Container = styled.View`
 
 const LabTitle = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.08}px;
+    font-size: ${width * 0.1}px;
     color: white;
     text-decoration-line: underline;
     margin-bottom:  ${width * 0.02}px;
