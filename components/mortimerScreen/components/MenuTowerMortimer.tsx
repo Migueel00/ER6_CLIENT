@@ -30,7 +30,7 @@ const MenuMortimerTower = () => {
         {
             name: 'TOWER',
             component: MortimerTowerScreen,
-            iconSource: require('../../../assets/icons/fixed/potionIcon.png'),
+            iconSource: require('../../../assets/icons/towerIcon.png'),
         },
         {
             name: 'Profile',
