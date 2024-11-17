@@ -55,18 +55,18 @@ const MenuVillain = () => {
                     tabBarIconStyle: {
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: 50,  // Puedes ajustar el ancho de los íconos
-                        height: 50, // Ajusta el alto para dar más espacio
+                        width: height * 0.08,  // Puedes ajustar el ancho de los íconos
+                        height: height * 0.08, // Ajusta el alto para dar más espacio
                     },
                     tabBarIndicatorStyle: {
                         backgroundColor: 'orange',
-                        height: 3,
+                        height: height * 0.002,
                     },
                     tabBarItemStyle: {
                         justifyContent: 'center',
-                        borderRightWidth: 0.2,
+                        borderRightWidth: height * 0.002,
                         borderRightColor: 'white',
-                        paddingHorizontal: 10,
+                        paddingHorizontal: 0,
                         height: '100%'
                     },
                 })}>
@@ -76,7 +76,7 @@ const MenuVillain = () => {
                     options={{
 
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/homeIcon.png')} />
+                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/homeIcon.png')}/>
                         ),
                         tabBarLabel: ({ }) => null,
 
@@ -87,7 +87,7 @@ const MenuVillain = () => {
                     component={ProfileScreen3}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/profileIcon.png')} />
+                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/profileIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
                     }}
@@ -97,7 +97,7 @@ const MenuVillain = () => {
                     component={SettingsScreen}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
+                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/settingsIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 
@@ -108,7 +108,7 @@ const MenuVillain = () => {
                     component={MapScreenVillain}
                     options={{
                         tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/mapIcon.png')} />
+                            <Icon style={{height: width * 0.15, width: width * 0.15, borderRadius: width * 0.5}} source={require('../../../assets/icons/mapIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 
