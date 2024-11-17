@@ -66,8 +66,8 @@ const OutsideHallBackground = styled.ImageBackground`
 const StyledButton = styled(TouchableOpacity)`
     backgroundColor: 'rgba(0, 0, 0, 0.3)';
     margin-top: ${height * -0.10}px;
-    height: ${height * 0.5}px;
-    width: ${width * 1}px;
+    height: ${width * 0.7}px;
+    width: ${width * 0.7}px;
     align-items: 'center';
     border-radius: ${width * 1}px;
 `;
