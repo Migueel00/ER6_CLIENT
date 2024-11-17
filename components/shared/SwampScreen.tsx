@@ -361,7 +361,7 @@ const SwampScreen = () => {
         ))}
         </MapView>
 
-        {retrievedArtifacts  && (
+        {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
             <>
             <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
             <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
