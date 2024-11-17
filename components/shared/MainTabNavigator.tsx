@@ -35,7 +35,7 @@ const MainTabNavigator: React.FC<TabNavigatorComponentProps> = ({ Tab, screens }
                         justifyContent: 'center',
                         alignItems: 'center',
                         width: height * 0.08,  // Puedes ajustar el ancho de los íconos
-                        height: height * 0.067, // Ajusta el alto para dar más espacio
+                        height: height * 0.073, // Ajusta el alto para dar más espacio
                     },
                     tabBarIndicatorStyle: {
                         backgroundColor: 'orange',
@@ -57,7 +57,7 @@ const MainTabNavigator: React.FC<TabNavigatorComponentProps> = ({ Tab, screens }
                     options={{
                         tabBarIcon: () => (
                             <Icon
-                                style={{height: width * 0.17, width: width * 0.17, borderRadius: width * 0.5 }}
+                                style={{height: width * 0.16, width: width * 0.16, borderRadius: width * 0.5 }}
                                 source={screen.iconSource}
                             />
                         ),
