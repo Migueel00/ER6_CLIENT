@@ -10,6 +10,8 @@ import { useContext, useEffect } from 'react';
 import VillainContext from '../../../helpers/VillainContext';
 import MapScreenVillain from './MapScreenVillain';
 import AppContext from '../../../helpers/context';
+import MainTabNavigator from '../../shared/MainTabNavigator';
+import TabScreensComponent from '../../shared/MainTabScreen';
 
 
 const { width, height } = Dimensions.get('window');
@@ -22,6 +24,32 @@ const Icon = styled.Image`
 const MenuVillain = () => {
 
     const Tab = createMaterialTopTabNavigator();
+
+    const screens = [
+        {
+            name: 'HOME',
+            component: HomeScreen,
+            iconSource: require('./../../../assets/icons/fixed/homeIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'MAP',
+            component: MapScreenVillain,
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
+           
+        }
+    ];
 
     const villainContext = useContext(VillainContext);
     const setIsMenuLoaded = villainContext?.setIsMenuLoaded!;
@@ -45,77 +73,7 @@ const MenuVillain = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10, // Incremento en la altura para más espacio
-                        paddingBottom: 1, // Añade espacio en la parte inferior de la barra
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: height * 0.08,  // Puedes ajustar el ancho de los íconos
-                        height: height * 0.08, // Ajusta el alto para dar más espacio
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: height * 0.002,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: height * 0.002,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 0,
-                        height: '100%'
-                    },
-                })}>
-                <Tab.Screen
-                    name="HOME"
-                    component={HomeScreen}
-                    options={{
-
-                        tabBarIcon: ({ }) => (
-                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/homeIcon.png')}/>
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name="Profile"
-                    component={ProfileScreen3}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/profileIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-                    }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon style={{height: width * 0.15, width: width * 0.15}} source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name='MAP'
-                    component={MapScreenVillain}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon style={{height: width * 0.15, width: width * 0.15, borderRadius: width * 0.5}} source={require('../../../assets/icons/mapIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     )
 }
 

@@ -8,9 +8,8 @@ const { width } = Dimensions.get('window');
 // Definir los tipos para las pantallas
 type ScreenConfig = {
     name: string;
-    component: any // Tipo para los componentes
+    component: React.ComponentType<any>; // Tipo para los componentes
     iconSource: ImageSourcePropType;    // Fuente de la imagen para el ícono
-    iconStyle: React.CSSProperties;     // Estilo del ícono
 };
 
 type TabScreensComponentProps = {
@@ -30,11 +29,11 @@ const TabScreensComponent: React.FC<TabScreensComponentProps> = ({ Tab, screens 
                 <Tab.Screen
                     key={index}
                     name={screen.name}
-                    component={screen.component}
+                    component={screen.component} // Aquí pasamos el componente correctamente
                     options={{
                         tabBarIcon: () => (
                             <Icon
-                                style={{height: width * 0.15, width: width * 0.15}}
+                                style={{height: width * 0.15, width: width * 0.15 }}
                                 source={screen.iconSource}
                             />
                         ),

@@ -1,43 +1,72 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Dimensions, ImageSourcePropType } from 'react-native';
+import styled from 'styled-components/native';
 
-// Definir el tipo de las props
-type TabNavigatorComponentProps = {
-    Tab: ReturnType<typeof createMaterialTopTabNavigator>;  // Usamos ReturnType para obtener el tipo del Tab
-    children: ReactNode;  // Los "children" son las pantallas que se pasan
+const { width, height } = Dimensions.get('window');
+
+type ScreenConfig = {
+    name: string;
+    component: React.ComponentType<any>; // Tipo para los componentes
+    iconSource: ImageSourcePropType;    // Fuente de la imagen para el ícono
 };
 
-const TabNavigatorComponent: React.FC<TabNavigatorComponentProps> = ({ Tab, children }) => {
+
+type TabNavigatorComponentProps = {
+    Tab: ReturnType<typeof createMaterialTopTabNavigator>;  // Usamos ReturnType para obtener el tipo del Tab
+    screens: ScreenConfig[];       // Las pantallas que se van a pasar
+};
+
+const Icon = styled.Image`
+    width: ${width * 0.15}px;
+    height: ${width * 0.15}px;
+`;
+
+const MainTabNavigator: React.FC<TabNavigatorComponentProps> = ({ Tab, screens }) => {
     return (
-        <Tab.Navigator
-            screenOptions={{
-                tabBarStyle: {
-                    backgroundColor: 'black',
-                    height: '10%',
-                    paddingBottom: 1,
-                },
-                tabBarIconStyle: {
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '8%',
-                    height: '8%',
-                },
-                tabBarIndicatorStyle: {
-                    backgroundColor: 'orange',
-                    height: '0.2%',
-                },
-                tabBarItemStyle: {
-                    justifyContent: 'center',
-                    borderRightWidth: 0.2,
-                    borderRightColor: 'white',
-                    paddingHorizontal: 0,
-                    height: '100%',
-                },
-            }}
-        >
-            {children}
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    tabBarStyle: {
+                        backgroundColor: 'black',
+                        height: height * 0.10, // Incremento en la altura para más espacio
+                        paddingBottom: 1, // Añade espacio en la parte inferior de la barra
+                    },
+                    tabBarIconStyle: {
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: height * 0.08,  // Puedes ajustar el ancho de los íconos
+                        height: height * 0.067, // Ajusta el alto para dar más espacio
+                    },
+                    tabBarIndicatorStyle: {
+                        backgroundColor: 'orange',
+                        height: height * 0.002,
+                    },
+                    tabBarItemStyle: {
+                        justifyContent: 'center',
+                        borderRightWidth: height * 0.002,
+                        borderRightColor: 'white',
+                        paddingHorizontal: 0,
+                        height: '100%'
+                    },
+                })}>
+            {screens.map((screen, index) => (
+                <Tab.Screen
+                    key={index}
+                    name={screen.name}
+                    component={screen.component} // Aquí pasamos el componente correctamente
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                style={{height: width * 0.17, width: width * 0.17, borderRadius: width * 0.5 }}
+                                source={screen.iconSource}
+                            />
+                        ),
+                        tabBarLabel: () => null,
+                    }}
+                />
+            ))}
         </Tab.Navigator>
     );
 };
 
-export default TabNavigatorComponent;
+export default MainTabNavigator;
