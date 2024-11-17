@@ -6,10 +6,11 @@ import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/n
 import VillainContext from "../../../helpers/VillainContext";
 
 
-const mapImage = require('../../../assets/backgrounds/map_background.png');
-const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
-const towerIcon = require('../../../assets/icons/towerIcon.png');
-const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
+const mapImage = require('./../../../assets/backgrounds/map_background.png');
+const homeIcon = require('./../../../assets/icons/fixed/homeIcon.png');
+const towerIcon = require('./../../../assets/icons/towerIcon.png');
+const schoolIcon =  require('./../../../assets/icons/schoolIcon.png');
+const swampIcon =  require('./../../../assets/icons/swampIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -28,22 +29,15 @@ const BackgroundImage = styled.ImageBackground`
 
 const HomeIcon = styled.Image`
     width: ${width * 0.2}px;
-    height: ${height * 0.1}px;
-    border-radius: 50px;
+    height: ${width * 0.2}px;
+    border-radius: ${width * 0.5}px;
     z-index: 2; 
-`;
-
-const LabIcon = styled.Image`
-    width: ${width * 0.2}px; 
-    height: ${height * 0.1}px;
-    border-radius: 50px;
-    z-index: 1;
 `;
 
 const TowerIcon = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
-    border-radius: 50px;
+    border-radius: ${width * 0.5}px;
     z-index: 2; 
 `;
 
@@ -64,6 +58,7 @@ const MapScreenVillain = () => {
     const isMenuTowerLoaded = villainContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = villainContext?.isMenuOldSchoolLoaded;
     const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
+    const isMenuSwampLoaded = villainContext?.isMenuSwampLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -85,6 +80,10 @@ const MapScreenVillain = () => {
             setTimeout(() => {
                 navigation.navigate('OLDSCHOOL');
             }, 200);
+        } else if (isMenuSwampLoaded){
+            setTimeout(() => {
+                navigation.navigate('SWAMP');
+            }, 200);
         }
     }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
 
@@ -103,6 +102,13 @@ const MapScreenVillain = () => {
         }
     }   
 
+    const handleSwampIconPress = () => {
+        setLocation('SWAMP');
+        if(isMenuTowerLoaded){
+            navigation.navigate('SWAMP');
+        }
+    }   
+
     const handleSchoolIconPress = () => {
         setLocation('OLDSCHOOL');
         if(isMenuOldSchoolLoaded){
@@ -116,21 +122,27 @@ const MapScreenVillain = () => {
             <BackgroundImage source={mapImage} />
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.72, right: width * 0.37 }}
+                style={{ top: height * 0.71, right: width * 0.37 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleTowerIconPress}
-                style={{ top: height * 0.28, right: width * 0.13 }}
+                style={{ top: height * 0.28, right: width * 0.13}}
             >
                 <TowerIcon source={towerIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleSchoolIconPress}
-                style={{ top: height * 0.60, right: width * 0.45 }}
+                style={{ top: height * 0.58, right: width * 0.45 }}
             >
                 <TowerIcon source={schoolIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSwampIconPress}
+                style={{top: height * 0.42, right: width * 0.05}}
+            >
+                <TowerIcon source={swampIcon} />
             </TouchableIcon>
         </Container>
     );
