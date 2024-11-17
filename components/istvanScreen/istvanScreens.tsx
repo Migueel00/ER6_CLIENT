@@ -8,6 +8,7 @@ import ScannerScreen from './ScannerScreen';
 import ProfileScreen3 from '../shared/ProfileScreen';
 import styled from 'styled-components/native';
 import * as CONSTANTS from "../../src/constants";
+import MainTabNavigator from '../shared/MainTabNavigator';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,76 +21,35 @@ const Icon = styled.Image`
 
 const IstvanScreens = () => {
 
+    const screens = [
+        {
+            name: 'HOME',
+            component: HomeScreen,
+            iconSource: require('./../../assets/icons/fixed/homeIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'CAM',
+            component: ScannerScreen,
+            iconSource: require('./../../assets/icons/istvanScannerIcon.png'),
+           
+        }
+    ];
+
     return (
         <NavigationContainer>
-        <Tab.Navigator 
-        screenOptions={() => ({
-            tabBarStyle: {
-                backgroundColor: 'black',
-                height: height * 0.10, // Incremento en la altura para más espacio
-                paddingBottom: 1, // Añade espacio en la parte inferior de la barra
-            },
-            tabBarIconStyle: {
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 50,  // Puedes ajustar el ancho de los íconos
-                height: 50, // Ajusta el alto para dar más espacio
-            },
-            tabBarIndicatorStyle: {
-                backgroundColor: 'orange',
-                height: 3, // Ajusta el grosor del indicador de la pestaña
-            },
-            tabBarItemStyle: {
-                justifyContent: 'center', // Asegura que los íconos se centren
-                borderRightWidth: 0.2,  // Agrega un borde entre pestañas
-                borderRightColor: 'white', // Color del borde
-                paddingHorizontal: 10,
-                height: '100%'
-            },
-        })}>
-                <Tab.Screen
-            name='HOME'
-            component={HomeScreen}
-            options={{
-                tabBarIcon: ({}) => (
-                    <Icon source={require('../../assets/icons/fixed/homeIcon.png')}/>
-                ),
-                tabBarLabel: '',
-            }} 
-            />
-            <Tab.Screen
-            name="Proe"
-            component={ProfileScreen3}
-            options={{
-                tabBarIcon: ({}) => (
-                    <Icon
-                    source={require('../../assets/icons/fixed/profileIcon.png')}
-                    />
-                ),
-                tabBarLabel: ''
-            }}
-            />
-            <Tab.Screen
-            name="Settings"
-            component={SettingsScreen}
-            options={{
-                tabBarIcon: ({}) => (
-                <Icon source={require('../../assets/icons/fixed/settingsIcon.png')}/>
-                ),
-                tabBarLabel: '',
-            }}
-        />
-                <Tab.Screen
-                    name="CAM"
-                    component={ScannerScreen}
-                    options={{
-                        tabBarIcon: ({}) => (
-                            <Icon source={require('../../assets/icons/istvanScannerIcon.png')}/>
-                        ),
-                        tabBarLabel: '',
-                    }}
-                />
-            </Tab.Navigator>
+            <MainTabNavigator Tab={Tab} screens={screens} />
         </NavigationContainer>
     );
 };
