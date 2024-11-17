@@ -82,7 +82,7 @@ useEffect(() => {
         switch (true) {
             case isMenuLoaded:
                 setTimeout(() => {
-                    navigation.navigate('LAB');
+                    navigation.navigate('HOME');
                 }, 200);
                 break;
             case isMenuTowerLoaded:
