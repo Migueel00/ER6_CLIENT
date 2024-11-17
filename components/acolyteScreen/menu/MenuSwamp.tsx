@@ -8,6 +8,9 @@ import AcolyteContext from "../../../helpers/AcolyteContext";
 import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
+import ProfileScreen3 from "../../shared/ProfileScreen";
+import SettingsScreen from "../../settings/settingsScreen";
+import MortimerContext from "../../../helpers/MortimerContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,12 +22,24 @@ const Icon = styled.Image`
 
 const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
+    const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
+    const player = appContext?.player!;
     const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
+    const setIsMenuMortimerSwampLoaded = mortimerContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
-        setIsMenuSwampLoaded(true);
+        switch (player.role) {
+            case 'ACOLYTE':
+                setIsMenuSwampLoaded(true);
+                break;
+            case 'MORTIMER':
+                setIsMenuMortimerSwampLoaded(true);
+                break;
+            default:
+                break;
+        }
 
         const value = {
             playerID: appContext?.player._id,
@@ -33,9 +48,17 @@ const MenuSwamp = () => {
 
         socket.emit("UpdateLocation", value);
 
-        // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuSwampLoaded(false);
+            switch (player.role) {
+                case 'ACOLYTE':
+                    setIsMenuSwampLoaded(false);
+                    break;
+                case 'MORTIMER':
+                    setIsMenuMortimerSwampLoaded(false);
+                    break;
+                default:
+                    break;
+            }
         }
     }, []);
 
@@ -69,18 +92,6 @@ const MenuSwamp = () => {
                 })}
             >   
                 <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-                <Tab.Screen
                     name="SWAMP"
                     component={SwampScreen}
                     options={{
@@ -90,6 +101,42 @@ const MenuSwamp = () => {
                             />
                         ),
                         tabBarLabel: '',
+                    }}
+                />
+                <Tab.Screen
+                        name="Profile"
+                        component={ProfileScreen3}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarIcon: () => (
+                                <Icon
+                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
+                                />
+                            ),
+                            tabBarLabel: '',
+                        }}
+                    />
+                <Tab.Screen
+                    name="MAP"
+                    component={MapScreen}
+                    options={{
+                        tabBarIcon: () => (
+                            <Icon
+                                source={require('../../../assets/icons/mapIcon.png')}
+                            />
+                        ),
+                        tabBarLabel: ''
                     }}
                 />
             </Tab.Navigator>

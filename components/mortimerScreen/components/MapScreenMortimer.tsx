@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
-const labIcon = require('../../../assets/icons/fixed/potionIcon.png');
+const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
@@ -63,60 +63,70 @@ const MapScreenMortimer = () => {
     const setLocation = appContext?.setLocation;
     const mortimerContext = useContext(MortimerContext);
     const isMenuLoaded = mortimerContext?.isMenuLoaded;
-    const isMenuConnectionLoaded = mortimerContext?.isMenuConnectionLoaded;
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
+    const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
-    useEffect(() => {
-        console.log("ESTADO DE IS MENU LAB LOADED " + isMenuConnectionLoaded);
-        console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
-        console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
+useEffect(() => {
+    console.log("States of loaded mennús: ", {
+        isMenuLoaded,
+        isMenuTowerLoaded,
+        isMenuOldSchoolLoaded,
+        isMenuSwampLoaded
+    });
 
-        if (isMenuConnectionLoaded) {
-            setTimeout(() => {
-                navigation.navigate('LAB');
-            }, 200);
-        } else if (isMenuTowerLoaded) {
-            setTimeout(() => {
-                navigation.navigate('TOWER');
-            }, 200);
-        } else if (isMenuOldSchoolLoaded){
-            setTimeout(() => {
-                navigation.navigate('OLDSCHOOL');
-            }, 200);
+    const navigateToMenu = () => {
+        switch (true) {
+            case isMenuLoaded:
+                setTimeout(() => {
+                    navigation.navigate('LAB');
+                }, 200);
+                break;
+            case isMenuTowerLoaded:
+                setTimeout(() => {
+                    navigation.navigate('TOWER');
+                }, 200);
+                break;
+            case isMenuOldSchoolLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OLDSCHOOL');
+                }, 200);
+                break;
+            case isMenuSwampLoaded:
+                setTimeout(() => {
+                    navigation.navigate('SWAMP');
+                }, 200);
+                break;
+            default:
+                break;
         }
-    }, [isMenuConnectionLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded]);
+    };
+
+    navigateToMenu();
+    
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
 
     // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
     const onNotificationOpenedApp = () => {
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('Notificación abierta desde el segundo plano:', remoteMessage);
-      // Maneja la lógica de la navegación aquí
-      setLocation('TOWER');
-      navigation.navigate('TOWER');
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log('Notificación abierta desde el segundo plano:', remoteMessage);
+            // Maneja la lógica de la navegación aquí
+            setLocation('TOWER');
+            navigation.navigate('TOWER');
     });
 }
     
     useEffect(() => {
         onNotificationOpenedApp();
     }, []);
-    
-    const handleLabIconPress = () => {
-        setLocation('LAB');
-        
-        if(isMenuConnectionLoaded){
-            navigation.navigate('LAB');
-        }
-    }
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
-        console.log(isMenuLoaded);
         if(isMenuLoaded){
-            navigation.navigate('Home');
+            navigation.navigate('HOME');
         }
     }   
 
@@ -134,19 +144,25 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleSwampIconPress = () => {
+        console.log("PRESSED SWAMP BUTTON IN MAP");
+        console.log(isMenuSwampLoaded);
+        
+        setLocation('SWAMP');
+        if(isMenuSwampLoaded){
+            console.log("NAVIGATING TO SWAMP");
+            
+            navigation.navigate('SWAMP');
+        }
+    }   
+
 
     return (
         <Container>
             <BackgroundImage source={mapImage} />
-            <TouchableIcon 
-                onPress={handleLabIconPress}
-                style={{ top: height * 0.37, left: width * 0.02 }}
-            >
-                <LabIcon source={labIcon}  /> 
-            </TouchableIcon>
             <TouchableIcon
                 onPress={handleHomeIconPress}
-                style={{ top: height * 0.53, right: width * 0.37 }}
+                style={{ top: height * 0.72, right: width * 0.35 }}
             >
                 <HomeIcon source={homeIcon} />
             </TouchableIcon>
@@ -161,6 +177,12 @@ const MapScreenMortimer = () => {
                 style={{ top: height * 0.60, right: width * 0.45 }}
             >
                 <TowerIcon source={schoolIcon} />
+            </TouchableIcon>
+            <TouchableIcon
+                onPress={handleSwampIconPress}
+                style={{ top: height * 0.39, right: width * 0.02 }}
+            >
+                <TowerIcon source={swampIcon} />
             </TouchableIcon>
         </Container>
     );

@@ -72,7 +72,7 @@ const MenuMortimer = () => {
                     },
                 })}>
                 <Tab.Screen
-                    name="Home"
+                    name="HOME"
                     component={HomeScreen}
                     options={{
 

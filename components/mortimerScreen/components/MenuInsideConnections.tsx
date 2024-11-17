@@ -70,6 +70,17 @@ const MenuInsideConnection = () => {
                     },
                 })}>
                 <Tab.Screen
+                    name="LAB"
+                    component={ConnectionScreen}
+                    options={{
+                        tabBarIcon: ({ }) => (
+                            <Icon source={require('../../../assets/icons/fixed/potionIcon.png')} />
+                        ),
+                        tabBarLabel: ({ }) => null,
+
+                    }}
+                />
+                <Tab.Screen
                     name="Profile"
                     component={ProfileScreen3}
                     options={{
@@ -85,28 +96,6 @@ const MenuInsideConnection = () => {
                     options={{
                         tabBarIcon: ({ }) => (
                             <Icon source={require('../../../assets/icons/fixed/settingsIcon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name="LAB"
-                    component={ConnectionScreen}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/conections-icon.png')} />
-                        ),
-                        tabBarLabel: ({ }) => null,
-
-                    }}
-                />
-                <Tab.Screen
-                    name='MAP'
-                    component={MapScreenMortimer}
-                    options={{
-                        tabBarIcon: ({ }) => (
-                            <Icon source={require('../../../assets/icons/mapIcon.png')} />
                         ),
                         tabBarLabel: ({ }) => null,
 

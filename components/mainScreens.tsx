@@ -31,9 +31,9 @@ const MainScreens = () => {
                     // Actualiza el jugador actual
                     const updatedPlayer = { ...player, isInsideHall };
                     setPlayer(updatedPlayer);
-
+                    Vibration.vibrate(100);
                 }
-                  
+
                 if (players && setPlayers) {
                     const updatedPlayers = players.map(p => {
                         if (p._id === playerId) {
@@ -44,8 +44,10 @@ const MainScreens = () => {
                     });
                     setPlayers(updatedPlayers);
                 }
-                    
-            Vibration.vibrate(100);
+            
+                if (player.location === 'HALL' && player.isInsideHall){
+                    Vibration.vibrate(100);
+                }
             }
         });
 

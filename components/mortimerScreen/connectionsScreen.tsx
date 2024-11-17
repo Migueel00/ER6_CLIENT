@@ -1,93 +1,151 @@
-import React, { useEffect, useState, useContext} from 'react';
-import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AppContext from '../../helpers/context'; // Asegúrate de ajustar esta ruta
+import AppContext from '../../helpers/context';
+import MortimerContext from '../../helpers/MortimerContext';
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import styled from 'styled-components/native';
 
+const { height, width } = Dimensions.get('window');
 
 const ConnectionScreen = () => {
-    const { height, width } = Dimensions.get('window');
-    
     const appContext = useContext(AppContext);
+    const mortimerContext = useContext(MortimerContext);
     const players = appContext?.players!;
+    const setLocation = appContext?.setLocation;
+    const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
 
-        return (
-            <ImageBackground
-                source={require('../../assets/png/connectionsBackground.png')}
-                style={[styles.background, { width: width, height: height }]}
-            >
-                <View style={styles.container}>
-                    <Text style={styles.kaotikaFontHeads}>Check what the Acolytes'</Text>
-                    <Text style={styles.kaotikaFontHeads}>are doing with your</Text>
-                    <Text style={styles.kaotikaFontHeads2}>GODLY EYE</Text>
-                    <View style={styles.playersList}>
-                        {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
-                            <View key={player.id} style={styles.playerItem}>
-                                <Image source={{ uri: player.avatar }} style={{ width: width * 0.13, height: height * 0.06, borderRadius: 50 }} />
-                                <Text style={styles.kaotikaFont2}>{player.nickname}</Text>
-                                <Icon
-                                    name={player.isInsideLab ? 'circle' : 'circle-o'}
-                                    size={width * 0.07}
-                                    color={player.isInsideLab ? 'green' : 'grey'}
-                                />
-                            </View>
-                        ))}
-                    </View>
-                </View>
-            </ImageBackground>
-        );
-    }
+    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: 10,
-    },
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    kaotikaFont2: {
-        fontFamily: 'KochAltschrift',
-        color: 'white',
-        marginVertical: 5,
-        textAlign: 'left',
-        marginLeft: 10,
-        width: '90%',
-        fontSize: Dimensions.get('window').width * 0.08
-    },
-    kaotikaFontHeads: {
-        fontFamily: 'KochAltschrift',
-        fontSize: Dimensions.get('window').width * 0.11,
-        color: 'white',
-        marginBottom: 0,
-    },
-    kaotikaFontHeads2: {
-        fontFamily: 'KochAltschrift',
-        fontSize: Dimensions.get('window').width * 0.12,
-        color: 'red',
-        marginBottom: 20,
-    },
-    playersList: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 20,
-        borderRadius: 10,
-        width: '90%',
-    },
-    playerItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 10,
-        borderBottomColor: 'orange',
-        paddingBottom: 20,
-        borderBottomWidth: 2,
-        marginBottom: 20,
-    },
-});
+    useEffect(() => {
+
+        const navigateToSchool = () => {
+            if (isMenuOldSchoolLoaded) {
+                setTimeout(() => {
+                    navigation.navigate('OLDSCHOOL');
+                }, 200);
+            }
+        };
+
+        navigateToSchool();
+    }, [isMenuOldSchoolLoaded]);
+
+    const handleExitLab = () => {
+        setLocation('OLDSCHOOL');
+        if (isMenuOldSchoolLoaded) {
+            navigation.navigate('OLDSCHOOL');
+        }
+    };
+
+    return (
+        <BackgroundImage
+            source={require('../../assets/png/connectionsBackground.png')}
+        >
+            <Container>
+                <KaotikaFontHeads>Check what the Acolytes'</KaotikaFontHeads>
+                <KaotikaFontHeads>are doing with your</KaotikaFontHeads>
+                <KaotikaFontHeads2>GODLY EYE</KaotikaFontHeads2>
+                <PlayersList>
+                    {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
+                        <PlayerItem key={player.id}>
+                            <Avatar source={{ uri: player.avatar }} />
+                            <KaotikaFont2>{player.nickname}</KaotikaFont2>
+                            <Icon
+                                name={player.isInsideLab ? 'circle' : 'circle-o'}
+                                size={width * 0.07}
+                                color={player.isInsideLab ? 'green' : 'grey'}
+                            />
+                        </PlayerItem>
+                    ))}
+                </PlayersList>
+
+                <StyledButton onPress={handleExitLab}>
+                    <StyledButtonText>Go back to the corridor</StyledButtonText>
+                </StyledButton>
+            </Container>
+        </BackgroundImage>
+    );
+};
+
+const BackgroundImage = styled.ImageBackground`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: ${width}px;
+    height: ${height}px;
+`;
+
+const Container = styled.View`
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+`;
+
+const KaotikaFontHeads = styled.Text`
+    font-family: KochAltschrift;
+    font-size: ${width * 0.11}px;
+    color: white;
+`;
+
+const KaotikaFontHeads2 = styled(KaotikaFontHeads)`
+    font-size: ${width * 0.12}px;
+    color: red;
+    margin-bottom: 20px;
+`;
+
+const KaotikaFont2 = styled.Text`
+    font-family: KochAltschrift;
+    color: white;
+    margin-vertical: 5px;
+    text-align: left;
+    margin-left: 10px;
+    width: 90%;
+    font-size: ${width * 0.08}px;
+`;
+
+const PlayersList = styled.View`
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+`;
+
+const PlayerItem = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    border-bottom-color: orange;
+    padding-bottom: 20px;
+    border-bottom-width: 2px;
+    margin-bottom: 20px;
+`;
+
+const Avatar = styled.Image`
+    width: ${width * 0.13}px;
+    height: ${height * 0.06}px;
+    border-radius: 50px;
+`;
+
+const StyledButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.07}px;
+    font-family: 'KochAltschrift';
+    padding: 10px;
+`;
+
+const StyledButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.5}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.05}px;
+`;
 
 export default ConnectionScreen;
