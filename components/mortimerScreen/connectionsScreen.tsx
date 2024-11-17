@@ -42,9 +42,11 @@ const ConnectionScreen = () => {
             source={require('../../assets/png/connectionsBackground.png')}
         >
             <Container>
-                <KaotikaFontHeads>Check what the Acolytes'</KaotikaFontHeads>
-                <KaotikaFontHeads>are doing with your</KaotikaFontHeads>
-                <KaotikaFontHeads2>GODLY EYE</KaotikaFontHeads2>
+                <LabTitle>LABORATORY</LabTitle>
+                <KaotikaFontHeads>Below you have displayed who's{' '}
+                    <ColoredText color="green">INSIDE</ColoredText> or{' '}
+                    <ColoredText color="red">OUTSIDE</ColoredText> the Lab
+                </KaotikaFontHeads>
                 <PlayersList>
                     {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
                         <PlayerItem key={player.id}>
@@ -53,7 +55,7 @@ const ConnectionScreen = () => {
                             <Icon
                                 name={player.isInsideLab ? 'circle' : 'circle-o'}
                                 size={width * 0.07}
-                                color={player.isInsideLab ? 'green' : 'grey'}
+                                color={player.isInsideLab ? 'green' : 'red'}
                             />
                         </PlayerItem>
                     ))}
@@ -67,25 +69,42 @@ const ConnectionScreen = () => {
     );
 };
 
+const ColoredText = styled.Text<{ color: string }>`
+    font-family: KochAltschrift;
+    color: ${(props) => props.color};
+    font-size: ${width * 0.08}px;
+`;
+
 const BackgroundImage = styled.ImageBackground`
     flex: 1;
     justify-content: center;
     align-items: center;
     width: ${width}px;
-    height: ${height}px;
+    height: ${height * 0.98}px;
 `;
 
 const Container = styled.View`
     flex: 1;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
 `;
 
+const LabTitle = styled.Text`
+    font-family: KochAltschrift;
+    font-size: ${width * 0.08}px;
+    color: white;
+    text-decoration-line: underline;
+    margin-bottom:  ${width * 0.02}px;
+`;
+
+
 const KaotikaFontHeads = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.11}px;
+    font-size: ${width * 0.09}px;
     color: white;
+    margin-bottom:  ${width * 0.02}px;
+    align-items: center;
 `;
 
 const KaotikaFontHeads2 = styled(KaotikaFontHeads)`
@@ -105,33 +124,33 @@ const KaotikaFont2 = styled.Text`
 `;
 
 const PlayersList = styled.View`
-    flex: 1;
-    justify-content: flex-start;
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
+    padding: ${width * 0.04}px;
+    border-radius: ${width * 0.1}px;
+    border-width: ${width * 0.002}px;
+    border-color: white;
+    width: 85%;
 `;
 
 const PlayerItem = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-left: 10px;
     border-bottom-color: orange;
-    padding-bottom: 20px;
-    border-bottom-width: 2px;
-    margin-bottom: 20px;
+    padding-bottom: ${width * 0.05}px;
+    border-bottom-width: ${width * 0.005}px;
+    margin-bottom:${width * 0.05}px;
+
 `;
 
 const Avatar = styled.Image`
     width: ${width * 0.13}px;
-    height: ${height * 0.06}px;
-    border-radius: 50px;
+    height: ${width * 0.13}px;
+    border-radius: ${width * 0.5}px;
 `;
 
 const StyledButtonText = styled.Text`
-    color: white;
+    color: orange;
     font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
     padding: 10px;
@@ -140,12 +159,10 @@ const StyledButtonText = styled.Text`
 const StyledButton = styled(TouchableOpacity)`
     backgroundColor: 'rgba(0, 0, 0, 0.8)';
     height: ${height * 0.1}px;
-    width: ${width * 0.5}px;
+    width: ${width * 0.7}px;
     align-items: center;
     justify-content: center;
-    position: absolute;
     border-radius: ${width * 0.4}px;
-    bottom: ${height * 0.05}px;
 `;
 
 export default ConnectionScreen;
