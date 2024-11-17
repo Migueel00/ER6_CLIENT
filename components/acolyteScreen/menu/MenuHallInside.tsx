@@ -25,7 +25,7 @@ const MenuHallInside = () => {
         {
             name: 'INSIDEHALL',
             component: InsideHall,
-            iconSource: require('./../../../assets/icons/fixed/homeIcon.png'),
+            iconSource: require('./../../../assets/icons/hallOfSages.png'),
         },
         {
             name: 'Profile',
