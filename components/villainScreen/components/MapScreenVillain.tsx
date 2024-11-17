@@ -27,14 +27,7 @@ const BackgroundImage = styled.ImageBackground`
     z-index: -1;
 `;
 
-const HomeIcon = styled.Image`
-    width: ${width * 0.2}px;
-    height: ${width * 0.2}px;
-    border-radius: ${width * 0.5}px;
-    z-index: 2; 
-`;
-
-const TowerIcon = styled.Image`
+const Icon = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
     border-radius: ${width * 0.5}px;
@@ -128,25 +121,25 @@ const MapScreenVillain = () => {
                 onPress={handleHomeIconPress}
                 style={{ top: height * 0.71, right: width * 0.37 }}
             >
-                <HomeIcon source={homeIcon} />
+                <Icon source={homeIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleTowerIconPress}
                 style={{ top: height * 0.28, right: width * 0.13}}
             >
-                <TowerIcon source={towerIcon} />
+                <Icon source={towerIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleSchoolIconPress}
                 style={{ top: height * 0.58, right: width * 0.45 }}
             >
-                <TowerIcon source={schoolIcon} />
+                <Icon source={schoolIcon} />
             </TouchableIcon>
             <TouchableIcon
                 onPress={handleSwampIconPress}
                 style={{top: height * 0.42, right: width * 0.05}}
             >
-                <TowerIcon source={swampIcon} />
+                <Icon source={swampIcon} />
             </TouchableIcon>
         </Container>
     );
