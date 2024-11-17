@@ -26,24 +26,11 @@ const ExitLab = () => {
     const isMenuOldSchoolLoadedVillain = villainContext?.isMenuOldSchoolLoaded;
     const isMenuOldSchoolLoadedMortimer = mortimerContext?.isMenuOldSchoolLoaded;
     const [modalVisible, setModalVisible] = useState(false);
-    const [screenText, setScreenText] = useState("Angelo's laboratory Door");
+    const [screenText, setScreenText] = useState("Angelo's Laboratory Door");
     const [labBackgroundImage, setLabBackgroundImage] = useState(outsideLabImage);
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
-
-    
-    const toggleModal = () => {
-        setModalVisible(!modalVisible);
-    };
-
-    const handleButtonPress = () => {
-        if (isInsideLab) {
-        setModalVisible(!modalVisible);
-        } else {
-        toggleModal();
-        }
-    };
 
     const handleGoToCorridor = () => {
         console.log("PRESSED SCHOOL BUTTON IN MAP");
@@ -58,12 +45,6 @@ const ExitLab = () => {
             navigation.navigate('OLDSCHOOL');
         }
     }   
-
-    const qrValue = {
-        userEmail: context?.player.email,
-        socketId: context?.socketID,
-        playerID: context?.player._id
-    };
 
     return (
         <ImageBackground
@@ -126,16 +107,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
     kaotikaFont: {
-        padding: 20,
+        padding: width * 0.03,
         fontFamily: 'KochAltschrift',
-        fontSize: 40,
+        fontSize: width * 0.08,
         color: 'white',
-        top: -20,
+        top: height * 0.02,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        borderRadius: width * 0.02,
+        textDecorationLine: 'underline'
     },
 });
 
 const StyledButtonText = styled.Text`
-    color: white;
+    color: orange;
     font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
     padding: 10px;
