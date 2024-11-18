@@ -46,9 +46,9 @@ const OutsideHall = () => {
 
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
-            <StyledButton onPress={handleEnterHall}>
-            </StyledButton>
-
+            <HeaderText>Pressed the door to enter to the HALL</HeaderText>
+                <StyledButton onPress={handleEnterHall}>
+                </StyledButton>
             <StyledCorridorButton onPress={handleGoToCorridor}>
                 <StyledButtonText>Go back to the corridor</StyledButtonText>
             </StyledCorridorButton>
@@ -64,7 +64,7 @@ const OutsideHallBackground = styled.ImageBackground`
 `;
 
 const StyledButton = styled(TouchableOpacity)`
-    backgroundColor: 'rgba(0, 0, 0, 0.3)';
+    backgroundColor: 'rgba(0, 0, 0, 0)';
     margin-top: ${height * -0.10}px;
     height: ${width * 0.7}px;
     width: ${width * 0.7}px;
@@ -88,6 +88,15 @@ const StyledCorridorButton = styled(TouchableOpacity)`
     position: absolute;
     border-radius: ${width * 0.4}px;
     bottom: ${height * 0.03}px;
+`;
+
+const HeaderText = styled.Text`
+    color: white;
+    font-size: ${width * 0.1}px;
+    font-family: 'KochAltschrift';
+    position: absolute;
+    top: ${height * 0.08}px;
+    text-align: center;
 `;
 
 
