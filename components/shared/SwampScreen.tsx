@@ -221,7 +221,7 @@ const SwampScreen = () => {
         }
 
         socket.on('requestLocation', () => {
-            if(userInfo){
+            if(userLocation){
                 
                 socket.emit('sendLocation', userInfo);
 
