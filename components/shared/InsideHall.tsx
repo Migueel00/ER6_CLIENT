@@ -47,7 +47,11 @@ const InsideHall = () => {
             </ContainerTopLeft>
 
             <ContainerTopRight>
-                {player.role === 'MORTIMER' ? (
+                {player.role !== 'MORTIMER' && player.role !== 'VILLAIN' && (
+                    <WatchingText>Someone might be watching...</WatchingText>
+                )}
+
+                {player.role === 'MORTIMER' || player.role === 'VILLAIN' ? (
                     players
                         .filter(player => player.isInsideHall && player.role === 'VILLAIN')
                         .map(player => (
@@ -80,6 +84,17 @@ const InsideHall = () => {
         </InsideHallBackground>
     );    
 };
+
+// Estilo del texto "Someone might be watching..."
+const WatchingText = styled.Text`
+    color: red;
+    font-size: ${width * 0.05}px;
+    font-family: 'KochAltschrift';
+    position: absolute;
+    bottom: ${height * 0.11}px;
+    right: ${width * -0.04}px;
+    text-align: center;
+`;
 
 const StyledButtonText = styled.Text`
     color: white;
