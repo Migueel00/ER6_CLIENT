@@ -8,8 +8,7 @@ import MenuHallMortimer from './components/MenuHallMortimer';
 import MenuMortimer from './components/MenuMortimer';
 import MenuMortimerTower from './components/MenuTowerMortimer';
 import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
-import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
-import MenuLabMortimer from './components/MenuInsideConnections';
+import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 
 const MenuContainer = styled.View`

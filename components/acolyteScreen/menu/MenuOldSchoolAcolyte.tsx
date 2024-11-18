@@ -9,6 +9,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import SchoolScreen from "../../mapScreen/schoolScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
+import MainTabNavigator from "../../shared/MainTabNavigator";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +20,32 @@ const Icon = styled.Image`
 `
 
 const MenuOldSchoolAcolyte = () => {
+
+        const screens = [
+        {
+            name: 'OLDSCHOOL',
+            component: SchoolScreen,
+            iconSource: require('./../../../assets/icons/schoolIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        },
+        {
+            name: 'MAP',
+            component: MapScreen,
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
+        }
+    ];
+    
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
@@ -41,83 +68,7 @@ const MenuOldSchoolAcolyte = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    animationEnabled: false,
-                    swipeEnabled: true,
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10,
-                        paddingBottom: 1,
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,
-                        height: 50,
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%',
-                    },
-                })}
-            >   
-                <Tab.Screen
-                    name="OLDSCHOOL"
-                    component={SchoolScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/schoolIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                />
-                <Tab.Screen
-                        name="Profile"
-                        component={ProfileScreen3}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-                <Tab.Screen
-                        name="Settings"
-                        component={SettingsScreen}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-                <Tab.Screen
-                    name="MAP"
-                    component={MapScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/mapIcon.png')}
-                            />
-                        ),
-                        tabBarLabel: ''
-                    }}
-                />
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     );
 }
 

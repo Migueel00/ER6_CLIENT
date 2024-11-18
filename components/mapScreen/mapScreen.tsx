@@ -26,17 +26,11 @@ const BackgroundImage = styled.ImageBackground`
     position: absolute;
     z-index: -1;
 `;
-const TowerIcon = styled.Image`
-    width: ${width * 0.2}px;
-    height: ${width * 0.2}px;
-    border-radius: 50px;
-    z-index: 2; 
-`;
 
-const HomeIcon = styled.Image`
+const Icon = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
-    border-radius: 50px;
+    border-radius: ${width * 0.5}px;
     z-index: 2; 
 `;
 
@@ -165,28 +159,28 @@ useEffect(() => {
             <IconContainer style={{ top: height * 0.69, right: width * 0.37 }}>
                 <IconText>Home</IconText>
                 <TouchableIcon onPress={handleHomeIconPress}>
-                    <HomeIcon source={homeIcon} />
+                    <Icon source={homeIcon} />
                 </TouchableIcon>
             </IconContainer>
 
             <IconContainer style={{ top: height * 0.28, right: width * 0.13 }}>
                 <IconText>Tower</IconText>
                 <TouchableIcon onPress={handleTowerIconPress}>
-                    <TowerIcon source={towerIcon} />
+                    <Icon source={towerIcon} />
                 </TouchableIcon>
             </IconContainer>
 
             <IconContainer style={{ top: height * 0.45, right: width * 0.02 }}>
                 <IconText>Swamp</IconText>
                 <TouchableIcon onPress={handleSwampIconPress}>
-                    <TowerIcon source={swampIcon} />
+                    <Icon source={swampIcon} />
                 </TouchableIcon>
             </IconContainer>
 
             <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
-                    <TowerIcon source={schoolIcon} />
+                    <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
         </Container>
