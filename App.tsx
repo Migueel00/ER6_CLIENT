@@ -188,7 +188,8 @@ function App(): React.JSX.Element {
 
     //const email = 'ozarate@aeg.eus';
     //const email = 'oskar.calvo@aeg.eus';
-    const email = userInfo.data?.user.email;
+    //const email = 'classcraft.daw2@aeg.eus'
+    //const email = userInfo.data?.user.email;
     const googleIdToken = userInfo.data?.idToken;
     
     // Create a Google credential with the token

@@ -6,6 +6,11 @@ import { Text, Vibration } from 'react-native';
 import AppContext from "../helpers/context";
 import VillainScreens from "./villainScreen/VillainScreens";
 
+interface updateTowerEvent {
+    playerId: string;
+    isInsideTower: boolean;
+}
+
 interface updateHallEvent {
     nickname: string,
     playerId: string;
@@ -62,18 +67,24 @@ const MainScreens = () => {
     }, [player!.isInsideHall]);
 
     useEffect(() => {
-        socket?.on('updateOtherHall', ({ playerId, isInsideHall }: updateHallEvent) => {
-            if (players && setPlayers) {
-                const updatedPlayers = players.map(p => p._id === playerId ? { ...p, isInsideHall } : p);
-                setPlayers(updatedPlayers);
-            }
+        socket.on('updateTower', ({ playerId, isInsideTower }: updateTowerEvent) => {
+            const updatedPlayers = players.map(player =>
+                player.id === playerId ? { ...player, isInsideTower } : player
+            );
+
+            
+
+            setPlayers(updatedPlayers);
+
         });
-    
+
         return () => {
-            socket?.off('updateOtherHall');
+            socket.off('updateTower');
         };
-    }, [players, setPlayers, socket]);
-    
+    }, [socket, players, setPlayers]);
+
+
+
     return (
         <>
             {userRole === 'ACOLYTE' ? (

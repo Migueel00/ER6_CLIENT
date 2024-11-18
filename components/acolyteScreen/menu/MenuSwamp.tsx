@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MapScreen from "../../mapScreen/mapScreen";
 import styled from "styled-components/native";
@@ -10,7 +9,6 @@ import AppContext from "../../../helpers/context";
 import SwampScreen from "../../shared/SwampScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
-import MortimerContext from "../../../helpers/MortimerContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,24 +20,12 @@ const Icon = styled.Image`
 
 const MenuSwamp = () => {
     const acolyteContext = useContext(AcolyteContext);
-    const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const player = appContext?.player!;
     const setIsMenuSwampLoaded = acolyteContext?.setIsMenuSwampLoaded!;
-    const setIsMenuMortimerSwampLoaded = mortimerContext?.setIsMenuSwampLoaded!;
 
     useEffect(() => {
-        switch (player.role) {
-            case 'ACOLYTE':
-                setIsMenuSwampLoaded(true);
-                break;
-            case 'MORTIMER':
-                setIsMenuMortimerSwampLoaded(true);
-                break;
-            default:
-                break;
-        }
+        setIsMenuSwampLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -48,17 +34,9 @@ const MenuSwamp = () => {
 
         socket.emit("UpdateLocation", value);
 
+        // Se ejecuta al desmontar el componente
         return () => {
-            switch (player.role) {
-                case 'ACOLYTE':
-                    setIsMenuSwampLoaded(false);
-                    break;
-                case 'MORTIMER':
-                    setIsMenuMortimerSwampLoaded(false);
-                    break;
-                default:
-                    break;
-            }
+            setIsMenuSwampLoaded(false);
         }
     }, []);
 
