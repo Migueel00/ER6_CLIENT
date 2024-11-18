@@ -52,7 +52,7 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
             .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
             .map(([key, value]) => (
                 <ModifierText key={key}>
-                    {`${capitalizeFirstLetter(key)}: ${value}`}
+                    {`${capitalizeFirstLetter(key.replace('_', ' '))}: ${value}`}
                 </ModifierText>
             ));
     }
@@ -80,7 +80,14 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
     }
 
     // Si la poción no es de ningún tipo mencionado, no renderiza nada
-    return null;
+    return  (
+        <>
+            <ModifiersTitle>Failed Potion</ModifiersTitle>
+            <ModifierText>
+                You created an abomination
+            </ModifierText>
+        </>
+        )
     };
 
     const capitalizeFirstLetter = (string: string) => {
@@ -108,7 +115,6 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
                         </PotionMessage>
 
                         <ModifiersContainer>
-                            
                             {renderModifiers()}
                         </ModifiersContainer>
 
