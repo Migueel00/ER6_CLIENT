@@ -120,8 +120,9 @@ const SwampScreen = () => {
         requestLocationPermission();
     }, []);
 
-
     useEffect(() => {
+        socket.emit('requestLocation');
+
         fetch(URL.GET_ARTIFACTS)
             .then((response) => response.json())
             .then((artifacts) => {
@@ -159,7 +160,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted, isArtifacts]); 
+      }, [locationPermissionGranted, isArtifacts]);
 
     useEffect(() => {
         if (locationPermissionGranted) {
@@ -204,19 +205,29 @@ const SwampScreen = () => {
 
     // Socket to send player Location data and avatar
     useEffect(() => {
+        const userInfo = {
+            coordinates: userLocation,
+            avatar: player?.avatar,
+            _id: player?._id,
+            role: player?.role
+        }
+
         // userLocation And Avatar
         if(userLocation){
-            const userInfo = {
-                coordinates: userLocation,
-                avatar: player?.avatar,
-                _id: player?._id,
-                role: player?.role
-            }
-    
+         
             socket.emit('sendLocation' , userInfo);
     
             console.log("MANDO SOCKET ");
         }
+
+        socket.on('requestLocation', () => {
+            if(userInfo){
+                
+                socket.emit('sendLocation', userInfo);
+
+                console.log("PETICION SOCKET DE OTRAS UBICACIONES");
+            }
+        });
 
     }, [userLocation]);
 
