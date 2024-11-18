@@ -24,6 +24,7 @@ import { Alert } from 'react-native';
 import SignInScreen from './components/SignIn';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './src/constants';
+import AppNavigator from './components/AppNavigator';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -425,31 +426,31 @@ function App(): React.JSX.Element {
         setPlayer: setPlayer
       }}>
     
-    <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
 
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      {isLoggedIn ? (
-        <MainScreens/>
-      ) : (
-        <ImageBackground 
-        source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees
-        style={styles.imageBackground} // Usamos flex para que ocupe toda la pantalla
-        resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
-        >
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
-          {isSpinner ? (
-            <LoadSpinner />
-          ) : (
-            <SignInScreen handleButtonPress={handleButtonPress} />
-          )}
-        </ScrollView>
-        </ImageBackground>
-      )}
-      <Toast config={toastConfig}/>
-    </SafeAreaView>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        {isLoggedIn ? (
+          <AppNavigator/>
+        ) : (
+          <ImageBackground 
+          source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees
+          style={styles.imageBackground} // Usamos flex para que ocupe toda la pantalla
+          resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+          >
+          <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
+            {isSpinner ? (
+              <LoadSpinner />
+            ) : (
+              <SignInScreen handleButtonPress={handleButtonPress} />
+            )}
+          </ScrollView>
+          </ImageBackground>
+        )}
+        <Toast config={toastConfig}/>
+      </SafeAreaView>
     </AppContext.Provider>
   );
   

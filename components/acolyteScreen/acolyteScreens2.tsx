@@ -138,7 +138,7 @@ useEffect(() => {
         isInsideHall
       }}>
 
-      <NavigationContainer>
+
         <MenuContainer>
           {isInsideLab ? <MenuLabInside />
           : isInsideTower ? <MenuTowerInside /> 
@@ -151,7 +151,7 @@ useEffect(() => {
           : <MenuHome />}    
                       
         </MenuContainer>
-      </NavigationContainer>
+
     </AcolyteContext.Provider>
   );
 };
