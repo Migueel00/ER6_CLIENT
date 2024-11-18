@@ -81,24 +81,24 @@ const SwampScreen = () => {
 
 
     // Comprobar si el usuario está dentro de algún círculo
-    useEffect(() => {
-        if (userLocation) {
-            const updatedColors = markerColors.map((color, index) => {
-                const isUserWithinCircle = geolib.isPointWithinRadius(
-                    userLocation,
-                    artifacts[index].coordinate,
-                    circleRadius
-                );
+    // useEffect(() => {
+    //     if (userLocation) {
+    //         const updatedColors = markerColors.map((color, index) => {
+    //             const isUserWithinCircle = geolib.isPointWithinRadius(
+    //                 userLocation,
+    //                 artifacts[index].coordinate,
+    //                 circleRadius
+    //             );
 
-                // Cambiar el color solo si está dentro del círculo
-                return isUserWithinCircle
-                    ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
-                    : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
-            });
+    //             // Cambiar el color solo si está dentro del círculo
+    //             return isUserWithinCircle
+    //                 ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
+    //                 : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
+    //         });
 
-            setMarkerColors(updatedColors);
-        }
-    }, [userLocation]);
+    //         setMarkerColors(updatedColors);
+    //     }
+    // }, [userLocation]);
    
     useEffect(() => {
         const requestLocationPermission = async () => {
@@ -205,7 +205,7 @@ const SwampScreen = () => {
     // Socket to send player Location data and avatar
     useEffect(() => {
         // userLocation And Avatar
-        if(userLocation !== null){
+        if(userLocation){
             const userInfo = {
                 coordinates: userLocation,
                 avatar: player?.avatar,
@@ -280,7 +280,7 @@ const SwampScreen = () => {
             initialRegion={regionAEG} 
             customMapStyle={mapStyle}
         >
-            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
+            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
             artifacts.map((marker, index) => (
                 marker.coordinate && !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
@@ -318,14 +318,14 @@ const SwampScreen = () => {
                         }}
                     >
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                        {/* {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
                                     <TextDescription>{marker.description}</TextDescription>
                                 </CalloutContainer>
                             </Callout>
-                        )}
+                        )} */}
                     </Marker>
                     <Circle
                         center={marker.coordinate}
