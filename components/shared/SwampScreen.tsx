@@ -120,8 +120,9 @@ const SwampScreen = () => {
         requestLocationPermission();
     }, []);
 
-
     useEffect(() => {
+        socket.emit('requestLocation');
+
         fetch(URL.GET_ARTIFACTS)
             .then((response) => response.json())
             .then((artifacts) => {
@@ -159,7 +160,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted, isArtifacts]); 
+      }, [locationPermissionGranted, isArtifacts]);
 
     useEffect(() => {
         if (locationPermissionGranted) {
@@ -204,19 +205,29 @@ const SwampScreen = () => {
 
     // Socket to send player Location data and avatar
     useEffect(() => {
+        const userInfo = {
+            coordinates: userLocation,
+            avatar: player?.avatar,
+            _id: player?._id,
+            role: player?.role
+        }
+
         // userLocation And Avatar
         if(userLocation){
-            const userInfo = {
-                coordinates: userLocation,
-                avatar: player?.avatar,
-                _id: player?._id,
-                role: player?.role
-            }
-    
+         
             socket.emit('sendLocation' , userInfo);
     
             console.log("MANDO SOCKET ");
         }
+
+        socket.on('requestLocation', () => {
+            if(userInfo){
+                
+                socket.emit('sendLocation', userInfo);
+
+                console.log("PETICION SOCKET DE OTRAS UBICACIONES");
+            }
+        });
 
     }, [userLocation]);
 
@@ -369,7 +380,7 @@ const SwampScreen = () => {
         {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
             <>
             <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
-            <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <StyledScrollView>
                 <GridContainer>
                     {artifacts.map((marker) => (
                         <GridItem key={marker.id}>
@@ -385,7 +396,7 @@ const SwampScreen = () => {
     </>
     )}
 
-        {userLocation && (
+        {/* {userLocation && (
                 <CoordinatesContainer>
                      <CoordinatesText>
                        Your position
@@ -394,7 +405,7 @@ const SwampScreen = () => {
                         Latitude: {userLocation.latitude.toFixed(6)}, Longitude: {userLocation.longitude.toFixed(6)}
                     </CoordinatesText>
                 </CoordinatesContainer>
-            )}  
+            )}   */}
 
 
     </SwampBackground>
@@ -464,36 +475,34 @@ const ScrollViewTitle = styled.Text`
     font-family: 'KochAltschrift';
     align-self: center; 
     position: absolute;
-    bottom: ${height * 0.34}px;
+    bottom: ${height * 0.19}px;
     background-color:  rgba(0, 0, 0, 0.4);
-    padding: 20px 20px;
+    padding: ${width * 0.04}px;
     border-radius: 40px;
 `;
 
-const StyledScrollView = styled.ScrollView`
+const StyledScrollView = styled.View`
     position: absolute;
-    bottom: ${height * 0.15}px;
-    left: 10px;
-    right: 10px;
-    padding: 10px 0;
+    bottom: ${height * 0.06}px;
+    padding: ${width * 0.005}px;
     background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
+    border-radius: ${width * 0.05}px;
 `;
 
 const GridContainer = styled.View`
     flex-direction: row;
     justify-content: flex-start;
-    padding: 10px;
+    padding: ${width * 0.02}px;
 `;
 
 const GridItem = styled.View`
-    width: ${width * 0.26}px; 
-    height: ${width * 0.26}px;
-    margin-right: 10px;
+    width: ${width * 0.20}px; 
+    height: ${width * 0.20}px;
+    margin-right: ${width * 0.02}px;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
-    border-width: 1px;
+    border-radius: ${width * 0.05}px;
+    border-width: ${width * 0.003}px;
     border-color: white;
 `;
 
