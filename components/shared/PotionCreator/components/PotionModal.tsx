@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, Modal, Text} from "react-native";
 import styled from "styled-components/native";
-import Potion, { Antidote, Elixir, Essence, Poison, Stench, Venom } from "../../../potions/potion";
+import Potion, { Antidote, Elixir, Essence, Poison, PurificationPotion, Stench, Venom } from "../../../potions/potion";
 import { Modifiers } from "../../../potions/curse";
 
 interface PotionModal {
@@ -79,8 +79,16 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
         );
     }
 
+    if(createdPotion instanceof PurificationPotion) {
+        return (     
+                <ModifierText>
+                    Congratulations!
+                </ModifierText>
+            )    
+    }
+
     // Si la poción no es de ningún tipo mencionado, no renderiza nada
-    return  (
+    return (
         <>
             <ModifiersTitle>Failed Potion</ModifiersTitle>
             <ModifierText>
