@@ -20,17 +20,21 @@ const OutsideHall = () => {
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
 
     const handleEnterHall = () => {
-        console.log("ENTERING HALL");
-        console.log("ACTUAL IS INSIDE HALL STATE:");
-        console.log(player?.isInsideHall);
 
-        const values = {
-            socketId: appContext?.socketID,
-            playerID: appContext?.player._id,
-            isInsideHall: player?.isInsideHall,
-        };
+        if(player?.role != 'ISTVAN') {
+            console.log("ENTERING HALL");
+            console.log("ACTUAL IS INSIDE HALL STATE:");
+            console.log(player?.isInsideHall);
+    
+            const values = {
+                socketId: appContext?.socketID,
+                playerID: appContext?.player._id,
+                isInsideHall: player?.isInsideHall,
+            };
+    
+            socket.emit("HallDoorPressed", values);
+        }
 
-        socket.emit("HallDoorPressed", values);
     };
 
     const handleGoToCorridor = () => {
@@ -46,7 +50,9 @@ const OutsideHall = () => {
 
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
-            <HeaderText>Press the door to enter to the HALL</HeaderText>
+           {player?.role !== 'ISTVAN' && (
+            <HeaderText>Press the door to enter the HALL</HeaderText>
+            )}
                 <StyledButton onPress={handleEnterHall}>
                 </StyledButton>
             <StyledCorridorButton onPress={handleGoToCorridor}>
