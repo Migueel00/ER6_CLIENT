@@ -10,6 +10,7 @@ import SettingsScreen from "../../settings/settingsScreen";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
+import MainTabNavigator from "../../shared/MainTabNavigator";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,6 +21,27 @@ const Icon = styled.Image`
 `
 
 const MenuLab = () => {
+
+    const screens = [
+        {
+            name: 'LAB',
+            component: LabScreen,
+            iconSource: require('../../../assets/icons/fixed/potionIcon.png'),
+        },
+        {
+            name: 'Profile',
+            component: ProfileScreen3,
+            iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
+
+        },
+        {
+            name: 'Settings',
+            component: SettingsScreen,
+            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+
+        }
+    ];
+
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
@@ -42,71 +64,7 @@ const MenuLab = () => {
     }, []);
 
     return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    swipeEnabled: true,
-                    tabBarStyle: {
-                        backgroundColor: 'black',
-                        height: height * 0.10,
-                        paddingBottom: 1,
-                    },
-                    tabBarIconStyle: {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 50,
-                        height: 50,
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: 'orange',
-                        height: 3,
-                    },
-                    tabBarItemStyle: {
-                        justifyContent: 'center',
-                        borderRightWidth: 0.2,
-                        borderRightColor: 'white',
-                        paddingHorizontal: 10,
-                        height: '100%',
-                    },
-                })}
-            >   
-                <Tab.Screen
-                    name="LAB"
-                    component={LabScreen}
-                    options={{
-                        tabBarIcon: () => (
-                            <Icon
-                                source={require('../../../assets/icons/lab-icon.png')}
-                            />
-                        ),
-                        tabBarLabel: '',
-                    }}
-                    />
-                <Tab.Screen
-                        name="Profile"
-                        component={ProfileScreen3}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/profileIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Settings"
-                        component={SettingsScreen}
-                        options={{
-                            tabBarIcon: () => (
-                                <Icon
-                                    source={require('../../../assets/icons/fixed/settingsIcon.png')}
-                                />
-                            ),
-                            tabBarLabel: '',
-                        }}
-                    />
-
-            </Tab.Navigator>
+        <MainTabNavigator Tab={Tab} screens={screens} />
     );
 }
 
