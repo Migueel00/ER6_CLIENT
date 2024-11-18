@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import AppContext from '../../../helpers/context';
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,6 +12,18 @@ interface HelpModalProps {
 }
 
 const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose, onOpenRecipeModal }) => {
+
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+    const role = player?.role;
+    const [isAcolyte, setIsAcolyte] = useState(true);
+
+    useEffect(()=>{
+        if(role === 'VILLAIN') {
+            setIsAcolyte(false)
+        }
+    }, [])
+
     return (
         <Modal
             transparent={true}
@@ -24,29 +37,50 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose, onOpenRecipeMod
                     
                     {/* Main Section Container */}
                     <SectionContainer>
-                        {/* Sección superior: ELIXIR y ESSENCE */}
+                        {/* Sección superior: Condicional dependiendo del rol */}
                         <Section>
                             <Column>
-                                <ModalSectionTitle>ELIXIR</ModalSectionTitle>
-                                <SectionText>Ingredients that "Boost", "Calm" or "Frenzy" the SAME attribute.</SectionText>
+                                <ModalSectionTitle>{isAcolyte ? 'ELIXIR' : 'VENOM'}</ModalSectionTitle>
+                                <SectionText>
+                                    {isAcolyte
+                                        ? 'Ingredients that "Boost", "Calm" or "Frenzy" the SAME attribute.'
+                                        : 'Ingredients that "Frenzy" or "Setback" the SAME attribute.'
+                                    }
+                                </SectionText>
                             </Column>
                             <Column>
-                                <ModalSectionTitle>ESSENCE</ModalSectionTitle>
-                                <SectionText>Ingredients that INCREASE "Hit Points".</SectionText>
+                                <ModalSectionTitle>{isAcolyte ? 'ESSENCE' : 'STENCH'}</ModalSectionTitle>
+                                <SectionText>
+                                    {isAcolyte
+                                        ? 'Ingredients that INCREASE "Hit Points".'
+                                        : 'Ingredients that DECREASE "Hit Points".'
+                                    }
+                                </SectionText>
                             </Column>
                         </Section>
 
-                        {/* Sección inferior: ANTIDOTE */}
+                        {/* Sección inferior: Condicional dependiendo del rol */}
                         <Section>
                             <SingleColumn>
-                                <ModalSectionTitle>ANTIDOTE</ModalSectionTitle>
+                                <ModalSectionTitle>{isAcolyte ? 'ANTIDOTE' : 'POISON'}</ModalSectionTitle>
                                 <SectionText>
-                                    Antidotes have their own recipe which are combinations of RESTORE effects. Refer to the{' '}
-                                    {/* Make the "recipe book" text clickable and styled */}
-                                    <RecipeBookText onPress={() => { onClose(); onOpenRecipeModal(); }}>
-                                        RECIPE BOOK
-                                    </RecipeBookText>{' '}
-                                    for more information.
+                                    {isAcolyte
+                                        ? (
+                                            <>
+                                                Antidotes have their own recipe which are combinations of RESTORE effects. Refer to the{' '}
+                                                <RecipeBookText onPress={() => { onClose(); onOpenRecipeModal(); }}>
+                                                    RECIPE BOOK
+                                                </RecipeBookText> for more information.
+                                            </>
+                                        )
+                                        : <>
+                                        Poisons have their own recipe, which involves harmful effects that you should be cautious of.  Refer to the{' '}
+                                        <RecipeBookText onPress={() => { onClose(); onOpenRecipeModal(); }}>
+                                            RECIPE BOOK
+                                        </RecipeBookText> for more information.
+                                    </>
+                                        // Texto para el rol diferente
+                                    }
                                 </SectionText>
                             </SingleColumn>
                         </Section>
@@ -59,6 +93,7 @@ const HelpModal: React.FC<HelpModalProps> = ({ visible, onClose, onOpenRecipeMod
             </ModalContainer>
         </Modal>
     );
+
 };
 
 // STYLED COMPONENTS
