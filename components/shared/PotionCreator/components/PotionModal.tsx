@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, Modal, Text} from "react-native";
 import styled from "styled-components/native";
-import Potion from "../../../potions/potion";
+import Potion, { Antidote, Elixir, Essence, Poison, Stench, Venom } from "../../../potions/potion";
+import { Modifiers } from "../../../potions/curse";
 
 interface PotionModal {
     visible: boolean;
@@ -45,6 +46,45 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
         }
     }, [visible, createdPotion]);
 
+    const renderModifiers = () => {
+        if (createdPotion instanceof Antidote || createdPotion instanceof Poison) {
+        return Object.entries(createdPotion.modifiers)
+            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
+            .map(([key, value]) => (
+                <ModifierText key={key}>
+                    {`${capitalizeFirstLetter(key)}: ${value}`}
+                </ModifierText>
+            ));
+    }
+
+    if (createdPotion instanceof Elixir || createdPotion instanceof Venom) {
+        return Object.entries(createdPotion.modifier_value)
+            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
+            .map(([key, value]) => (
+                <ModifierText key={key}>
+                    {`${capitalizeFirstLetter(key)}: ${value}`}
+                </ModifierText>
+            ));
+    }
+
+    if (createdPotion instanceof Essence || createdPotion instanceof Stench) {
+        return Object.entries(createdPotion.modifier_value)
+            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
+            .map(([key, value]) => (
+                <ModifierText key={key}>
+                    {`${capitalizeFirstLetter(key)}: ${value}`}
+                </ModifierText>
+            ));
+    }
+
+    // Si la poción no es de ningún tipo mencionado, no renderiza nada
+    return null;
+    };
+
+    const capitalizeFirstLetter = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     return (
         <Modal 
             visible = {visible}
@@ -64,6 +104,11 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
                         <PotionMessage>
                             {createdPotion?.name}
                         </PotionMessage>
+
+                        <ModifiersContainer>
+                            <ModifiersTitle>Modifiers</ModifiersTitle>
+                            {renderModifiers()}
+                        </ModifiersContainer>
 
                         <CloseButton onPress={onClose}>
                             <CloseButtonText>ADD TO INVENTORY</CloseButtonText>
@@ -92,9 +137,29 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
     );
 }
 
+const ModifiersContainer = styled.View`
+    margin-top: ${height * 0.03}px;
+    padding: 0 ${width * 0.05}px;
+    align-items: center;
+    width: 100%;
+`;
+
+const ModifiersTitle = styled.Text`
+    color: #ffffff;
+    font-size: ${width * 0.07}px;
+    font-family: 'KochAltschrift';
+    margin-bottom: ${height * 0.02}px;
+`;
+
+const ModifierText = styled.Text`
+    color: #ffffff;
+    font-size: ${width * 0.05}px;
+    font-family: 'KochAltschrift';
+`;
+
 const ModalContainer = styled.View`
     flex: 1;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
     width: 100%;
