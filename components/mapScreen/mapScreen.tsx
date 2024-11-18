@@ -162,7 +162,7 @@ useEffect(() => {
         <Container>
             <BackgroundImage source={mapImage} />
             
-            <IconContainer style={{ top: height * 0.68, right: width * 0.35 }}>
+            <IconContainer style={{ top: height * 0.70, right: width * 0.37 }}>
                 <IconText>Home</IconText>
                 <TouchableIcon onPress={handleHomeIconPress}>
                     <HomeIcon source={homeIcon} />
@@ -176,14 +176,14 @@ useEffect(() => {
                 </TouchableIcon>
             </IconContainer>
 
-            <IconContainer style={{ top: height * 0.39, right: width * 0.02 }}>
+            <IconContainer style={{ top: height * 0.45, right: width * 0.02 }}>
                 <IconText>Swamp</IconText>
                 <TouchableIcon onPress={handleSwampIconPress}>
                     <TowerIcon source={swampIcon} />
                 </TouchableIcon>
             </IconContainer>
 
-            <IconContainer style={{ top: height * 0.60, right: width * 0.45 }}>
+            <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
                     <TowerIcon source={schoolIcon} />
