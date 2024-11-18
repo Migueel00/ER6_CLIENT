@@ -45,7 +45,6 @@ const MenuSwampMortimer = () => {
             name: 'MAP',
             component: MapScreenMortimer,
             iconSource: require('./../../../assets/icons/mapIcon.png'),
-           
         }
     ];
 
