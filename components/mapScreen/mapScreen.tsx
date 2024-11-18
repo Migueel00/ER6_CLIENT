@@ -162,7 +162,7 @@ useEffect(() => {
         <Container>
             <BackgroundImage source={mapImage} />
             
-            <IconContainer style={{ top: height * 0.70, right: width * 0.37 }}>
+            <IconContainer style={{ top: height * 0.69, right: width * 0.37 }}>
                 <IconText>Home</IconText>
                 <TouchableIcon onPress={handleHomeIconPress}>
                     <HomeIcon source={homeIcon} />
