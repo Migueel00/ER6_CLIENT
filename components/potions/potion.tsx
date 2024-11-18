@@ -64,14 +64,16 @@ export class Elixir extends Potion {
     potionEffect: string;
     duration: number;
     modifier_value: number;
+    affected_attr: string;
 
-    constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
+    constructor(name: string, potionEffect: string, modifier_value: number, duration: number, affected_attr: string) {
 
         super(name);
 
         this.potionEffect = potionEffect;
         this.duration = duration;
         this.modifier_value = modifier_value;
+        this.affected_attr = affected_attr;
     }
 }
 
@@ -80,15 +82,16 @@ export class Venom extends Potion {
     potionEffect: string;
     duration: number;
     modifier_value: number;
+    affected_attr: string;
 
-    constructor(name: string, potionEffect: string, modifier_value: number, duration: number) {
+    constructor(name: string, potionEffect: string, modifier_value: number, duration: number, affected_attr: string) {
 
         super(name);
 
         this.potionEffect = potionEffect;
         this.duration = duration;
         this.modifier_value = modifier_value;
-
+        this.affected_attr = affected_attr;
     }
 }
 

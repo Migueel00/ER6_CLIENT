@@ -58,23 +58,25 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
     }
 
     if (createdPotion instanceof Elixir || createdPotion instanceof Venom) {
-        return Object.entries(createdPotion.modifier_value)
-            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
-            .map(([key, value]) => (
-                <ModifierText key={key}>
-                    {`${capitalizeFirstLetter(key)}: ${value}`}
+        return (
+            <>
+                <ModifiersTitle>Affected Value</ModifiersTitle>
+                <ModifierText>
+                    {`${createdPotion.affected_attr}: ${createdPotion.modifier_value}`}
                 </ModifierText>
-            ));
+            </>
+            );
     }
 
     if (createdPotion instanceof Essence || createdPotion instanceof Stench) {
-        return Object.entries(createdPotion.modifier_value)
-            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
-            .map(([key, value]) => (
-                <ModifierText key={key}>
-                    {`${capitalizeFirstLetter(key)}: ${value}`}
+        return (
+            <>
+                <ModifiersTitle>Affected Value</ModifiersTitle>
+                <ModifierText>
+                    {`Hit Points: ${createdPotion.modifier_value}`}
                 </ModifierText>
-            ));
+            </>
+        );
     }
 
     // Si la poción no es de ningún tipo mencionado, no renderiza nada
@@ -106,7 +108,7 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
                         </PotionMessage>
 
                         <ModifiersContainer>
-                            <ModifiersTitle>Modifiers</ModifiersTitle>
+                            
                             {renderModifiers()}
                         </ModifiersContainer>
 
@@ -138,10 +140,14 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
 }
 
 const ModifiersContainer = styled.View`
-    margin-top: ${height * 0.03}px;
-    padding: 0 ${width * 0.05}px;
+    margin-top: ${height * 0.08}px;
+    padding: ${width * 0.01}px;
     align-items: center;
-    width: 100%;
+    width: ${width * 0.9}px;
+    background-color: rgba(0,0,0,0.95);
+    border-radius: ${width * 0.2}px;
+    border-color: white;
+    border-width: ${width * 0.003}px;
 `;
 
 const ModifiersTitle = styled.Text`
@@ -149,11 +155,12 @@ const ModifiersTitle = styled.Text`
     font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
     margin-bottom: ${height * 0.02}px;
+    text-decoration-line: underline;
 `;
 
 const ModifierText = styled.Text`
     color: #ffffff;
-    font-size: ${width * 0.05}px;
+    font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
 `;
 
@@ -233,7 +240,7 @@ const CloseButton = styled.TouchableOpacity`
     background-color: #800000;
     border-radius: ${width * 0.01}px;
     align-items: center;
-    bottom: ${height * -0.1}px;
+    margin-top:${height * 0.02}px;
 `;
 
 const CloseButtonText = styled.Text`
