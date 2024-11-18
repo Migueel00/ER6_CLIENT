@@ -73,7 +73,7 @@ const OutsideLab = () => {
                 style={styles.buttonImageBackground}
                 resizeMode="cover"
             >
-                <Text style={styles.kaotikaButton}>{buttonText}</Text>
+                <StyledButtonText style={styles.kaotikaButton}>{buttonText}</StyledButtonText>
             </ImageBackground>
             </TouchableOpacity>
 
@@ -108,7 +108,7 @@ const OutsideLab = () => {
                     style={styles.buttonImageBackground}
                     resizeMode="cover"
                 >
-                    <Text style={styles.kaotikaButton}>Hide your medallion</Text>
+                    <StyledButtonText style={styles.kaotikaButton}>Hide your medallion</StyledButtonText>
                 </ImageBackground>
                 </TouchableOpacity>
             </View>
