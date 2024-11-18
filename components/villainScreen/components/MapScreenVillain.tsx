@@ -34,12 +34,22 @@ const Icon = styled.Image`
     z-index: 2; 
 `;
 
-const TouchableIcon = styled.TouchableOpacity`
+const IconContainer = styled.View`
+    align-items: center;
     position: absolute;
+`;
+
+const IconText = styled.Text`
+    font-family: KochAltschrift;
+    color: white;
+    font-size: ${height * 0.04}px;
+    margin-bottom: ${height * 0.001}px;
+`;
+
+const TouchableIcon = styled.TouchableOpacity`
     border-width: 2px;
     border-color: white;
     border-radius: 100px;
-    padding: -30px;
 `
 
 const MapScreenVillain = () => {
@@ -117,30 +127,34 @@ const MapScreenVillain = () => {
     return (
         <Container>
             <BackgroundImage source={mapImage} />
-            <TouchableIcon
-                onPress={handleHomeIconPress}
-                style={{ top: height * 0.71, right: width * 0.37 }}
-            >
-                <Icon source={homeIcon} />
-            </TouchableIcon>
-            <TouchableIcon
-                onPress={handleTowerIconPress}
-                style={{ top: height * 0.28, right: width * 0.13}}
-            >
-                <Icon source={towerIcon} />
-            </TouchableIcon>
-            <TouchableIcon
-                onPress={handleSchoolIconPress}
-                style={{ top: height * 0.58, right: width * 0.45 }}
-            >
-                <Icon source={schoolIcon} />
-            </TouchableIcon>
-            <TouchableIcon
-                onPress={handleSwampIconPress}
-                style={{top: height * 0.42, right: width * 0.05}}
-            >
-                <Icon source={swampIcon} />
-            </TouchableIcon>
+
+            <IconContainer style={{ top: height * 0.69, right: width * 0.37 }}>
+                <IconText>Home</IconText>
+                <TouchableIcon onPress={handleHomeIconPress}>
+                    <Icon source={homeIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.28, right: width * 0.13 }}>
+                <IconText>Tower</IconText>
+                <TouchableIcon onPress={handleTowerIconPress}>
+                    <Icon source={towerIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
+                <IconText>School</IconText>
+                <TouchableIcon onPress={handleSchoolIconPress}>
+                    <Icon source={schoolIcon} />
+                </TouchableIcon>
+            </IconContainer>
+            
+            <IconContainer style={{ top: height * 0.45, right: width * 0.02 }}>
+                <IconText>Swamp</IconText>
+                <TouchableIcon onPress={handleSwampIconPress}>
+                    <Icon source={swampIcon} />
+                </TouchableIcon>
+            </IconContainer>
         </Container>
     );
 }
