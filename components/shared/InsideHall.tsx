@@ -4,12 +4,12 @@ import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
+const watchingEyes = require('./../../assets/png/watchingEyes.png');
 const { height, width } = Dimensions.get('window');
 
 const InsideHall = () => {
 
     const appContext = useContext(AppContext);
-    const [insideHallBackgroundImage, setLabBackgroundImage] = useState(insideHall);
     const player = appContext?.player!;
     const socket = appContext?.socket;
     const players = appContext?.players!;
@@ -34,7 +34,7 @@ const InsideHall = () => {
     };
 
     return (
-        <InsideHallBackground source={insideHallBackgroundImage}>
+        <InsideHallBackground source={insideHall}>
             <ContainerTopLeft>
                 {players
                     .filter(player => player.isInsideHall && player.role === 'MORTIMER')
@@ -47,7 +47,7 @@ const InsideHall = () => {
             </ContainerTopLeft>
 
             <ContainerTopRight>
-                {player.role != 'ACOLYTE' &&
+                {player.role === 'MORTIMER' ? (
                     players
                         .filter(player => player.isInsideHall && player.role === 'VILLAIN')
                         .map(player => (
@@ -55,7 +55,11 @@ const InsideHall = () => {
                                 <Avatar source={{ uri: player.avatar }} />
                             </AvatarWrapper>
                         ))
-                }
+                ) : (
+                    <AvatarWrapper>
+                        <Avatar source={watchingEyes} />
+                    </AvatarWrapper>
+                )}
             </ContainerTopRight>
 
             <ContainerBottom>
