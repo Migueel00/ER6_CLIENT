@@ -39,7 +39,7 @@ export default class Cauldron {
 
         const attributes = ["hit_points", "constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback", "cleanse"];
         const matchingAttribute = attributes.find(attr => 
-            allEffects.some(effect => effect.includes(attr))
+            allEffects.every(effect => effect.includes(attr))
         );
 
         console.log("COMMON EFFECT 2");
@@ -83,7 +83,12 @@ export default class Cauldron {
     
             // Si los efectos son iguales
             console.log("HAY EFECTOS COMUNES QUE NO SON HITPOINTS");
-            return this.createPotionFromEqualEffects(allEffects, ingredients);
+            if(matchingAttribute != 'boost' && matchingAttribute != 'setback') {
+                return this.createPotionFromEqualEffects(allEffects, ingredients);
+            } else {
+                return new FailedPotion("Tonic of Dawnfall", 0);
+            }
+
         }
        
     }
@@ -420,12 +425,14 @@ export default class Cauldron {
         const attributes = ["constitution", "charisma", "insanity", "dexterity", "strength", "intelligence", "calm", "frenzy", "boost", "setback"];
         const matchingAttribute = attributes.find(attr => effect.includes(attr));
 
-        console.log("Matching Attribute in create from equal");
+        console.log("Matching Attribute in create from equal: " + matchingAttribute);
         console.log(matchingAttribute);
         
 
         // Capitalize the first letter
         const capsMatchingAttribute = matchingAttribute ? matchingAttribute.charAt(0).toUpperCase() + matchingAttribute.slice(1) : '';
+
+        let affectedAttribute = capsMatchingAttribute;
 
         // if (!matchingAttribute) {
         //     return new FailedPotion("Tonic of Downfall", 0);
@@ -453,26 +460,35 @@ export default class Cauldron {
         if(isDamage){
             modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
 
+        } 
+
+        console.log("MATCHING ATTR");
+        console.log(matchingAttribute);
+
+        switch(matchingAttribute) {
+            case 'calm':
+                affectedAttribute = 'Insanity';
+                modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
+                break;
+            case 'frenzy':
+                affectedAttribute = 'Insanity';
+                modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
+                break;
         }
 
-        if(matchingAttribute === "insanity"){
-            modifierValueAverageRoundedToLowerMultipleOfFive = -modifierValueAverageRoundedToLowerMultipleOfFive;
-            if(isDamage){
-                potionEffect = "Frenzy";
-            }
-            else{
-                potionEffect = "Calm";
-            }
-        }       
+        console.log("MODIFIER VALUE BEFORE RETURNING POTION");
+        console.log(modifierValueAverageRoundedToLowerMultipleOfFive);
+
+        
 
         if(isRestore){
             console.log("SE VA A CREAR ELIXIR PORQUE ISRESTORE ES TRUE");
             
-            return new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration)
+            return new Elixir(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration, affectedAttribute!)
         }
         else if(isDamage)
         {
-           return new Venom(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration);
+           return new Venom(potionName, potionEffect, modifierValueAverageRoundedToLowerMultipleOfFive, duration, affectedAttribute!);
         }
         else
         {

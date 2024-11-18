@@ -1,9 +1,10 @@
 
 import { URL } from "./urls";
 
-export const updateArtifact = async (id : string, isRetrieved: boolean ) => {
+export const updateArtifact = async (id : string, isRetrieved: boolean, avatar: string ) => {
     const objectToSend = {
-        "isRetrieved" : isRetrieved
+        "isRetrieved" : isRetrieved,
+        "avatar" : avatar
     }
 
     const response = await fetch(`${URL.UPDATE_ARTIFACT}/${id}`, {

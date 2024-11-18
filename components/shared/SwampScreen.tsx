@@ -277,17 +277,17 @@ const SwampScreen = () => {
     
 
 
-    const markArtifactAsRetrieved = (markerId: number) => {
+    const markArtifactAsRetrieved = (markerId: number, avatar : string) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
         
         const updatedMarkers = artifacts.map((marker) =>
-            marker.id === markerId ? { ...marker, isRetrieved: true } : marker
+            marker.id === markerId ? { ...marker, isRetrieved: true, avatar} : marker
         );
 
         updatedMarkers.map(artifact => {
             if(artifact.id === markerId){
 
-                updateArtifact(artifact._id, artifact.isRetrieved);
+                updateArtifact(artifact._id, artifact.isRetrieved, avatar);
             }
         });
 
@@ -337,7 +337,7 @@ const SwampScreen = () => {
                                 // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
                                 if (isWithinRadius) {
                                     // Marcar el artefacto como recogido
-                                    markArtifactAsRetrieved(marker.id);
+                                    markArtifactAsRetrieved(marker.id, player.avatar);
                                     //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
                                     Toast.show({
                                         type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
@@ -411,7 +411,14 @@ const SwampScreen = () => {
                     {artifacts.map((marker) => (
                         <GridItem key={marker.id}>
                             {marker.isRetrieved ? (
-                                <ArtifactImage source={getImage(marker.markerImage)} />
+                                <> 
+                                    <ArtifactBackgroundImage source={getImage(marker.markerImage)}>
+                                        <AvatarContainerRetrievedArtifact>
+                                            <AvatarImageRetrieved source={{ uri: marker.avatar }}/>
+                                        </AvatarContainerRetrievedArtifact>
+                                    </ArtifactBackgroundImage>
+                                </>
+                             
                             ) : (
                                 <EmptyArtifactBox />
                             )}
@@ -459,6 +466,18 @@ const AvatarImage = styled.Image`
     border-radius: 40px;
 `;
 
+const AvatarImageRetrieved = styled.Image`
+    width: ${width*0.07}px;
+    height: ${width*0.07}px;
+    border-radius: 40px;
+`;
+
+const AvatarContainerRetrievedArtifact = styled.View`
+    justify-content: top;
+    border-radius: 25px;
+    overflow: hidden;
+    padding: ${width * 0.01}px;
+`;
 const KaotikaFont = styled.Text`
     padding-top: 20px;
     font-family: 'KochAltschrift';
@@ -542,6 +561,12 @@ const EmptyArtifactBox = styled.View`
 `;
 
 const ArtifactImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+`;
+
+const ArtifactBackgroundImage = styled.ImageBackground`
     width: 100%;
     height: 100%;
     border-radius: 10px;

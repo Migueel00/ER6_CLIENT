@@ -219,7 +219,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     break;
 
                 case CONSTANTS.IS_CALM:
-                    filterBoolean ? attributeFilterString.push('calm') : filterBoolean;
+                    filterBoolean ? (attributeFilterString.push('calm'), attributeFilterString.push('boost')) : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_FRENZY:
@@ -231,7 +231,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     break;
 
                 case CONSTANTS.IS_CLEANSE:
-                    filterBoolean ? attributeFilterString.push('cleanse') : filterBoolean;
+                    filterBoolean ? (attributeFilterString.push('cleanse'), attributeFilterString.push('unknown')) : filterBoolean;
                     break;
 
                 default:
@@ -380,7 +380,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         },
         {
             func: () => setIsCleanseSelected(prevState => !prevState),
-            name: 'CLEANSE',
+            name: 'RARE',
             selected: isCleanseSelected
         }   
 
