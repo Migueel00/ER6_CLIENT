@@ -51,6 +51,12 @@ const TouchableIcon = styled.TouchableOpacity`
     border-radius: 100px;
 `
 
+const IconTextOpacity = styled.View`
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+    border-radius: ${width * 0.03}px; /* Bordes redondeados */
+    padding: ${height * 0.001}px ${width * 0.03}px; /* Espaciado interno */
+`;
+
 const SchoolScreen = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
@@ -112,14 +118,18 @@ useEffect(() => {
             <BackgroundImage source={schoolMap} />
 
             <IconContainer style = {{ top: height * 0.20, right: width * 0.50 }}>
-                <IconText>Hall of Sages</IconText>
+                <IconTextOpacity>
+                    <IconText>Hall of Sages</IconText>
+                </IconTextOpacity>
                 <TouchableIcon onPress={handleHallIconPress}>
                     <Icon source={hallIcon} />
                 </TouchableIcon>
             </IconContainer>
 
             <IconContainer style = {{ top: height * 0.33, right: width * 0.28}}>
-                <IconText>Lab</IconText>
+                <IconTextOpacity>
+                    <IconText>Lab</IconText>
+                </IconTextOpacity>
                 <TouchableIcon onPress={handleLabIconPress}>
                     <Icon source={labIcon} />
                 </TouchableIcon>
