@@ -130,7 +130,18 @@ const SwampScreen = () => {
                 const data = artifacts.data;
                 setArtifacts(data);
                 setIsArtifacts(true);
-            });
+        });
+
+        socket.on('deleteLocation', (playerId : string ) => {
+            const index = othersUserLocations.findIndex(user => user._id === playerId);
+
+            if(index >= 0){
+                othersUserLocations.splice(index, 1);
+            } else {
+                console.log("PLAYER INDEX NOT FOUND " + index);
+            }
+        });
+
     }, []);
 
     useEffect(() => {
@@ -229,8 +240,11 @@ const SwampScreen = () => {
             }
         });
 
-    }, [userLocation]);
+        return () => {
+            socket.on('deleteLocation', player?._id);
+        }
 
+    }, [userLocation]);
 
     useEffect(() => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
