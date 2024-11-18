@@ -184,7 +184,7 @@ const SwampScreen = () => {
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 3000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 3, fastestInterval: 3000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
