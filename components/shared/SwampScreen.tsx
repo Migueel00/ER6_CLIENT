@@ -385,7 +385,7 @@ const SwampScreen = () => {
     </>
     )}
 
-        {userLocation && (
+        {/* {userLocation && (
                 <CoordinatesContainer>
                      <CoordinatesText>
                        Your position
@@ -394,7 +394,7 @@ const SwampScreen = () => {
                         Latitude: {userLocation.latitude.toFixed(6)}, Longitude: {userLocation.longitude.toFixed(6)}
                     </CoordinatesText>
                 </CoordinatesContainer>
-            )}  
+            )}   */}
 
 
     </SwampBackground>
@@ -464,7 +464,7 @@ const ScrollViewTitle = styled.Text`
     font-family: 'KochAltschrift';
     align-self: center; 
     position: absolute;
-    bottom: ${height * 0.29}px;
+    bottom: ${height * 0.19}px;
     background-color:  rgba(0, 0, 0, 0.4);
     padding: ${width * 0.04}px;
     border-radius: 40px;
@@ -472,7 +472,7 @@ const ScrollViewTitle = styled.Text`
 
 const StyledScrollView = styled.View`
     position: absolute;
-    bottom: ${height * 0.15}px;
+    bottom: ${height * 0.06}px;
     padding: ${width * 0.005}px;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: ${width * 0.05}px;
