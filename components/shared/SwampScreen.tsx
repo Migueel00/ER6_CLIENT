@@ -240,11 +240,20 @@ const SwampScreen = () => {
             }
         });
 
-        return () => {
-            socket.on('deleteLocation', player?._id);
-        }
-
     }, [userLocation]);
+
+    useEffect(() => {
+
+        socket.on('disconnect', () => {
+            socket.on('deleteLocation' ,  player?._id);
+        });
+
+        return () => {
+            console.log("EJECUTA ALGO AL CERRAR LA");
+
+            socket.on('deleteLocation', player?._id);
+        }        
+    }, []);
 
     useEffect(() => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
