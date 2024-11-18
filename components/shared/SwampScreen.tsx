@@ -369,7 +369,7 @@ const SwampScreen = () => {
         {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
             <>
             <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
-            <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <StyledScrollView>
                 <GridContainer>
                     {artifacts.map((marker) => (
                         <GridItem key={marker.id}>
@@ -464,36 +464,34 @@ const ScrollViewTitle = styled.Text`
     font-family: 'KochAltschrift';
     align-self: center; 
     position: absolute;
-    bottom: ${height * 0.34}px;
+    bottom: ${height * 0.29}px;
     background-color:  rgba(0, 0, 0, 0.4);
-    padding: 20px 20px;
+    padding: ${width * 0.04}px;
     border-radius: 40px;
 `;
 
-const StyledScrollView = styled.ScrollView`
+const StyledScrollView = styled.View`
     position: absolute;
     bottom: ${height * 0.15}px;
-    left: 10px;
-    right: 10px;
-    padding: 10px 0;
+    padding: ${width * 0.005}px;
     background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
+    border-radius: ${width * 0.05}px;
 `;
 
 const GridContainer = styled.View`
     flex-direction: row;
     justify-content: flex-start;
-    padding: 10px;
+    padding: ${width * 0.02}px;
 `;
 
 const GridItem = styled.View`
-    width: ${width * 0.26}px; 
-    height: ${width * 0.26}px;
-    margin-right: 10px;
+    width: ${width * 0.20}px; 
+    height: ${width * 0.20}px;
+    margin-right: ${width * 0.02}px;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
-    border-width: 1px;
+    border-radius: ${width * 0.05}px;
+    border-width: ${width * 0.003}px;
     border-color: white;
 `;
 
