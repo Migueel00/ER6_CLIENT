@@ -46,9 +46,9 @@ const IconContainer = styled.View`
 `;
 
 const IconText = styled.Text`
+    font-family: KochAltschrift;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: ${height * 0.04}px;
     margin-bottom: ${height * 0.001}px;
 `;
 
