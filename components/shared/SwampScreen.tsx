@@ -172,7 +172,7 @@ const SwampScreen = () => {
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 5, fastestInterval: 3000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 3000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
@@ -225,19 +225,6 @@ const SwampScreen = () => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
             console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
 
-            if(userLocation){
-                const userInfo = {
-                    coordinates: userLocation,
-                    avatar: player?.avatar,
-                    _id: player?._id,
-                    role: player?.role
-                }
-        
-                socket.emit('sendLocation' , userInfo);
-        
-                console.log("MANDO SOCKET ");
-            }
-            
             setOthersUserLocation(prevLocations => {
                 const userIndex = prevLocations.findIndex(user => user._id === value._id);
                 
