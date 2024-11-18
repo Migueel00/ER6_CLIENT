@@ -33,13 +33,29 @@ const Icon = styled.Image`
     z-index: 2; 
 `;
 
-const TouchableIcon = styled.TouchableOpacity`
+const IconContainer = styled.View`
+    align-items: center;
     position: absolute;
+`;
+
+const IconText = styled.Text`
+    font-family: KochAltschrift;
+    color: white;
+    font-size: ${height * 0.04}px;
+    margin-bottom: ${height * 0.001}px;
+`;
+
+const TouchableIcon = styled.TouchableOpacity`
     border-width: 2px;
     border-color: white;
     border-radius: 100px;
-    padding: -30px;
 `
+
+const IconTextOpacity = styled.View`
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+    border-radius: ${width * 0.03}px; /* Bordes redondeados */
+    padding: ${height * 0.001}px ${width * 0.03}px; /* Espaciado interno */
+`;
 
 const SchoolScreen = () => {
     
@@ -100,19 +116,24 @@ useEffect(() => {
     return (
         <Container>
             <BackgroundImage source={schoolMap} />
-            <TouchableIcon
-                onPress={handleHallIconPress}
-                style={{ top: height * 0.20, right: width * 0.50 }}
-            >
-                <Icon source={hallIcon} />
-            </TouchableIcon>
 
-            <TouchableIcon
-                onPress={handleLabIconPress}
-                style={{ top: height * 0.33, right: width * 0.28}}
-            >
-                <Icon source={labIcon} />
-            </TouchableIcon>
+            <IconContainer style = {{ top: height * 0.20, right: width * 0.50 }}>
+                <IconTextOpacity>
+                    <IconText>Hall of Sages</IconText>
+                </IconTextOpacity>
+                <TouchableIcon onPress={handleHallIconPress}>
+                    <Icon source={hallIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style = {{ top: height * 0.33, right: width * 0.28}}>
+                <IconTextOpacity>
+                    <IconText>Lab</IconText>
+                </IconTextOpacity>
+                <TouchableIcon onPress={handleLabIconPress}>
+                    <Icon source={labIcon} />
+                </TouchableIcon>
+            </IconContainer>
         </Container>
     );
 }
