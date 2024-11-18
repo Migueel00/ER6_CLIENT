@@ -46,7 +46,7 @@ const OutsideHall = () => {
 
     return (
         <OutsideHallBackground source={outsideHallBackgroundImage}>
-            <HeaderText>Pressed the door to enter to the HALL</HeaderText>
+            <HeaderText>Press the door to enter to the HALL</HeaderText>
                 <StyledButton onPress={handleEnterHall}>
                 </StyledButton>
             <StyledCorridorButton onPress={handleGoToCorridor}>
@@ -92,7 +92,7 @@ const StyledCorridorButton = styled(TouchableOpacity)`
 
 const HeaderText = styled.Text`
     color: white;
-    font-size: ${width * 0.1}px;
+    font-size: ${width * 0.12}px;
     font-family: 'KochAltschrift';
     position: absolute;
     top: ${height * 0.08}px;
