@@ -40,7 +40,8 @@ type LocationType = {
 interface LocationAvatar {
     coordinates : LocationType,
     avatar: string,
-    _id: string
+    _id: string,
+    role: string
 }
 
 const SwampScreen = () => {  
@@ -208,7 +209,8 @@ const SwampScreen = () => {
             const userInfo = {
                 coordinates: userLocation,
                 avatar: player?.avatar,
-                _id: player?._id
+                _id: player?._id,
+                role: player?.role
             }
     
             socket.emit('sendLocation' , userInfo);
@@ -348,7 +350,9 @@ const SwampScreen = () => {
                     </Marker>
             )}
 
-        {othersUserLocations.length > 0 && othersUserLocations.map(user =>        
+        {othersUserLocations.length > 0 && othersUserLocations.map(user =>   
+        
+        user.role === 'ACOLYTE' ? 
         (
             <Marker
                 key={user._id} // Es importante agregar una clave única
@@ -358,7 +362,7 @@ const SwampScreen = () => {
                     <AvatarImage source={{ uri: user.avatar }}/>
                 </AvatarContainer>
             </Marker>
-        ))}
+        ) : null )}
         </MapView>
 
         {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
@@ -533,3 +537,5 @@ const CoordinatesText = styled.Text`
 `;
 
 export default SwampScreen;
+
+// MAPA -> los acolitos no pueden ver al villano, mortimer, istvan
