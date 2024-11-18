@@ -49,12 +49,25 @@ const TextTitle = styled.Text`
     color: white;
     text-align: left;
 `
+const TouchableButton = styled.TouchableOpacity`
+    border-width: 1px;
+    border-color: black;
+    border-radius: ${width * 0.06}px;
+    width: ${width * 0.4}px;
+    height: ${height * 0.08}px;
+    padding: ${width * 0.01}px;
+    margin-top: ${width * 0.06}px;
+    justify-content: center;
+    align-items: center;
 
+`
+const ButtonText = styled.Text`
+    color: black;
+    font-size: ${width * 0.03}px;
+`
 
 const InsideTower = () => {
     const appContext = useContext(AppContext);
-    const [showParchmentImage, setShowParchmentImage] = useState<boolean>(true);
-    const [showIngredientsImage, setShowIngredientsImage] = useState<boolean>(true);
     const ingredients = appContext?.ingredients;
     const newIngredients = appContext?.newIngredients;
     const setIngredients = appContext?.setIngredients!;
@@ -63,10 +76,11 @@ const InsideTower = () => {
     const parchmentState = appContext?.parchment;
     const setParchmentState = appContext?.setParchment!;
     const setTowerIngredientState = appContext?.setTowerIngredientsState!;
-
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [cypherMessage, setCypherMessage] = useState<string>("a,,br e h  - h  ,  a  ,i,,r,,ah c a z/,  s, ,  t, , n e i,d,  ,er,g,  , n ,i /,  ,  v  ed  ,,. y  l,f.,,r  ,,ev,,  r  ,e  s-a,,k  ,it  oa,k//,  :sp,t, , th");
+    const [isDecyphered, setIsDecyphered] = useState<boolean>(false);
 
     const handleBag = () => {
-        setShowIngredientsImage(false);
         console.log("Ingredientes nuevos sin añadir : ");
         console.log(newIngredients![1]);
         
@@ -98,39 +112,75 @@ const InsideTower = () => {
     }
 
     const handleScroll = () => {
-        setShowParchmentImage(false);
-        setParchmentState(false);
-        ToastAndroid.show("Scroll obtained!!", ToastAndroid.SHORT);
+        setModalVisible(true);
     }
-    
+
+    const handleModal = () => {
+        setCypherMessage("https://kaotika-server.fly.dev/ingredients/zachariah-herbal");
+        setIsDecyphered(true);
+        ToastAndroid.show("You Decypher the message", ToastAndroid.SHORT);
+    }
+
+    const getParchment = () => {
+        setModalVisible(false);
+        setParchmentState(false);
+        ToastAndroid.show("You have get the parchment", ToastAndroid.SHORT);
+    }
+
     return (
-        <BackgroundImage
-        source={insideTowerImage}
-        >
-        <View style={styles.container}>
-            <Text style={styles.kaotikaFont}>You are Inside the tower</Text>
-            <ImageContainer>
-                { parchmentState &&
-                    showParchmentImage ?    
-                    <TouchableOpacity onPress={handleScroll}>
-                        <TouchableImage source={parchmentImage}/>
-                    </TouchableOpacity> 
-                : null}
-                { towerIngredientState && showIngredientsImage ? 
-                    <TouchableOpacity onPress={handleBag}>
-                        <TouchableImage source={towerIngredientsImage}/>
-                    </TouchableOpacity> 
-                : null}
-            </ImageContainer>
-            { parchmentState || towerIngredientState ?          
-                <TextContainer>
-                    <TextHelper>Press the items to get them</TextHelper>
-                </TextContainer> : 
-                <TextContainer>
-                    <TextHelper>Items already obtained</TextHelper>
-                </TextContainer>
-            }
-        </View>
+        <BackgroundImage source={insideTowerImage}>
+            <View style={styles.container}>
+                <Modal
+                    visible={modalVisible}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    {/* Contenedor absoluto para centrar el modal */}
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalText}>{cypherMessage}</Text>
+                        { !isDecyphered ?       
+                            <TouchableButton 
+                                onPress={handleModal}>
+                                <ButtonText>
+                                    Decypher Message
+                                </ButtonText>
+                            </TouchableButton> 
+                        :         
+                            <TouchableButton 
+                                onPress={getParchment}>
+                                <ButtonText>
+                                    Get Parchment
+                                </ButtonText>
+                            </TouchableButton> }
+                        </View>
+                    </View>
+                </Modal>
+
+                <Text style={styles.kaotikaFont}>You are Inside the tower</Text>
+                <ImageContainer>
+                    {parchmentState ? (
+                        <TouchableOpacity onPress={handleScroll}>
+                            <TouchableImage source={parchmentImage} />
+                        </TouchableOpacity>
+                    ) : null}
+                    {towerIngredientState ? (
+                        <TouchableOpacity onPress={handleBag}>
+                            <TouchableImage source={towerIngredientsImage} />
+                        </TouchableOpacity>
+                    ) : null}
+                </ImageContainer>
+                {parchmentState || towerIngredientState ? (
+                    <TextContainer>
+                        <TextHelper>Press the items to get them</TextHelper>
+                    </TextContainer>
+                ) : (
+                    <TextContainer>
+                        <TextHelper>Items already obtained</TextHelper>
+                    </TextContainer>
+                )}
+            </View>
         </BackgroundImage>
     );
 };
@@ -139,15 +189,40 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
         height: '100%',
     },
-
     kaotikaFont: {
         paddingTop: 20,
         fontFamily: 'KochAltschrift',
-        fontSize: width*0.10,
+        fontSize: width * 0.10,
         color: 'white',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',  // Asegura que el modal esté en la parte superior
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    modalContent: {
+        width: width * 0.8,
+        height: height * 0.8,
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: width * 0.1
+    },
+    modalText: {
+        fontSize: width * 0.08,
+        color: 'black',
+        textAlign: 'center',
+        fontFamily: 'KochAltschrift',
     },
 });
 
