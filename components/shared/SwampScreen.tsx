@@ -221,6 +221,27 @@ const SwampScreen = () => {
     }, [userLocation]);
 
     useEffect(() => {
+        // userLocation And Avatar
+        if(userLocation){
+            const userInfo = {
+                coordinates: userLocation,
+                avatar: player?.avatar,
+                _id: player?._id,
+                role: player?.role
+            }
+    
+
+            setInterval(() => {
+                socket.emit('sendLocation' , userInfo);
+            }, 3000)
+           
+    
+            console.log("MANDO SOCKET ");
+        }
+
+    }, []);
+
+    useEffect(() => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
             console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
             
