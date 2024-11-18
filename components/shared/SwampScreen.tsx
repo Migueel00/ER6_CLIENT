@@ -80,25 +80,25 @@ const SwampScreen = () => {
 
 
 
-    // Comprobar si el usuario está dentro de algún círculo
-    // useEffect(() => {
-    //     if (userLocation) {
-    //         const updatedColors = markerColors.map((color, index) => {
-    //             const isUserWithinCircle = geolib.isPointWithinRadius(
-    //                 userLocation,
-    //                 artifacts[index].coordinate,
-    //                 circleRadius
-    //             );
+    //Comprobar si el usuario está dentro de algún círculo
+    useEffect(() => {
+        if (userLocation) {
+            const updatedColors = markerColors.map((color, index) => {
+                const isUserWithinCircle = geolib.isPointWithinRadius(
+                    userLocation,
+                    artifacts[index].coordinate,
+                    circleRadius
+                );
 
-    //             // Cambiar el color solo si está dentro del círculo
-    //             return isUserWithinCircle
-    //                 ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
-    //                 : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
-    //         });
+                // Cambiar el color solo si está dentro del círculo
+                return isUserWithinCircle
+                    ? { circleColor: greenRGBA, insideCircleColor: greenInsideRGBA }
+                    : { circleColor: redRGBA, insideCircleColor: redInsideRGBA };
+            });
 
-    //         setMarkerColors(updatedColors);
-    //     }
-    // }, [userLocation]);
+            setMarkerColors(updatedColors);
+        }
+    }, [userLocation]);
    
     useEffect(() => {
         const requestLocationPermission = async () => {
