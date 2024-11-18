@@ -132,16 +132,17 @@ const SwampScreen = () => {
                 setIsArtifacts(true);
         });
 
-        socket.on('deleteLocation', (playerId : string ) => {
-            const index = othersUserLocations.findIndex(user => user._id === playerId);
-
-            if(index >= 0){
-                othersUserLocations.splice(index, 1);
-            } else {
-                console.log("PLAYER INDEX NOT FOUND " + index);
-            }
+        socket.on('deleteLocation', (playerId: string) => {
+            console.log(playerId);
+    
+            // Usamos el callback de setState, el argumento es siempre el estado mas reciente
+            setOthersUserLocation((prevLocations) => {
+                console.log("ANTES DEL FILTRADO: ", prevLocations);
+                const updatedLocations = prevLocations.filter(user => user._id !== playerId);
+                console.log("ACTUALIZADO: ", updatedLocations);
+                return updatedLocations;
+            });
         });
-
     }, []);
 
     useEffect(() => {
@@ -251,7 +252,7 @@ const SwampScreen = () => {
         return () => {
             console.log("EJECUTA ALGO AL CERRAR LA");
 
-            socket.on('deleteLocation', player?._id);
+            socket.emit('deleteLocation', player?._id);
         }        
     }, []);
 
@@ -260,25 +261,19 @@ const SwampScreen = () => {
             console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
 
             setOthersUserLocation(prevLocations => {
-                const userIndex = prevLocations.findIndex(user => user._id === value._id);
-                
-                if (userIndex >= 0) {
-
-                    const updatedLocations = [...prevLocations];
-                    updatedLocations[userIndex] = value;
-                    return updatedLocations;
-                } else {
-
-                    return [...prevLocations, value];
+                const exists = prevLocations.some(user => user._id === value._id);
+                if (exists) {
+                    return prevLocations.map(user => user._id === value._id ? value : user);
                 }
-            });
+                return [...prevLocations, value];
+            });            
         });
     
         // Clean the event at removing the component
         return () => {
             socket?.off('updatedCoordinates');
         };
-    }, [socket]);
+    }, []);
     
 
 
@@ -306,6 +301,14 @@ const SwampScreen = () => {
         
         Vibration.vibrate(100);
     };
+
+    useEffect(() =>  {
+        othersUserLocations.map((user) => {
+
+            console.log("OTHERS USER LOCATIONS " + JSON.stringify(user)); 
+
+        })
+    }, [othersUserLocations]);
 
     return (
 
