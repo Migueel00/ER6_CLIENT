@@ -282,7 +282,7 @@ const SwampScreen = () => {
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
             artifacts.map((marker, index) => (
-                !marker.isRetrieved && (
+                marker.coordinate && !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                      <Marker
                         coordinate={marker.coordinate}
