@@ -186,10 +186,10 @@ function App(): React.JSX.Element {
     const userInfo = await GoogleSignin.signIn();
 
 
-    const email = 'ozarate@aeg.eus';
+    //const email = 'ozarate@aeg.eus';
     //const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
-    //const email = userInfo.data?.user.email;
+    const email = userInfo.data?.user.email;
     // const email = "lander.labaka@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
