@@ -11,12 +11,13 @@ interface updateTowerEvent {
 const { height, width } = Dimensions.get('window');
 const radius = width * 0.3;
 
-const calculatePlayerPositions = (activePlayers: any[]) => {
-    return activePlayers.map((_: any, index: any) => {
-        if (activePlayers.length === 1) {
+const calculatePlayerPositions = (players: any[]) => {
+    players = players.filter(player => player.role === 'ACOLYTE')
+    return players.map((_: any, index: any) => {
+        if (players.length === 1) {
             return { x: 0, y: 0 };
         } else {
-            const angle = ((2 * Math.PI) / activePlayers.length) * index + Math.PI / 2;
+            const angle = ((2 * Math.PI) / players.length) * index + Math.PI / 2;
             const x = radius * Math.cos(angle);
             const y = radius * Math.sin(angle);
             return { x, y };
@@ -25,33 +26,14 @@ const calculatePlayerPositions = (activePlayers: any[]) => {
 };
 
 const MortimerTowerScreen = () => {
-    const socket = useContext(AppContext)?.socket;
     const players = useContext(AppContext)?.players!;
-    const setPlayers = useContext(AppContext)?.setPlayers;
-    const [activePlayers, setActivePlayers] = useState(
-        players.filter(player => player.isInsideTower && player.role === 'ACOLYTE')
-    );
-    const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(activePlayers));
+    const [playerPositions, setPlayerPositions] = useState(calculatePlayerPositions(players));
 
     useEffect(() => {
-        socket.on('updateTower', ({ playerId, isInsideTower }: updateTowerEvent) => {
-            const updatedPlayers = players.map(player =>
-                player.id === playerId ? { ...player, isInsideTower } : player
-            );
-            setPlayers(updatedPlayers);
+        setPlayerPositions(calculatePlayerPositions(players));
+    }, [players]);
 
-            const newActivePlayers = updatedPlayers.filter(player => player.isInsideTower);
-            setActivePlayers(newActivePlayers);
-        });
-
-        return () => {
-            socket.off('updateTower');
-        };
-    }, [socket, players, setPlayers]);
-
-    useEffect(() => {
-        setPlayerPositions(calculatePlayerPositions(activePlayers));
-    }, [activePlayers]);
+    
 
     return (
         <Container>
@@ -62,7 +44,9 @@ const MortimerTowerScreen = () => {
                     <ColoredText color="green">INSIDE</ColoredText> the Tower
                 </KaotikaFontHeads>
                     <PlayerContainer>
-                        {activePlayers.map((player, index) => {
+                        {players
+                        .filter((player => player.isInsideTower))
+                        .map((player, index) => {
                             const position = playerPositions[index];
                             if (!position) return null;
 

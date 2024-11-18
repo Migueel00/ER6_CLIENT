@@ -40,7 +40,8 @@ type LocationType = {
 interface LocationAvatar {
     coordinates : LocationType,
     avatar: string,
-    _id: string
+    _id: string,
+    role: string
 }
 
 const SwampScreen = () => {  
@@ -79,7 +80,7 @@ const SwampScreen = () => {
 
 
 
-    // Comprobar si el usuario está dentro de algún círculo
+    //Comprobar si el usuario está dentro de algún círculo
     useEffect(() => {
         if (userLocation) {
             const updatedColors = markerColors.map((color, index) => {
@@ -171,7 +172,7 @@ const SwampScreen = () => {
                     handleLocationUpdate(position);
                 },
                 (error) => console.log("Error de geolocalización 2:", error),
-                { enableHighAccuracy: true, distanceFilter: 5, fastestInterval: 3000 } // Update every 3 seconds
+                { enableHighAccuracy: true, distanceFilter: 0, fastestInterval: 3000 } // Update every 3 seconds
             );
 
             // Log to confirm watching started
@@ -204,11 +205,12 @@ const SwampScreen = () => {
     // Socket to send player Location data and avatar
     useEffect(() => {
         // userLocation And Avatar
-        if(userLocation !== null){
+        if(userLocation){
             const userInfo = {
                 coordinates: userLocation,
                 avatar: player?.avatar,
-                _id: player?._id
+                _id: player?._id,
+                role: player?.role
             }
     
             socket.emit('sendLocation' , userInfo);
@@ -218,10 +220,11 @@ const SwampScreen = () => {
 
     }, [userLocation]);
 
+
     useEffect(() => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
             console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
-            
+
             setOthersUserLocation(prevLocations => {
                 const userIndex = prevLocations.findIndex(user => user._id === value._id);
                 
@@ -278,9 +281,9 @@ const SwampScreen = () => {
             initialRegion={regionAEG} 
             customMapStyle={mapStyle}
         >
-            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && (
+            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
             artifacts.map((marker, index) => (
-                !marker.isRetrieved && (
+                marker.coordinate && !marker.isRetrieved && (
                 <React.Fragment key={marker.id}>
                      <Marker
                         coordinate={marker.coordinate}
@@ -316,14 +319,14 @@ const SwampScreen = () => {
                         }}
                     >
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                        {/* {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
                                     <TextDescription>{marker.description}</TextDescription>
                                 </CalloutContainer>
                             </Callout>
-                        )}
+                        )} */}
                     </Marker>
                     <Circle
                         center={marker.coordinate}
@@ -348,7 +351,9 @@ const SwampScreen = () => {
                     </Marker>
             )}
 
-        {othersUserLocations.length > 0 && othersUserLocations.map(user =>        
+        {othersUserLocations.length > 0 && othersUserLocations.map(user =>   
+        
+        user.role === 'ACOLYTE' ? 
         (
             <Marker
                 key={user._id} // Es importante agregar una clave única
@@ -358,7 +363,7 @@ const SwampScreen = () => {
                     <AvatarImage source={{ uri: user.avatar }}/>
                 </AvatarContainer>
             </Marker>
-        ))}
+        ) : null )}
         </MapView>
 
         {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
@@ -533,3 +538,5 @@ const CoordinatesText = styled.Text`
 `;
 
 export default SwampScreen;
+
+// MAPA -> los acolitos no pueden ver al villano, mortimer, istvan
