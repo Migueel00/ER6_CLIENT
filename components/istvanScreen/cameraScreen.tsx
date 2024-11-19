@@ -10,13 +10,26 @@ type CameraScreenProps = {
   onClose: () => void;
 };
 
+const openAppSettings = async () => {
+  try {
+      await Linking.openSettings();
+  } catch (err) {
+      console.error("Failed to open settings:", err);
+  }
+};
+
 // Obtener dimensiones de la pantalla
 const { width, height } = Dimensions.get('window');
 
 // Componente para pedir permisos
 const PermissionsPage: React.FC = () => (
+
+  
   <Container>
     <Title>Camera Permission Required</Title>
+    <RequestPermissionsButton onPress={openAppSettings}>
+        <ButtonText>Grant Permissions</ButtonText>
+    </RequestPermissionsButton>
     <Title>Please allow camera access in your settings!</Title>
   </Container>
 );
@@ -111,6 +124,20 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   );
 };
 
+const RequestPermissionsButton = styled.TouchableOpacity`
+    background-color: #4CAF50;
+    padding: ${width * 0.03}px;
+    border-radius: 5px;
+    margin-top: ${height * 0.03}px;
+    margin-bottom: ${height * 0.03}px;
+`;
+
+const ButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.08}px;
+    font-family: 'KochAltschrift';
+`;
+
 // Styled Components
 const Container = styled.View`
   flex: 1;
@@ -134,10 +161,11 @@ const TextButton = styled.Text`
 `;
 
 const Title = styled.Text`
-  font-size: ${width * 0.08}px;
+  font-size: ${width * 0.1}px;
   font-family: 'KochAltschrift';
   margin-bottom: 20px;
   color: white;
+  text-align: center;
 `;
 
 const CameraStyled = styled(Camera)`
