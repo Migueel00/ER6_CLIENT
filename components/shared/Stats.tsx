@@ -17,19 +17,22 @@ const Stats = () => {
    
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
+
+        const maxAttributeValue = 300; 
+
         return {
-            intelligence: profileAttributes.intelligence / 100,
-            dexterity: profileAttributes.dexterity / 100,
-            insanity: profileAttributes.insanity / 100,
-            charisma: profileAttributes.charisma / 100,
-            constitution: profileAttributes.constitution / 100,
-            strength: profileAttributes.strength / 100,
-            hit_points: (profileAttributes.constitution + profileAttributes.dexterity - (profileAttributes.insanity / 2))/ 100,
-            attack: (profileAttributes.strength - (profileAttributes.insanity / 2))/ 100,
-            defense: (profileAttributes.dexterity + profileAttributes.constitution +  (profileAttributes.intelligence / 2)) / 100,
-            magic_resistance: (profileAttributes.intelligence + profileAttributes.charisma)/ 100,
-            cfp: (profileAttributes.insanity) / 100,
-            bcfa: (profileAttributes.strength + profileAttributes.insanity)/ 100
+            intelligence: profileAttributes.intelligence / maxAttributeValue,
+            dexterity: profileAttributes.dexterity / maxAttributeValue,
+            insanity: profileAttributes.insanity / maxAttributeValue,
+            charisma: profileAttributes.charisma / maxAttributeValue,
+            constitution: profileAttributes.constitution / maxAttributeValue,
+            strength: profileAttributes.strength / maxAttributeValue,
+            hit_points: (profileAttributes.constitution + profileAttributes.dexterity - (profileAttributes.insanity / 2))/ maxAttributeValue,
+            attack: (profileAttributes.strength - (profileAttributes.insanity / 2))/ maxAttributeValue,
+            defense: (profileAttributes.dexterity + profileAttributes.constitution +  (profileAttributes.intelligence / 2)) / maxAttributeValue,
+            magic_resistance: (profileAttributes.intelligence + profileAttributes.charisma)/ maxAttributeValue,
+            cfp: (profileAttributes.insanity) / maxAttributeValue,
+            bcfa: (profileAttributes.strength + profileAttributes.insanity)/ maxAttributeValue
         };
     };
 
@@ -75,6 +78,7 @@ const Stats = () => {
                                         progress={attributesToPrint.dexterity}
                                         width={width * 0.3}
                                         color="#C19A6B"
+                                        
                                     />
 
                                     <ProfileText fontSize={fontSize}>Insanity</ProfileText>
