@@ -391,14 +391,14 @@ const SwampScreen = () => {
                         }}
                     >
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {/* {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
                                     <TextDescription>{marker.description}</TextDescription>
                                 </CalloutContainer>
                             </Callout>
-                        )} */}
+                        )}
                     </Marker>
                     <Circle
                         center={marker.coordinate}
