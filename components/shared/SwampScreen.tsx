@@ -82,7 +82,7 @@ const SwampScreen = () => {
 
     //Comprobar si el usuario está dentro de algún círculo
     useEffect(() => {
-        if (userLocation) {
+        if (userLocation && player?.role === 'ACOLYTE') {
             const updatedColors = markerColors.map((color, index) => {
                 const isUserWithinCircle = geolib.isPointWithinRadius(
                     userLocation,
@@ -370,7 +370,7 @@ const SwampScreen = () => {
                                 );
 
                                 // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
-                                if (isWithinRadius) {
+                                if (isWithinRadius && player?.role === 'ACOLYTE') {
                                     // Marcar el artefacto como recogido
                                     markArtifactAsRetrieved(marker.id, player.avatar);
                                     //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
@@ -386,12 +386,12 @@ const SwampScreen = () => {
                                         visibilityTime: 3000, // Duración del toast (en milisegundos)
                                         topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
                                       });
-                                }
+                                } 
                             }
                         }}
                     >
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {userLocation && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                        {userLocation && player?.role === 'ACOLYTE' && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
@@ -414,8 +414,8 @@ const SwampScreen = () => {
             {userLocation && (
                     <Marker
                         coordinate={userLocation}  
-                        title="Mi ubicación"
-                        description="Estás aquí"
+                        title="Your location"
+                        description="You are here"
                     >
                         <AvatarContainer>
                             <AvatarImage source={{ uri: avatar }} />
