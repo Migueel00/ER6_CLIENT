@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid, Linking } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import MapView, {Callout, Marker, Circle, BoundingBox} from 'react-native-maps';
@@ -100,23 +100,42 @@ const SwampScreen = () => {
         }
     }, [userLocation]);
    
-    useEffect(() => {
-        const requestLocationPermission = async () => {
+    const requestLocationPermission = async () => {
+        try {
             if (Platform.OS === 'android') {
                 const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                    {
+                        title: "Location Permission",
+                        message: "This app requires location access to show your position on the map.",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK",
+                    }
                 );
+
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     setLocationPermissionGranted(true);
                 } else {
-                    console.log("Permiso de localización denegado");
+                    ToastAndroid.show("Location permission denied", ToastAndroid.SHORT);
                 }
             } else {
-                // En iOS o cualquier otro caso, asumimos que el permiso ya se solicitó
-                setLocationPermissionGranted(true); 
+                setLocationPermissionGranted(true); // Assume granted for iOS
             }
-        };
+        } catch (err) {
+            console.warn(err);
+        }
+    };
 
+    const openAppSettings = async () => {
+        try {
+            await Linking.openSettings();
+        } catch (err) {
+            console.error("Failed to open settings:", err);
+        }
+    };
+
+    useEffect(() => {
         requestLocationPermission();
     }, []);
 
@@ -310,6 +329,22 @@ const SwampScreen = () => {
         })
     }, [othersUserLocations]);
 
+    if (!locationPermissionGranted) {
+        return (
+            <NoPermissionsBackground>
+                <NoPermissionsText>
+                    Location permissions are required to use this tool.
+                </NoPermissionsText>
+                <RequestPermissionsButton onPress={openAppSettings}>
+                    <ButtonText>Grant Permissions</ButtonText>
+                </RequestPermissionsButton>
+                <NoPermissionsText>
+                    If you have already given permissions, try to navigate OUTSIDE the SWAMP through the map and get back into it.
+                </NoPermissionsText>
+            </NoPermissionsBackground>
+        );
+    }
+
     return (
 
         <SwampBackground source={swampBackgroundImage}>
@@ -445,6 +480,37 @@ const SwampScreen = () => {
 
     );
 };
+
+// Agregar un fondo en caso de permisos denegados
+const NoPermissionsBackground = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+`;
+
+const NoPermissionsText = styled.Text`
+    color: white;
+    font-size:  ${width * 0.09}px;
+    margin: ${width * 0.003}px;
+    text-align: center;
+    font-family: 'KochAltschrift';
+`;
+
+const RequestPermissionsButton = styled.TouchableOpacity`
+    background-color: #4CAF50;
+    padding: ${width * 0.03}px;
+    border-radius: 5px;
+    margin-top: ${height * 0.03}px;
+    margin-bottom: ${height * 0.03}px;
+`;
+
+const ButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.08}px;
+    font-family: 'KochAltschrift';
+`;
+
 const SwampBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
