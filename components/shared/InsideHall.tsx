@@ -15,6 +15,7 @@ const InsideHall = () => {
     const socket = appContext?.socket;
     const players = appContext?.players!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
+    const [callMortimerButton, setCallMortimerButton] = useState(false);
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
@@ -24,12 +25,17 @@ const InsideHall = () => {
     useEffect(() => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
     
-        if (acolytesInside.length === 3) {
+        if (acolytesInside.length === 1) {
+            setCallMortimerButton(true);
             console.log("HALL IS FULL");
         }
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers]);
+
+    const callButton = () => {
+        console.log("Call Button Pressed");
+    };
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
@@ -56,6 +62,14 @@ const InsideHall = () => {
                     ))
                 }
             </ContainerTopLeft>
+
+            {callMortimerButton && (
+                <SpecialButtonContainer>
+                    <SpecialButton onPress={callButton}>
+                        <SpecialButtonText>Call</SpecialButtonText>
+                    </SpecialButton>
+                </SpecialButtonContainer>
+            )}
 
             <ContainerTopRight>
                 {player.role !== 'MORTIMER' && player.role !== 'VILLAIN' && (
@@ -166,9 +180,29 @@ const ContainerTopRight = styled.View`
 
 const ContainerBottom = styled.View`
     position: absolute;
-    bottom: ${height * 0.3}px; /* Espacio para el botón */
+    bottom: ${height * 0.3}px;
     align-self: center;
     flex-direction: row;
 `;
+
+// Estilo del botón especial
+const SpecialButtonContainer = styled.View`
+    position: absolute;
+    top: ${height * 0.03}px;
+    left: ${width * 0.04}px;
+`;
+
+const SpecialButton = styled(TouchableOpacity)`
+    background-color: gold;
+    padding: 10px 20px;
+    border-radius: ${width * 0.01}px;
+`;
+
+const SpecialButtonText = styled.Text`
+    color: black;
+    font-size: ${width * 0.05}px;
+    font-weight: bold;
+`;
+
 
 export default InsideHall;
