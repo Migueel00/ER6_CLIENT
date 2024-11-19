@@ -24,10 +24,13 @@ const InsideHall = () => {
 
     useEffect(() => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
+        const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 1) {
-            setCallMortimerButton(true);
+        if (acolytesInside.length === 3 && !isMortimerInside) {
             console.log("HALL IS FULL");
+            setCallMortimerButton(true);
+        } else if (acolytesInside.length === 3 && isMortimerInside){
+            setCallMortimerButton(false);
         }
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
