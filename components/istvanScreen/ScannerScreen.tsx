@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     eyeButton: {
-        height: width *0.4,
-        width: width *0.4,
+        height: width *0.5,
+        width: width *0.5,
         opacity: 0, // Aplica la opacidad al contenedor del botón
         backgroundColor: 'purple',
         borderRadius: height * 0.2,
-        bottom: height * 0.2
+        bottom: height * 0.3
     },
     kaotikaFont: {
         paddingTop: height * 0.02,
