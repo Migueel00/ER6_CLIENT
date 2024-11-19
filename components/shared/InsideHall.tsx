@@ -26,7 +26,7 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 3 && !isMortimerInside) {
+        if (acolytesInside.length === 1 && !isMortimerInside) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
         } else if (acolytesInside.length === 3 && isMortimerInside){
@@ -38,6 +38,7 @@ const InsideHall = () => {
 
     const callButton = () => {
         console.log("Call Button Pressed");
+        socket.emit("CallMortimer", "Everyone is inside");
     };
 
     const handleExitHall = () => {
