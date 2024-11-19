@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import { ImageBackground } from 'react-native';
@@ -11,6 +11,10 @@ const Stats = () => {
     const { height, width } = Dimensions.get('window');
     const kaotikaAPI = 'https://kaotika.vercel.app/';
     const fontSize = width * 0.062;
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+
+   
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
         return {
@@ -32,8 +36,14 @@ const Stats = () => {
     return (
         <AppContext.Consumer>
             {({ profileAttributes, player }: any) => {
-                const attributesToPrint = convertAttributesToPercentage(player.attributes);
+                let attributesToPrint = convertAttributesToPercentage(player.attributes);
                 console.log(attributesToPrint);
+                const allAtributes = calculateAllAttributes(player);
+
+                console.log("ALL ATRIBUTES");
+                console.log(allAtributes);
+               attributesToPrint = convertAttributesToPercentage(allAtributes); 
+                
                 
                 return (
                     <StyledImageBackground
@@ -146,6 +156,66 @@ const Stats = () => {
         </AppContext.Consumer>
     );
 };
+
+const calculateAllAttributes = (player: any) => {
+    if(player) {
+      const charisma =  
+        player.attributes?.charisma + 
+        player.equipment.helmet?.modifiers.charisma! + 
+        player.equipment.weapon.modifiers.charisma + 
+        player.equipment.armor.modifiers.charisma + 
+        player.equipment.shield?.modifiers.charisma! + 
+        player.equipment.artifact.modifiers.charisma + 
+        player.equipment.boot?.modifiers.charisma! + 
+        player.equipment.ring?.modifiers.charisma!;
+      const constitution =  
+        player.attributes?.constitution + 
+        player.equipment.helmet?.modifiers.constitution! + 
+        player.equipment.weapon.modifiers.constitution + 
+        player.equipment.armor.modifiers.constitution + 
+        player.equipment.shield?.modifiers.constitution! + 
+        player.equipment.artifact.modifiers.constitution + 
+        player.equipment.boot?.modifiers.constitution! + 
+        player.equipment.ring?.modifiers.constitution!;
+      const dexterity =  
+        player.attributes?.constitution + 
+        player.equipment.helmet?.modifiers.dexterity! + 
+        player.equipment.weapon.modifiers.dexterity + 
+        player.equipment.armor.modifiers.dexterity + 
+        player.equipment.shield?.modifiers.dexterity! + 
+        player.equipment.artifact.modifiers.dexterity + 
+        player.equipment.boot?.modifiers.dexterity! + 
+        player.equipment.ring?.modifiers.dexterity!;
+      const insanity =  
+        player.attributes?.constitution + 
+        player.equipment.helmet?.modifiers.insanity! + 
+        player.equipment.weapon.modifiers.insanity + 
+        player.equipment.armor.modifiers.insanity + 
+        player.equipment.shield?.modifiers.insanity! + 
+        player.equipment.artifact.modifiers.insanity + 
+        player.equipment.boot?.modifiers.insanity! + 
+        player.equipment.ring?.modifiers.insanity!;
+      const intelligence =  
+        player.attributes?.constitution + 
+        player.equipment.helmet?.modifiers.intelligence! + 
+        player.equipment.weapon.modifiers.intelligence + 
+        player.equipment.armor.modifiers.intelligence + 
+        player.equipment.shield?.modifiers.intelligence! + 
+        player.equipment.artifact.modifiers.intelligence + 
+        player.equipment.boot?.modifiers.intelligence! + 
+        player.equipment.ring?.modifiers.intelligence!;
+      const strength =  
+        player.attributes?.constitution + 
+        player.equipment.helmet?.modifiers.strength! + 
+        player.equipment.weapon.modifiers.strength + 
+        player.equipment.armor.modifiers.strength + 
+        player.equipment.shield?.modifiers.strength! + 
+        player.equipment.artifact.modifiers.strength + 
+        player.equipment.boot?.modifiers.strength! + 
+        player.equipment.ring?.modifiers.strength!;
+      return({constitution, charisma, dexterity, intelligence, strength, insanity })
+    }
+  }
 
 const StyledImageBackground = styled(ImageBackground)<{ width: number; height: number }>`
     flex: 1;
