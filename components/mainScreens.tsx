@@ -49,10 +49,6 @@ const MainScreens = () => {
                     });
                     setPlayers(updatedPlayers);
                 }
-            
-                if (player.location === 'HALL' && player.isInsideHall){
-                    Vibration.vibrate(100);
-                }
             }
         });
 

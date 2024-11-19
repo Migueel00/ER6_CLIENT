@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Vibration } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import AcolyteContext from '../../helpers/AcolyteContext';
