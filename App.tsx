@@ -59,6 +59,7 @@ function App(): React.JSX.Element {
   const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(true);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
+  const [isValidating, setIsValidating] = useState<boolean>(false);
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -422,7 +423,9 @@ function App(): React.JSX.Element {
         setParchment: setParchmentState,
         tower_ingredients: towerIngredientsState,
         setTowerIngredientsState,
-        setPlayer: setPlayer
+        setPlayer: setPlayer,
+        isValidating: isValidating,
+        setIsValidating: setIsValidating
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
