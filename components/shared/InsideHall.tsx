@@ -19,10 +19,17 @@ const InsideHall = () => {
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
         setInsidePlayers(players.filter(player => player.isInsideHall));
-
-        console.log("PLAYERS INSIDE THE HALL");
-        insidePlayers.map(player => console.log(player.nickname));
     }, [players]);
+
+    useEffect(() => {
+        const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
+    
+        if (acolytesInside.length === 3) {
+            console.log("HALL IS FULL");
+        }
+        console.log("ACOLYTES INSIDE HALL:");
+        insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
+    }, [insidePlayers]);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
