@@ -219,7 +219,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
                     break;
 
                 case CONSTANTS.IS_CALM:
-                    filterBoolean ? (attributeFilterString.push('calm'), attributeFilterString.push('boost')) : filterBoolean;
+                    filterBoolean ? attributeFilterString.push('calm') : filterBoolean;
                     break;
 
                 case CONSTANTS.IS_FRENZY:

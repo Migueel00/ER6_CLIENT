@@ -47,14 +47,22 @@ const PotionModal : React.FC<PotionModal> = ({visible, onClose, createdPotion}) 
     }, [visible, createdPotion]);
 
     const renderModifiers = () => {
-        if (createdPotion instanceof Antidote || createdPotion instanceof Poison) {
-        return Object.entries(createdPotion.modifiers)
-            .filter(([key, value]) => value !== 0) // Filtra los modifiers con valor distinto de 0
-            .map(([key, value]) => (
-                <ModifierText key={key}>
-                    {`${capitalizeFirstLetter(key.replace('_', ' '))}: ${value}`}
-                </ModifierText>
-            ));
+       if (createdPotion instanceof Antidote || createdPotion instanceof Poison) {
+        const modifiers = Object.entries(createdPotion.modifiers)
+            .filter(([key, value]) => value !== 0); // Filtra los modifiers con valor distinto de 0
+
+        if (modifiers.length === 0) return null; // Opcional: no renderiza nada si no hay modificadores
+
+        return (
+            <>
+                <ModifiersTitle>Affected Values</ModifiersTitle>
+                {modifiers.map(([key, value]) => (
+                    <ModifierText key={key}>
+                        {`${capitalizeFirstLetter(key.replace('_', ' '))}: ${value}`}
+                    </ModifierText>
+                ))}
+            </>
+        );
     }
 
     if (createdPotion instanceof Elixir || createdPotion instanceof Venom) {
