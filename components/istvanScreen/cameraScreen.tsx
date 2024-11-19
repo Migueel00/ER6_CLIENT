@@ -1,10 +1,11 @@
 import { Camera } from 'react-native-vision-camera';
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, Alert, Linking, Vibration, Dimensions, Button } from 'react-native';
+import { View, Text, Alert, Linking, Vibration, Dimensions, Button, BackHandler } from 'react-native';
 import { useCameraDevice, useCameraPermission, CodeScanner } from 'react-native-vision-camera';
 import { searchAndChangeIsInsideLabState } from '../../src/API/get&post';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 
 type CameraScreenProps = {
   onClose: () => void;
@@ -22,15 +23,17 @@ const openAppSettings = async () => {
 const { width, height } = Dimensions.get('window');
 
 // Componente para pedir permisos
-const PermissionsPage: React.FC = () => (
-
-  
+const PermissionsPage: React.FC<{ closeCameraModal: () => void }> = ({ closeCameraModal }) => (
   <Container>
     <Title>Camera Permission Required</Title>
     <RequestPermissionsButton onPress={openAppSettings}>
-        <ButtonText>Grant Permissions</ButtonText>
+      <ButtonText>Grant Permissions</ButtonText>
     </RequestPermissionsButton>
     <Title>Please allow camera access in your settings!</Title>
+
+    <BackButton onPress={closeCameraModal}>
+      <ButtonText>Go Back</ButtonText>
+    </BackButton>
   </Container>
 );
 
@@ -89,7 +92,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
 
   const device = useCameraDevice('back');
 
-  if (!hasCameraPermission) return <PermissionsPage />;
+  if (!hasCameraPermission) return <PermissionsPage closeCameraModal={onClose} />; 
   if (device == null) return <NoCameraDeviceError />;
 
   return (
@@ -124,10 +127,26 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ onClose }) => {
   );
 };
 
+const BackButton = styled.TouchableOpacity`
+  background-color: #f44336; /* Color rojo para el botón "Back" */
+    padding: ${width * 0.03}px;
+    border-radius: ${width * 0.03}px;
+    margin-top: ${height * 0.03}px;
+    margin-bottom: ${height * 0.03}px;
+`;
+
+const BackButtonText = styled.Text`
+  color: white;
+  font-size: ${width * 0.08}px;
+  font-family: 'KochAltschrift';
+  text-align: center;
+`;
+
+
 const RequestPermissionsButton = styled.TouchableOpacity`
     background-color: #4CAF50;
     padding: ${width * 0.03}px;
-    border-radius: 5px;
+    border-radius: ${width * 0.03}px;
     margin-top: ${height * 0.03}px;
     margin-bottom: ${height * 0.03}px;
 `;
