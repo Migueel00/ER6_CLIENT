@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Circle, Path } from 'react-native-svg';
-import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat, ReduceMotion } from 'react-native-reanimated'; 
+import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat, ReduceMotion, runOnJS } from 'react-native-reanimated'; 
 import DeviceInfo from 'react-native-device-info';
 import AppContext from '../../../helpers/context';
 import { updateArtifact } from '../../../src/API/artifacts';
@@ -37,11 +37,12 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
 
-    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts..')
+    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts...')
     const [image1Opacity, setImage1Opacity] = useState<number>(0);
     const [image2Opacity, setImage2Opacity] = useState<number>(0);
     const [image3Opacity, setImage3Opacity] = useState<number>(0);
     const [image4Opacity, setImage4Opacity] = useState<number>(0);
+    const [buttonsOpacity, setButtonsOpacity] = useState<number>(0);
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -76,7 +77,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         line: isTablet ? height * 0.67 : height * 0.75
     } 
 
-    const animationDuration = 1500;
+    const animationDuration = 1000;
 
 
     const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
@@ -108,14 +109,19 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     useEffect(() => {
         if (visible) {
-            animationProgress1.value = withTiming(1, { duration: animationDuration }, () => {
+            animationProgress1.value = withTiming(1, { duration: animationDuration, easing: Easing.linear }, () => {
+                runOnJS(setImage1Opacity)(1);
                 triggerShake(); // Sacudida al finalizar la animación 1
-                animationProgress2.value = withTiming(1, { duration: animationDuration }, () => {
+                animationProgress2.value = withTiming(1, { duration: animationDuration, easing: Easing.linear }, () => {
+                    runOnJS(setImage2Opacity)(1);
                     triggerShake(); // Sacudida al finalizar la animación 2
-                    animationProgress3.value = withTiming(1, { duration: animationDuration }, () => {
+                    animationProgress3.value = withTiming(1, { duration: animationDuration, easing: Easing.linear }, () => {
+                        runOnJS(setImage3Opacity)(1);
                         triggerShake(); // Sacudida al finalizar la animación 3
-                        animationProgress4.value = withTiming(1, { duration: animationDuration }, () => {
+                        animationProgress4.value = withTiming(1, { duration: animationDuration, easing: Easing.linear }, () => {
+                            runOnJS(setImage4Opacity)(1);
                             triggerShake(); // Sacudida al finalizar la animación 4
+                            runOnJS(setButtonsOpacity)(1);
                         });
                     });
                 });
@@ -208,7 +214,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             <ModalBackground>
             <Animated.View style={[shakeStyle]}>
                 <ModalContainer>
-                        <ModalText>Validating artifact search...</ModalText>
+                        <ModalText>{validatingText}</ModalText>
 
                         <SvgContainer>
                             <Svg width={width} height={height}>
@@ -321,7 +327,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
 
 
-                        <BottomButtonContainer>
+                        <BottomButtonContainer style={{opacity: buttonsOpacity}}>
                             <CloseButtonBottomLeft onPress={onClose}>
                                 <CloseButtonText>Validate Search</CloseButtonText>
                             </CloseButtonBottomLeft>
