@@ -1,6 +1,8 @@
 import React from 'react';
-import { Modal, TouchableOpacity } from 'react-native';
+import { Dimensions, Modal, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+
+const { height, width } = Dimensions.get('window');
 
 interface ModalComponentProps {
     visible: boolean;
@@ -29,41 +31,39 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
 export default MortimerValidatingModal;
 
-// Estilos con styled-components
 const ModalBackground = styled.View`
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 `;
 
 const ModalContainer = styled.View`
-    width: 80%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
+    width: 95%;
+    height: 90%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: ${width * 0.05}px;
+    padding: ${width * 0.003}px;
     align-items: center;
-    shadow-color: #000;
-    shadow-offset: { width: 0, height: 2 };
-    shadow-opacity: 0.5;
-    shadow-radius: 4px;
-    elevation: 5;
 `;
 
 const ModalText = styled.Text`
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: ${width * 0.08}px;
+    margin-bottom: ${width * 0.03}px;
+    margin-top: ${width * 0.03}px;
     text-align: center;
-    color: black;
+    color: white;
+    font-family: 'KochAltschrift';
 `;
 
 const CloseButton = styled(TouchableOpacity)`
     background-color: #2196f3;
-    padding: 10px;
+    padding: ${width * 0.02}px;
     border-radius: 5px;
 `;
 
 const CloseButtonText = styled.Text`
     color: white;
-    font-size: 16px;
+    font-size: ${width * 0.08}px;
+    font-family: 'KochAltschrift';
 `;
