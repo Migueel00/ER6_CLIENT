@@ -80,7 +80,7 @@ useEffect(() => {
 
 }, [setShowAlertButton]);
 
-// Hide button if player is not inside
+// Hide button if player is inside
 useEffect(() => {
 
   if (player?.isInsideHall){

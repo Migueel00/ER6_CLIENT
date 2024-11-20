@@ -76,8 +76,7 @@ const MapScreenMortimer = () => {
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
     const player = appContext?.player;
-
-    const [showAlertButton, setShowAlertButton] = useState(false);
+    const showAlertButton = mortimerContext?.showAlertButton;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -134,31 +133,6 @@ const MapScreenMortimer = () => {
                 navigation.navigate('HALL');
     });
     }, []);
-
-    useEffect(() => {
-        // Manage messages inside the app
-        messaging().onMessage(async (remoteMessage) => {
-            console.log('Notificación recibida en primer plano:', remoteMessage);
-            
-            if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
-                console.log('Mostrar icono de alerta');
-                setShowAlertButton(true);
-            }
-            else {
-                setShowAlertButton(false);
-            }
-        });
-
-    }, []);
-    
-    // Hide button if player is not inside
-    useEffect(() => {
-        
-        if (player?.isInsideHall){
-            setShowAlertButton(false);
-        }
-
-    }, [player]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
