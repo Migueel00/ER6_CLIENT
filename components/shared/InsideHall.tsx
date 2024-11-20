@@ -6,6 +6,7 @@ import { Player } from '../../interfaces/contextInterface';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
+const callingBell = require('./../../assets/icons/callBell.png');
 const { height, width } = Dimensions.get('window');
 
 const InsideHall = () => {
@@ -68,11 +69,11 @@ const InsideHall = () => {
             </ContainerTopLeft>
 
             {callMortimerButton && player.role === 'ACOLYTE' && (
-                <SpecialButtonContainer>
-                    <SpecialButton onPress={callButton}>
-                        <SpecialButtonText>Call</SpecialButtonText>
-                    </SpecialButton>
-                </SpecialButtonContainer>
+            <BellIconContainer>
+                <TouchableOpacity onPress={callButton}>
+                    <CallBellIcon source={callingBell} />
+                </TouchableOpacity>
+            </BellIconContainer>
             )}
 
             <ContainerTopRight>
@@ -189,23 +190,15 @@ const ContainerBottom = styled.View`
     flex-direction: row;
 `;
 
-// Estilo del botón especial
-const SpecialButtonContainer = styled.View`
+const BellIconContainer = styled.View`
     position: absolute;
     top: ${height * 0.03}px;
     left: ${width * 0.04}px;
 `;
 
-const SpecialButton = styled(TouchableOpacity)`
-    background-color: gold;
-    padding: 10px 20px;
-    border-radius: ${width * 0.01}px;
-`;
-
-const SpecialButtonText = styled.Text`
-    color: black;
-    font-size: ${width * 0.05}px;
-    font-weight: bold;
+const CallBellIcon = styled.Image`
+    width: ${width * 0.15}px;
+    height: ${width * 0.15}px;
 `;
 
 
