@@ -75,7 +75,6 @@ const MapScreenMortimer = () => {
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
-    const player = appContext?.player;
     const showAlertButton = mortimerContext?.showAlertButton;
 
     // Navigation tipado
@@ -190,7 +189,6 @@ const MapScreenMortimer = () => {
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
                     
-                {/* Mostrar el botón de alerta encima del icono de School si showAlertButton es true */}
                 {showAlertButton && (
                 <AlertButton onPress={() => console.log("Alert button pressed!")}>
                     <AlertButtonText>!</AlertButtonText>
