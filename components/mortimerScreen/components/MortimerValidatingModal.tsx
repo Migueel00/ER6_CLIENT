@@ -17,6 +17,9 @@ const imageToAnimate3 = require('./../../../assets/png/Artifcats/Marker3.png');
 const imageToAnimate4 = require('./../../../assets/png/Artifcats/Marker4.png');
 
 const crackingImage = require('./../../../assets/png/CrackBackground.png');
+const crackingImage2 = require('./../../../assets/png/CrackBackground2.png');
+const crackingImage3 = require('./../../../assets/png/CrackBackground3.png');
+const crackingImage4 = require('./../../../assets/png/CrackBackground4.png');
 
 const imageSize = isTablet ? height * 0.22 : height*0.17;
 
@@ -60,7 +63,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path2 = {
-        startX:  isTablet ? width * 0.74 : width * 0.715,
+        startX:  isTablet ? width * 0.728 : width * 0.715,
         startY:  isTablet ? height * 0.369 : height * 0.392,
         line: isTablet ? width * 0.65 : width * 0.65
     }
@@ -72,7 +75,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path4 = {
-        startX:  isTablet ? width * 0.74 : width * 0.715,
+        startX:  isTablet ? width * 0.728 : width * 0.715,
         startY:  isTablet ? height * 0.665 : height * 0.62,
         line: isTablet ? height * 0.67 : height * 0.75
     } 
@@ -270,14 +273,14 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 </GridItem>
                                 <GridItem>
                                     <GridImage
-                                        source={crackingImage}
+                                        source={crackingImage2}
                                         style={{opacity: image2Opacity}}></GridImage>
                                 </GridItem>
                             </GridRow>
                             <GridRow>
                             <GridItem>
                                     <GridImage
-                                        source={crackingImage}
+                                        source={crackingImage3}
                                         style={{opacity: image3Opacity}}></GridImage>
                                 </GridItem>
                                 <GridItem>
