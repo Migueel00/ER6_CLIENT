@@ -3,8 +3,11 @@ import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Path } from 'react-native-svg';
 import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat, ReduceMotion } from 'react-native-reanimated'; 
+import DeviceInfo from 'react-native-device-info';
 
 const { height, width } = Dimensions.get('window');
+
+
 
 const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png')
 
