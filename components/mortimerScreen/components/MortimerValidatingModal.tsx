@@ -12,17 +12,13 @@ const { height, width } = Dimensions.get('window');
 const isTablet = DeviceInfo.isTablet();
 
 const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png');
+const imageToAnimate2 = require('./../../../assets/png/Artifcats/Marker3.png');
 const imageSize = isTablet ? height * 0.23 : height*0.17;
 
 interface ModalComponentProps {
     visible: boolean;
     onClose: () => void;
 }
-
-
-const generateSimplePath = (startX: number, startY: number, endX: number, endY: number) => {
-    return `M${startX} ${startY} L${endX} ${endY}`; 
-};
 
 const generateHorizontalPath = (startX: number, startY: number, lineWidth: number) => {
     return `M${startX} ${startY} L${startX + lineWidth} ${startY}`;
@@ -45,38 +41,56 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path1 = {
-        startX: isTablet ? width * 0.25 :  width * 0.25                                            ,
+        startX: isTablet ? width * 0.25 :  width * 0.25,
         startY:  isTablet ? -height * 0.2 : -height * 0.2,
         line: isTablet ? height * 0.57 : height * 0.593
     }
 
+    const path2 = {
+        startX:  isTablet ? width * 0.75 : width * 0.75,
+        startY:  isTablet ? height * 0.369 : height * 0.392,
+        line: isTablet ? width * 0.65 : width * 0.65
+    }
+
+    const path3 = {
+        startX:  isTablet ? width * 0.75 : width * 0.75,
+        startY:  isTablet ? height * 0.369 : height * 0.392,
+        line: isTablet ? width * 0.65 : width * 0.65
+    }
 
 
-    const simplePath = generateVerticalPath(path1.startX, path1.startY, path1.line); 
 
+    const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
+    const image2Path = generateHorizontalPath(path2.startX, path2.startY, path2.line);
 
-    const animationProgress = useSharedValue(0);
+    const animationProgress1 = useSharedValue(0);
+    const animationProgress2 = useSharedValue(0);
 
     useEffect(() => {
-        // Inicia la animación cuando el modal se muestra
         if (visible) {
-            animationProgress.value = withRepeat(
-                withTiming(1, {
-                    duration: 1500, // Duración de la animación en milisegundos
+            // Primero iniciamos la animación para la primera imagen
+            animationProgress1.value = withTiming(1, {
+                duration: 1500, // Duración de la animación
+                easing: Easing.inOut(Easing.quad),
+                reduceMotion: ReduceMotion.System,
+            }, () => {
+                // Una vez que la animación de la primera imagen termine, iniciamos la segunda animación
+                animationProgress2.value = withTiming(1, {
+                    duration: 1500, // Duración de la segunda animación
                     easing: Easing.inOut(Easing.quad),
                     reduceMotion: ReduceMotion.System,
-                }),
-                -1, // 1 = no repetir, -1 = repetir infinito
-                false // No invertir la animación
-            );
+                });
+            });
         } else {
-            animationProgress.value = 0; // Detener la animación cuando el modal se cierra
+            // Si el modal se cierra, revertimos ambas animaciones
+            animationProgress1.value = 0;
+            animationProgress2.value = 0;
         }
     }, [visible]);
 
     const animatedStyle = useAnimatedStyle(() => {
         const x = path1.startX - imageSize/2;
-        const y = path1.startY + (path1.line * animationProgress.value) - imageSize/2; 
+        const y = path1.startY + (path1.line * animationProgress1.value) - imageSize/2; 
 
     
         return {
@@ -101,6 +115,18 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         });
     }
 
+    const animatedStyle2 = useAnimatedStyle(() => {
+        const x = (path2.startX + (path2.line * (1 - animationProgress2.value)) - imageSize / 2);
+        const y = path2.startY - imageSize / 2;
+    
+        return {
+            transform: [
+                { translateX: x }, // Ajusta el ancho de la imagen para moverse de derecha a izquierda
+                { translateY: y }, // Centra la altura de la imagen
+            ],
+        };
+    });
+
     return (
         <Modal
             animationType="fade"
@@ -115,7 +141,24 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <SvgContainer>
                         <Svg width={width} height={height}>
                             <Path
-                                d={simplePath}
+                                d={image1Path}
+                                fill="transparent"
+                                stroke="white"
+                                strokeWidth="2"
+                            />
+                             <Circle
+                                cx={path1.startX}
+                                cy={path1.startY}
+                                r={5}
+                                fill="red"
+                            />
+                        </Svg>
+                    </SvgContainer>
+
+                    <SvgContainer>
+                        <Svg width={width} height={height}>
+                            <Path
+                                d={image2Path}
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="2"
@@ -149,6 +192,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                         />
 
                     </Animated.View>
+
+                    <Animated.View style={[animatedStyle2, { position: 'absolute'}]}>
+
+                        <Image 
+                            source={imageToAnimate2}// Asegúrate de tener una imagen local o remota
+                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
+                        />
+
+                        </Animated.View>
 
 
 
