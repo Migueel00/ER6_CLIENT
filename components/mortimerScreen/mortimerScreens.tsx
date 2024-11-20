@@ -11,7 +11,7 @@ import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
-import { Dimensions } from 'react-native';
+import { Dimensions, Vibration } from 'react-native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -72,13 +72,14 @@ useEffect(() => {
     if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
         console.log('Mostrar icono de alerta');
         setShowAlertButton(true);
+        Vibration.vibrate(350);
       }
       else {
         setShowAlertButton(false);
       }
     });
 
-}, [setShowAlertButton]);
+}, []);
 
 // Hide button if player is inside
 useEffect(() => {
