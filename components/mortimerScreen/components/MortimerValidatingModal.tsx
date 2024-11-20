@@ -103,16 +103,14 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     // reset the artifacts state
     const resetSearch = () => {
-<<<<<<< Updated upstream
-        onClose();
         console.log("RESETEA EL ESTADO DE LOS ARTEFACTOS");
 
-=======
->>>>>>> Stashed changes
         artifacts?.map(artifact => {
             // reset state of artifacts (id, isRetrieved, avatar);
             updateArtifact(artifact._id, false, "");
         });
+        
+        onClose();
     }
 
     const animatedStyle2 = useAnimatedStyle(() => {
@@ -262,7 +260,7 @@ const CloseButtonBottomLeft = styled(TouchableOpacity)`
     border-radius: ${width * 0.02}px;
 `;
 
-const CloseButtonBottomRight = styled(TouchableOpacity)`
+const CloseButtonBottomRight = styled.TouchableOpacity`
     background-color: red;
     padding: ${width * 0.03}px;
     border-radius: ${width * 0.02}px;
@@ -312,7 +310,6 @@ const SvgContainer = styled.View`
     height: 100%;
     justify-content: center;
     align-items: center;
-    z-index: 5;
 `;
 
 const ImageContainer = styled(Animated.View)`

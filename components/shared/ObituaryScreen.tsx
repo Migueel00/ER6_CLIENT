@@ -10,16 +10,20 @@ const CustomBackground = styled.ImageBackground`
 `;
 
 const Container = styled.View`
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: ${width}px;
+    height: ${height}px;
 `;
 
-
+const background = require('../../assets/png/appMainScreen.png');
 
 const ObituaryScreen = () => {
     
     return(
         <Container>
-            <CustomBackground />
+            <CustomBackground source={background}/>
         </Container>
     )
 }
