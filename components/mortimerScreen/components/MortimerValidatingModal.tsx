@@ -18,7 +18,7 @@ const imageToAnimate4 = require('./../../../assets/png/Artifcats/Marker4.png');
 
 const crackingImage = require('./../../../assets/png/CrackBackground.png');
 
-const imageSize = isTablet ? height * 0.23 : height*0.17;
+const imageSize = isTablet ? height * 0.22 : height*0.17;
 
 interface ModalComponentProps {
     visible: boolean;
@@ -60,20 +60,20 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path2 = {
-        startX:  isTablet ? width * 0.75 : width * 0.715,
+        startX:  isTablet ? width * 0.74 : width * 0.715,
         startY:  isTablet ? height * 0.369 : height * 0.392,
         line: isTablet ? width * 0.65 : width * 0.65
     }
 
     const path3 = {
         startX:  isTablet ? width * -0.5 : width * -0.5,
-        startY:  isTablet ? height * 0.68 : height * 0.62,
+        startY:  isTablet ? height * 0.665 : height * 0.62,
         line: isTablet ? width * 0.75 : width * 0.75
     }
 
     const path4 = {
-        startX:  isTablet ? width * 0.75 : width * 0.715,
-        startY:  isTablet ? height * 0.68 : height * 0.62,
+        startX:  isTablet ? width * 0.74 : width * 0.715,
+        startY:  isTablet ? height * 0.665 : height * 0.62,
         line: isTablet ? height * 0.67 : height * 0.75
     } 
 
