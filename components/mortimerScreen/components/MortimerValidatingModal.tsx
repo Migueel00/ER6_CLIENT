@@ -31,6 +31,7 @@ const generateVerticalPath = (startX: number, startY: number, lineHeight: number
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
+    const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -103,13 +104,17 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     // reset the artifacts state
     const resetSearch = () => {
-        console.log("RESETEA EL ESTADO DE LOS ARTEFACTOS");
-
         artifacts?.map(artifact => {
             // reset state of artifacts (id, isRetrieved, avatar);
             updateArtifact(artifact._id, false, "");
         });
         
+        onClose();
+    }
+
+    // Validates the artifacts
+    const validateSearch = () => {
+        setAreArtifactsValidated(true);
         onClose();
     }
 
@@ -204,7 +209,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
 
                     <BottomButtonContainer>
-                        <CloseButtonBottomLeft onPress={onClose}>
+                        <CloseButtonBottomLeft onPress={validateSearch}>
                             <CloseButtonText>Validate Search</CloseButtonText>
                         </CloseButtonBottomLeft>
                         <CloseButtonBottomRight onPress={resetSearch}>

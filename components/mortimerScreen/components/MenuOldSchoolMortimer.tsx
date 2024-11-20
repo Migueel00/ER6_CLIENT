@@ -10,6 +10,8 @@ import MapScreenMortimer from "./MapScreenMortimer";
 import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import MapScreenRefactor from "../../mapScreen/mapScreenRefactor";
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,6 +22,14 @@ const Icon = styled.Image`
 `
 
 const MenuOldSchoolMortimer = () => {
+    const mortimerContext = useContext(MortimerContext);
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
+    const setIsMenuOldSchoolLoaded = mortimerContext?.setIsMenuOldSchoolLoaded!;
+    const isMenuLoaded = mortimerContext?.isMenuLoaded!;
+    const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded!;
+    const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded!;
+    const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded!;
 
     const screens = [
         {
@@ -41,16 +51,18 @@ const MenuOldSchoolMortimer = () => {
         },
         {
             name: 'MAP',
-            component: MapScreenMortimer,
+            component: () => (
+                <MapScreenRefactor
+                    isMenuLoaded={isMenuLoaded}
+                    isMenuTowerLoaded={isMenuTowerLoaded}
+                    isMenuSwampLoaded={isMenuSwampLoaded}
+                    isMenuOldSchoolLoaded={isMenuOldSchoolLoaded}    
+                />
+            ),
             iconSource: require('./../../../assets/icons/mapIcon.png'),
         }
     ];
 
-
-    const mortimerContext = useContext(MortimerContext);
-    const appContext = useContext(AppContext);
-    const socket = appContext?.socket;
-    const setIsMenuOldSchoolLoaded = mortimerContext?.setIsMenuOldSchoolLoaded!;
 
     useEffect(() => {
         setIsMenuOldSchoolLoaded(true);

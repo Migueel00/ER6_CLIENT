@@ -51,20 +51,24 @@ const TouchableIcon = styled.TouchableOpacity`
     border-color: white;
     border-radius: 100px;
 `
+interface MapScreenProps {
+    isMenuLoaded: boolean;
+    isMenuTowerLoaded: boolean;
+    isMenuSwampLoaded: boolean;
+    isMenuOldSchoolLoaded: boolean;
+}
 
-const MapScreen = () => {
+const MapScreenRefactor : React.FC<MapScreenProps> = ({
+    isMenuLoaded, 
+    isMenuTowerLoaded, 
+    isMenuSwampLoaded, 
+    isMenuOldSchoolLoaded}) => {
     // Acolyte Necesita del Appcontext, setLocation,  lo ncesitan todos y areArtifactsValidated
     // Del acolyteContext isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded
     
 
     const appContext = useContext(AppContext);
     const setLocation = useContext(AppContext)?.setLocation;
-    const acolyteContext = useContext(AcolyteContext);
-    const isMenuLoaded = acolyteContext?.isMenuLoaded;
-    const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
-    const isMenuTowerLoaded = acolyteContext?.isMenuTowerLoaded;
-    const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
-    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
     console.log("Are artifacts validated" + areArtifactsValidated);
@@ -75,7 +79,6 @@ const MapScreen = () => {
 useEffect(() => {
     console.log("States of loaded mennús: ", {
         isMenuLoaded,
-        isMenuLabLoaded,
         isMenuTowerLoaded,
         isMenuSwampLoaded,
         isMenuOldSchoolLoaded
@@ -83,11 +86,6 @@ useEffect(() => {
 
     const navigateToMenu = () => {
         switch (true) {
-            case isMenuLabLoaded:
-                setTimeout(() => {
-                    navigation.navigate('LAB');
-                }, 200);
-                break;
             case isMenuTowerLoaded:
                 setTimeout(() => {
                     navigation.navigate('TOWER');
@@ -97,7 +95,7 @@ useEffect(() => {
                 setTimeout(() => {
                     navigation.navigate('SWAMP');
                 }, 200);
-                break;
+                break; 
             case isMenuLoaded:
                 setTimeout(() => {
                     navigation.navigate('HOME');
@@ -115,13 +113,8 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded]);
-    const handleLabIconPress = () => {
-        setLocation('LAB');
-        if(isMenuLabLoaded){
-            navigation.navigate('LAB');
-        }
-    }
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded]);
+
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -203,4 +196,4 @@ useEffect(() => {
     );
 }
 
-export default MapScreen;
+export default MapScreenRefactor;
