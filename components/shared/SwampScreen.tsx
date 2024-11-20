@@ -351,7 +351,7 @@ const SwampScreen = () => {
                 <React.Fragment key={marker.id}>
                      <Marker
                         coordinate={marker.coordinate}
-                        image={getImage(marker.markerImage)}
+                        style={{height: width * 0.14, width: width * 0.14}}
                         onPress={() => {
                             // Verificar si el usuario está dentro o fuera del radio del marcador
                             if (userLocation) {
@@ -382,15 +382,20 @@ const SwampScreen = () => {
                             }
                         }}
                     >
+                        <Image
+                            source={getImage(marker.markerImage)}
+                            style={{height: width * 0.14, width: width * 0.14}}>
+                            
+                        </Image>
                         {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {userLocation && player?.role === 'ACOLYTE' && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                        {/* {userLocation && player?.role === 'ACOLYTE' && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
                                     <TextDescription>{marker.description}</TextDescription>
                                 </CalloutContainer>
                             </Callout>
-                        )}
+                        )} */}
                     </Marker>
                     <Circle
                         center={marker.coordinate}

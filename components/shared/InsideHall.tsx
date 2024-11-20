@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
+import { Player } from '../../interfaces/contextInterface';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
@@ -13,12 +14,22 @@ const InsideHall = () => {
     const player = appContext?.player!;
     const socket = appContext?.socket;
     const players = appContext?.players!;
+    const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
+
+    // Update insidePlayers when someone is inside the hall
+    useEffect(() => {
+        setInsidePlayers(players.filter(player => player.isInsideHall));
+    }, [players]);
 
     useEffect(() => {
-        if (players) {
-            players.map(player => console.log(player.nickname));
+        const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
+    
+        if (acolytesInside.length === 3) {
+            console.log("HALL IS FULL");
         }
-    }, [players]);
+        console.log("ACOLYTES INSIDE HALL:");
+        insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
+    }, [insidePlayers]);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
