@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat, ReduceMotion } from 'react-native-reanimated'; 
 import DeviceInfo from 'react-native-device-info';
+import AppContext from '../../../helpers/context';
+import { updateArtifact } from '../../../src/API/artifacts';
 
 const { height, width } = Dimensions.get('window');
 
@@ -27,6 +29,8 @@ const generateVerticalPath = (startX: number, startY: number, lineHeight: number
 };
 
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
+    const appContext = useContext(AppContext);
+    const artifacts = appContext?.artifacts;
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -95,7 +99,18 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                 { translateY: y}, // Centra la altura de la imagen
             ]
         };
-    });
+    }); 
+
+    // reset the artifacts state
+    const resetSearch = () => {
+        onClose();
+        console.log("RESETEA EL ESTADO DE LOS ARTEFACTOS");
+
+        artifacts?.map(artifact => {
+            // reset state of artifacts (id, isRetrieved, avatar);
+            updateArtifact(artifact._id, false, "");
+        });
+    }
 
     const animatedStyle2 = useAnimatedStyle(() => {
         const x = (path2.startX + (path2.line * (1 - animationProgress2.value)) - imageSize / 2);
@@ -191,7 +206,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                         <CloseButtonBottomLeft onPress={onClose}>
                             <CloseButtonText>Validate Search</CloseButtonText>
                         </CloseButtonBottomLeft>
-                        <CloseButtonBottomRight onPress={onClose}>
+                        <CloseButtonBottomRight onPress={resetSearch}>
                             <CloseButtonText>Reset Search</CloseButtonText>
                         </CloseButtonBottomRight>
                     </BottomButtonContainer>

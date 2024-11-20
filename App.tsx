@@ -24,6 +24,7 @@ import { Alert } from 'react-native';
 import SignInScreen from './components/SignIn';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './src/constants';
+import Artifact from './interfaces/ArtifactsInterface';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -60,6 +61,7 @@ function App(): React.JSX.Element {
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
   const [isValidating, setIsValidating] = useState<boolean>(true);
+  const [artifacts, setArtifacts] = useState<Artifact[]>([]);
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -147,7 +149,16 @@ function App(): React.JSX.Element {
   }
 
   useEffect(() => {
+    fetch(URL.GET_ARTIFACTS)
+    .then((response) => response.json())
+    .then((artifacts) => {
+        console.log(artifacts);
+        const data = artifacts.data;
+        setArtifacts(data);
+    });
+
     SplashScreen.hide();
+
   }, []);
     
   useEffect(() => {
@@ -425,7 +436,9 @@ function App(): React.JSX.Element {
         setTowerIngredientsState,
         setPlayer: setPlayer,
         isValidating: isValidating,
-        setIsValidating: setIsValidating
+        setIsValidating: setIsValidating,
+        artifacts,
+        setArtifacts
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
