@@ -1,9 +1,12 @@
-import React from 'react';
-import { Dimensions, Modal, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Path } from 'react-native-svg';
+import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat } from 'react-native-reanimated'; 
 
 const { height, width } = Dimensions.get('window');
+
+const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png')
 
 interface ModalComponentProps {
     visible: boolean;
@@ -27,7 +30,32 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     const simplePath = generateSimplePath(path1.startX, path1.startY, path1.gridCenterX + path1.gridSize / 2, path1.gridCenterY + path1.gridSize / 2); 
 
+    const animationProgress = useSharedValue(0);
 
+    useEffect(() => {
+        // Inicia la animación cuando el modal se muestra
+        if (visible) {
+            animationProgress.value = withRepeat(
+                withTiming(1, {
+                    duration: 3000, // Duración de la animación en milisegundos
+                    easing: Easing.linear, // Easing de la animación
+                }),
+                -1, // Repite infinitamente
+                false // No invertir la animación
+            );
+        } else {
+            animationProgress.value = 0; // Detener la animación cuando el modal se cierra
+        }
+    }, [visible]);
+
+    const animatedStyle = useAnimatedStyle(() => {
+        const x = path1.startX + (path1.gridCenterX + path1.gridSize / 2 - path1.startX) * animationProgress.value;
+        const y = path1.startY + (path1.gridCenterY + path1.gridSize / 2 - path1.startY) * animationProgress.value;
+
+        return {
+            transform: [{ translateX: x }, { translateY: y }]
+        };
+    });
 
     return (
         <Modal
@@ -61,6 +89,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                             <GridItem><GridText>4</GridText></GridItem>
                         </GridRow>
                     </GridContainer>
+
+                    <Animated.View style={[animatedStyle, { position: 'absolute', top: height * 0.1, left: width * 0.1 }]}>
+                        <Image 
+                            source={imageToAnimate}// Asegúrate de tener una imagen local o remota
+                            style={{ width: 50, height: 50 }} // Ajusta el tamaño de la imagen
+                        />
+                    </Animated.View>
+
+
 
 
                     <BottomButtonContainer>
