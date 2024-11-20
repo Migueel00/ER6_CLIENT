@@ -35,7 +35,11 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
 
-    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts...')
+    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts..')
+    const [image1Opacity, setImage1Opacity] = useState<number>(0);
+    const [image2Opacity, setImage2Opacity] = useState<number>(0);
+    const [image3Opacity, setImage3Opacity] = useState<number>(0);
+    const [image4Opacity, setImage4Opacity] = useState<number>(0);
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -45,6 +49,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         
     }
 
+
     const path1 = {
         startX: isTablet ? width * 0.25 :  width * 0.25,
         startY:  isTablet ? -height * 0.2 : -height * 0.2,
@@ -52,7 +57,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path2 = {
-        startX:  isTablet ? width * 0.75 : width * 0.75,
+        startX:  isTablet ? width * 0.75 : width * 0.715,
         startY:  isTablet ? height * 0.369 : height * 0.392,
         line: isTablet ? width * 0.65 : width * 0.65
     }
@@ -64,7 +69,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path4 = {
-        startX:  isTablet ? width * 0.75 : width * 0.75,
+        startX:  isTablet ? width * 0.75 : width * 0.715,
         startY:  isTablet ? height * 0.68 : height * 0.62,
         line: isTablet ? height * 0.67 : height * 0.75
     } 
@@ -82,36 +87,38 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const animationProgress3 = useSharedValue(0);
     const animationProgress4 = useSharedValue(0);
 
+    const shakeX = useSharedValue(0);
+
+    const triggerShake = () => {
+        'worklet'; // Declarar la función como worklet
+        shakeX.value = withRepeat(
+            withTiming(10, { duration: 50, easing: Easing.linear }),
+            8,
+            true,
+            () => {
+                'worklet'; // worklet para la función callback
+                shakeX.value = withTiming(0); // Regresa a la posición original
+            }
+        );
+    };
+    
+
+
     useEffect(() => {
         if (visible) {
-            // Primero iniciamos la animación para la primera imagen
-            animationProgress1.value = withTiming(1, {
-                duration: animationDuration, // Duración de la animación
-                easing: Easing.inOut(Easing.quad),
-                reduceMotion: ReduceMotion.System,
-            }, () => {
-                // Una vez que la animación de la primera imagen termine, iniciamos la segunda animación
-                animationProgress2.value = withTiming(1, {
-                    duration: animationDuration, // Duración de la segunda animación
-                    easing: Easing.inOut(Easing.quad),
-                    reduceMotion: ReduceMotion.System,
-                }, () => {
-                    // Una vez que la animación de la segunda imagen termine, iniciamos la tercera animación
-                    animationProgress3.value = withTiming(1, {
-                        duration: animationDuration, // Duración de la tercera animación
-                        easing: Easing.inOut(Easing.quad),
-                        reduceMotion: ReduceMotion.System,
-                    }, () => {
-                        animationProgress4.value = withTiming(1, {
-                            duration: animationDuration, // Duración de la tercera animación
-                            easing: Easing.inOut(Easing.quad),
-                            reduceMotion: ReduceMotion.System,
+            animationProgress1.value = withTiming(1, { duration: animationDuration }, () => {
+                triggerShake(); // Sacudida al finalizar la animación 1
+                animationProgress2.value = withTiming(1, { duration: animationDuration }, () => {
+                    triggerShake(); // Sacudida al finalizar la animación 2
+                    animationProgress3.value = withTiming(1, { duration: animationDuration }, () => {
+                        triggerShake(); // Sacudida al finalizar la animación 3
+                        animationProgress4.value = withTiming(1, { duration: animationDuration }, () => {
+                            triggerShake(); // Sacudida al finalizar la animación 4
                         });
                     });
                 });
             });
         } else {
-            // Si el modal se cierra, revertimos ambas animaciones
             animationProgress1.value = 0;
             animationProgress2.value = 0;
             animationProgress3.value = 0;
@@ -123,15 +130,11 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         const x = path1.startX - imageSize/2;
         const y = path1.startY + (path1.line * animationProgress1.value) - imageSize/2; 
 
-        const scale = animationProgress1.value <= 0.85  ? 3 - animationProgress1.value * 2 // Incrementa hasta 3.0 en la mitad
-                                                       : 2 - (animationProgress1.value - 0.5) * 2; // Reduce de 3.0 a 1
-
     
         return {
             transform: [
                 { translateX: x }, // Centra el ancho de la imagen
                 { translateY: y}, // Centra la altura de la imagen
-                { scale }
             ]
         };
     }); 
@@ -185,6 +188,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         };
     }); 
 
+    const shakeStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateX: shakeX.value }, // Aplica el movimiento horizontal
+            ],
+        };
+    });
+    
+
     return (
         <Modal
             animationType="fade"
@@ -193,120 +205,116 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             onRequestClose={onClose}
         >
             <ModalBackground>
+            <Animated.View style={[shakeStyle]}>
                 <ModalContainer>
-                    <ModalText>Validating artifact search...</ModalText>
+                        <ModalText>Validating artifact search...</ModalText>
 
-                    <SvgContainer>
-                        <Svg width={width} height={height}>
-                            <Path
-                                d={image1Path}
-                                fill="transparent"
-                                stroke="white"
-                                strokeWidth="0"
+                        <SvgContainer>
+                            <Svg width={width} height={height}>
+                                <Path
+                                    d={image1Path}
+                                    fill="transparent"
+                                    stroke="white"
+                                    strokeWidth="0"
+                                />
+                            </Svg>
+                        </SvgContainer>
+
+                        <SvgContainer>
+                            <Svg width={width} height={height}>
+                                <Path
+                                    d={image2Path}
+                                    fill="transparent"
+                                    stroke="white"
+                                    strokeWidth="0"
+                                />
+                            </Svg>
+                        </SvgContainer>
+
+                        <SvgContainer>
+                            <Svg width={width} height={height}>
+                                <Path
+                                    d={image3Path}
+                                    fill="transparent"
+                                    stroke="white"
+                                    strokeWidth="0"
+                                />
+                            </Svg>
+                        </SvgContainer>
+
+                        <SvgContainer>
+                            <Svg width={width} height={height}>
+                                <Path
+                                    d={image4Path}
+                                    fill="transparent"
+                                    stroke="white"
+                                    strokeWidth="0"
+                                />
+                            </Svg>
+                        </SvgContainer>
+
+
+                        <GridContainer>
+                            <GridRow>
+                                <GridItem></GridItem>
+                                <GridItem></GridItem>
+                            </GridRow>
+                            <GridRow>
+                                <GridItem></GridItem>
+                                <GridItem></GridItem>
+                            </GridRow>
+                        </GridContainer>
+
+                        <Animated.View style={[animatedStyle, { position: 'absolute'}]}>
+
+                            <Image 
+                                source={imageToAnimate}// Asegúrate de tener una imagen local o remota
+                                style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                             />
-                             <Circle
-                                cx={path1.startX}
-                                cy={path1.startY + path1.line / 1.25} // Mitad de la longitud del path
-                                r={10} // Radio del círculo
-                                fill="red" // Color del círculo
+
+                        </Animated.View>
+
+                        <Animated.View style={[animatedStyle2, { position: 'absolute'}]}>
+
+                            <Image 
+                                source={imageToAnimate2}// Asegúrate de tener una imagen local o remota
+                                style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                             />
-                        </Svg>
-                    </SvgContainer>
 
-                    <SvgContainer>
-                        <Svg width={width} height={height}>
-                            <Path
-                                d={image2Path}
-                                fill="transparent"
-                                stroke="white"
-                                strokeWidth="0"
+                        </Animated.View>
+
+                        <Animated.View style={[animatedStyle3, { position: 'absolute'}]}>
+
+                            <Image 
+                                source={imageToAnimate3}// Asegúrate de tener una imagen local o remota
+                                style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                             />
-                        </Svg>
-                    </SvgContainer>
 
-                    <SvgContainer>
-                        <Svg width={width} height={height}>
-                            <Path
-                                d={image3Path}
-                                fill="transparent"
-                                stroke="white"
-                                strokeWidth="0"
+                        </Animated.View>
+
+                        <Animated.View style={[animatedStyle4, { position: 'absolute'}]}>
+
+                            <Image 
+                                source={imageToAnimate4}// Asegúrate de tener una imagen local o remota
+                                style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                             />
-                        </Svg>
-                    </SvgContainer>
 
-                    <SvgContainer>
-                        <Svg width={width} height={height}>
-                            <Path
-                                d={image4Path}
-                                fill="transparent"
-                                stroke="white"
-                                strokeWidth="0"
-                            />
-                        </Svg>
-                    </SvgContainer>
-
-
-                    <GridContainer>
-                        <GridRow>
-                            <GridItem><GridText>1</GridText></GridItem>
-                            <GridItem><GridText>2</GridText></GridItem>
-                        </GridRow>
-                        <GridRow>
-                            <GridItem><GridText>3</GridText></GridItem>
-                            <GridItem><GridText>4</GridText></GridItem>
-                        </GridRow>
-                    </GridContainer>
-
-                    <Animated.View style={[animatedStyle, { position: 'absolute'}]}>
-
-                        <Image 
-                            source={imageToAnimate}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
-                        />
-
-                    </Animated.View>
-
-                    <Animated.View style={[animatedStyle2, { position: 'absolute'}]}>
-
-                        <Image 
-                            source={imageToAnimate2}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
-                        />
-
-                    </Animated.View>
-
-                    <Animated.View style={[animatedStyle3, { position: 'absolute'}]}>
-
-                        <Image 
-                            source={imageToAnimate3}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
-                        />
-
-                    </Animated.View>
-
-                    <Animated.View style={[animatedStyle4, { position: 'absolute'}]}>
-
-                        <Image 
-                            source={imageToAnimate4}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
-                        />
-
-                    </Animated.View>
+                        </Animated.View>
 
 
 
 
-                    <BottomButtonContainer>
-                        <CloseButtonBottomLeft onPress={onClose}>
-                            <CloseButtonText>Validate Search</CloseButtonText>
-                        </CloseButtonBottomLeft>
-                        <CloseButtonBottomRight onPress={resetSearch}>
-                            <CloseButtonText>Reset Search</CloseButtonText>
-                        </CloseButtonBottomRight>
-                    </BottomButtonContainer>
+                        <BottomButtonContainer>
+                            <CloseButtonBottomLeft onPress={onClose}>
+                                <CloseButtonText>Validate Search</CloseButtonText>
+                            </CloseButtonBottomLeft>
+                            <CloseButtonBottomRight onPress={resetSearch}>
+                                <CloseButtonText>Reset Search</CloseButtonText>
+                            </CloseButtonBottomRight>
+                        </BottomButtonContainer>
 
-                </ModalContainer>
+                    </ModalContainer>
+                </Animated.View>
             </ModalBackground>
         </Modal>
     );
@@ -321,7 +329,7 @@ const ModalBackground = styled.View`
     background-color: rgba(0, 0, 0, 0.7);
 `;
 
-const ModalContainer = styled.View`
+const ModalContainer = styled(Animated.View)`
     flex: 1;
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: ${width * 0.05}px;
@@ -381,7 +389,7 @@ const GridRow = styled.View`
     width: 100%;
 `;
 
-const GridItem = styled.View`
+const GridItem = styled.Image`
     width: ${width*0.4}px;
     aspect-ratio: 1;
     background-color: rgba(0,0,0,0.95);
