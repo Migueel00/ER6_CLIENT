@@ -52,8 +52,16 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         const x = path1.startX + (path1.gridCenterX + path1.gridSize / 2 - path1.startX) * animationProgress.value;
         const y = path1.startY + (path1.gridCenterY + path1.gridSize / 2 - path1.startY) * animationProgress.value;
 
+        const margingInGrids = -width * 0.04;
+
+        const imageWidth = height * 0.17 - margingInGrids ; // Ancho de la imagen
+        const imageHeight = height * 0.17; // Alto de la imagen
+
         return {
-            transform: [{ translateX: x }, { translateY: y }]
+            transform: [
+                { translateX: x - imageWidth / 2 }, // Ajusta para que el centro se mueva
+                { translateY: y - imageHeight / 2 } // Ajusta para que el centro se mueva
+            ]
         };
     });
 
@@ -93,7 +101,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <Animated.View style={[animatedStyle, { position: 'absolute', top: height * 0.1, left: width * 0.1 }]}>
                         <Image 
                             source={imageToAnimate}// Asegúrate de tener una imagen local o remota
-                            style={{height: height*0.1 ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
+                            style={{height: height*0.17 ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
                         />
                     </Animated.View>
 
