@@ -109,9 +109,14 @@ useEffect(() => {
     const onNotificationOpenedApp = () => {
         messaging().onNotificationOpenedApp(remoteMessage => {
             console.log('Notificación abierta desde el segundo plano:', remoteMessage);
+            
             // Maneja la lógica de la navegación aquí
-            setLocation('TOWER');
-            navigation.navigate('TOWER');
+            if (remoteMessage.notification?.title === "Tower Entrance detected"){
+                setLocation('TOWER');
+                navigation.navigate('TOWER');
+            } else if (remoteMessage.notification?.title === "The acolytes call you, destiny awaits.")
+                setLocation('HALL');
+                navigation.navigate('HALL');
     });
 }
     
