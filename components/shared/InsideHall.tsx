@@ -34,6 +34,7 @@ const InsideHall = () => {
         if (acolytesInside.length === 1 && !isMortimerInside) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
+            setShowArtifacts(false);
         } else if (acolytesInside.length === 1 && isMortimerInside){
             setCallMortimerButton(false);
             setShowArtifacts(true);
