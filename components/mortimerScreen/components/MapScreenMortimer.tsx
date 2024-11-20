@@ -51,7 +51,20 @@ const TouchableIcon = styled.TouchableOpacity`
     border-width: 2px;
     border-color: white;
     border-radius: 100px;
-`
+`;
+
+const AlertButton = styled.TouchableOpacity`
+position: absolute;
+background-color: red;
+z-index: 1;
+`;
+
+const AlertButtonText = styled.Text`
+color: white;
+font-size: 16px;
+font-weight: bold;
+`;
+
 
 const MapScreenMortimer = () => {
     
@@ -62,6 +75,7 @@ const MapScreenMortimer = () => {
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
+    const player = appContext?.player;
 
     const [showAlertButton, setShowAlertButton] = useState(false);
 
@@ -136,6 +150,15 @@ const MapScreenMortimer = () => {
         });
 
     }, []);
+    
+    // Hide button if player is not inside
+    useEffect(() => {
+        
+        if (player?.isInsideHall){
+            setShowAlertButton(false);
+        }
+
+    }, [player]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -192,6 +215,13 @@ const MapScreenMortimer = () => {
             <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
+                    
+                {/* Mostrar el botón de alerta encima del icono de School si showAlertButton es true */}
+                {showAlertButton && (
+                <AlertButton onPress={() => console.log("Alert button pressed!")}>
+                    <AlertButtonText>!</AlertButtonText>
+                </AlertButton>
+                )}
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
