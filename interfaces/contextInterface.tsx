@@ -24,6 +24,8 @@ export interface ContextInterface {
     tower_ingredients: boolean,
     setTowerIngredientsState: (state: boolean) => void,
     setPlayer: any,
+    isValidating: boolean,
+    setIsValidating:  (state: boolean) => void,
     artifacts: Artifact[],
     setArtifacts: Dispatch<SetStateAction<Artifact[]>>
 }
