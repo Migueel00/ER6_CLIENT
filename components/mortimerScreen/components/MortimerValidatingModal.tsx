@@ -40,7 +40,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     duration: 3000, // Duración de la animación en milisegundos
                     easing: Easing.linear, // Easing de la animación
                 }),
-                -1, // Repite infinitamente
+                1, // Repite infinitamente
                 false // No invertir la animación
             );
         } else {
@@ -93,7 +93,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <Animated.View style={[animatedStyle, { position: 'absolute', top: height * 0.1, left: width * 0.1 }]}>
                         <Image 
                             source={imageToAnimate}// Asegúrate de tener una imagen local o remota
-                            style={{ width: 50, height: 50 }} // Ajusta el tamaño de la imagen
+                            style={{height: height*0.1 ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
                         />
                     </Animated.View>
 
