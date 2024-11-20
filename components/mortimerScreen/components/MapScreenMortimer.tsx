@@ -107,8 +107,7 @@ const MapScreenMortimer = () => {
     
 }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
 
-    // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
-    const onNotificationOpenedApp = () => {
+    useEffect(() => {
         messaging().onNotificationOpenedApp(remoteMessage => {
             console.log('Notificación abierta desde el segundo plano:', remoteMessage);
             
@@ -120,10 +119,6 @@ const MapScreenMortimer = () => {
                 setLocation('HALL');
                 navigation.navigate('HALL');
     });
-}
-    
-    useEffect(() => {
-        onNotificationOpenedApp();
     }, []);
 
     useEffect(() => {
