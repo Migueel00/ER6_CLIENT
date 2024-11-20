@@ -10,7 +10,7 @@ const { height, width } = Dimensions.get('window');
 const isTablet = DeviceInfo.isTablet();
 
 const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png');
-const imageSize = height*0.17;
+const imageSize = isTablet ? height * 0.23 : height*0.17;
 
 interface ModalComponentProps {
     visible: boolean;
@@ -20,6 +20,14 @@ interface ModalComponentProps {
 
 const generateSimplePath = (startX: number, startY: number, endX: number, endY: number) => {
     return `M${startX} ${startY} L${endX} ${endY}`; 
+};
+
+const generateHorizontalPath = (startX: number, startY: number, lineWidth: number) => {
+    return `M${startX} ${startY} L${startX + lineWidth} ${startY}`;
+};
+
+const generateVerticalPath = (startX: number, startY: number, lineHeight: number) => {
+    return `M${startX} ${startY} L${startX} ${startY + lineHeight}`;
 };
 
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
@@ -33,14 +41,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path1 = {
-        startX: isTablet ? width * 0.35 :  width * 0.35                                             ,
+        startX: isTablet ? width * 0.25 :  width * 0.25                                            ,
         startY:  isTablet ? -height * 0.2 : -height * 0.2,
-        gridSize: width * 0.65,
-        gridCenterX: width * 0.5 - (width * 0.4 * 1.2),
-        gridCenterY: height * 0.15 - (width * 0.00)
+        line: isTablet ? height * 0.6 : height * 0.63
     }
 
-    const simplePath = generateSimplePath(path1.startX, path1.startY, path1.gridCenterX + path1.gridSize / 2, path1.gridCenterY + path1.gridSize / 2); 
+
+
+    const simplePath = generateVerticalPath(path1.startX, path1.startY, path1.line); 
+
 
     const animationProgress = useSharedValue(0);
 
@@ -62,19 +71,14 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }, [visible]);
 
     const animatedStyle = useAnimatedStyle(() => {
-        const x = path1.startX + (path1.gridCenterX + path1.gridSize / 2 - path1.startX) * animationProgress.value;
-        const y = path1.startY + (path1.gridCenterY + path1.gridSize / 2 - path1.startY) * animationProgress.value;
-    
-        const imageWidth = height * 0.17; // Ancho de la imagen
-        const imageHeight = height * 0.17; // Alto de la imagen
+        const x = path1.startX;
+        const y = path1.startY + (path1.line * animationProgress.value); 
 
-        const modifierX = isTablet ?  width * 0.07 : width * 0.015;
-        const modifierY = isTablet ?  height * 0.01 : height * -0.075;
     
         return {
             transform: [
-                { translateX: x - imageSize - modifierX}, // Centra el ancho de la imagen
-                { translateY: y - imageSize - modifierY }, // Centra la altura de la imagen
+                { translateX: x }, // Centra el ancho de la imagen
+                { translateY: y}, // Centra la altura de la imagen
             ]
         };
     });
@@ -91,7 +95,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <ModalText>Validating artifact search...</ModalText>
 
                     <SvgContainer>
-                        <Svg width={width} height={height} viewBox={`0 0 ${width} ${height * 0.25}`}>
+                        <Svg width={width} height={height}>
                             <Path
                                 d={simplePath}
                                 fill="transparent"
@@ -107,6 +111,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                         </Svg>
                     </SvgContainer>
 
+
                     <GridContainer>
                         <GridRow>
                             <GridItem><GridText>1</GridText></GridItem>
@@ -118,7 +123,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                         </GridRow>
                     </GridContainer>
 
-                    <Animated.View style={[animatedStyle, { position: 'absolute', top: height * 0.1, left: width * 0.1 }]}>
+                    <Animated.View style={[animatedStyle, { position: 'absolute'}]}>
 
                         <Image 
                             source={imageToAnimate}// Asegúrate de tener una imagen local o remota
@@ -233,8 +238,8 @@ const GridText = styled.Text`
 
 const SvgContainer = styled.View`
     position: absolute;
-    width: 80%;
-    height: 30%;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
     z-index: 5;
