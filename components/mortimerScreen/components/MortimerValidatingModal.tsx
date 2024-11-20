@@ -89,9 +89,12 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     // reset the artifacts state
     const resetSearch = () => {
+<<<<<<< Updated upstream
         onClose();
         console.log("RESETEA EL ESTADO DE LOS ARTEFACTOS");
 
+=======
+>>>>>>> Stashed changes
         artifacts?.map(artifact => {
             // reset state of artifacts (id, isRetrieved, avatar);
             updateArtifact(artifact._id, false, "");
