@@ -16,6 +16,8 @@ const imageToAnimate2 = require('./../../../assets/png/Artifcats/Marker2.png');
 const imageToAnimate3 = require('./../../../assets/png/Artifcats/Marker3.png');
 const imageToAnimate4 = require('./../../../assets/png/Artifcats/Marker4.png');
 
+const crackingImage = require('./../../../assets/png/CrackBackground.png');
+
 const imageSize = isTablet ? height * 0.23 : height*0.17;
 
 interface ModalComponentProps {
@@ -130,7 +132,6 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         const x = path1.startX - imageSize/2;
         const y = path1.startY + (path1.line * animationProgress1.value) - imageSize/2; 
 
-    
         return {
             transform: [
                 { translateX: x }, // Centra el ancho de la imagen
@@ -256,12 +257,28 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
                         <GridContainer>
                             <GridRow>
-                                <GridItem></GridItem>
-                                <GridItem></GridItem>
+                                <GridItem>
+                                    <GridImage
+                                        source={crackingImage}
+                                        style={{opacity: image1Opacity}}></GridImage>
+                                </GridItem>
+                                <GridItem>
+                                    <GridImage
+                                        source={crackingImage}
+                                        style={{opacity: image2Opacity}}></GridImage>
+                                </GridItem>
                             </GridRow>
                             <GridRow>
-                                <GridItem></GridItem>
-                                <GridItem></GridItem>
+                            <GridItem>
+                                    <GridImage
+                                        source={crackingImage}
+                                        style={{opacity: image3Opacity}}></GridImage>
+                                </GridItem>
+                                <GridItem>
+                                    <GridImage
+                                        source={crackingImage}
+                                        style={{opacity: image4Opacity}}></GridImage>
+                                </GridItem>
                             </GridRow>
                         </GridContainer>
 
@@ -389,7 +406,7 @@ const GridRow = styled.View`
     width: 100%;
 `;
 
-const GridItem = styled.Image`
+const GridItem = styled.View`
     width: ${width*0.4}px;
     aspect-ratio: 1;
     background-color: rgba(0,0,0,0.95);
@@ -399,6 +416,12 @@ const GridItem = styled.Image`
     border-width: ${width * 0.005}px;
     border-color: white;
 `;
+
+const GridImage = styled.Image`
+    padding: ${width * 0.05}px;
+    width: 95%;
+    height: 110%;
+`
 
 const GridText = styled.Text`
     font-size: ${width * 0.1}px;
