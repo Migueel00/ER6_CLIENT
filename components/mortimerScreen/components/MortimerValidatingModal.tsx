@@ -10,7 +10,20 @@ interface ModalComponentProps {
     onClose: () => void;
 }
 
+
+const generateSimplePath = (startX: number, startY: number, endX: number, endY: number) => {
+    return `M${startX} ${startY} L${endX} ${endY}`; 
+};
+
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
+
+    const startX = width * 0.2; 
+    const startY = height * 0.2; 
+    const endX = width * 0.8; 
+    const endY = height * 0.8; 
+
+    const simplePath = generateSimplePath(startX, startY, endX, endY);
+
     return (
         <Modal
             animationType="fade"
@@ -23,9 +36,9 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <ModalText>Validating artifact search...</ModalText>
 
                     <SvgContainer>
-                        <Svg width={width} height={height * 0.3} viewBox={`0 0 ${width} ${height * 0.3}`}>
+                        <Svg width={width} height={height} viewBox={`0 0 ${width} ${height * 0.3}`}>
                             <Path
-                                d="M10 10 H 300"  // Mueve a (10,10), dibuja una línea horizontal hasta (300,10)
+                                d={simplePath}
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="2"
@@ -155,4 +168,5 @@ const SvgContainer = styled.View`
     height: ${height * 0.3}px;
     justify-content: center;
     align-items: center;
+    z-index: 5;
 `;
