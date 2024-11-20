@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, Modal, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import Svg, { Path } from 'react-native-svg';
 
 const { height, width } = Dimensions.get('window');
 
@@ -20,7 +21,18 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             <ModalBackground>
                 <ModalContainer>
                     <ModalText>Validating artifact search...</ModalText>
-                    
+
+                    <SvgContainer>
+                        <Svg width={width} height={height * 0.3} viewBox={`0 0 ${width} ${height * 0.3}`}>
+                            <Path
+                                d="M10 10 H 300"  // Mueve a (10,10), dibuja una línea horizontal hasta (300,10)
+                                fill="transparent"
+                                stroke="white"
+                                strokeWidth="2"
+                            />
+                        </Svg>
+                    </SvgContainer>
+
                     <GridContainer>
                         <GridRow>
                             <GridItem><GridText>1</GridText></GridItem>
@@ -133,4 +145,14 @@ const GridText = styled.Text`
     font-size: ${width * 0.1}px;
     color: white;
     font-family: 'KochAltschrift';
+`;
+
+const SvgContainer = styled.View`
+    position: absolute;
+    top: ${height * 0.1}px; 
+    left: ${width * 0.1}px;  
+    width: 100%;
+    height: ${height * 0.3}px;
+    justify-content: center;
+    align-items: center;
 `;
