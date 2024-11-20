@@ -67,7 +67,7 @@ const InsideHall = () => {
                 }
             </ContainerTopLeft>
 
-            {callMortimerButton && (
+            {callMortimerButton && player.role != 'MORTIMER' && (
                 <SpecialButtonContainer>
                     <SpecialButton onPress={callButton}>
                         <SpecialButtonText>Call</SpecialButtonText>
