@@ -20,7 +20,7 @@ const InsideHall = () => {
     const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
     const [isModalVisible, setModalVisible] = useState(false);
-    
+    const [showArtifacts, setShowArtifacts] = useState(false);
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
@@ -67,10 +67,18 @@ const InsideHall = () => {
         socket.emit("HallDoorPressed", values);
     };
 
+    const handleShowArtifacts = () => {
+        console.log("Button pressed");
+    };
+
     return (
         <InsideHallBackground source={insideHall}>
 
             <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal}/>
+
+            <ShowArtifactsButton onPress={handleShowArtifacts}>
+                <ShowArtifactsText>Show Artifacts</ShowArtifactsText>
+            </ShowArtifactsButton>
 
             <ContainerTopLeft>
                 {players
@@ -216,5 +224,21 @@ const CallBellIcon = styled.Image`
     height: ${width * 0.15}px;
 `;
 
+const ShowArtifactsButton = styled(TouchableOpacity)`
+    backgroundColor: 'rgba(0, 0, 0, 0.8)';
+    height: ${height * 0.1}px;
+    width: ${width * 0.5}px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: ${width * 0.4}px;
+    bottom: ${height * 0.5}px;
+`;
+
+const ShowArtifactsText = styled.Text`
+    color: white;
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
+`;
 
 export default InsideHall;
