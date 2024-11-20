@@ -40,7 +40,8 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
 
-    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts...')
+    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts');
+    const [dots, setDots] = useState<string>('');
     const [image1Opacity, setImage1Opacity] = useState<number>(0);
     const [image2Opacity, setImage2Opacity] = useState<number>(0);
     const [image3Opacity, setImage3Opacity] = useState<number>(0);
@@ -125,6 +126,8 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                             runOnJS(setImage4Opacity)(1);
                             triggerShake(); // Sacudida al finalizar la animación 4
                             runOnJS(setButtonsOpacity)(1);
+                            runOnJS(setDots)("")
+                            runOnJS(setValidatingText)("Artifacts Retrieved!")
                         });
                     });
                 });
@@ -137,6 +140,18 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         }
     }, [visible]);
 
+    useEffect(() => {
+        if (validatingText === 'Retrieving artifacts') {
+            const interval = setInterval(() => {
+                setDots((prevDots) => {
+                    if (prevDots === '...') return '';
+                    return prevDots + '.';
+                });
+            }, 300); // Cambiar cada 500ms
+            return () => clearInterval(interval); // Limpiar intervalo al desmontar
+        }
+    }, [validatingText]);
+    
     const animatedStyle = useAnimatedStyle(() => {
         const x = path1.startX - imageSize/2;
         const y = path1.startY + (path1.line * animationProgress1.value) - imageSize/2; 
@@ -215,9 +230,12 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             onRequestClose={onClose}
         >
             <ModalBackground>
-            <Animated.View style={[shakeStyle]}>
-                <ModalContainer>
-                        <ModalText>{validatingText}</ModalText>
+                <Animated.View style={[shakeStyle]}>
+                    <ModalContainer>
+                        <ModalText>
+                                {validatingText}
+                                <TextWrapper>{dots}</TextWrapper>
+                        </ModalText>
 
                         <SvgContainer>
                             <Svg width={width} height={height}>
@@ -347,6 +365,13 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 };
 
 export default MortimerValidatingModal;
+
+const TextWrapper = styled.Text`
+    font-size: ${width * 0.09}px;
+    color: white;
+    font-family: 'KochAltschrift';
+    display: inline-flex; /* Esto asegura que los puntos se mantengan en línea */
+`;
 
 const ModalBackground = styled.View`
     flex: 1;
