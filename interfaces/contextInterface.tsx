@@ -1,4 +1,5 @@
-
+import Artifact from "./ArtifactsInterface"
+import { Dispatch, SetStateAction } from "react"
 
 export interface ContextInterface {
     userRole: string,
@@ -24,7 +25,9 @@ export interface ContextInterface {
     setTowerIngredientsState: (state: boolean) => void,
     setPlayer: any,
     isValidating: boolean,
-  setIsValidating:  (state: boolean) => void,
+    setIsValidating:  (state: boolean) => void,
+    artifacts: Artifact[],
+    setArtifacts: Dispatch<SetStateAction<Artifact[]>>
 }
 
 export interface Player {

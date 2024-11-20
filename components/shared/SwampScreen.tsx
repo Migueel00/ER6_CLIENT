@@ -50,10 +50,11 @@ const SwampScreen = () => {
     const player = context?.player;
     const avatar = player?.avatar;
     const socket = context?.socket;
+    const artifacts = context?.artifacts!;
+    const setArtifacts = context?.setArtifacts!;
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [isArtifacts, setIsArtifacts] = useState<boolean>(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState(artifacts.filter((marker) => !marker.isRetrieved) || []);
     const [othersUserLocations, setOthersUserLocation] = useState<LocationAvatar[]>([]);
@@ -142,15 +143,6 @@ const SwampScreen = () => {
     useEffect(() => {
         socket.emit('requestLocation');
 
-        fetch(URL.GET_ARTIFACTS)
-            .then((response) => response.json())
-            .then((artifacts) => {
-                console.log(artifacts);
-                const data = artifacts.data;
-                setArtifacts(data);
-                setIsArtifacts(true);
-        });
-
         socket.on('deleteLocation', (playerId: string) => {
             console.log(playerId);
     
@@ -232,7 +224,7 @@ const SwampScreen = () => {
             
             setArtifacts(updatedArtifacts);         
         });      
-    }, [artifacts]);
+    }, []);
 
     // Socket to send player Location data and avatar
     useEffect(() => {
