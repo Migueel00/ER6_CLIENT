@@ -63,15 +63,17 @@ const MapScreenMortimer = () => {
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
 
-    // Navigation tipado
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
+    const [showAlertButton, setShowAlertButton] = useState(false);
 
-useEffect(() => {
-    console.log("States of loaded mennús: ", {
-        isMenuLoaded,
-        isMenuTowerLoaded,
-        isMenuOldSchoolLoaded,
-        isMenuSwampLoaded
+    // Navigation tipado
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
+
+    useEffect(() => {
+        console.log("States of loaded mennús: ", {
+            isMenuLoaded,
+            isMenuTowerLoaded,
+            isMenuOldSchoolLoaded,
+            isMenuSwampLoaded
     });
 
     const navigateToMenu = () => {
@@ -122,6 +124,22 @@ useEffect(() => {
     
     useEffect(() => {
         onNotificationOpenedApp();
+    }, []);
+
+    useEffect(() => {
+        // Manage messages inside the app
+        messaging().onMessage(async (remoteMessage) => {
+            console.log('Notificación recibida en primer plano:', remoteMessage);
+            
+            if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
+                console.log('Mostrar icono de alerta');
+                setShowAlertButton(true);
+            }
+            else {
+                setShowAlertButton(false);
+            }
+        });
+
     }, []);
 
     const handleHomeIconPress = () => {
