@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Circle, Path } from 'react-native-svg';
@@ -14,6 +14,8 @@ const isTablet = DeviceInfo.isTablet();
 const imageToAnimate = require('./../../../assets/png/Artifcats/Marker1.png');
 const imageToAnimate2 = require('./../../../assets/png/Artifcats/Marker2.png');
 const imageToAnimate3 = require('./../../../assets/png/Artifcats/Marker3.png');
+const imageToAnimate4 = require('./../../../assets/png/Artifcats/Marker4.png');
+
 const imageSize = isTablet ? height * 0.23 : height*0.17;
 
 interface ModalComponentProps {
@@ -32,6 +34,8 @@ const generateVerticalPath = (startX: number, startY: number, lineHeight: number
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
+
+    const [validatingText, setValidatingText] = useState<string>('Retrieving artifacts...')
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -65,6 +69,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         line: isTablet ? height * 0.67 : height * 0.75
     } 
 
+    const animationDuration = 1500;
 
 
     const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
@@ -81,24 +86,24 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         if (visible) {
             // Primero iniciamos la animación para la primera imagen
             animationProgress1.value = withTiming(1, {
-                duration: 750, // Duración de la animación
+                duration: animationDuration, // Duración de la animación
                 easing: Easing.inOut(Easing.quad),
                 reduceMotion: ReduceMotion.System,
             }, () => {
                 // Una vez que la animación de la primera imagen termine, iniciamos la segunda animación
                 animationProgress2.value = withTiming(1, {
-                    duration: 750, // Duración de la segunda animación
+                    duration: animationDuration, // Duración de la segunda animación
                     easing: Easing.inOut(Easing.quad),
                     reduceMotion: ReduceMotion.System,
                 }, () => {
                     // Una vez que la animación de la segunda imagen termine, iniciamos la tercera animación
                     animationProgress3.value = withTiming(1, {
-                        duration: 750, // Duración de la tercera animación
+                        duration: animationDuration, // Duración de la tercera animación
                         easing: Easing.inOut(Easing.quad),
                         reduceMotion: ReduceMotion.System,
                     }, () => {
                         animationProgress4.value = withTiming(1, {
-                            duration: 750, // Duración de la tercera animación
+                            duration: animationDuration, // Duración de la tercera animación
                             easing: Easing.inOut(Easing.quad),
                             reduceMotion: ReduceMotion.System,
                         });
@@ -118,11 +123,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         const x = path1.startX - imageSize/2;
         const y = path1.startY + (path1.line * animationProgress1.value) - imageSize/2; 
 
+        const scale = animationProgress1.value <= 0.85  ? 3 - animationProgress1.value * 2 // Incrementa hasta 3.0 en la mitad
+                                                       : 2 - (animationProgress1.value - 0.5) * 2; // Reduce de 3.0 a 1
+
     
         return {
             transform: [
                 { translateX: x }, // Centra el ancho de la imagen
                 { translateY: y}, // Centra la altura de la imagen
+                { scale }
             ]
         };
     }); 
@@ -194,6 +203,12 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="0"
+                            />
+                             <Circle
+                                cx={path1.startX}
+                                cy={path1.startY + path1.line / 1.25} // Mitad de la longitud del path
+                                r={10} // Radio del círculo
+                                fill="red" // Color del círculo
                             />
                         </Svg>
                     </SvgContainer>
@@ -273,7 +288,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <Animated.View style={[animatedStyle4, { position: 'absolute'}]}>
 
                         <Image 
-                            source={imageToAnimate3}// Asegúrate de tener una imagen local o remota
+                            source={imageToAnimate4}// Asegúrate de tener una imagen local o remota
                             style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                         />
 
