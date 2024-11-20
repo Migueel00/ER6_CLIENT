@@ -51,7 +51,20 @@ const TouchableIcon = styled.TouchableOpacity`
     border-width: 2px;
     border-color: white;
     border-radius: 100px;
-`
+`;
+
+const AlertButton = styled.TouchableOpacity`
+position: absolute;
+background-color: red;
+z-index: 1;
+`;
+
+const AlertButtonText = styled.Text`
+color: white;
+font-size: 16px;
+font-weight: bold;
+`;
+
 
 const MapScreenMortimer = () => {
     
@@ -62,16 +75,17 @@ const MapScreenMortimer = () => {
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
+    const showAlertButton = mortimerContext?.showAlertButton;
 
     // Navigation tipado
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
 
-useEffect(() => {
-    console.log("States of loaded mennús: ", {
-        isMenuLoaded,
-        isMenuTowerLoaded,
-        isMenuOldSchoolLoaded,
-        isMenuSwampLoaded
+    useEffect(() => {
+        console.log("States of loaded mennús: ", {
+            isMenuLoaded,
+            isMenuTowerLoaded,
+            isMenuOldSchoolLoaded,
+            isMenuSwampLoaded
     });
 
     const navigateToMenu = () => {
@@ -105,12 +119,9 @@ useEffect(() => {
     
 }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
 
-    // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
-    const onNotificationOpenedApp = () => {
+    // Navigate to location when tapping notification but app is not closed
+    useEffect(() => {
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log('Notificación abierta desde el segundo plano:', remoteMessage);
-            
-            // Maneja la lógica de la navegación aquí
             if (remoteMessage.notification?.title === "Tower Entrance detected"){
                 setLocation('TOWER');
                 navigation.navigate('TOWER');
@@ -118,10 +129,26 @@ useEffect(() => {
                 setLocation('HALL');
                 navigation.navigate('HALL');
     });
-}
-    
-    useEffect(() => {
-        onNotificationOpenedApp();
+
+    // Navigate to location when tapping notification but app is closed
+    messaging()
+        .getInitialNotification()
+        .then(remoteMessage => {
+            if (remoteMessage) {
+                switch(remoteMessage.notification?.title){
+                    case "Tower Entrance detected":
+                        setLocation('TOWER');
+                        navigation.navigate('TOWER');
+                    break;
+                    
+                    case "The acolytes call you, destiny awaits.":
+                        setLocation('HALL');
+                        navigation.navigate('HALL');
+                    break;
+                    default:
+                }
+            }
+        });
     }, []);
 
     const handleHomeIconPress = () => {
@@ -179,6 +206,12 @@ useEffect(() => {
             <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
+                    
+                {showAlertButton && (
+                <AlertButton onPress={() => console.log("Alert button pressed!")}>
+                    <AlertButtonText>!</AlertButtonText>
+                </AlertButton>
+                )}
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>

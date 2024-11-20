@@ -11,6 +11,7 @@ import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
+import { Dimensions, Vibration } from 'react-native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -21,21 +22,7 @@ interface updateEvent {
   isInsideLab: boolean;
 }
 
-const AlertButton = styled.TouchableOpacity`
-position: absolute;
-top: 20px;
-left: 20px;
-background-color: red;
-padding: 10px;
-border-radius: 5px;
-`;
-
-const AlertButtonText = styled.Text`
-color: white;
-font-size: 16px;
-font-weight: bold;
-`;
-
+const {width, height} = Dimensions.get('window');
 
 const MortimerProvider = () => {
 
@@ -44,7 +31,6 @@ const MortimerProvider = () => {
   const socket = appContext?.socket;
   const player = appContext?.player;
   const players = appContext?.players!;
-  const setPlayer = appContext?.setPlayer;
   const setPlayers = appContext?.setPlayers;
   const isInsideHall = player?.isInsideHall;
 
@@ -54,7 +40,7 @@ const MortimerProvider = () => {
   const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
-  const [showAlertButton, setShowAlertButton] = useState(false);
+  const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -79,23 +65,33 @@ const MortimerProvider = () => {
 }, [players, setPlayers]);
 
 useEffect(() => {
-  // Manejar mensajes en primer plano
+  // Manage messages inside the app
   messaging().onMessage(async (remoteMessage) => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
     
     if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
         console.log('Mostrar icono de alerta');
         setShowAlertButton(true);
+        Vibration.vibrate(350);
       }
       else {
         setShowAlertButton(false);
       }
     });
+
 }, []);
+
+// Hide button if player is inside
+useEffect(() => {
+
+  if (player?.isInsideHall){
+    setShowAlertButton(false);
+  }
+
+}, [player]);
 
 const handleAlertButtonPress = () => {
   console.log('Botón de alerta presionado');
-  setShowAlertButton(false); // Oculta el botón al presionarlo
 };
 
   return (
@@ -111,7 +107,9 @@ const handleAlertButtonPress = () => {
       isMenuOldSchoolLoaded,
       setIsMenuOldSchoolLoaded,
       isMenuHallOfSagesLoaded,
-      setIsMenuHallOfSagesLoaded
+      setIsMenuHallOfSagesLoaded,
+      showAlertButton,
+      setShowAlertButton
     }}>
       <NavigationContainer>
         <MenuContainer>
@@ -124,7 +122,7 @@ const handleAlertButtonPress = () => {
           : <MenuMortimer/>}
         </MenuContainer>
 
-        {showAlertButton && (
+        {showAlertButton && !player?.isInsideHall && (
             <AlertButton onPress={handleAlertButtonPress}>
               <AlertButtonText>ALERT</AlertButtonText>
             </AlertButton>
@@ -134,5 +132,18 @@ const handleAlertButtonPress = () => {
   
 );
 }
+
+const AlertButton = styled.TouchableOpacity`
+position: absolute;
+top: ${height * 0.15}px;
+left: ${height * 0.02}px;
+background-color: red;
+`;
+
+const AlertButtonText = styled.Text`
+color: white;
+font-size: 16px;
+font-weight: bold;
+`;
 
 export default MortimerProvider;

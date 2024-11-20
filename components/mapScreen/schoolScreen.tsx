@@ -57,6 +57,18 @@ const IconTextOpacity = styled.View`
     padding: ${height * 0.001}px ${width * 0.03}px; /* Espaciado interno */
 `;
 
+const AlertButton = styled.TouchableOpacity`
+position: absolute;
+background-color: red;
+z-index: 1;
+`;
+
+const AlertButtonText = styled.Text`
+color: white;
+font-size: 16px;
+font-weight: bold;
+`;
+
 const SchoolScreen = () => {
     
     const setLocation = useContext(AppContext)?.setLocation;
@@ -64,6 +76,9 @@ const SchoolScreen = () => {
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
+
+    const mortimerContext = useContext(MortimerContext);
+    const showAlertButton = mortimerContext?.showAlertButton;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -123,6 +138,13 @@ useEffect(() => {
                 </IconTextOpacity>
                 <TouchableIcon onPress={handleHallIconPress}>
                     <Icon source={hallIcon} />
+
+                        {showAlertButton && (
+                    <AlertButton onPress={() => console.log("Alert button pressed!")}>
+                        <AlertButtonText>!</AlertButtonText>
+                    </AlertButton>
+                    )}
+
                 </TouchableIcon>
             </IconContainer>
 
