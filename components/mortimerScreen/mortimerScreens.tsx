@@ -11,6 +11,7 @@ import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
+import { Dimensions } from 'react-native';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -21,21 +22,7 @@ interface updateEvent {
   isInsideLab: boolean;
 }
 
-const AlertButton = styled.TouchableOpacity`
-position: absolute;
-top: 20px;
-left: 20px;
-background-color: red;
-padding: 10px;
-border-radius: 5px;
-`;
-
-const AlertButtonText = styled.Text`
-color: white;
-font-size: 16px;
-font-weight: bold;
-`;
-
+const {width, height} = Dimensions.get('window');
 
 const MortimerProvider = () => {
 
@@ -79,7 +66,7 @@ const MortimerProvider = () => {
 }, [players, setPlayers]);
 
 useEffect(() => {
-  // Manejar mensajes en primer plano
+  // Manage messages inside the app
   messaging().onMessage(async (remoteMessage) => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
     
@@ -91,11 +78,20 @@ useEffect(() => {
         setShowAlertButton(false);
       }
     });
+
 }, []);
+
+// Hide button if player is not inside
+useEffect(() => {
+
+  if (player?.isInsideHall){
+    setShowAlertButton(false);
+  }
+
+}, [player]);
 
 const handleAlertButtonPress = () => {
   console.log('Botón de alerta presionado');
-  setShowAlertButton(false); // Oculta el botón al presionarlo
 };
 
   return (
@@ -124,7 +120,7 @@ const handleAlertButtonPress = () => {
           : <MenuMortimer/>}
         </MenuContainer>
 
-        {showAlertButton && (
+        {showAlertButton && !player?.isInsideHall && (
             <AlertButton onPress={handleAlertButtonPress}>
               <AlertButtonText>ALERT</AlertButtonText>
             </AlertButton>
@@ -134,5 +130,18 @@ const handleAlertButtonPress = () => {
   
 );
 }
+
+const AlertButton = styled.TouchableOpacity`
+position: absolute;
+top: ${height * 0.15}px;
+left: ${height * 0.02}px;
+background-color: red;
+`;
+
+const AlertButtonText = styled.Text`
+color: white;
+font-size: 16px;
+font-weight: bold;
+`;
 
 export default MortimerProvider;
