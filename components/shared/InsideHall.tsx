@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimen
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
+import MortimerValidatingModal from '../mortimerScreen/components/MortimerValidatingModal';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
@@ -17,6 +18,9 @@ const InsideHall = () => {
     const players = appContext?.players!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
     const [callMortimerButton, setCallMortimerButton] = useState(false);
+    const isValidating = appContext?.isValidating;
+    const [isModalVisible, setModalVisible] = useState(false);
+    
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
@@ -42,6 +46,14 @@ const InsideHall = () => {
         socket.emit("CallMortimer", "Everyone is inside");
     };
 
+    useEffect(() => {
+        if (isValidating && player.role === 'MORTIMER') {
+            setModalVisible(true);
+        }
+    }, [isValidating]);
+
+    const handleCloseModal = () => setModalVisible(false);
+
     const handleExitHall = () => {
         console.log("EXITING HALL");
         console.log(player.isInsideHall);
@@ -57,6 +69,9 @@ const InsideHall = () => {
 
     return (
         <InsideHallBackground source={insideHall}>
+
+            <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal}/>
+
             <ContainerTopLeft>
                 {players
                     .filter(player => player.isInsideHall && player.role === 'MORTIMER')

@@ -68,4 +68,4 @@ export const URL = {
 //     NOTIFICATION: 'http://10.80.128.213:3000/send-notification',
 //     GET_ARTIFACTS: 'http://10.80.128.213:3000/api/artifacts',
 //     UPDATE_ARTIFACT: 'http://10.80.128.213:3000/api/artifacts'
-// // }
+// }
