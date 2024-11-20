@@ -7,7 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 
 const { height, width } = Dimensions.get('window');
 
-
+const isTablet = DeviceInfo.isTablet();
 
 const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png')
 
@@ -24,8 +24,8 @@ const generateSimplePath = (startX: number, startY: number, endX: number, endY: 
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
 
     const path1 = {
-        startX: width * 0.15,
-        startY: -height * 0.17,
+        startX: isTablet ? width * 0.15 :  width * 0.15,
+        startY:  isTablet ? -height * 0.17 : height * 0.02,
         gridSize: width * 0.4,
         gridCenterX: width * 0.5 - (width * 0.4 * 1.35),
         gridCenterY: height * 0.15 - (width * 0.00)
