@@ -47,6 +47,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const [image3Opacity, setImage3Opacity] = useState<number>(0);
     const [image4Opacity, setImage4Opacity] = useState<number>(0);
     const [buttonsOpacity, setButtonsOpacity] = useState<number>(0);
+    const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
 
     if(isTablet){
         console.log("ESTAS EN UNA TABLET");
@@ -166,13 +167,18 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     // reset the artifacts state
     const resetSearch = () => {
-        onClose();
-        console.log("RESETEA EL ESTADO DE LOS ARTEFACTOS");
-
         artifacts?.map(artifact => {
             // reset state of artifacts (id, isRetrieved, avatar);
             updateArtifact(artifact._id, false, "");
         });
+        
+        onClose();
+    }
+
+    // Validates the artifacts
+    const validateSearch = () => {
+        setAreArtifactsValidated(true);
+        onClose();
     }
 
     const animatedStyle2 = useAnimatedStyle(() => {
@@ -349,7 +355,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
 
                         <BottomButtonContainer style={{opacity: buttonsOpacity}}>
-                            <CloseButtonBottomLeft onPress={onClose}>
+                            <CloseButtonBottomLeft onPress={validateSearch}>
                                 <CloseButtonText>Validate Search</CloseButtonText>
                             </CloseButtonBottomLeft>
                             <CloseButtonBottomRight onPress={resetSearch}>
@@ -413,7 +419,7 @@ const CloseButtonBottomLeft = styled(TouchableOpacity)`
     border-radius: ${width * 0.02}px;
 `;
 
-const CloseButtonBottomRight = styled(TouchableOpacity)`
+const CloseButtonBottomRight = styled.TouchableOpacity`
     background-color: red;
     padding: ${width * 0.03}px;
     border-radius: ${width * 0.02}px;
@@ -469,7 +475,6 @@ const SvgContainer = styled.View`
     height: 100%;
     justify-content: center;
     align-items: center;
-    z-index: 5;
 `;
 
 const ImageContainer = styled(Animated.View)`

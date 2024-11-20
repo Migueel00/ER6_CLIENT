@@ -53,7 +53,11 @@ const TouchableIcon = styled.TouchableOpacity`
 `
 
 const MapScreen = () => {
+    // Acolyte Necesita del Appcontext, setLocation,  lo ncesitan todos y areArtifactsValidated
+    // Del acolyteContext isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded
     
+
+    const appContext = useContext(AppContext);
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
@@ -61,6 +65,9 @@ const MapScreen = () => {
     const isMenuTowerLoaded = acolyteContext?.isMenuTowerLoaded;
     const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
     const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
+    const areArtifactsValidated = appContext?.areArtifactsValidated;
+
+    console.log("Are artifacts validated" + areArtifactsValidated);
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation(); 
@@ -183,6 +190,15 @@ useEffect(() => {
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
+
+            { areArtifactsValidated ? (
+                <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
+                    <IconText>Obituary</IconText>
+                    <TouchableIcon>
+                        <Icon source={schoolIcon}/>
+                    </TouchableIcon>
+                </IconContainer>
+            ) : null}
         </Container>
     );
 }

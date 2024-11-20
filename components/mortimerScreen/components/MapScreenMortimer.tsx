@@ -76,6 +76,7 @@ const MapScreenMortimer = () => {
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
     const showAlertButton = mortimerContext?.showAlertButton;
+    const areArtifactsValidated = appContext?.areArtifactsValidated;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -222,6 +223,16 @@ const MapScreenMortimer = () => {
                     <Icon source={swampIcon} />
                 </TouchableIcon>
             </IconContainer>
+
+            { areArtifactsValidated ? (
+                <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
+                    <IconText>Obituary</IconText>
+                    <TouchableIcon>
+                        <Icon source={schoolIcon}/>
+                    </TouchableIcon>
+                </IconContainer>
+            ) : null}
+            
         </Container>
     );
 }

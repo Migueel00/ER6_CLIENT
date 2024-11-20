@@ -28,6 +28,8 @@ export interface ContextInterface {
     setIsValidating:  (state: boolean) => void,
     artifacts: Artifact[],
     setArtifacts: Dispatch<SetStateAction<Artifact[]>>
+    areArtifactsValidated: boolean;
+    setAreArtifactsValidated: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface Player {

@@ -62,6 +62,7 @@ function App(): React.JSX.Element {
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
   const [isValidating, setIsValidating] = useState<boolean>(true);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+  const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -438,7 +439,9 @@ function App(): React.JSX.Element {
         isValidating: isValidating,
         setIsValidating: setIsValidating,
         artifacts,
-        setArtifacts
+        setArtifacts,
+        areArtifactsValidated,
+        setAreArtifactsValidated
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
