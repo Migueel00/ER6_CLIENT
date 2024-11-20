@@ -34,8 +34,9 @@ const InsideHall = () => {
         if (acolytesInside.length === 1 && !isMortimerInside) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
-        } else if (acolytesInside.length === 3 && isMortimerInside){
+        } else if (acolytesInside.length === 1 && isMortimerInside){
             setCallMortimerButton(false);
+            setShowArtifacts(true);
         }
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
@@ -76,9 +77,12 @@ const InsideHall = () => {
 
             <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal}/>
 
-            <ShowArtifactsButton onPress={handleShowArtifacts}>
-                <ShowArtifactsText>Show Artifacts</ShowArtifactsText>
-            </ShowArtifactsButton>
+            {showArtifacts && player.role === 'ACOLYTE' &&(
+                <ShowArtifactsButton onPress={handleShowArtifacts}>
+                    <ShowArtifactsText>Show Artifacts</ShowArtifactsText>
+                </ShowArtifactsButton>
+                )
+                }
 
             <ContainerTopLeft>
                 {players
@@ -231,13 +235,13 @@ const ShowArtifactsButton = styled(TouchableOpacity)`
     align-items: center;
     justify-content: center;
     position: absolute;
-    border-radius: ${width * 0.4}px;
+    border-radius: ${width * 0.04}px;
     bottom: ${height * 0.5}px;
 `;
 
 const ShowArtifactsText = styled.Text`
     color: white;
-    font-size: ${width * 0.06}px;
+    font-size: ${width * 0.08}px;
     font-family: 'KochAltschrift';
 `;
 
