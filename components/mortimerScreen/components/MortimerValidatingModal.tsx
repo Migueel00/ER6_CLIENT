@@ -55,39 +55,62 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
     const path3 = {
         startX:  isTablet ? width * -0.5 : width * -0.5,
-        startY:  isTablet ? height * 0.6 : height * 0.64,
-        line: isTablet ? width * 0.67 : width * 0.75
+        startY:  isTablet ? height * 0.68 : height * 0.62,
+        line: isTablet ? width * 0.75 : width * 0.75
     }
+
+    const path4 = {
+        startX:  isTablet ? width * 0.75 : width * 0.75,
+        startY:  isTablet ? height * 0.68 : height * 0.62,
+        line: isTablet ? height * 0.67 : height * 0.75
+    } 
 
 
 
     const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
     const image2Path = generateHorizontalPath(path2.startX, path2.startY, path2.line);
     const image3Path = generateHorizontalPath(path3.startX, path3.startY, path3.line);
+    const image4Path = generateVerticalPath(path4.startX, path4.startY, path4.line); 
 
     const animationProgress1 = useSharedValue(0);
     const animationProgress2 = useSharedValue(0);
     const animationProgress3 = useSharedValue(0);
+    const animationProgress4 = useSharedValue(0);
 
     useEffect(() => {
         if (visible) {
             // Primero iniciamos la animación para la primera imagen
             animationProgress1.value = withTiming(1, {
-                duration: 1500, // Duración de la animación
+                duration: 1000, // Duración de la animación
                 easing: Easing.inOut(Easing.quad),
                 reduceMotion: ReduceMotion.System,
             }, () => {
                 // Una vez que la animación de la primera imagen termine, iniciamos la segunda animación
                 animationProgress2.value = withTiming(1, {
-                    duration: 1500, // Duración de la segunda animación
+                    duration: 1000, // Duración de la segunda animación
                     easing: Easing.inOut(Easing.quad),
                     reduceMotion: ReduceMotion.System,
+                }, () => {
+                    // Una vez que la animación de la segunda imagen termine, iniciamos la tercera animación
+                    animationProgress3.value = withTiming(1, {
+                        duration: 1000, // Duración de la tercera animación
+                        easing: Easing.inOut(Easing.quad),
+                        reduceMotion: ReduceMotion.System,
+                    }, () => {
+                        animationProgress4.value = withTiming(1, {
+                            duration: 1000, // Duración de la tercera animación
+                            easing: Easing.inOut(Easing.quad),
+                            reduceMotion: ReduceMotion.System,
+                        });
+                    });
                 });
             });
         } else {
             // Si el modal se cierra, revertimos ambas animaciones
             animationProgress1.value = 0;
             animationProgress2.value = 0;
+            animationProgress3.value = 0;
+            animationProgress4.value = 0;
         }
     }, [visible]);
 
@@ -127,6 +150,32 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         };
     });
 
+    const animatedStyle3 = useAnimatedStyle(() => {
+        const x = (path3.startX + path3.line * animationProgress3.value - imageSize / 2);
+        const y = path3.startY - imageSize / 2;
+    
+        return {
+            transform: [
+                { translateX: x }, // Ajusta el ancho de la imagen para moverse de derecha a izquierda
+                { translateY: y }, // Centra la altura de la imagen
+            ],
+        };
+    });
+
+
+    const animatedStyle4 = useAnimatedStyle(() => {
+        const x = path4.startX - imageSize/2;
+        const y = path4.startY + (path4.line * (1 - animationProgress4.value) - imageSize / 2)
+
+    
+        return {
+            transform: [
+                { translateX: x }, // Centra el ancho de la imagen
+                { translateY: y}, // Centra la altura de la imagen
+            ]
+        };
+    }); 
+
     return (
         <Modal
             animationType="fade"
@@ -144,7 +193,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 d={image1Path}
                                 fill="transparent"
                                 stroke="white"
-                                strokeWidth="2"
+                                strokeWidth="0"
                             />
                              <Circle
                                 cx={path1.startX}
@@ -161,11 +210,11 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 d={image2Path}
                                 fill="transparent"
                                 stroke="white"
-                                strokeWidth="2"
+                                strokeWidth="0"
                             />
                              <Circle
-                                cx={path1.startX}
-                                cy={path1.startY}
+                                cx={path2.startX}
+                                cy={path2.startY}
                                 r={5}
                                 fill="red"
                             />
@@ -178,11 +227,28 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 d={image3Path}
                                 fill="transparent"
                                 stroke="white"
-                                strokeWidth="2"
+                                strokeWidth="0"
                             />
                              <Circle
-                                cx={path1.startX}
-                                cy={path1.startY}
+                                cx={path3.startX}
+                                cy={path3.startY}
+                                r={5}
+                                fill="red"
+                            />
+                        </Svg>
+                    </SvgContainer>
+
+                    <SvgContainer>
+                        <Svg width={width} height={height}>
+                            <Path
+                                d={image4Path}
+                                fill="transparent"
+                                stroke="white"
+                                strokeWidth="0"
+                            />
+                             <Circle
+                                cx={path4.startX}
+                                cy={path4.startY}
                                 r={5}
                                 fill="red"
                             />
@@ -205,7 +271,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
                         <Image 
                             source={imageToAnimate}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
+                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                         />
 
                     </Animated.View>
@@ -214,10 +280,28 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
 
                         <Image 
                             source={imageToAnimate2}// Asegúrate de tener una imagen local o remota
-                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
+                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                         />
 
-                        </Animated.View>
+                    </Animated.View>
+
+                    <Animated.View style={[animatedStyle3, { position: 'absolute'}]}>
+
+                        <Image 
+                            source={imageToAnimate3}// Asegúrate de tener una imagen local o remota
+                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
+                        />
+
+                    </Animated.View>
+
+                    <Animated.View style={[animatedStyle4, { position: 'absolute'}]}>
+
+                        <Image 
+                            source={imageToAnimate3}// Asegúrate de tener una imagen local o remota
+                            style={{height: imageSize ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
+                        />
+
+                    </Animated.View>
 
 
 
@@ -314,7 +398,7 @@ const GridItem = styled.View`
     align-items: center;
     border-radius: ${width * 0.02}px;
     border-width: ${width * 0.005}px;
-    border-color: ${isTablet ? 'white' : 'red'};
+    border-color: white;
 `;
 
 const GridText = styled.Text`
