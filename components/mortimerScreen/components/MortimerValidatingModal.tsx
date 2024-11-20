@@ -81,24 +81,24 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         if (visible) {
             // Primero iniciamos la animación para la primera imagen
             animationProgress1.value = withTiming(1, {
-                duration: 1000, // Duración de la animación
+                duration: 750, // Duración de la animación
                 easing: Easing.inOut(Easing.quad),
                 reduceMotion: ReduceMotion.System,
             }, () => {
                 // Una vez que la animación de la primera imagen termine, iniciamos la segunda animación
                 animationProgress2.value = withTiming(1, {
-                    duration: 1000, // Duración de la segunda animación
+                    duration: 750, // Duración de la segunda animación
                     easing: Easing.inOut(Easing.quad),
                     reduceMotion: ReduceMotion.System,
                 }, () => {
                     // Una vez que la animación de la segunda imagen termine, iniciamos la tercera animación
                     animationProgress3.value = withTiming(1, {
-                        duration: 1000, // Duración de la tercera animación
+                        duration: 750, // Duración de la tercera animación
                         easing: Easing.inOut(Easing.quad),
                         reduceMotion: ReduceMotion.System,
                     }, () => {
                         animationProgress4.value = withTiming(1, {
-                            duration: 1000, // Duración de la tercera animación
+                            duration: 750, // Duración de la tercera animación
                             easing: Easing.inOut(Easing.quad),
                             reduceMotion: ReduceMotion.System,
                         });
@@ -195,12 +195,6 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 stroke="white"
                                 strokeWidth="0"
                             />
-                             <Circle
-                                cx={path1.startX}
-                                cy={path1.startY}
-                                r={5}
-                                fill="red"
-                            />
                         </Svg>
                     </SvgContainer>
 
@@ -211,12 +205,6 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="0"
-                            />
-                             <Circle
-                                cx={path2.startX}
-                                cy={path2.startY}
-                                r={5}
-                                fill="red"
                             />
                         </Svg>
                     </SvgContainer>
@@ -229,12 +217,6 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 stroke="white"
                                 strokeWidth="0"
                             />
-                             <Circle
-                                cx={path3.startX}
-                                cy={path3.startY}
-                                r={5}
-                                fill="red"
-                            />
                         </Svg>
                     </SvgContainer>
 
@@ -245,12 +227,6 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="0"
-                            />
-                             <Circle
-                                cx={path4.startX}
-                                cy={path4.startY}
-                                r={5}
-                                fill="red"
                             />
                         </Svg>
                     </SvgContainer>
