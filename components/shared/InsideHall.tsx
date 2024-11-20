@@ -13,12 +13,20 @@ const InsideHall = () => {
     const player = appContext?.player!;
     const socket = appContext?.socket;
     const players = appContext?.players!;
+    const isValidating = appContext?.isValidating;
+    const [isModalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         if (players) {
             players.map(player => console.log(player.nickname));
         }
     }, [players]);
+
+    useEffect(() => {
+        if (isValidating && player.role === 'MORTIMER') {
+            setModalVisible(true);
+        }
+    }, [isValidating]);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
@@ -35,6 +43,7 @@ const InsideHall = () => {
 
     return (
         <InsideHallBackground source={insideHall}>
+
             <ContainerTopLeft>
                 {players
                     .filter(player => player.isInsideHall && player.role === 'MORTIMER')
