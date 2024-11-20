@@ -46,10 +46,16 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         line: isTablet ? height * 0.57 : height * 0.593
     }
 
+    const path2 = {
+        startX:  isTablet ?width * 0.75 : width * 0.75                                     ,
+        startY:  isTablet ? height * 0.3 : height * 0.3,
+        line: isTablet ? height * 0.57 : height * 0.593
+    }
 
 
-    const simplePath = generateVerticalPath(path1.startX, path1.startY, path1.line); 
 
+    const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
+    const image2Path = generateHorizontalPath(path2.startX, path2.startY, path2.line);
 
     const animationProgress = useSharedValue(0);
 
@@ -97,7 +103,24 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     <SvgContainer>
                         <Svg width={width} height={height}>
                             <Path
-                                d={simplePath}
+                                d={image1Path}
+                                fill="transparent"
+                                stroke="white"
+                                strokeWidth="2"
+                            />
+                             <Circle
+                                cx={path1.startX}
+                                cy={path1.startY}
+                                r={5}
+                                fill="red"
+                            />
+                        </Svg>
+                    </SvgContainer>
+
+                    <SvgContainer>
+                        <Svg width={width} height={height}>
+                            <Path
+                                d={image2Path}
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="2"
