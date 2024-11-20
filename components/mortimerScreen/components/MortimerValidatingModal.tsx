@@ -25,7 +25,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         startY: -height * 0.17,
         gridSize: width * 0.4,
         gridCenterX: width * 0.5 - (width * 0.4 * 1.35),
-        gridCenterY: height * 0.15
+        gridCenterY: height * 0.15 - (width * 0.00)
     }
 
     const simplePath = generateSimplePath(path1.startX, path1.startY, path1.gridCenterX + path1.gridSize / 2, path1.gridCenterY + path1.gridSize / 2); 
@@ -100,10 +100,12 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     </GridContainer>
 
                     <Animated.View style={[animatedStyle, { position: 'absolute', top: height * 0.1, left: width * 0.1 }]}>
+                        <ImageContainer>
                         <Image 
                             source={imageToAnimate}// Asegúrate de tener una imagen local o remota
-                            style={{height: height*0.17 ,aspectRatio: 1, backgroundColor: 'green' }} // Ajusta el tamaño de la imagen
+                            style={{height: height*0.17 ,aspectRatio: 1, backgroundColor: 'transparent' }} // Ajusta el tamaño de la imagen
                         />
+                        </ImageContainer>
                     </Animated.View>
 
 
@@ -134,12 +136,11 @@ const ModalBackground = styled.View`
 `;
 
 const ModalContainer = styled.View`
-    width: 95%;
-    height: 90%;
+    flex: 1;
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: ${width * 0.05}px;
     padding: ${width * 0.003}px;
-    align-items: center;
+    justify-content: space-between;
 `;
 
 const ModalText = styled.Text`
@@ -213,11 +214,17 @@ const GridText = styled.Text`
 
 const SvgContainer = styled.View`
     position: absolute;
-    top: ${height * 0.1}px; 
-    left: ${width * 0.1}px;  
-    width: 100%;
-    height: ${height * 0.3}px;
+    width: 80%;
+    height: 30%;
     justify-content: center;
     align-items: center;
     z-index: 5;
+`;
+
+const ImageContainer = styled(Animated.View)`
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 20%;
 `;
