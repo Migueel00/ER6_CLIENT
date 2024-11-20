@@ -7,6 +7,7 @@ import MortimerValidatingModal from '../mortimerScreen/components/MortimerValida
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
+const callingBell = require('./../../assets/icons/callBell.png');
 const { height, width } = Dimensions.get('window');
 
 const InsideHall = () => {
@@ -16,6 +17,7 @@ const InsideHall = () => {
     const socket = appContext?.socket;
     const players = appContext?.players!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
+    const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
     const [isModalVisible, setModalVisible] = useState(false);
     
@@ -27,13 +29,22 @@ const InsideHall = () => {
 
     useEffect(() => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
+        const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 3) {
+        if (acolytesInside.length === 1 && !isMortimerInside) {
             console.log("HALL IS FULL");
+            setCallMortimerButton(true);
+        } else if (acolytesInside.length === 3 && isMortimerInside){
+            setCallMortimerButton(false);
         }
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers]);
+
+    const callButton = () => {
+        console.log("Call Button Pressed");
+        socket.emit("CallMortimer", "Everyone is inside");
+    };
 
     useEffect(() => {
         if (isValidating && player.role === 'MORTIMER') {
@@ -71,6 +82,14 @@ const InsideHall = () => {
                     ))
                 }
             </ContainerTopLeft>
+
+            {callMortimerButton && player.role === 'ACOLYTE' && (
+            <BellIconContainer>
+                <TouchableOpacity onPress={callButton}>
+                    <CallBellIcon source={callingBell} />
+                </TouchableOpacity>
+            </BellIconContainer>
+            )}
 
             <ContainerTopRight>
                 {player.role !== 'MORTIMER' && player.role !== 'VILLAIN' && (
@@ -181,9 +200,21 @@ const ContainerTopRight = styled.View`
 
 const ContainerBottom = styled.View`
     position: absolute;
-    bottom: ${height * 0.3}px; /* Espacio para el botón */
+    bottom: ${height * 0.3}px;
     align-self: center;
     flex-direction: row;
 `;
+
+const BellIconContainer = styled.View`
+    position: absolute;
+    top: ${height * 0.03}px;
+    left: ${width * 0.04}px;
+`;
+
+const CallBellIcon = styled.Image`
+    width: ${width * 0.15}px;
+    height: ${width * 0.15}px;
+`;
+
 
 export default InsideHall;
