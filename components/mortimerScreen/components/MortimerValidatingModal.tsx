@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Dimensions, Modal, TouchableOpacity, Image} from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { Path } from 'react-native-svg';
-import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat } from 'react-native-reanimated'; 
+import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle, withRepeat, ReduceMotion } from 'react-native-reanimated'; 
 
 const { height, width } = Dimensions.get('window');
 
@@ -37,10 +37,11 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         if (visible) {
             animationProgress.value = withRepeat(
                 withTiming(1, {
-                    duration: 3000, // Duración de la animación en milisegundos
-                    easing: Easing.linear, // Easing de la animación
+                    duration: 1500, // Duración de la animación en milisegundos
+                    easing: Easing.inOut(Easing.quad),
+                    reduceMotion: ReduceMotion.System,
                 }),
-                1, // Repite infinitamente
+                -1, // 1 = no repetir, -1 = repetir infinito
                 false // No invertir la animación
             );
         } else {
