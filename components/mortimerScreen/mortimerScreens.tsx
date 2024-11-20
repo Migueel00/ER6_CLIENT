@@ -31,9 +31,11 @@ const MortimerProvider = () => {
   const socket = appContext?.socket;
   const player = appContext?.player;
   const players = appContext?.players!;
-  const setPlayer = appContext?.setPlayer;
   const setPlayers = appContext?.setPlayers;
   const isInsideHall = player?.isInsideHall;
+  const mortimerContext = useContext(MortimerContext);
+  const showAlertButton = mortimerContext?.showAlertButton!;
+  const setShowAlertButton = mortimerContext?.setShowAlertButton!;
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
@@ -41,7 +43,6 @@ const MortimerProvider = () => {
   const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
-  const [showAlertButton, setShowAlertButton] = useState(false);
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -107,7 +108,9 @@ const handleAlertButtonPress = () => {
       isMenuOldSchoolLoaded,
       setIsMenuOldSchoolLoaded,
       isMenuHallOfSagesLoaded,
-      setIsMenuHallOfSagesLoaded
+      setIsMenuHallOfSagesLoaded,
+      showAlertButton,
+      setShowAlertButton
     }}>
       <NavigationContainer>
         <MenuContainer>
