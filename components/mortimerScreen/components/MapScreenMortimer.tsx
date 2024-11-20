@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
 import MortimerContext from "../../../helpers/MortimerContext";
-import messaging from '@react-native-firebase/messaging';
 
 
 const mapImage = require('../../../assets/backgrounds/map_background.png');
@@ -104,20 +103,6 @@ useEffect(() => {
     navigateToMenu();
     
 }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
-
-    // Configura la recepción de mensajes cuando la aplicación está en segundo plano o cerrada
-    const onNotificationOpenedApp = () => {
-        messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log('Notificación abierta desde el segundo plano:', remoteMessage);
-            // Maneja la lógica de la navegación aquí
-            setLocation('TOWER');
-            navigation.navigate('TOWER');
-    });
-}
-    
-    useEffect(() => {
-        onNotificationOpenedApp();
-    }, []);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
