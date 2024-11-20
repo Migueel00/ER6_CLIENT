@@ -17,12 +17,17 @@ const generateSimplePath = (startX: number, startY: number, endX: number, endY: 
 
 const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
 
-    const startX = width * 0.2; 
-    const startY = height * 0.2; 
-    const endX = width * 0.8; 
-    const endY = height * 0.8; 
+    const path1 = {
+        startX: width * 0.15,
+        startY: -height * 0.17,
+        gridSize: width * 0.4,
+        gridCenterX: width * 0.5 - (width * 0.4 * 1.35),
+        gridCenterY: height * 0.15
+    }
 
-    const simplePath = generateSimplePath(startX, startY, endX, endY);
+    const simplePath = generateSimplePath(path1.startX, path1.startY, path1.gridCenterX + path1.gridSize / 2, path1.gridCenterY + path1.gridSize / 2); 
+
+
 
     return (
         <Modal
