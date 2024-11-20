@@ -20,6 +20,19 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             <ModalBackground>
                 <ModalContainer>
                     <ModalText>Hello Mortimer!</ModalText>
+                    
+                    <GridContainer>
+                        <GridRow>
+                            <GridItem><GridText>1</GridText></GridItem>
+                            <GridItem><GridText>2</GridText></GridItem>
+                        </GridRow>
+                        <GridRow>
+                            <GridItem><GridText>3</GridText></GridItem>
+                            <GridItem><GridText>4</GridText></GridItem>
+                        </GridRow>
+                    </GridContainer>
+
+
                     <CloseButton onPress={onClose}>
                         <CloseButtonText>Close</CloseButtonText>
                     </CloseButton>
@@ -65,5 +78,36 @@ const CloseButton = styled(TouchableOpacity)`
 const CloseButtonText = styled.Text`
     color: white;
     font-size: ${width * 0.08}px;
+    font-family: 'KochAltschrift';
+`;
+
+const GridContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+`;
+
+const GridRow = styled.View`
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: ${width * 0.08}px;
+    width: 100%;
+`;
+
+const GridItem = styled.View`
+    width: ${width*0.4}px;
+    aspect-ratio: 1;
+    background-color: rgba(0,0,0,0.95);
+    justify-content: center;
+    align-items: center;
+    border-radius: ${width * 0.02}px;
+    border-width: ${width * 0.005}px;
+    border-color: white;
+`;
+
+const GridText = styled.Text`
+    font-size: ${width * 0.1}px;
+    color: white;
     font-family: 'KochAltschrift';
 `;
