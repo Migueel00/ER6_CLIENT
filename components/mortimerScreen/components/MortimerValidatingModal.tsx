@@ -19,7 +19,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         >
             <ModalBackground>
                 <ModalContainer>
-                    <ModalText>Hello Mortimer!</ModalText>
+                    <ModalText>Validating artifact search...</ModalText>
                     
                     <GridContainer>
                         <GridRow>
@@ -33,9 +33,15 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                     </GridContainer>
 
 
-                    <CloseButton onPress={onClose}>
-                        <CloseButtonText>Close</CloseButtonText>
-                    </CloseButton>
+                    <BottomButtonContainer>
+                        <CloseButtonBottomLeft onPress={onClose}>
+                            <CloseButtonText>Validate Search</CloseButtonText>
+                        </CloseButtonBottomLeft>
+                        <CloseButtonBottomRight onPress={onClose}>
+                            <CloseButtonText>Reset Search</CloseButtonText>
+                        </CloseButtonBottomRight>
+                    </BottomButtonContainer>
+
                 </ModalContainer>
             </ModalBackground>
         </Modal>
@@ -61,24 +67,41 @@ const ModalContainer = styled.View`
 `;
 
 const ModalText = styled.Text`
-    font-size: ${width * 0.08}px;
+    font-size: ${width * 0.09}px;
     margin-bottom: ${width * 0.03}px;
-    margin-top: ${width * 0.03}px;
+    margin-top: ${height * 0.03}px;
+    top: ${height * 0.06}px;
     text-align: center;
     color: white;
     font-family: 'KochAltschrift';
 `;
 
-const CloseButton = styled(TouchableOpacity)`
-    background-color: #2196f3;
-    padding: ${width * 0.02}px;
-    border-radius: 5px;
+const BottomButtonContainer = styled.View`
+    position: absolute;
+    bottom: ${width * 0.05}px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 ${width * 0.05}px;
+`;
+
+const CloseButtonBottomLeft = styled(TouchableOpacity)`
+    background-color: green;
+    padding: ${width * 0.03}px;
+    border-radius: ${width * 0.02}px;
+`;
+
+const CloseButtonBottomRight = styled(TouchableOpacity)`
+    background-color: red;
+    padding: ${width * 0.03}px;
+    border-radius: ${width * 0.02}px;
 `;
 
 const CloseButtonText = styled.Text`
     color: white;
     font-size: ${width * 0.08}px;
     font-family: 'KochAltschrift';
+    text-align: center;
 `;
 
 const GridContainer = styled.View`
