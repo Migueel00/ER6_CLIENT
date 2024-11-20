@@ -43,7 +43,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const path1 = {
         startX: isTablet ? width * 0.25 :  width * 0.25                                            ,
         startY:  isTablet ? -height * 0.2 : -height * 0.2,
-        line: isTablet ? height * 0.6 : height * 0.63
+        line: isTablet ? height * 0.57 : height * 0.593
     }
 
 
@@ -71,8 +71,8 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }, [visible]);
 
     const animatedStyle = useAnimatedStyle(() => {
-        const x = path1.startX;
-        const y = path1.startY + (path1.line * animationProgress.value); 
+        const x = path1.startX - imageSize/2;
+        const y = path1.startY + (path1.line * animationProgress.value) - imageSize/2; 
 
     
         return {
