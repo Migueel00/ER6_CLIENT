@@ -32,9 +32,7 @@ export const onNotificationOpenedApp = () => {
   });
 
   // Maneja la notificación si la aplicación se inicia desde un estado cerrado
-  messaging()
-    .getInitialNotification()
-    .then(remoteMessage => {
+  messaging().getInitialNotification().then(remoteMessage => {
       if (remoteMessage) {
         console.log('Notificación iniciando la aplicación:', remoteMessage);
         // Maneja la lógica de la navegación aquí

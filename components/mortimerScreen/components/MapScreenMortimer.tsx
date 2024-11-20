@@ -119,11 +119,9 @@ const MapScreenMortimer = () => {
     
 }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
 
+    // Navigate to location when tapping notification but app is not closed
     useEffect(() => {
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log('Notificación abierta desde el segundo plano:', remoteMessage);
-            
-            // Maneja la lógica de la navegación aquí
             if (remoteMessage.notification?.title === "Tower Entrance detected"){
                 setLocation('TOWER');
                 navigation.navigate('TOWER');
@@ -131,6 +129,26 @@ const MapScreenMortimer = () => {
                 setLocation('HALL');
                 navigation.navigate('HALL');
     });
+
+    // Navigate to location when tapping notification but app is closed
+    messaging()
+        .getInitialNotification()
+        .then(remoteMessage => {
+            if (remoteMessage) {
+                switch(remoteMessage.notification?.title){
+                    case "Tower Entrance detected":
+                        setLocation('TOWER');
+                        navigation.navigate('TOWER');
+                    break;
+                    
+                    case "The acolytes call you, destiny awaits.":
+                        setLocation('HALL');
+                        navigation.navigate('HALL');
+                    break;
+                    default:
+                }
+            }
+        });
     }, []);
 
     const handleHomeIconPress = () => {
