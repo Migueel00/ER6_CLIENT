@@ -11,8 +11,9 @@ const { height, width } = Dimensions.get('window');
 
 const isTablet = DeviceInfo.isTablet();
 
-const imageToAnimate = require('./../../../assets/png/Artifcats/Marker3.png');
-const imageToAnimate2 = require('./../../../assets/png/Artifcats/Marker3.png');
+const imageToAnimate = require('./../../../assets/png/Artifcats/Marker1.png');
+const imageToAnimate2 = require('./../../../assets/png/Artifcats/Marker2.png');
+const imageToAnimate3 = require('./../../../assets/png/Artifcats/Marker3.png');
 const imageSize = isTablet ? height * 0.23 : height*0.17;
 
 interface ModalComponentProps {
@@ -53,18 +54,20 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     }
 
     const path3 = {
-        startX:  isTablet ? width * 0.75 : width * 0.75,
-        startY:  isTablet ? height * 0.369 : height * 0.392,
-        line: isTablet ? width * 0.65 : width * 0.65
+        startX:  isTablet ? width * -0.5 : width * -0.5,
+        startY:  isTablet ? height * 0.6 : height * 0.64,
+        line: isTablet ? width * 0.67 : width * 0.75
     }
 
 
 
     const image1Path = generateVerticalPath(path1.startX, path1.startY, path1.line); 
     const image2Path = generateHorizontalPath(path2.startX, path2.startY, path2.line);
+    const image3Path = generateHorizontalPath(path3.startX, path3.startY, path3.line);
 
     const animationProgress1 = useSharedValue(0);
     const animationProgress2 = useSharedValue(0);
+    const animationProgress3 = useSharedValue(0);
 
     useEffect(() => {
         if (visible) {
@@ -156,6 +159,23 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
                         <Svg width={width} height={height}>
                             <Path
                                 d={image2Path}
+                                fill="transparent"
+                                stroke="white"
+                                strokeWidth="2"
+                            />
+                             <Circle
+                                cx={path1.startX}
+                                cy={path1.startY}
+                                r={5}
+                                fill="red"
+                            />
+                        </Svg>
+                    </SvgContainer>
+
+                    <SvgContainer>
+                        <Svg width={width} height={height}>
+                            <Path
+                                d={image3Path}
                                 fill="transparent"
                                 stroke="white"
                                 strokeWidth="2"
