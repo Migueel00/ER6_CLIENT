@@ -142,12 +142,8 @@ const handleCloseModal = () => {
           <TouchableWithoutFeedback onPress={handleCloseModal}>
             <ModalContainer>
               <ModalContent>
-
-                <ModalText>Texto de alerta aquí</ModalText>
-                  <CloseButton onPress={handleCloseModal}>
-                      <CloseButtonText>Cerrar</CloseButtonText>
-                  </CloseButton>
-
+                <ModalText>Mortimer, the acolytes rise, and your fate is sealed!</ModalText>
+                <ModalText>Go to the Hall Of Sages</ModalText>
               </ModalContent>
             </ModalContainer>
           </TouchableWithoutFeedback>
@@ -173,32 +169,22 @@ const ModalContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
 `;
 
 const ModalContent = styled.View`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  align-items: center;
+    background-color: rgba(0, 0, 0, 0.93); /* Fondo oscuro con opacidad */
+  padding: ${height * 0.012}px;
+  border-radius: ${width * 0.05}px;
+  bottom: ${height * 0.26}px;
+  width: ${width * 0.8}px;
+  left: ${width * 0.08}px;
 `;
 
 const ModalText = styled.Text`
-  color: black;
-  font-size: 18px;
-`;
-
-const CloseButton = styled.TouchableOpacity`
-  margin-top: 20px;
-  background-color: #333;
-  padding: 10px 20px;
-  border-radius: 5px;
-`;
-
-const CloseButtonText = styled.Text`
-  color: white;
-  font-size: 16px;
+    color: white;
+    font-size: ${width * 0.09}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
 `;
 
 export default MortimerProvider;

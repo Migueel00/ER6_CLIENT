@@ -103,6 +103,7 @@ const HeaderText = styled.Text`
     position: absolute;
     top: ${height * 0.05}px;
     text-align: center;
+    width: 75%;
 `;
 
 
