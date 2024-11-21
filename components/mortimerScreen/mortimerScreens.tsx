@@ -11,7 +11,7 @@ import MenuOldSchoolMortimer from './components/MenuOldSchoolMortimer';
 import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
-import { Dimensions, Vibration } from 'react-native';
+import { Dimensions, Modal, TouchableWithoutFeedback, Vibration } from 'react-native';
 
 const alertIcon = require('./../../assets/icons/alertIcon.png');
 
@@ -43,6 +43,7 @@ const MortimerProvider = () => {
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(true);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false); // Modal visibility state
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -51,7 +52,6 @@ const MortimerProvider = () => {
         const updatePlayers = players.map(player  => player.id === playerId ? { ...player, isInsideLab } : player );
 
         console.log(updatePlayers);
-        
         // Settear players
         setPlayers(updatePlayers);
         
@@ -70,7 +70,6 @@ useEffect(() => {
   // Manage messages inside the app
   messaging().onMessage(async (remoteMessage) => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
-    
     if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
         console.log('Mostrar icono de alerta');
         setShowAlertButton(true);
@@ -80,13 +79,12 @@ useEffect(() => {
         setShowAlertButton(false);
       }
     });
-
 }, []);
 
 // Hide button if player is inside
 useEffect(() => {
 
-  if (player?.isInsideHall){
+  if (player?.isInsideHall) {
     setShowAlertButton(false);
   }
 
@@ -94,6 +92,11 @@ useEffect(() => {
 
 const handleAlertButtonPress = () => {
   console.log('Botón de alerta presionado');
+  setIsModalVisible(true); // Show the modal when the button is pressed
+};
+
+const handleCloseModal = () => {
+  setIsModalVisible(false); // Close the modal
 };
 
   return (
@@ -129,9 +132,29 @@ const handleAlertButtonPress = () => {
             <AlertButtonImage source={alertIcon} />
           </AlertButton>
       )}
+
+        <Modal
+          visible={isModalVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={handleCloseModal}>
+
+          <TouchableWithoutFeedback onPress={handleCloseModal}>
+            <ModalContainer>
+              <ModalContent>
+
+                <ModalText>Texto de alerta aquí</ModalText>
+                  <CloseButton onPress={handleCloseModal}>
+                      <CloseButtonText>Cerrar</CloseButtonText>
+                  </CloseButton>
+
+              </ModalContent>
+            </ModalContainer>
+          </TouchableWithoutFeedback>
+
+        </Modal>
       </NavigationContainer>
     </MortimerContext.Provider>
-  
 );
 }
 
@@ -146,5 +169,36 @@ const AlertButton = styled.TouchableOpacity`
   left: ${height * 0.01}px;
 `;
 
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+`;
+
+const ModalContent = styled.View`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  align-items: center;
+`;
+
+const ModalText = styled.Text`
+  color: black;
+  font-size: 18px;
+`;
+
+const CloseButton = styled.TouchableOpacity`
+  margin-top: 20px;
+  background-color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+`;
+
+const CloseButtonText = styled.Text`
+  color: white;
+  font-size: 16px;
+`;
 
 export default MortimerProvider;
