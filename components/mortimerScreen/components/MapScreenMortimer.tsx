@@ -12,6 +12,7 @@ const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
+const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
 const exclamationIcon =  require('../../../assets/icons/exclamationIcon.png');
 
 
@@ -75,6 +76,7 @@ const MapScreenMortimer = () => {
     const isMenuTowerLoaded = mortimerContext?.isMenuTowerLoaded;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
+    const isMenuObituaryLoaded = mortimerContext?.isMenuObituaryLoaded;
     const showAlertButton = mortimerContext?.showAlertButton;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
@@ -111,6 +113,11 @@ const MapScreenMortimer = () => {
                     navigation.navigate('SWAMP');
                 }, 200);
                 break;
+            case isMenuObituaryLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OBITUARY');
+                }, 200);
+                break;
             default:
                 break;
         }
@@ -118,7 +125,7 @@ const MapScreenMortimer = () => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded]);
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded]);
 
     // Navigate to location when tapping notification but app is not closed
     useEffect(() => {
@@ -185,6 +192,17 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleObituaryIconPress = () => {
+        console.log("PRESSED OBITUARY BUTTON IN MAP");
+        
+        setLocation('OBITUARY');
+        if(isMenuObituaryLoaded){
+            console.log("NAVIGATING TO OBITUARY");
+            
+            navigation.navigate('OBITUARY');
+        }
+    }   
+
     const handleAlertButtonPress = () => {
         console.log('Botón de alerta presionado');
     };
@@ -230,8 +248,8 @@ const MapScreenMortimer = () => {
             { areArtifactsValidated ? (
                 <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
                     <IconText>Obituary</IconText>
-                    <TouchableIcon>
-                        <Icon source={schoolIcon}/>
+                    <TouchableIcon onPress={handleObituaryIconPress}>
+                        <Icon source={obituaryIcon}/>
                     </TouchableIcon>
                 </IconContainer>
             ) : null}

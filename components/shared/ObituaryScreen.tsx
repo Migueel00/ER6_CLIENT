@@ -17,7 +17,7 @@ const Container = styled.View`
     height: ${height}px;
 `;
 
-const background = require('../../assets/png/appMainScreen.png');
+const background = require('../../assets/backgrounds/obituaryBackground.png');
 
 const ObituaryScreen = () => {
     

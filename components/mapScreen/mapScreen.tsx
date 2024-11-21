@@ -11,6 +11,7 @@ const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../assets/icons/towerIcon.png');
 const swampIcon =  require('../../assets/icons/swampIcon.png');
 const schoolIcon =  require('../../assets/icons/schoolIcon.png');
+const obituaryIcon = require('./../../assets/icons/obituaryIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -66,6 +67,7 @@ const MapScreen = () => {
     const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
     const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
+    const isMenuObituaryLoaded = acolyteContext?.isMenuObituaryLoaded;
 
     console.log("Are artifacts validated" + areArtifactsValidated);
 
@@ -108,6 +110,12 @@ useEffect(() => {
                     navigation.navigate('OLDSCHOOL');
                 }, 200);
                 break;
+            case isMenuObituaryLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OBITUARY');
+                }, 200);
+                break;
+            
             default:
                 break;
         }
@@ -115,7 +123,8 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded]);
+}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded]);
+
     const handleLabIconPress = () => {
         setLocation('LAB');
         if(isMenuLabLoaded){
@@ -159,6 +168,17 @@ useEffect(() => {
         }
     }   
 
+    const handleObituaryIconPress = () => {
+        console.log("PRESSED OBITUARY BUTTON IN MAP");
+        
+        setLocation('OBITUARY');
+        if(isMenuObituaryLoaded){
+            console.log("NAVIGATING TO OBITUARY");
+            
+            navigation.navigate('OBITUARY');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -194,8 +214,8 @@ useEffect(() => {
             { areArtifactsValidated ? (
                 <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
                     <IconText>Obituary</IconText>
-                    <TouchableIcon>
-                        <Icon source={schoolIcon}/>
+                    <TouchableIcon onPress={handleObituaryIconPress}>
+                        <Icon source={obituaryIcon}/>
                     </TouchableIcon>
                 </IconContainer>
             ) : null}

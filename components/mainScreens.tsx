@@ -24,6 +24,7 @@ const MainScreens = () => {
     const setPlayer = appContext?.setPlayer;
     const players = appContext?.players!;
     const setPlayers = appContext?.setPlayers;
+    const setIsValidating = appContext?.setIsValidating!;
 
     useEffect(() => {
         socket?.on('updateMyHall', ({ nickname, playerId, isInsideHall }: updateHallEvent) => {

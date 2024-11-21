@@ -11,6 +11,8 @@ import MenuOldSchoolIstvan from './components/MenuOldSchoolIstvan';
 import MenuSwampIstvan from './components/MenuSwampIstvan';
 import MenuHallIstvan from './components/MenuHallIstvan';
 import MenuIstvan from './components/MenuIstvan';
+import MenuObituary from '../acolyteScreen/menu/MenuObituary';
+import MenuObituaryIstvan from './components/MenuObituaryIstvan';
 
 const MenuContainer = styled.View`
     flex: 1;
@@ -33,6 +35,7 @@ const IstvanScreens = () => {
     const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
     const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
     const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
+    const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
     
 
     return (
@@ -48,7 +51,9 @@ const IstvanScreens = () => {
                 isMenuOldSchoolLoaded,
                 setIsMenuOldSchoolLoaded,
                 isMenuHallOfSagesLoaded,
-                setIsMenuHallOfSagesLoaded
+                setIsMenuHallOfSagesLoaded,
+                isMenuObituaryLoaded,
+                setIsMenuObituaryLoaded
             }}>
             <NavigationContainer>
                 <MenuContainer>
@@ -58,6 +63,7 @@ const IstvanScreens = () => {
                     : location === 'OLDSCHOOL' ? <MenuOldSchoolIstvan/>
                     : location === 'SWAMP' ? <MenuSwampIstvan/>
                     : location === 'HALL' ? <MenuHallIstvan/>
+                    : location === 'OBITUARY' ? <MenuObituaryIstvan/>
                     : <MenuIstvan/>  }
                 </MenuContainer>  
             </NavigationContainer>

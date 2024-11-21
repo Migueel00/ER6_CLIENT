@@ -48,6 +48,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const [image4Opacity, setImage4Opacity] = useState<number>(0);
     const [buttonsOpacity, setButtonsOpacity] = useState<number>(0);
     const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
+    const socket = appContext?.socket;
 
     // if(isTablet){
     //     console.log("ESTAS EN UNA TABLET");
@@ -172,12 +173,26 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             updateArtifact(artifact._id, false, "");
         });
         
+        socket.emit('changeIsValidatingFalse');
+        setButtonsOpacity(0);
+        setImage1Opacity(0);
+        setImage2Opacity(0);
+        setImage3Opacity(0);
+        setImage4Opacity(0);
         onClose();
     }
 
     // Validates the artifacts
     const validateSearch = () => {
         setAreArtifactsValidated(true);
+
+        socket.emit('changeIsValidatingFalse');
+        socket.emit('validatedArtifacts');
+        setButtonsOpacity(0);
+        setImage1Opacity(0);
+        setImage2Opacity(0);
+        setImage3Opacity(0);
+        setImage4Opacity(0);
         onClose();
     }
 

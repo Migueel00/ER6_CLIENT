@@ -19,13 +19,28 @@ const InsideHall = () => {
     const socket = appContext?.socket;
     const players = appContext?.players!;
     const artifacts = appContext?.artifacts;
+    const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
     const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
+    const setIsValidating = appContext?.setIsValidating!;
     const [isModalVisible, setModalVisible] = useState(false);
     const [isAcolyteModalVisible, setIsAcolyteModalVisible] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
-    const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);;
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
+
+
+    useEffect(() => {
+        socket.on('changeIsValidating' , (isValidating : boolean) => {
+            
+            console.log(isValidating);
+            setIsValidating(isValidating);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log("IS VALIDATING " + isValidating);
+    }, [isValidating])
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
@@ -47,11 +62,11 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length < 4) {
+        if (acolytesInside.length === 1 && !isMortimerInside && retrievedArtifacts.length < 1) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
-        } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
+        } else if (acolytesInside.length === 1 && isMortimerInside && retrievedArtifacts.length === 1){
             setCallMortimerButton(false);
             setShowArtifacts(true);
         }
@@ -60,6 +75,13 @@ const InsideHall = () => {
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers]);
 
+    useEffect(() => {
+        socket.on('setArtifacts', () => {
+            setAreArtifactsValidated(true);
+            console.log("Cambia el estado de areArtifactsValidated por socket ");
+        });
+    }, []);
+
     const callButton = () => {
         console.log("Call Button Pressed");
         socket.emit("CallMortimer", "Everyone is inside");
@@ -67,17 +89,18 @@ const InsideHall = () => {
 
     useEffect(() => {
         if (isValidating && player.role === 'MORTIMER') {
-            setModalVisible(true);
+            setModalVisible(!isModalVisible);
         }
 
         if(isValidating && player.role === 'ACOLYTE') {
-            setIsAcolyteModalVisible(true);
+            setIsAcolyteModalVisible(!isAcolyteModalVisible);
         }
+
     }, [isValidating]);
 
     const handleCloseModal = () => setModalVisible(false);
 
-    const handleCloseAcolyteModal = () => setModalVisible(false);
+    const handleCloseAcolyteModal = () => setIsAcolyteModalVisible(false);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
@@ -94,6 +117,8 @@ const InsideHall = () => {
 
     const handleShowArtifacts = () => {
         console.log("Button pressed");
+        console.log("Handle show artifact")
+        socket.emit('changeIsValidatingTrue');
     };
 
     return (
