@@ -21,9 +21,11 @@ interface ModalComponentProps {
 const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
     const appContext = useContext(AppContext);
     const artifacts = appContext?.artifacts;
+    const isValidating = appContext?.isValidating;
 
     const [validatingText, setValidatingText] = useState<string>('Waiting for validation');
     const [dots, setDots] = useState<string>('');
+    
 
     useEffect(() => {
         if (validatingText === 'Waiting for validation') {
@@ -37,6 +39,9 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
         }
     }, [validatingText]);
 
+    if(!isValidating){
+        onClose();
+    }
     return (
         <Modal
             animationType="fade"

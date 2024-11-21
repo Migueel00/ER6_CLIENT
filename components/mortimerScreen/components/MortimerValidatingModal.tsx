@@ -173,15 +173,27 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
             updateArtifact(artifact._id, false, "");
         });
         
+        socket.emit('changeIsValidatingFalse');
+        setButtonsOpacity(0);
+        setImage1Opacity(0);
+        setImage2Opacity(0);
+        setImage3Opacity(0);
+        setImage4Opacity(0);
         onClose();
     }
 
     // Validates the artifacts
     const validateSearch = () => {
         setAreArtifactsValidated(true);
-        onClose();
 
+        socket.emit('changeIsValidatingFalse');
         socket.emit('validatedArtifacts');
+        setButtonsOpacity(0);
+        setImage1Opacity(0);
+        setImage2Opacity(0);
+        setImage3Opacity(0);
+        setImage4Opacity(0);
+        onClose();
     }
 
     const animatedStyle2 = useAnimatedStyle(() => {
