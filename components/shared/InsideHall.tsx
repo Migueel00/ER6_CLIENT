@@ -4,6 +4,7 @@ import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
 import MortimerValidatingModal from '../mortimerScreen/components/MortimerValidatingModal';
+import Artifact from '../../interfaces/ArtifactsInterface';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
@@ -16,11 +17,13 @@ const InsideHall = () => {
     const player = appContext?.player!;
     const socket = appContext?.socket;
     const players = appContext?.players!;
+    const artifacts = appContext?.artifacts;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
     const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
     const [isModalVisible, setModalVisible] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
+    const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);;
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
@@ -28,14 +31,25 @@ const InsideHall = () => {
     }, [players]);
 
     useEffect(() => {
+        if (artifacts) {
+            const retrieved = artifacts.filter(artifact => artifact.isRetrieved);
+            setRetrievedArtifacts(retrieved);
+        }
+
+        console.log("RETRIEVED ARTIFACTS");
+        artifacts?.map(artifact => console.log(artifact.title));
+        
+    }, [artifacts]);
+
+    useEffect(() => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 3 && !isMortimerInside) {
+        if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length < 4) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
-        } else if (acolytesInside.length === 3 && isMortimerInside){
+        } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
             setCallMortimerButton(false);
             setShowArtifacts(true);
         }
