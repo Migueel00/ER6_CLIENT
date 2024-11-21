@@ -62,7 +62,7 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length < 4) {
+        if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
@@ -73,7 +73,7 @@ const InsideHall = () => {
         
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
-    }, [insidePlayers]);
+    }, [insidePlayers, retrievedArtifacts]);
 
     useEffect(() => {
         socket.on('setArtifacts', () => {
