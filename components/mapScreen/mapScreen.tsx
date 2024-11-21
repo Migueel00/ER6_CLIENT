@@ -159,6 +159,17 @@ useEffect(() => {
         }
     }   
 
+    const handleObituaryIconPress = () => {
+        console.log("PRESSED OBITUARY BUTTON IN MAP");
+        
+        setLocation('OBITUARY');
+        if(isMenuOldSchoolLoaded){
+            console.log("NAVIGATING TO OBITUARY");
+            
+            navigation.navigate('OBITUARY');
+        }
+    }   
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -194,7 +205,7 @@ useEffect(() => {
             { areArtifactsValidated ? (
                 <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
                     <IconText>Obituary</IconText>
-                    <TouchableIcon>
+                    <TouchableIcon onPress={handleObituaryIconPress}>
                         <Icon source={schoolIcon}/>
                     </TouchableIcon>
                 </IconContainer>
