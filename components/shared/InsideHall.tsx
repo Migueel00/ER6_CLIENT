@@ -4,6 +4,7 @@ import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
 import MortimerValidatingModal from '../mortimerScreen/components/MortimerValidatingModal';
+import AcolyteValidatingModal from '../acolyteScreen/menu/AcolyteValidatingModal';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
@@ -20,6 +21,7 @@ const InsideHall = () => {
     const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isAcolyteModalVisible, setIsAcolyteModalVisible] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
 
     // Update insidePlayers when someone is inside the hall
@@ -52,9 +54,15 @@ const InsideHall = () => {
         if (isValidating && player.role === 'MORTIMER') {
             setModalVisible(true);
         }
+
+        if(isValidating && player.role === 'ACOLYTE') {
+            setIsAcolyteModalVisible(true);
+        }
     }, [isValidating]);
 
     const handleCloseModal = () => setModalVisible(false);
+
+    const handleCloseAcolyteModal = () => setModalVisible(false);
 
     const handleExitHall = () => {
         console.log("EXITING HALL");
@@ -77,6 +85,8 @@ const InsideHall = () => {
         <InsideHallBackground source={insideHall}>
 
             <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal}/>
+
+            <AcolyteValidatingModal visible={isAcolyteModalVisible} onClose={handleCloseAcolyteModal}/>
 
             {showArtifacts && player.role === 'ACOLYTE' &&(
                 <ShowArtifactsButton onPress={handleShowArtifacts}>
