@@ -216,12 +216,14 @@ const SwampScreen = () => {
 
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
             
-            const updatedArtifacts: Artifact[] = artifacts.map(artifact => 
-                artifact.id === updateArtifact.id ? updateArtifact : artifact
-            );             
+            // setArtifacts(updatedArtifacts);
+            setArtifacts((prevArtifacts) => {
+                return prevArtifacts.map(artifact => 
+                    artifact.id === updateArtifact.id ? updateArtifact : artifact);
+            })
+        
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-            
-            setArtifacts(updatedArtifacts);         
+
         });      
     }, []);
 

@@ -49,13 +49,13 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
     const [buttonsOpacity, setButtonsOpacity] = useState<number>(0);
     const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
 
-    if(isTablet){
-        console.log("ESTAS EN UNA TABLET");
+    // if(isTablet){
+    //     console.log("ESTAS EN UNA TABLET");
         
-    } else {
-        console.log("ESTAS EN UN MOVIL");
+    // } else {
+    //     console.log("ESTAS EN UN MOVIL");
         
-    }
+    // }
 
 
     const path1 = {
