@@ -49,7 +49,9 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                     <ModalContainer>
                         <ModalText>
                                 {validatingText}
-                                <TextWrapper>{dots}</TextWrapper>
+                                <DotsWrapper>
+                                    <TextWrapper>{dots}</TextWrapper>
+                                </DotsWrapper>
                         </ModalText>
 
 
@@ -61,6 +63,13 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
 };
 
 export default AcolyteValidatingModal;
+
+const DotsWrapper = styled.View`
+    display: inline-flex;
+    width: ${width * 0.09 * 3}px; /* Espacio suficiente para 3 puntos */
+    height: ${width * 0.09}px; /* Asegura que el alto sea consistente */
+    overflow: hidden; 
+`;
 
 const TextWrapper = styled.Text`
     font-size: ${width * 0.09}px;
@@ -76,7 +85,7 @@ const ModalBackground = styled.View`
     background-color: rgba(0, 0, 0, 0.7);
 `;
 
-const ModalContainer = styled(Animated.View)`
+const ModalContainer = styled.View`
     flex: 1;
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: ${width * 0.05}px;
@@ -94,5 +103,8 @@ const ModalText = styled.Text`
     text-align: center;
     color: white;
     font-family: 'KochAltschrift';
+    align-items: center;
+    justify-content: center;
+    left: ${width * 0.11}px;
 `;
 
