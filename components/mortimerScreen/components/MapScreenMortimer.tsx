@@ -12,7 +12,7 @@ const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
-const obituaryIcon = require('./../../../assets/icons/obituaryIconFill.png');
+const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
