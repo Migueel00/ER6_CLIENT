@@ -44,8 +44,8 @@ const MortimerProvider = () => {
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
   const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
-  const [showAlertButton, setShowAlertButton] = useState<boolean>(true);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false); // Modal visibility state
+  const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
