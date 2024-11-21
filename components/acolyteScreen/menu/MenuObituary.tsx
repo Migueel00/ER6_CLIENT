@@ -21,7 +21,7 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuHallIstvan = () => {
+const MenuObituary = () => {
     
 
   
@@ -29,7 +29,7 @@ const MenuHallIstvan = () => {
         {
             name: 'OBITUARY',
             component: ObituaryScreen,
-            iconSource: require('./../../../assets/icons/hallOfSages.png'),
+            iconSource: require('./../../../assets/icons/obituaryIcon.png'),
         },
         {
             name: 'Profile',
@@ -46,7 +46,7 @@ const MenuHallIstvan = () => {
         {
             name: 'MAP',
             component: MapScreen,
-            iconSource: require('./../../../assets/icons/fixed/settingsIcon.png'),
+            iconSource: require('./../../../assets/icons/mapIcon.png'),
 
         }
     ];
@@ -58,4 +58,4 @@ const MenuHallIstvan = () => {
     );
 }
 
-export default MenuHallIstvan
+export default MenuObituary

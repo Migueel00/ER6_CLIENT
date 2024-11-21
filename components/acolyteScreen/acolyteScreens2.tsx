@@ -13,6 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MenuHallInside from './menu/MenuHallInside';
 import MenuHall from './menu/MenuHall';
 import MenuOldSchoolAcolyte from './menu/MenuOldSchoolAcolyte';
+import MenuObituary from './menu/MenuObituary';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -148,6 +149,7 @@ useEffect(() => {
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
           : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchoolAcolyte/>
           : acolyteLocation === 'HALL' ? <MenuHall/>
+          : acolyteLocation === 'OBITUARY' ? <MenuObituary/>
           : <MenuHome />}    
                       
         </MenuContainer>
