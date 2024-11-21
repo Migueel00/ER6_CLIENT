@@ -12,6 +12,7 @@ const homeIcon = require('./../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('./../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('./../../../assets/icons/schoolIcon.png');
 const swampIcon =  require('./../../../assets/icons/swampIcon.png');
+const obituaryIcon = require('./../../../assets/icons/obituaryIconFill.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -194,7 +195,7 @@ const MapScreenIstvan = () => {
                 <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
                     <IconText>Obituary</IconText>
                     <TouchableIcon onPress={handleObituaryIconPress}>
-                        <Icon source={schoolIcon}/>
+                        <Icon source={obituaryIcon}/>
                     </TouchableIcon>
                 </IconContainer>
             ) : null}
