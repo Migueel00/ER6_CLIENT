@@ -69,6 +69,8 @@ const InsideHall = () => {
         } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
             setCallMortimerButton(false);
             setShowArtifacts(true);
+        } else if (retrievedArtifacts.length < 4){
+            setShowArtifacts(false);
         }
         
         console.log("ACOLYTES INSIDE HALL:");
