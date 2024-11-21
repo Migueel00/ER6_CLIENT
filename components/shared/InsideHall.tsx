@@ -16,6 +16,7 @@ const InsideHall = () => {
     const player = appContext?.player!;
     const socket = appContext?.socket;
     const players = appContext?.players!;
+    const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
     const [callMortimerButton, setCallMortimerButton] = useState(false);
     const isValidating = appContext?.isValidating;
@@ -42,6 +43,13 @@ const InsideHall = () => {
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers]);
+
+    useEffect(() => {
+        socket.on('setArtifacts', () => {
+            setAreArtifactsValidated(true);
+            console.log("Cambia el estado de areArtifactsValidated por socket ");
+        });
+    }, []);
 
     const callButton = () => {
         console.log("Call Button Pressed");

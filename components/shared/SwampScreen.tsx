@@ -223,7 +223,6 @@ const SwampScreen = () => {
             })
         
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-
         });      
     }, []);
 
