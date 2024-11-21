@@ -60,7 +60,7 @@ function App(): React.JSX.Element {
   const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(true);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
-  const [isValidating, setIsValidating] = useState<boolean>(true);
+  const [isValidating, setIsValidating] = useState<boolean>(false);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
 

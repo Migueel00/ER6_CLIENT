@@ -36,11 +36,10 @@ const InsideHall = () => {
         if (artifacts) {
             const retrieved = artifacts.filter(artifact => artifact.isRetrieved);
             setRetrievedArtifacts(retrieved);
-        }
 
-        console.log("RETRIEVED ARTIFACTS");
-        artifacts?.map(artifact => console.log(artifact.title));
-        
+            console.log("RETRIEVED ARTIFACTS");
+            retrievedArtifacts?.map(artifact => console.log(artifact.title));
+        }
     }, [artifacts]);
 
     useEffect(() => {
@@ -51,10 +50,11 @@ const InsideHall = () => {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
-        } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
+        } else if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4){
             setCallMortimerButton(false);
             setShowArtifacts(true);
         }
+        
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers]);
