@@ -189,7 +189,6 @@ const MapScreenMortimer = () => {
         console.log('Botón de alerta presionado');
     };
 
-
     return (
         <Container>
 

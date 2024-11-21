@@ -10,6 +10,7 @@ const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const hallIcon = require('../../assets/icons/hallOfSages.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
+const exclamationIcon =  require('../../assets/icons/exclamationIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -57,17 +58,18 @@ const IconTextOpacity = styled.View`
     padding: ${height * 0.001}px ${width * 0.03}px; /* Espaciado interno */
 `;
 
-const AlertButton = styled.TouchableOpacity`
-position: absolute;
-background-color: red;
-z-index: 1;
+const ExclamationImage = styled.Image`
+  width: ${width * 0.10}px;
+  height: ${width * 0.10}px;
 `;
 
-const AlertButtonText = styled.Text`
-color: white;
-font-size: 16px;
-font-weight: bold;
+const ExclamationButton = styled.TouchableOpacity`
+    position: absolute;
+    right: ${width * 0.14}px;
+    bottom: ${height * 0.05}px;
+    z-index: 3;
 `;
+
 
 const SchoolScreen = () => {
     
@@ -126,7 +128,11 @@ useEffect(() => {
             navigation.navigate('LAB');
 
         }
-    }   
+    }
+
+    const handleAlertButtonPress = () => {
+        console.log('Botón de alerta presionado');
+    };
 
     return (
         <Container>
@@ -139,11 +145,11 @@ useEffect(() => {
                 <TouchableIcon onPress={handleHallIconPress}>
                     <Icon source={hallIcon} />
 
-                        {showAlertButton && (
-                    <AlertButton onPress={() => console.log("Alert button pressed!")}>
-                        <AlertButtonText>!</AlertButtonText>
-                    </AlertButton>
-                    )}
+                    {showAlertButton && (
+                <ExclamationButton onPress={handleAlertButtonPress}>
+                    <ExclamationImage source={exclamationIcon} />
+                </ExclamationButton>
+                )}
 
                 </TouchableIcon>
             </IconContainer>
