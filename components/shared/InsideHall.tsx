@@ -31,11 +31,11 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 1 && !isMortimerInside) {
+        if (acolytesInside.length === 3 && !isMortimerInside) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
-        } else if (acolytesInside.length === 1 && isMortimerInside){
+        } else if (acolytesInside.length === 3 && isMortimerInside){
             setCallMortimerButton(false);
             setShowArtifacts(true);
         }
