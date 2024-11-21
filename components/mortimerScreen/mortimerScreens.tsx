@@ -12,6 +12,7 @@ import MenuLabMortimer from './components/MenuLabMortimer';
 import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
 import { Dimensions, Vibration } from 'react-native';
+import MenuObituaryMortimer from './components/MenuObituaryMortimer';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -40,6 +41,7 @@ const MortimerProvider = () => {
   const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
+  const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
 
   useEffect(() => {
@@ -108,6 +110,8 @@ const handleAlertButtonPress = () => {
       setIsMenuOldSchoolLoaded,
       isMenuHallOfSagesLoaded,
       setIsMenuHallOfSagesLoaded,
+      isMenuObituaryLoaded,
+      setIsMenuObituaryLoaded,
       showAlertButton,
       setShowAlertButton
     }}>
@@ -119,6 +123,7 @@ const handleAlertButtonPress = () => {
           : mortimerLocation === 'OLDSCHOOL' ? <MenuOldSchoolMortimer/>
           : mortimerLocation === 'HALL' ? <MenuHallMortimer/>
           : mortimerLocation === 'SWAMP' ? <MenuSwampMortimer/>
+          : mortimerLocation === 'OBITUARY' ? <MenuObituaryMortimer/>
           : <MenuMortimer/>}
         </MenuContainer>
 
