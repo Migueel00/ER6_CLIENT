@@ -57,7 +57,7 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                     if (prevDots === '...') return '';
                     return prevDots + '.';
                 });
-            }, 300); // Cambiar cada 300ms
+            }, 500); // Cambiar cada 300ms
             return () => clearInterval(interval); // Limpiar intervalo al desmontar
         }
     }, [validatingText]);
