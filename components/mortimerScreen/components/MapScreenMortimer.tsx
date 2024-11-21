@@ -12,6 +12,7 @@ const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
+const exclamationIcon =  require('../../../assets/icons/exclamationIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -53,18 +54,17 @@ const TouchableIcon = styled.TouchableOpacity`
     border-radius: 100px;
 `;
 
-const AlertButton = styled.TouchableOpacity`
-position: absolute;
-background-color: red;
-z-index: 1;
+const ExclamationImage = styled.Image`
+  width: ${width * 0.10}px;
+  height: ${width * 0.10}px;
 `;
 
-const AlertButtonText = styled.Text`
-color: white;
-font-size: 16px;
-font-weight: bold;
+const ExclamationButton = styled.TouchableOpacity`
+    position: absolute;
+    right: ${width * 0.14}px;
+    bottom: ${height * 0.06}px;
+    z-index: 3;
 `;
-
 
 const MapScreenMortimer = () => {
     
@@ -185,6 +185,10 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleAlertButtonPress = () => {
+        console.log('Botón de alerta presionado');
+    };
+
 
     return (
         <Container>
@@ -209,9 +213,9 @@ const MapScreenMortimer = () => {
                 <TouchableIcon onPress={handleSchoolIconPress}>
                     
                 {showAlertButton && (
-                <AlertButton onPress={() => console.log("Alert button pressed!")}>
-                    <AlertButtonText>!</AlertButtonText>
-                </AlertButton>
+                <ExclamationButton onPress={handleAlertButtonPress}>
+                    <ExclamationImage source={exclamationIcon} />
+                </ExclamationButton>
                 )}
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
