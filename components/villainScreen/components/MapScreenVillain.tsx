@@ -11,6 +11,7 @@ const homeIcon = require('./../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('./../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('./../../../assets/icons/schoolIcon.png');
 const swampIcon =  require('./../../../assets/icons/swampIcon.png');
+const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -62,6 +63,7 @@ const MapScreenVillain = () => {
     const isMenuOldSchoolLoaded = villainContext?.isMenuOldSchoolLoaded;
     const isMenuLabLoaded = villainContext?.isMenuLabLoaded;
     const isMenuSwampLoaded = villainContext?.isMenuSwampLoaded;
+    const isMenuObituaryLoaded = villainContext?.isMenuObituaryLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
     // Navigation tipado
@@ -72,28 +74,46 @@ const MapScreenVillain = () => {
         console.log("ESTADO DE IS MENU TOWER LOADED " + isMenuTowerLoaded);
         console.log("ESTADO DE IS MENU OLDSCHOOL LOADED " + isMenuOldSchoolLoaded);
 
-        if (isMenuLabLoaded) {
-            setTimeout(() => {
-                navigation.navigate('LAB');
-            }, 200);
-        } else if (isMenuTowerLoaded) {
-            setTimeout(() => {
-                navigation.navigate('TOWER');
-            }, 200);
-        } else if (isMenuOldSchoolLoaded){
-            setTimeout(() => {
-                navigation.navigate('OLDSCHOOL');
-            }, 200);
-        } else if (isMenuSwampLoaded){
-            setTimeout(() => {
-                navigation.navigate('SWAMP');
-            }, 200);
-        } else if (isMenuLoaded){
-            setTimeout(() => {
-                navigation.navigate('HOME');
-            }, 200);
-        }
-    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded]);
+        const navigateToMenu = () => {
+            switch (true) {
+                case isMenuLabLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('LAB');
+                    }, 200);
+                    break;
+                case isMenuTowerLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('TOWER');
+                    }, 200);
+                    break;
+                case isMenuSwampLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('SWAMP');
+                    }, 200);
+                    break;
+                case isMenuLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOME');
+                    }, 200);
+                    break;
+                case isMenuOldSchoolLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('OLDSCHOOL');
+                    }, 200);
+                    break;
+                case isMenuObituaryLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('OBITUARY');
+                    }, 200);
+                    break;
+                
+                default:
+                    break;
+            }
+        };
+    
+        navigateToMenu();
+    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded, isMenuObituaryLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -121,6 +141,18 @@ const MapScreenVillain = () => {
         setLocation('OLDSCHOOL');
         if(isMenuOldSchoolLoaded){
             navigation.navigate('OLDSCHOOL');
+        }
+    }   
+
+
+    const handleObituaryIconPress = () => {
+        console.log("PRESSED OBITUARY BUTTON IN MAP");
+        
+        setLocation('OBITUARY');
+        if(isMenuObituaryLoaded){
+            console.log("NAVIGATING TO OBITUARY");
+            
+            navigation.navigate('OBITUARY');
         }
     }   
 
@@ -160,8 +192,8 @@ const MapScreenVillain = () => {
             { areArtifactsValidated ? (
                 <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
                     <IconText>Obituary</IconText>
-                    <TouchableIcon>
-                        <Icon source={schoolIcon}/>
+                    <TouchableIcon onPress={handleObituaryIconPress}>
+                        <Icon source={obituaryIcon}/>
                     </TouchableIcon>
                 </IconContainer>
             ) : null}

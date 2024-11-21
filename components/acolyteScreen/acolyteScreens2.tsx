@@ -13,6 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MenuHallInside from './menu/MenuHallInside';
 import MenuHall from './menu/MenuHall';
 import MenuOldSchoolAcolyte from './menu/MenuOldSchoolAcolyte';
+import MenuObituary from './menu/MenuObituary';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -50,6 +51,7 @@ const [isMenuTowerLoaded, setIsMenuTowerLoaded] = useState<boolean>(false);
 const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
 const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
 const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
+const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
 
 const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
@@ -133,6 +135,8 @@ useEffect(() => {
         setIsMenuOldSchoolLoaded,
         isMenuHallOfSagesLoaded,
         setIsMenuHallOfSagesLoaded,
+        isMenuObituaryLoaded,
+        setIsMenuObituaryLoaded,
         isInsideLab,
         isInsideTower,
         isInsideHall
@@ -148,6 +152,7 @@ useEffect(() => {
           : acolyteLocation === 'SWAMP' ? <MenuSwamp/>
           : acolyteLocation === 'OLDSCHOOL' ? <MenuOldSchoolAcolyte/>
           : acolyteLocation === 'HALL' ? <MenuHall/>
+          : acolyteLocation === 'OBITUARY' ? <MenuObituary/>
           : <MenuHome />}    
                       
         </MenuContainer>

@@ -13,6 +13,8 @@ interface MortimerContextType {
     setIsMenuOldSchoolLoaded:  (loaded: boolean) => void;
     isMenuHallOfSagesLoaded: boolean;
     setIsMenuHallOfSagesLoaded:  (loaded: boolean) => void;
+    isMenuObituaryLoaded: boolean;
+    setIsMenuObituaryLoaded: (loaded: boolean) => void;
     showAlertButton: boolean;
     setShowAlertButton:  (loaded: boolean) => void;
 }
