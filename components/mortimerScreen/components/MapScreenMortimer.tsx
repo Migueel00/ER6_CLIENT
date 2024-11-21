@@ -62,7 +62,7 @@ const ExclamationImage = styled.Image`
 const ExclamationButton = styled.TouchableOpacity`
     position: absolute;
     right: ${width * 0.14}px;
-    bottom: ${height * 0.06}px;
+    bottom: ${height * 0.05}px;
     z-index: 3;
 `;
 
