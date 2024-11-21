@@ -75,7 +75,7 @@ const InsideHall = () => {
         
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
-    }, [insidePlayers, retrievedArtifacts]);
+    }, [insidePlayers, retrievedArtifacts, artifacts]);
 
     useEffect(() => {
         socket.on('setArtifacts', () => {
