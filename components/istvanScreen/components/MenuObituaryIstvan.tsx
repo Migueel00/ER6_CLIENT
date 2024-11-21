@@ -12,6 +12,7 @@ import ObituaryScreen from "../../shared/ObituaryScreen";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import AppContext from "../../../helpers/context";
 import MapScreenIstvan from "./MapScreenIstvan";
+import IstvanContext from "../../../helpers/IstvanContext";
 
 
 
@@ -26,10 +27,10 @@ const Icon = styled.Image`
 
 const MenuObituaryIstvan = () => {
     
-    const acolyteContext = useContext(AcolyteContext);
+    const istvanContext = useContext(IstvanContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuObituaryLoaded = acolyteContext?.setIsMenuObituaryLoaded!;
+    const setIsMenuObituaryLoaded = istvanContext?.setIsMenuObituaryLoaded!;
 
     useEffect(() => {
         setIsMenuObituaryLoaded(true);
