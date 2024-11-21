@@ -180,7 +180,11 @@ const Header = styled.Text`
     font-family: 'KochAltschrift';
     color: orange;
     text-align: center;
-
+    margin-top: ${height * 0.02}px;
+    position: absolute;
+    top: ${height * 0.16}px;
+    width: 100%; /* Para centrar correctamente */
+    text-decoration-line: underline;
 `;
 
 const AnimatedFunFactContainer = styled(Animated.View)`
@@ -199,7 +203,12 @@ const FunFactImage = styled.Image`
 
 const FunFactTextsContainer = styled.View`
     align-items: center;
+    justify-content: center;
+    height: ${height * 0.25}px;
+    max-height: ${height * 0.25}px; 
+    overflow: hidden;
 `;
+
 
 const FunFactTitle = styled.Text`
     font-size: ${width * 0.09}px;
