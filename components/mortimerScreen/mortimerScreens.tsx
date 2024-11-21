@@ -142,7 +142,7 @@ const AlertButtonImage = styled.Image`
 
 const AlertButton = styled.TouchableOpacity`
   position: absolute;
-  top: ${height * 0.12}px;
+  top: ${height * 0.21}px;
   left: ${height * 0.01}px;
 `;
 

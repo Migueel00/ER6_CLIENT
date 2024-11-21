@@ -101,7 +101,7 @@ const HeaderText = styled.Text`
     font-size: ${width * 0.12}px;
     font-family: 'KochAltschrift';
     position: absolute;
-    top: ${height * 0.08}px;
+    top: ${height * 0.05}px;
     text-align: center;
 `;
 
