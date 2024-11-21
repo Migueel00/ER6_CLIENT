@@ -32,6 +32,7 @@ const InsideHall = () => {
         setInsidePlayers(players.filter(player => player.isInsideHall));
     }, [players]);
 
+    // Update Retrieved artifacts
     useEffect(() => {
         if (artifacts) {
             const retrieved = artifacts.filter(artifact => artifact.isRetrieved);
