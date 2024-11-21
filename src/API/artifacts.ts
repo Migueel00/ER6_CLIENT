@@ -16,5 +16,5 @@ export const updateArtifact = async (id : string, isRetrieved: boolean, avatar: 
     }); 
 
     const json = await response.json();
-    console.log("RESPUESTA DE FETCH " + JSON.stringify(json));
+    console.log("RESPUESTA DE FETCH DE UPDATE ARTIFACT" + JSON.stringify(json));
 }

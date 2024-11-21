@@ -179,6 +179,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         setImage2Opacity(0);
         setImage3Opacity(0);
         setImage4Opacity(0);
+        setValidatingText('Retrieving artifacts');
         onClose();
     }
 
@@ -193,6 +194,7 @@ const MortimerValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClo
         setImage2Opacity(0);
         setImage3Opacity(0);
         setImage4Opacity(0);
+        setValidatingText('Retrieving artifacts');
         onClose();
     }
 
