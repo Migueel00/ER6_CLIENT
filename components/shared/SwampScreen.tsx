@@ -55,7 +55,6 @@ const SwampScreen = () => {
     const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
     const [swampBackgroundImage, setLabBackgroundImage] = useState(swampImage);
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
-    const [isArtifacts, setIsArtifacts] = useState<boolean>(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState(artifacts.filter((marker) => !marker.isRetrieved) || []);
     const [othersUserLocations, setOthersUserLocation] = useState<LocationAvatar[]>([]);
 
@@ -157,7 +156,7 @@ const SwampScreen = () => {
     }, []);
 
     useEffect(() => {
-        if (locationPermissionGranted && isArtifacts) {
+        if (locationPermissionGranted) {
           console.log("PERMISOS OTORGADOS");
     
           // Obtener la ubicación actual del usuario
@@ -183,7 +182,7 @@ const SwampScreen = () => {
             }
           );
         }
-      }, [locationPermissionGranted, isArtifacts]);
+      }, [locationPermissionGranted]);
 
     useEffect(() => {
         if (locationPermissionGranted) {
