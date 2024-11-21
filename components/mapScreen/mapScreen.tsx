@@ -66,6 +66,7 @@ const MapScreen = () => {
     const isMenuSwampLoaded = acolyteContext?.isMenuSwampLoaded;
     const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
+    const isMenuObituaryLoaded = acolyteContext?.isMenuObituaryLoaded;
 
     console.log("Are artifacts validated" + areArtifactsValidated);
 
@@ -108,6 +109,12 @@ useEffect(() => {
                     navigation.navigate('OLDSCHOOL');
                 }, 200);
                 break;
+            case isMenuObituaryLoaded:
+                setTimeout(() => {
+                    navigation.navigate('OBITUARY');
+                }, 200);
+                break;
+            
             default:
                 break;
         }
@@ -115,7 +122,8 @@ useEffect(() => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded]);
+}, [isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded]);
+
     const handleLabIconPress = () => {
         setLocation('LAB');
         if(isMenuLabLoaded){
@@ -163,7 +171,7 @@ useEffect(() => {
         console.log("PRESSED OBITUARY BUTTON IN MAP");
         
         setLocation('OBITUARY');
-        if(isMenuOldSchoolLoaded){
+        if(isMenuObituaryLoaded){
             console.log("NAVIGATING TO OBITUARY");
             
             navigation.navigate('OBITUARY');

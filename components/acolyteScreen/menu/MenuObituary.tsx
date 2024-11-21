@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import * as CONSTANTS from "../../../src/constants";
@@ -9,6 +9,8 @@ import HallScreen from "../../shared/HallScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import MapScreen from "../../mapScreen/mapScreen";
 import ObituaryScreen from "../../shared/ObituaryScreen";
+import AcolyteContext from "../../../helpers/AcolyteContext";
+import AppContext from "../../../helpers/context";
 
 
 
@@ -23,7 +25,26 @@ const Icon = styled.Image`
 
 const MenuObituary = () => {
     
+    const acolyteContext = useContext(AcolyteContext);
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
+    const setIsMenuObituaryLoaded = acolyteContext?.setIsMenuObituaryLoaded!;
 
+    useEffect(() => {
+        setIsMenuObituaryLoaded(true);
+        
+        const value = {
+            playerID: appContext?.player._id,
+            location: appContext?.location
+        };
+
+        socket.emit("UpdateLocation", value);
+
+        // Se ejecuta al desmontar el componente
+        return () => {
+            setIsMenuObituaryLoaded(false);
+        }
+    }, []);
   
     const screens = [
         {
