@@ -25,6 +25,27 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
     const [currentFunFact, setCurrentFunFact] = useState(0);
     const [fadeAnim] = useState(new Animated.Value(1)); // Controla el fade
 
+    const changeFunFact = (direction: 'next' | 'prev') => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+        }).start(() => {
+            setCurrentFunFact((prev) => {
+                if (direction === 'next') {
+                    return (prev + 1) % funFacts.length;
+                } else {
+                    return (prev - 1 + funFacts.length) % funFacts.length;
+                }
+            });
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+            }).start();
+        });
+    };
+
     useEffect(() => {
         const interval = setInterval(() => {
             // Animación de fade out
@@ -43,7 +64,7 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                     useNativeDriver: true,
                 }).start();
             });
-        }, 10000); //Change every 10 seconds
+        }, 8000); //Change every 10 seconds
 
         return () => clearInterval(interval); // Limpiar el intervalo al desmontar
     }, [fadeAnim]);
@@ -79,10 +100,9 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                                 </DotsWrapper>
                         </ModalText>
 
-                    <InterestingFactsContainer>
-
                         <Header>FUN FACTS ABOUT KAOTIKA</Header>
                         
+                        <InterestingFactsContainer> 
                             <AnimatedFunFactContainer style={{ opacity: fadeAnim }}>
                                 <FunFactImage source={{ uri: funFact.image }} />
                                 <FunFactTextsContainer>
@@ -90,7 +110,16 @@ const AcolyteValidatingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                                     <FunFactDescription>{funFact.description}</FunFactDescription>
                                 </FunFactTextsContainer>
                             </AnimatedFunFactContainer>
-                    </InterestingFactsContainer>
+                        </InterestingFactsContainer>
+
+                        <ButtonsContainer>
+                            <NavButton onPress={() => changeFunFact('prev')}>
+                                <NavButtonText>Previous</NavButtonText>
+                            </NavButton>
+                            <NavButton onPress={() => changeFunFact('next')}>
+                                <NavButtonText>Next</NavButtonText>
+                            </NavButton>
+                        </ButtonsContainer>
 
                     </ModalContainer>
 
@@ -127,7 +156,7 @@ const ModalContainer = styled.View`
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: ${width * 0.05}px;
     padding: ${width * 0.003}px;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 95%;
     height: 50%;
 `;
@@ -151,7 +180,7 @@ const Header = styled.Text`
     font-family: 'KochAltschrift';
     color: orange;
     text-align: center;
-    margin-bottom: ${height * 0.03}px;
+
 `;
 
 const AnimatedFunFactContainer = styled(Animated.View)`
@@ -189,5 +218,25 @@ const FunFactDescription = styled.Text`
 
 const InterestingFactsContainer = styled.View`
     align-items: center;
-    top: ${height * 0.17}px;
+`;
+
+const ButtonsContainer = styled.View`
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: ${height * 0.03}px;
+    width: 100%;
+    bottom: ${height * 0.05}px;
+`;
+
+const NavButton = styled.TouchableOpacity`
+    background-color: #C19A6B;
+    padding: ${width * 0.03}px;
+    border-radius: ${width * 0.02}px;
+`;
+
+const NavButtonText = styled.Text`
+    color: white;
+    font-size: ${width * 0.05}px;
+    font-family: 'KochAltschrift';
+    text-align: center;
 `;
