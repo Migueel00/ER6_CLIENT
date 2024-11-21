@@ -13,6 +13,8 @@ import MenuSwampMortimer from './components/MenuSwampMortimer';
 import messaging from '@react-native-firebase/messaging';
 import { Dimensions, Vibration } from 'react-native';
 
+const alertIcon = require('./../../assets/icons/alertIcon.png');
+
 const MenuContainer = styled.View`
   flex: 1;
 `;
@@ -40,7 +42,7 @@ const MortimerProvider = () => {
   const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
   const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
-  const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
+  const [showAlertButton, setShowAlertButton] = useState<boolean>(true);
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -123,27 +125,26 @@ const handleAlertButtonPress = () => {
         </MenuContainer>
 
         {showAlertButton && !player?.isInsideHall && (
-            <AlertButton onPress={handleAlertButtonPress}>
-              <AlertButtonText>ALERT</AlertButtonText>
-            </AlertButton>
-          )}
+          <AlertButton onPress={handleAlertButtonPress}>
+            <AlertButtonImage source={alertIcon} />
+          </AlertButton>
+      )}
       </NavigationContainer>
     </MortimerContext.Provider>
   
 );
 }
 
-const AlertButton = styled.TouchableOpacity`
-position: absolute;
-top: ${height * 0.15}px;
-left: ${height * 0.02}px;
-background-color: red;
+const AlertButtonImage = styled.Image`
+  width: ${width * 0.15}px;
+  height: ${width * 0.15}px;
 `;
 
-const AlertButtonText = styled.Text`
-color: white;
-font-size: 16px;
-font-weight: bold;
+const AlertButton = styled.TouchableOpacity`
+  position: absolute;
+  top: ${height * 0.12}px;
+  left: ${height * 0.01}px;
 `;
+
 
 export default MortimerProvider;
