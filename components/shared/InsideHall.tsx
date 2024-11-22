@@ -28,6 +28,7 @@ const InsideHall = () => {
     const [isAcolyteModalVisible, setIsAcolyteModalVisible] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
+    const areArtifactsValidated = appContext?.areArtifactsValidated;
 
 
     useEffect(() => {
@@ -62,19 +63,22 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 4) {
-            console.log("HALL IS FULL");
-            setCallMortimerButton(true);
-            setShowArtifacts(false);
-        } else if (acolytesInside.length === 2 && isMortimerInside && retrievedArtifacts.length === 4){
-            setCallMortimerButton(false);
-            setShowArtifacts(true);
-        } else if (retrievedArtifacts.length < 4){
-            setShowArtifacts(false);
-        } else {
-            setShowArtifacts(false);
-            setCallMortimerButton(false);
+        if(!areArtifactsValidated){
+            if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 4) {
+                console.log("HALL IS FULL");
+                setCallMortimerButton(true);
+                setShowArtifacts(false);
+            } else if (acolytesInside.length === 2 && isMortimerInside && retrievedArtifacts.length === 4){
+                setCallMortimerButton(false);
+                setShowArtifacts(true);
+            } else if (retrievedArtifacts.length < 4){
+                setShowArtifacts(false);
+            } else {
+                setShowArtifacts(false);
+                setCallMortimerButton(false);
+            }
         }
+      
         
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
