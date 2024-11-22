@@ -18,7 +18,8 @@ export const URL = {
     SOCKET: 'https://er6-staging-server.onrender.com',
     NOTIFICATION: 'https://er6-staging-server.onrender.com/send-notification',
     GET_ARTIFACTS: 'https://er6-staging-server.onrender.com/api/artifacts',
-    UPDATE_ARTIFACT: 'https://er6-staging-server.onrender.com/api/artifacts'
+    UPDATE_ARTIFACT: 'https://er6-staging-server.onrender.com/api/artifacts',
+    GET_MISSIONS: 'https://er6-staging-server.onrender.com/api/missions',
 }
 
 // Miguel IP CASA
@@ -43,7 +44,8 @@ export const URL = {
 //     SOCKET: 'http://10.80.128.31:3000',
 //     NOTIFICATION: 'http://10.80.128.31:3000/send-notification',
 //     GET_ARTIFACTS: 'http://10.80.128.31:3000/api/artifacts',
-//     UPDATE_ARTIFACT: 'http://10.80.128.31:3000/api/artifacts'
+//     UPDATE_ARTIFACT: 'http://10.80.128.31:3000/api/artifacts',
+//     GET_MISSIONS: 'http://10.80.128.32/api/missions'
 // }
 
 
