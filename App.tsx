@@ -160,6 +160,7 @@ function App(): React.JSX.Element {
 
     SplashScreen.hide();
 
+
   }, []);
     
   useEffect(() => {
@@ -263,6 +264,12 @@ function App(): React.JSX.Element {
       socket.on('disconnect', ()=> {
         console.log('Desconectado del servidor de Socket ');
       })
+
+      socket.on('responseArtifactsState' , (state: boolean) => {
+        console.log("Dando valor inicial a areArtifactsValidated " + state);
+
+        setAreArtifactsValidated(state);
+      });
   
       // Limpiar la conexion al desmontar el componente
       return () => {
@@ -283,6 +290,7 @@ function App(): React.JSX.Element {
       setSocket(socket);
       // Funcion gestionar sockets
       handleSockets(socket);
+      socket.emit('requestArtifactsState');
 
       await checkLoginStatus();
 
