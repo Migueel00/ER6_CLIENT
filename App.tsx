@@ -62,7 +62,7 @@ function App(): React.JSX.Element {
   const [ingredientsUnmodified, setIngredientsUnmodified] = useState<Ingredient[] | any>([]);
   const [isValidating, setIsValidating] = useState<boolean>(false);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
-  const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
+  const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(true);
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
