@@ -62,15 +62,18 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
-        if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 4) {
+        if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 5) {
             console.log("HALL IS FULL");
             setCallMortimerButton(true);
             setShowArtifacts(false);
-        } else if (acolytesInside.length === 2 && isMortimerInside && retrievedArtifacts.length === 4){
+        } else if (acolytesInside.length === 2 && isMortimerInside && retrievedArtifacts.length === 5){
             setCallMortimerButton(false);
             setShowArtifacts(true);
-        } else if (retrievedArtifacts.length < 4){
+        } else if (retrievedArtifacts.length < 5){
             setShowArtifacts(false);
+        } else {
+            setShowArtifacts(false);
+            setCallMortimerButton(false);
         }
         
         console.log("ACOLYTES INSIDE HALL:");
