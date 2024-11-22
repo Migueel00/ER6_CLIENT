@@ -66,11 +66,11 @@ const InsideHall = () => {
         if(!areArtifactsValidated){
             console.log("ARTIFACTS NOT VALIDATED");
             
-            if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 4) {
+            if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
                 console.log("HALL IS FULL");
                 setCallMortimerButton(true);
                 setShowArtifacts(false);
-            } else if (acolytesInside.length === 2 && isMortimerInside && retrievedArtifacts.length === 4){
+            } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
                 setCallMortimerButton(false);
                 setShowArtifacts(true);
             } else if (retrievedArtifacts.length < 4){
