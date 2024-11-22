@@ -25,6 +25,7 @@ import SignInScreen from './components/SignIn';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './src/constants';
 import Artifact from './interfaces/ArtifactsInterface';
+import { getALlMissions } from './src/API/missions';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
@@ -63,6 +64,7 @@ function App(): React.JSX.Element {
   const [isValidating, setIsValidating] = useState<boolean>(false);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
+  const [missions, setMissions] = useState<any>([]);
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -157,10 +159,8 @@ function App(): React.JSX.Element {
         const data = artifacts.data;
         setArtifacts(data);
     });
-
+   
     SplashScreen.hide();
-
-
   }, []);
     
   useEffect(() => {
@@ -264,12 +264,6 @@ function App(): React.JSX.Element {
       socket.on('disconnect', ()=> {
         console.log('Desconectado del servidor de Socket ');
       })
-
-      socket.on('responseArtifactsState' , (state: boolean) => {
-        console.log("Dando valor inicial a areArtifactsValidated " + state);
-
-        setAreArtifactsValidated(state);
-      });
   
       // Limpiar la conexion al desmontar el componente
       return () => {
@@ -290,7 +284,6 @@ function App(): React.JSX.Element {
       setSocket(socket);
       // Funcion gestionar sockets
       handleSockets(socket);
-      socket.emit('requestArtifactsState');
 
       await checkLoginStatus();
 
@@ -345,6 +338,12 @@ function App(): React.JSX.Element {
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
       playerDataToPost.location = "HOME";
+
+      const missions = await getALlMissions();
+      setMissions(missions);
+
+      console.log("missions");
+      console.log(missions);
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
       setLocation(player.location);
