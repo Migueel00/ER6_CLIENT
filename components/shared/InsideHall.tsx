@@ -64,6 +64,8 @@ const InsideHall = () => {
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
     
         if(!areArtifactsValidated){
+            console.log("ARTIFACTS NOT VALIDATED");
+            
             if (acolytesInside.length === 2 && !isMortimerInside && retrievedArtifacts.length === 4) {
                 console.log("HALL IS FULL");
                 setCallMortimerButton(true);
@@ -77,12 +79,16 @@ const InsideHall = () => {
                 setShowArtifacts(false);
                 setCallMortimerButton(false);
             }
+        } else {
+            console.log("ARTIFACTS VALIDATED");
+            setShowArtifacts(false);
+            setCallMortimerButton(false);
         }
       
         
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
-    }, [insidePlayers, retrievedArtifacts, artifacts]);
+    }, [insidePlayers, retrievedArtifacts, artifacts, areArtifactsValidated]);
 
     useEffect(() => {
         socket.on('setArtifacts', () => {
