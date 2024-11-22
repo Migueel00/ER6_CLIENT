@@ -345,6 +345,17 @@ function App(): React.JSX.Element {
       console.log("missions");
       console.log(missions);
 
+
+      if(missions[0].isCompleted) {
+        console.log("MISION COMPLETADA");
+        setAreArtifactsValidated(true);
+      } else {
+        console.log("MISION NO COMPLETADA");
+        
+        setAreArtifactsValidated(false);
+      }
+
+
       const player = await searchAndIfDontExistPost(playerDataToPost);
       setLocation(player.location);
       setPlayer(player);
