@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import { Text, Vibration } from 'react-native';
 import AppContext from "../helpers/context";
 import VillainScreens from "./villainScreen/VillainScreens";
+import Artifact from "../interfaces/ArtifactsInterface";
 
 interface updateTowerEvent {
     playerId: string;
@@ -25,6 +26,8 @@ const MainScreens = () => {
     const players = appContext?.players!;
     const setPlayers = appContext?.setPlayers;
     const setIsValidating = appContext?.setIsValidating!;
+    const artifacts = appContext?.artifacts;
+    const setArtifacts = appContext?.setArtifacts!;
 
     useEffect(() => {
         socket?.on('updateMyHall', ({ nickname, playerId, isInsideHall }: updateHallEvent) => {
@@ -79,6 +82,22 @@ const MainScreens = () => {
             socket.off('updateTower');
         };
     }, [socket, players, setPlayers]);
+
+
+    useEffect(() => {         
+        socket?.on('updateArtifact', (updateArtifact: Artifact) => {       
+
+            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
+            
+            // setArtifacts(updatedArtifacts);
+            setArtifacts((prevArtifacts) => {
+                return prevArtifacts.map(artifact => 
+                    artifact.id === updateArtifact.id ? updateArtifact : artifact);
+            })
+        
+            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
+        });      
+    }, []);
 
 
 

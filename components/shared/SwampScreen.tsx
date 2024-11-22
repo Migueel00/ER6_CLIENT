@@ -211,20 +211,7 @@ const SwampScreen = () => {
         }
     }, [locationPermissionGranted]);
     
-    useEffect(() => {         
-        socket?.on('updateArtifact', (updateArtifact: Artifact) => {       
-
-            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-            
-            // setArtifacts(updatedArtifacts);
-            setArtifacts((prevArtifacts) => {
-                return prevArtifacts.map(artifact => 
-                    artifact.id === updateArtifact.id ? updateArtifact : artifact);
-            })
-        
-            console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-        });      
-    }, []);
+  
 
     // Socket to send player Location data and avatar
     useEffect(() => {
