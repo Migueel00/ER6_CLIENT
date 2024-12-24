@@ -37,7 +37,7 @@ const convertAttributesToPercentage = (profileAttributes: any) => {
     };
 };
 
-const ProfileScreen3 = () => {
+const ProfileScreen = () => {
     const { height, width } = Dimensions.get('window');
 
     
@@ -117,4 +117,4 @@ const ProfileScreen3 = () => {
     );
 };
 
-export default ProfileScreen3;
+export default ProfileScreen;

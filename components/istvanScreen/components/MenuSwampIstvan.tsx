@@ -1,15 +1,15 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import styled from "styled-components/native";
-import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
-import SwampScreen from "../../shared/SwampScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
+import IstvanContext from "../../../helpers/IstvanContext";
+import * as CONSTANTS from "../../../src/constants";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
+import SwampScreen from "../../shared/SwampScreen";
 import MapScreenIstvan from "./MapScreenIstvan";
-import IstvanContext from "../../../helpers/IstvanContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ const MenuSwampIstvan = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

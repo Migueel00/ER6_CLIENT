@@ -3,12 +3,10 @@ import React from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import * as CONSTANTS from "../../../src/constants";
-import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
-import OutsideHall from "../../shared/OutsideHall";
 import HallScreen from "../../shared/HallScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -30,7 +28,7 @@ const MenuHall = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

@@ -1,15 +1,15 @@
-import styled from 'styled-components/native';
-import * as CONSTANTS from "../../../src/constants";
-import { Dimensions, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ProfileScreen3 from '../../shared/ProfileScreen';
-import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
+import IstvanContext from '../../../helpers/IstvanContext';
+import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from '../../settings/settingsScreen';
 import ExitLab from '../../shared/ExitLab';
 import MainTabNavigator from '../../shared/MainTabNavigator';
+import ProfileScreen from '../../shared/ProfileScreen';
 import ScannerScreen from '../ScannerScreen';
-import IstvanContext from '../../../helpers/IstvanContext';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,7 +36,7 @@ const MenuIstvanLab = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

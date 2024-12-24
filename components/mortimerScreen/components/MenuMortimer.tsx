@@ -1,16 +1,15 @@
-import styled from 'styled-components/native';
-import * as CONSTANTS from "../../../src/constants";
-import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../../shared/homeScreen';
-import ProfileScreen3 from '../../shared/ProfileScreen';
-import SettingsScreen from '../../settings/settingsScreen';
-import MapScreenMortimer from './MapScreenMortimer';
 import { useContext, useEffect } from 'react';
-import MortimerContext from '../../../helpers/MortimerContext';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
+import MortimerContext from '../../../helpers/MortimerContext';
+import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from '../../settings/settingsScreen';
+import HomeScreen from '../../shared/homeScreen';
 import MainTabNavigator from '../../shared/MainTabNavigator';
+import ProfileScreen from '../../shared/ProfileScreen';
+import MapScreenMortimer from './MapScreenMortimer';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -31,7 +30,7 @@ const MenuMortimer = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

@@ -4,9 +4,9 @@ import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import * as CONSTANTS from "../../../src/constants";
 import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import HallScreen from "../../shared/HallScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 
 
@@ -31,7 +31,7 @@ const MenuHallIstvan = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

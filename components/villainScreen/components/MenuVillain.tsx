@@ -1,17 +1,15 @@
-import styled from 'styled-components/native';
-import * as CONSTANTS from "../../../src/constants";
-import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../../shared/homeScreen';
-import ProfileScreen3 from '../../shared/ProfileScreen';
-import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
-import VillainContext from '../../../helpers/VillainContext';
-import MapScreenVillain from './MapScreenVillain';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
+import VillainContext from '../../../helpers/VillainContext';
+import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from '../../settings/settingsScreen';
+import HomeScreen from '../../shared/homeScreen';
 import MainTabNavigator from '../../shared/MainTabNavigator';
-import TabScreensComponent from '../../shared/MainTabScreen';
+import ProfileScreen from '../../shared/ProfileScreen';
+import MapScreenVillain from './MapScreenVillain';
 
 
 const { width, height } = Dimensions.get('window');
@@ -33,7 +31,7 @@ const MenuVillain = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

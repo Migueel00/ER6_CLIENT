@@ -1,16 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { Dimensions} from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HomeScreen from "../../shared/homeScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
-import SettingsScreen from "../../settings/settingsScreen";
-import MapScreen from "../../mapScreen/mapScreen";
+import React, { useContext, useEffect } from "react";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AcolyteContext from "../../../helpers/AcolyteContext";
-import * as CONSTANTS from "../../../src/constants";
 import AppContext from "../../../helpers/context";
+import * as CONSTANTS from "../../../src/constants";
+import MapScreen from "../../mapScreen/mapScreen";
+import SettingsScreen from "../../settings/settingsScreen";
+import HomeScreen from "../../shared/homeScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -31,7 +30,7 @@ const MenuHome = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

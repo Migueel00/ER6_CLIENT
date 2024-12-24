@@ -3,13 +3,13 @@ import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
+import IstvanContext from "../../../helpers/IstvanContext";
 import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 import MapScreenIstvan from "./MapScreenIstvan";
-import IstvanContext from "../../../helpers/IstvanContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ const MenuOldSchoolIstvan = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

@@ -1,15 +1,15 @@
-import styled from 'styled-components/native';
-import * as CONSTANTS from "../../../src/constants";
-import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ProfileScreen3 from '../../shared/ProfileScreen';
-import SettingsScreen from '../../settings/settingsScreen';
 import { useContext, useEffect } from 'react';
-import OutsideTower from '../../shared/OutsideTower';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
-import MainTabNavigator from '../../shared/MainTabNavigator';
-import MapScreenIstvan from './MapScreenIstvan';
 import IstvanContext from '../../../helpers/IstvanContext';
+import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from '../../settings/settingsScreen';
+import MainTabNavigator from '../../shared/MainTabNavigator';
+import OutsideTower from '../../shared/OutsideTower';
+import ProfileScreen from '../../shared/ProfileScreen';
+import MapScreenIstvan from './MapScreenIstvan';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -30,7 +30,7 @@ const MenuIstvanTower = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

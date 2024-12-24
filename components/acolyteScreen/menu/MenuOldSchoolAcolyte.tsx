@@ -7,9 +7,9 @@ import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
 import MapScreen from "../../mapScreen/mapScreen";
 import SchoolScreen from "../../mapScreen/schoolScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ const MenuOldSchoolAcolyte = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

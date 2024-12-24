@@ -2,15 +2,14 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
-import * as CONSTANTS from "../../../src/constants";
-import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
-import MainTabNavigator from "../../shared/MainTabNavigator";
-import MapScreen from "../../mapScreen/mapScreen";
-import ObituaryScreen from "../../shared/ObituaryScreen";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import AppContext from "../../../helpers/context";
+import * as CONSTANTS from "../../../src/constants";
+import MapScreen from "../../mapScreen/mapScreen";
+import SettingsScreen from "../../settings/settingsScreen";
 import HollowScreen from "../../shared/HollowScreen";
+import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 
 
@@ -54,7 +53,7 @@ const MenuHollow = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

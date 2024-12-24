@@ -2,12 +2,12 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
+import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
 import SettingsScreen from "../../settings/settingsScreen";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import ObituaryScreen from "../../shared/ObituaryScreen";
-import AppContext from "../../../helpers/context";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 import MortimerContext from "../../../helpers/MortimerContext";
 import MapScreenMortimer from "./MapScreenMortimer";
@@ -54,7 +54,7 @@ const MenuObituaryMortimer = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

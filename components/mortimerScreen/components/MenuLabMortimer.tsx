@@ -1,14 +1,14 @@
-import styled from 'styled-components/native';
-import * as CONSTANTS from "../../../src/constants";
-import { Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ProfileScreen3 from '../../shared/ProfileScreen';
-import SettingsScreen from '../../settings/settingsScreen';
-import ConnectionScreen from '../connectionsScreen';
 import { useContext, useEffect } from 'react';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import MortimerContext from '../../../helpers/MortimerContext';
 import AppContext from '../../../helpers/context';
+import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from '../../settings/settingsScreen';
 import MainTabNavigator from '../../shared/MainTabNavigator';
+import ProfileScreen from '../../shared/ProfileScreen';
+import ConnectionScreen from '../connectionsScreen';
 
 
 const { width, height } = Dimensions.get('window');
@@ -30,7 +30,7 @@ const MenuLabMortimer = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

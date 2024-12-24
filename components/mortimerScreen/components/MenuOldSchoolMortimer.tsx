@@ -6,10 +6,10 @@ import AppContext from "../../../helpers/context";
 import MortimerContext from "../../../helpers/MortimerContext";
 import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
-import MapScreenMortimer from "./MapScreenMortimer";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
+import MapScreenMortimer from "./MapScreenMortimer";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ const MenuOldSchoolMortimer = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

@@ -3,13 +3,13 @@ import React, { useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
+import VillainContext from "../../../helpers/VillainContext";
 import * as CONSTANTS from "../../../src/constants";
 import SchoolScreen from "../../mapScreen/schoolScreen";
-import MapScreenVillain from "./MapScreenVillain";
-import VillainContext from "../../../helpers/VillainContext";
-import ProfileScreen3 from "../../shared/ProfileScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
+import MapScreenVillain from "./MapScreenVillain";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ const MenuOldSchoolVillain = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },

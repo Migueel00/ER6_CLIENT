@@ -1,12 +1,12 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
 import { Dimensions } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import LabScreen from "../../shared/labScreen";
 import styled from "styled-components/native";
-import ProfileScreen3 from "../../shared/ProfileScreen";
-import SettingsScreen from "../../settings/settingsScreen";
 import * as CONSTANTS from "../../../src/constants";
+import SettingsScreen from "../../settings/settingsScreen";
+import LabScreen from "../../shared/labScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
+import ProfileScreen from "../../shared/ProfileScreen";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -28,7 +28,7 @@ const MenuLabInside = () => {
         },
         {
             name: 'Profile',
-            component: ProfileScreen3,
+            component: ProfileScreen,
             iconSource: require('./../../../assets/icons/fixed/profileIcon.png'),
 
         },
