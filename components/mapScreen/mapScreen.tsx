@@ -242,7 +242,7 @@ const MapScreen = () => {
 
             <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
                 <IconText>Inn of the forgotten</IconText>
-                <TouchableIcon onPress={handleHollowIconPress}>
+                <TouchableIcon onPress={handleInnIconPress}>
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>

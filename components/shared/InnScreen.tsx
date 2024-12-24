@@ -6,7 +6,6 @@ import AppContext from "../../helpers/context";
 
 const { width, height } = Dimensions.get('window');
 
-
 const CustomBackground = styled.ImageBackground`
     width: 100%;
     height: 100%;
@@ -14,19 +13,27 @@ const CustomBackground = styled.ImageBackground`
     align-items: center;
 `;
 
+const CenteredText = styled.Text`
+    font-size: 60px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+`;
+
 const background = require('../../assets/backgrounds/obituaryBackground.png');
 
 const InnScreen = () => {
-
     const appContext = useContext(AppContext);
     const player = appContext?.player;
 
     return (
-
         <CustomBackground source={background}>
+            <CenteredText>Inn the Forgotten</CenteredText>
         </CustomBackground>
-
-    )
+    );
 }
 
 export default InnScreen;
