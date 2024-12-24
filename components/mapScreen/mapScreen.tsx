@@ -66,6 +66,7 @@ const MapScreen = () => {
     const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
     const isMenuObituaryLoaded = acolyteContext?.isMenuObituaryLoaded;
+    const isMenuHollowLoaded = acolyteContext?.isMenuHollowLoaded;
 
     console.log("Are artifacts validated" + areArtifactsValidated);
 
@@ -77,7 +78,8 @@ const MapScreen = () => {
             isMenuLoaded,
             isMenuTowerLoaded,
             isMenuSwampLoaded,
-            isMenuOldSchoolLoaded
+            isMenuOldSchoolLoaded,
+            isMenuHollowLoaded
         });
 
         const navigateToMenu = () => {
@@ -107,6 +109,11 @@ const MapScreen = () => {
                         navigation.navigate('OBITUARY');
                     }, 200);
                     break;
+                case isMenuHollowLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOLLOW');
+                    }, 200);
+                    break;
 
                 default:
                     break;
@@ -115,7 +122,7 @@ const MapScreen = () => {
 
         navigateToMenu();
 
-    }, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded]);
+    }, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded, isMenuHollowLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -164,6 +171,17 @@ const MapScreen = () => {
         }
     }
 
+    const handleHollowIconPress = () => {
+        console.log("PRESSED HOLLOW BUTTON IN MAP");
+
+        setLocation('HOLLOW');
+        if (isMenuHollowLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('HOLLOW');
+        }
+    }
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -192,6 +210,13 @@ const MapScreen = () => {
             <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
+                    <Icon source={schoolIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.20, right: width * 0.70 }}>
+                <IconText>Hollow</IconText>
+                <TouchableIcon onPress={handleHollowIconPress}>
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
