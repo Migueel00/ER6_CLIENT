@@ -67,6 +67,7 @@ const MapScreen = () => {
     const areArtifactsValidated = appContext?.areArtifactsValidated;
     const isMenuObituaryLoaded = acolyteContext?.isMenuObituaryLoaded;
     const isMenuHollowLoaded = acolyteContext?.isMenuHollowLoaded;
+    const isMenuInnLoaded = acolyteContext?.isMenuInnLoaded;
 
     console.log("Are artifacts validated" + areArtifactsValidated);
 
@@ -79,7 +80,8 @@ const MapScreen = () => {
             isMenuTowerLoaded,
             isMenuSwampLoaded,
             isMenuOldSchoolLoaded,
-            isMenuHollowLoaded
+            isMenuHollowLoaded,
+            isMenuInnLoaded,
         });
 
         const navigateToMenu = () => {
@@ -115,6 +117,12 @@ const MapScreen = () => {
                     }, 200);
                     break;
 
+                case isMenuInnLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('INN');
+                    }, 200);
+                    break;
+
                 default:
                     break;
             }
@@ -122,7 +130,7 @@ const MapScreen = () => {
 
         navigateToMenu();
 
-    }, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded, isMenuHollowLoaded]);
+    }, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded, isMenuHollowLoaded, isMenuInnLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -182,6 +190,17 @@ const MapScreen = () => {
         }
     }
 
+    const handleInnIconPress = () => {
+        console.log("PRESSED INN BUTTON IN MAP");
+
+        setLocation('INN');
+        if (isMenuInnLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('INN');
+        }
+    }
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -216,6 +235,13 @@ const MapScreen = () => {
 
             <IconContainer style={{ top: height * 0.20, right: width * 0.70 }}>
                 <IconText>Hollow</IconText>
+                <TouchableIcon onPress={handleHollowIconPress}>
+                    <Icon source={schoolIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
+                <IconText>Inn of the forgotten</IconText>
                 <TouchableIcon onPress={handleHollowIconPress}>
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
