@@ -10,6 +10,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import ObituaryScreen from "../../shared/ObituaryScreen";
 import AcolyteContext from "../../../helpers/AcolyteContext";
 import AppContext from "../../../helpers/context";
+import HollowScreen from "../../shared/HollowScreen";
 
 
 
@@ -47,8 +48,8 @@ const MenuHollow = () => {
 
     const screens = [
         {
-            name: 'OBITUARY',
-            component: ObituaryScreen,
+            name: 'HOLLOW',
+            component: HollowScreen,
             iconSource: require('./../../../assets/icons/obituaryIcon.png'),
         },
         {
