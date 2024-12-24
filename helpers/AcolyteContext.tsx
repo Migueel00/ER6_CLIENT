@@ -17,6 +17,8 @@ interface AcolyteContextType {
     setIsMenuHallOfSagesLoaded:  (loaded: boolean) => void;
     isMenuObituaryLoaded: boolean;
     setIsMenuObituaryLoaded: (loaded: boolean) => void;
+    isMenuHollowLoaded: boolean;
+    setIsMenuHollowLoaded: (loaded: boolean) => void;
     isInsideLab: boolean | null;
     isInsideTower: boolean | null;
     isInsideHall: boolean | null;

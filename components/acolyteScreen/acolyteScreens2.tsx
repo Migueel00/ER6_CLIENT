@@ -52,6 +52,7 @@ const [isMenuSwampLoaded, setIsMenuSwampLoaded] = useState<boolean>(false);
 const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
 const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
 const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
+const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
 
 const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
@@ -137,6 +138,8 @@ useEffect(() => {
         setIsMenuHallOfSagesLoaded,
         isMenuObituaryLoaded,
         setIsMenuObituaryLoaded,
+        isMenuHollowLoaded,
+        setIsMenuHollowLoaded,
         isInsideLab,
         isInsideTower,
         isInsideHall
