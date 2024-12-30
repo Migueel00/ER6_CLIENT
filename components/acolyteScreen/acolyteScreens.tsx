@@ -56,6 +56,7 @@ const AcolyteProvider = () => {
   const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
   const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
   const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
+  const [isDungeonLoaded, setIsMenuDungeonLoaded] = useState<boolean>(false);
 
   const [hasEmitted, setHasEmitted] = useState(false); // Estado para controlar el emit
 
@@ -145,6 +146,8 @@ const AcolyteProvider = () => {
       setIsMenuHollowLoaded,
       isMenuInnLoaded,
       setIsMenuInnLoaded,
+      isDungeonLoaded,
+      setIsMenuDungeonLoaded,
       isInsideLab,
       isInsideTower,
       isInsideHall
