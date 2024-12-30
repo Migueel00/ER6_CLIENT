@@ -40,10 +40,11 @@ export interface Player {
   isInsideLab:  boolean,
   isInsideTower: boolean,
   isInsideHall: boolean,
+  isBetrayer:   boolean,
   avatar:       string,
   id:           string,
   role:         string,
-  location:     string
+  location:     string,
 }
 
 export interface Ingredient {

@@ -402,6 +402,7 @@ function App(): React.JSX.Element {
       const isInsideLab = playersData[i].isInsideLab;
       const isInsideTower = playersData[i].isInsideTower;
       const isInsideHall = playersData[i].isInsideHall;
+      const isBetrayer = playersData[i].isBetrayer;
       const socketId    = playersData[i].socketId;
       const avatar      = playersData[i].avatar;
       const role        = playersData[i].role;
@@ -415,6 +416,7 @@ function App(): React.JSX.Element {
         isInsideLab:    isInsideLab,
         isInsideTower:  isInsideTower,
         isInsideHall:   isInsideHall,
+        isBetrayer:     isBetrayer,
         socketId:       socketId,
         avatar:         avatar,
         id:             id,
@@ -459,7 +461,7 @@ function App(): React.JSX.Element {
         artifacts,
         setArtifacts,
         areArtifactsValidated,
-        setAreArtifactsValidated
+        setAreArtifactsValidated,
       }}>
     
     <SafeAreaView style={{ flex: 1 }}>
