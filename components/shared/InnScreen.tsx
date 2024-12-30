@@ -55,8 +55,9 @@ const GreenButton = styled.TouchableOpacity`
 
 const ButtonText = styled.Text`
     color: white;
-    font-size: 16px;
+    font-size: 24px;
     text-align: center;
+    font-family: KochAltschrift;
 `;
 
 const background = require('../../assets/backgrounds/inn.png');
