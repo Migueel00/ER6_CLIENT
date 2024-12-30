@@ -23,7 +23,7 @@ const CenteredText = styled.Text`
     border-radius: 10px;
 `;
 
-const background = require('../../assets/backgrounds/obituaryBackground.png');
+const background = require('../../assets/backgrounds/inn.png');
 
 const InnScreen = () => {
     const appContext = useContext(AppContext);
