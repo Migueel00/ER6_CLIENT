@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Dimensions} from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
-import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
+import { useNavigation, ParamListBase, NavigationProp } from "@react-navigation/native";
 import AcolyteContext from "../../helpers/AcolyteContext";
 import MortimerContext from "../../helpers/MortimerContext";
 
@@ -10,7 +10,7 @@ const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const hallIcon = require('../../assets/icons/hallOfSages.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
-const exclamationIcon =  require('../../assets/icons/exclamationIcon.png');
+const exclamationIcon = require('../../assets/icons/exclamationIcon.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -72,7 +72,7 @@ const ExclamationButton = styled.TouchableOpacity`
 
 
 const SchoolScreen = () => {
-    
+
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
@@ -84,49 +84,63 @@ const SchoolScreen = () => {
     const showAlertButton = mortimerContext?.showAlertButton;
 
     // Navigation tipado
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
 
-useEffect(() => {
-    console.log("States of loaded mennús: ", {
-        isMenuLoaded,
-        isMenuHallOfSagesLoaded,
-    });
+    useEffect(() => {
+        console.log("States of loaded mennús: ", {
+            isMenuLoaded,
+            isMenuHallOfSagesLoaded,
+        });
 
-    const navigateToMenu = () => {
-        switch (true) {
-            case isMenuHallOfSagesLoaded:
-                setTimeout(() => {
-                    navigation.navigate('HALL');
-                }, 200);
-                break;
-            case isMenuLabLoaded:
-                setTimeout(() => {
-                    navigation.navigate('LAB');
-                }, 200);
-                break;
-            
-            default:
-                break;
-        }
-    };
+        const navigateToMenu = () => {
+            switch (true) {
+                case isMenuHallOfSagesLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HALL');
+                    }, 200);
+                    break;
+                case isMenuLabLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('LAB');
+                    }, 200);
+                    break;
 
-    navigateToMenu();
-    
-}, [isMenuLoaded, isMenuHallOfSagesLoaded, isMenuLabLoaded]);
+                case isMenuDungeonLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('LAB');
+                    }, 200);
+                    break;
+
+                default:
+                    break;
+            }
+        };
+
+        navigateToMenu();
+
+    }, [isMenuLoaded, isMenuHallOfSagesLoaded, isMenuLabLoaded, isMenuDungeonLoaded]);
 
 
     const handleHallIconPress = () => {
         setLocation('HALL');
-        if(isMenuHallOfSagesLoaded){
+        if (isMenuHallOfSagesLoaded) {
             navigation.navigate('HALL');
 
         }
-    }   
+    }
 
     const handleLabIconPress = () => {
         setLocation('LAB');
-        if(isMenuLabLoaded){
+        if (isMenuLabLoaded) {
             navigation.navigate('LAB');
+
+        }
+    }
+
+    const handleDungeonIconPress = () => {
+        setLocation('DUNGEON');
+        if (isMenuLabLoaded) {
+            navigation.navigate('DUNGEON');
 
         }
     }
@@ -139,7 +153,7 @@ useEffect(() => {
         <Container>
             <BackgroundImage source={schoolMap} />
 
-            <IconContainer style = {{ top: height * 0.20, right: width * 0.50 }}>
+            <IconContainer style={{ top: height * 0.20, right: width * 0.50 }}>
                 <IconTextOpacity>
                     <IconText>Hall of Sages</IconText>
                 </IconTextOpacity>
@@ -147,19 +161,28 @@ useEffect(() => {
                     <Icon source={hallIcon} />
 
                     {showAlertButton && (
-                <ExclamationButton onPress={handleAlertButtonPress}>
-                    <ExclamationImage source={exclamationIcon} />
-                </ExclamationButton>
-                )}
+                        <ExclamationButton onPress={handleAlertButtonPress}>
+                            <ExclamationImage source={exclamationIcon} />
+                        </ExclamationButton>
+                    )}
 
                 </TouchableIcon>
             </IconContainer>
 
-            <IconContainer style = {{ top: height * 0.33, right: width * 0.28}}>
+            <IconContainer style={{ top: height * 0.33, right: width * 0.28 }}>
                 <IconTextOpacity>
                     <IconText>Lab</IconText>
                 </IconTextOpacity>
                 <TouchableIcon onPress={handleLabIconPress}>
+                    <Icon source={labIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.10, right: width * 0.20 }}>
+                <IconTextOpacity>
+                    <IconText>Dungeon</IconText>
+                </IconTextOpacity>
+                <TouchableIcon onPress={handleDungeonIconPress}>
                     <Icon source={labIcon} />
                 </TouchableIcon>
             </IconContainer>
