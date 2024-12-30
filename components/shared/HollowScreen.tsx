@@ -14,7 +14,7 @@ const CustomBackground = styled.ImageBackground`
     align-items: center;
 `;
 
-const background = require('../../assets/backgrounds/obituaryBackground.png');
+const background = require('../../assets/backgrounds/hollow.png');
 
 const HollowScreen = () => {
 

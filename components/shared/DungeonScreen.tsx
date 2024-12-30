@@ -23,7 +23,7 @@ const CenteredText = styled.Text`
     border-radius: 10px;
 `;
 
-const background = require('../../assets/backgrounds/Dungeon.png');
+const background = require('../../assets/backgrounds/dungeon.png');
 
 const DungeonScreen = () => {
     const appContext = useContext(AppContext);
