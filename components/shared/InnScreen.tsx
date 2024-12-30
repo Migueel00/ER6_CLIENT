@@ -1,26 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components/native";
-import { Modal, View, Text, Button } from "react-native";
-import { Dimensions } from "react-native";
+import { Dimensions, Modal } from "react-native";
 import AppContext from "../../helpers/context";
 
-const { width, height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const CustomBackground = styled.ImageBackground`
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
-`;
-
-const CenteredText = styled.Text`
-    font-size: 60px;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
-    border-radius: 10px;
 `;
 
 const ModalContainer = styled.View`
@@ -32,10 +21,42 @@ const ModalContainer = styled.View`
 
 const ModalContent = styled.View`
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: ${height * 0.02}px;
+    border-radius: ${width * 0.05}px;
     align-items: center;
     width: 80%;
+`;
+
+const ModalText = styled.Text`
+    font-size: 25px;
+    color: black;
+    font-family: KochAltschrift;
+    text-align: center;
+    margin-bottom: ${height * 0.02}px;
+`;
+
+const ButtonContainer = styled.View`
+    flex-direction: row;
+    margin-top: ${height * 0.01}px;
+`;
+
+const RedButton = styled.TouchableOpacity`
+    background-color: red;
+    padding: 10px 20px;
+    border-radius: ${width * 0.02}px;
+    margin-right: ${width * 0.1}px;
+`;
+
+const GreenButton = styled.TouchableOpacity`
+    background-color: green;
+    padding: 10px 20px;
+    border-radius: ${width * 0.02}px;
+`;
+
+const ButtonText = styled.Text`
+    color: white;
+    font-size: 16px;
+    text-align: center;
 `;
 
 const background = require('../../assets/backgrounds/inn.png');
@@ -52,6 +73,16 @@ const InnScreen = () => {
         }
     }, []);
 
+    const handleBetray = () => {
+        setModalVisible(false);
+        console.log("Betray chosen");
+    };
+
+    const handleLoyal = () => {
+        setModalVisible(false);
+        console.log("Loyal chosen");
+    };
+
     return (
         <CustomBackground source={background}>
 
@@ -63,8 +94,20 @@ const InnScreen = () => {
             >
                 <ModalContainer>
                     <ModalContent>
-                        <Text style={{ fontSize: 18, marginBottom: 20 }}>Hola</Text>
-                        <Button title="Cerrar" onPress={() => setModalVisible(false)} />
+                        <ModalText>
+                            To the wanderer
+                            who dares to defy their bloodline: forsake your kin and pledge your
+                            loyalty to the Brotherhood of Shadows. In return, claim 10,000 gold coins
+                            and the coveted Rotten Set of the Decrepit Betrayer. Your destiny awaits.
+                        </ModalText>
+                        <ButtonContainer>
+                            <RedButton onPress={handleBetray}>
+                                <ButtonText>Betray</ButtonText>
+                            </RedButton>
+                            <GreenButton onPress={handleLoyal}>
+                                <ButtonText>Loyal</ButtonText>
+                            </GreenButton>
+                        </ButtonContainer>
                     </ModalContent>
                 </ModalContainer>
             </Modal>
