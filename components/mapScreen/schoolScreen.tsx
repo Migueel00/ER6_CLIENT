@@ -78,6 +78,7 @@ const SchoolScreen = () => {
     const isMenuLoaded = acolyteContext?.isMenuLoaded;
     const isMenuHallOfSagesLoaded = acolyteContext?.isMenuHallOfSagesLoaded;
     const isMenuLabLoaded = acolyteContext?.isMenuLabLoaded;
+    const isMenuDungeonLoaded = acolyteContext?.isMenuDungeonLoaded;
 
     const mortimerContext = useContext(MortimerContext);
     const showAlertButton = mortimerContext?.showAlertButton;
