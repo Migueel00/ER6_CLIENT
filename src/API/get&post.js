@@ -153,7 +153,7 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
     
     const newPlayerData = playerData;
 
-    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall'];
+    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer'];
 
     newAtributtes.forEach(attr => {
         if (attr in responseJSON.data) {
