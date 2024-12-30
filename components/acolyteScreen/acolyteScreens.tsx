@@ -16,6 +16,7 @@ import MenuOldSchoolAcolyte from './menu/MenuOldSchoolAcolyte';
 import MenuObituary from './menu/MenuObituary';
 import MenuHollow from './menu/MenuHollow';
 import MenuInn from './menu/MenuInn';
+import MenuDungeon from './menu/MenuDungeon';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -166,7 +167,8 @@ const AcolyteProvider = () => {
                           : acolyteLocation === 'OBITUARY' ? <MenuObituary />
                             : acolyteLocation === 'HOLLOW' ? <MenuHollow />
                               : acolyteLocation === 'INN' ? <MenuInn />
-                                : <MenuHome />}
+                                : acolyteLocation === 'DUNGEON' ? <MenuDungeon />
+                                  : <MenuHome />}
         </MenuContainer>
       </NavigationContainer>
     </AcolyteContext.Provider>
