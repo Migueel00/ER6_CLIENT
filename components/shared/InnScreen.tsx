@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components/native";
 import { Dimensions, Modal } from "react-native";
 import AppContext from "../../helpers/context";
+import { Player } from "../../interfaces/contextInterface";
 
 const { height, width } = Dimensions.get('window');
 
@@ -66,23 +67,44 @@ const InnScreen = () => {
     const appContext = useContext(AppContext);
     const player = appContext?.player;
     const socket = appContext?.socket;
+    const setPlayer = appContext?.setPlayer;
 
-    const [isModalVisible, setModalVisible] = useState(!player?.isBetrayer);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
 
     useEffect(() => {
-        if (!player?.isBetrayer) {
+        socket.on('IsBetrayer', (updatedPlayer: Player) => {
+
+            // Update local isBetrayer
+            setIsBetrayer(updatedPlayer.isBetrayer);
+
+            // Set Player to update
+            setPlayer({ ...player, isBetrayer: updatedPlayer.isBetrayer });
+        });
+
+        // Limpiar el listener cuando el componente se desmonte
+        return () => {
+            socket.off('IsBetrayer');
+        };
+
+    }, [socket, player, setPlayer]);
+
+    useEffect(() => {
+        if (isBetrayer === false) {
             setModalVisible(true);
+        } else {
+            setModalVisible(false);
         }
-    }, []);
+    }, [isBetrayer]);
 
     const handleBetray = () => {
         setModalVisible(false);
 
         const value = {
-            playerID: appContext?.player._id,
-            isBetrayer: appContext?.player.isBetrayer
+            playerID: player?._id,
+            isBetrayer: player?.isBetrayer
         };
-        
+
         socket.emit("UpdateBetrayer", value);
     };
 
