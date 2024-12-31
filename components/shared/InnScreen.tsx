@@ -65,6 +65,7 @@ const background = require('../../assets/backgrounds/inn.png');
 const InnScreen = () => {
     const appContext = useContext(AppContext);
     const player = appContext?.player;
+    const socket = appContext?.socket;
 
     const [isModalVisible, setModalVisible] = useState(!player?.isBetrayer);
 
@@ -76,12 +77,18 @@ const InnScreen = () => {
 
     const handleBetray = () => {
         setModalVisible(false);
-        console.log("Betray chosen");
+
+        const value = {
+            playerID: appContext?.player._id,
+            isBetrayer: appContext?.player.isBetrayer
+        };
+        
+        socket.emit("UpdateBetrayer", value);
     };
 
     const handleLoyal = () => {
         setModalVisible(false);
-        console.log("Loyal chosen");
+        console.log("Remains Loyal");
     };
 
     return (
