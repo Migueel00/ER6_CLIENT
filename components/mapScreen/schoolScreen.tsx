@@ -10,6 +10,7 @@ const schoolMap = require('../../assets/backgrounds/schoolMap.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const hallIcon = require('../../assets/icons/hallOfSages.png');
 const labIcon = require('../../assets/icons/fixed/potionIcon.png');
+const dungeonIcon = require('../../assets/icons/dungeonIcon.png');
 const exclamationIcon = require('../../assets/icons/exclamationIcon.png');
 
 
@@ -183,7 +184,7 @@ const SchoolScreen = () => {
                     <IconText>Dungeon</IconText>
                 </IconTextOpacity>
                 <TouchableIcon onPress={handleDungeonIconPress}>
-                    <Icon source={labIcon} />
+                    <Icon source={dungeonIcon} />
                 </TouchableIcon>
             </IconContainer>
         </Container>

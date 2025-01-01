@@ -50,7 +50,7 @@ const MenuInn = () => {
         {
             name: 'INN',
             component: InnScreen,
-            iconSource: require('./../../../assets/icons/obituaryIcon.png'),
+            iconSource: require('./../../../assets/icons/innIcon.png'),
         },
         {
             name: 'Profile',

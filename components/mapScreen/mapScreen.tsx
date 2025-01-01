@@ -9,6 +9,8 @@ const mapImage = require('../../assets/backgrounds/map_background.png');
 const homeIcon = require('../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../assets/icons/towerIcon.png');
 const swampIcon = require('../../assets/icons/swampIcon.png');
+const innIcon = require('../../assets/icons/innIcon.png');
+const hollowIcon = require('../../assets/icons/hollowIcon.png');
 const schoolIcon = require('../../assets/icons/schoolIcon.png');
 const obituaryIcon = require('./../../assets/icons/obituaryIcon.png');
 
@@ -233,17 +235,17 @@ const MapScreen = () => {
                 </TouchableIcon>
             </IconContainer>
 
-            <IconContainer style={{ top: height * 0.20, right: width * 0.70 }}>
+            <IconContainer style={{ top: height * 0.17, right: width * 0.70 }}>
                 <IconText>Hollow</IconText>
                 <TouchableIcon onPress={handleHollowIconPress}>
-                    <Icon source={schoolIcon} />
+                    <Icon source={hollowIcon} />
                 </TouchableIcon>
             </IconContainer>
 
             <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
                 <IconText>Inn of the forgotten</IconText>
                 <TouchableIcon onPress={handleInnIconPress}>
-                    <Icon source={schoolIcon} />
+                    <Icon source={innIcon} />
                 </TouchableIcon>
             </IconContainer>
 

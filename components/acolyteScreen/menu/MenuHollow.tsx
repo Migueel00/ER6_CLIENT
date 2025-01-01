@@ -49,7 +49,7 @@ const MenuHollow = () => {
         {
             name: 'HOLLOW',
             component: HollowScreen,
-            iconSource: require('./../../../assets/icons/obituaryIcon.png'),
+            iconSource: require('../../../assets/icons/hollowIcon.png')
         },
         {
             name: 'Profile',

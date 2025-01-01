@@ -49,7 +49,7 @@ const MenuDungeon = () => {
         {
             name: 'DUNGEON',
             component: DungeonScreen,
-            iconSource: require('./../../../assets/icons/obituaryIcon.png'),
+            iconSource: require('./../../../assets/icons/dungeonIcon.png'),
         },
         {
             name: 'Profile',
