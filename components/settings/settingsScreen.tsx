@@ -30,13 +30,13 @@ const SettingsScreen = () => {
                     resizeMode="cover"
                 >
                     <View style={styles.container}>
-                        <ImageBackground 
+                        {/* <ImageBackground 
                             source={require('../../assets/png/button1.png')}
                             style={styles.buttonImageBackground}
                             resizeMode="cover"
                         >
                             <Text style={styles.kaotikaFont2}>SETTINGS</Text>
-                        </ImageBackground>
+                        </ImageBackground> */}
 
                         <ImageBackground 
                             source={require('../../assets/png/button1.png')}
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: 'transparent',
         width: '100%', 
