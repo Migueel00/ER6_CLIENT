@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid, Linking } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import Artifact from '../../interfaces/ArtifactsInterface';
 import { URL } from '../../src/API/urls';
 import { updateArtifact } from '../../src/API/artifacts';
+import { regionASIER } from './mapStyle';
 
 console.log("INFO OF GEOLOCATION");
 Geolocation.getCurrentPosition(info => console.log(info.coords));
@@ -57,6 +58,7 @@ const SwampScreen = () => {
     const [userLocation, setUserLocation] = useState<LocationType | null>(null);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState(artifacts.filter((marker) => !marker.isRetrieved) || []);
     const [othersUserLocations, setOthersUserLocation] = useState<LocationAvatar[]>([]);
+    let mapRef = useRef<MapView>(null); // Referencia al MapView
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
@@ -235,7 +237,7 @@ const SwampScreen = () => {
                 
                 socket.emit('sendLocation', userInfo);
 
-                console.log("PETICION SOCKET DE OTRAS UBICACIONES");
+                //console.log("PETICION SOCKET DE OTRAS UBICACIONES"); 
             }
         });
 
@@ -256,7 +258,7 @@ const SwampScreen = () => {
 
     useEffect(() => {
         socket?.on('updatedCoordinates', (value: LocationAvatar) => {
-            console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
+            //console.log("DATOS DE OTROS USUARIOS " + JSON.stringify(value));
 
             setOthersUserLocation(prevLocations => {
                 const exists = prevLocations.some(user => user._id === value._id);
@@ -303,10 +305,44 @@ const SwampScreen = () => {
     useEffect(() =>  {
         othersUserLocations.map((user) => {
 
-            console.log("OTHERS USER LOCATIONS " + JSON.stringify(user)); 
+            //console.log("OTHERS USER LOCATIONS " + JSON.stringify(user)); 
 
         })
     }, [othersUserLocations]);
+
+    // useEffect(() => {
+    //     // Animar al destino deseado una vez que el componente esté montado
+    //     if (mapRef.current) {
+    //         mapRef.current.animateToRegion(
+    //             {
+    //                 latitude: 43.324620,
+    //                 longitude: -1.935203,
+    //                 latitudeDelta: 0.001, // Nivel de zoom más alto
+    //                 longitudeDelta: 0.001,
+    //             },
+    //             2000 // Duración de la animación en milisegundos
+    //         );
+    //     } 
+    // }, []); // Solo se ejecuta una vez al montar el componente
+
+    const onMapReady = () => {
+        console.log("MapRef: ");
+        console.log(mapRef);
+        
+        if (mapRef.current) {
+            console.log("ANIMATING");
+            // Aquí puedes usar la referencia, por ejemplo, centrar el mapa
+            mapRef.current.animateToRegion(
+                {
+                    latitude: 43.324620,
+                    longitude: -1.935203,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001
+                },
+                3000 // Duración en milisegundos (2 segundos)
+            );
+        }
+    };
 
     if (!locationPermissionGranted) {
         return (
@@ -328,8 +364,14 @@ const SwampScreen = () => {
 
         <SwampBackground source={swampBackgroundImage}>
         <MapView
+            ref={mapRef}
             style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
-            initialRegion={regionAEG} 
+            initialRegion={{
+                latitude: 43.324620,
+                longitude: -1.935203,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001
+              }} 
             customMapStyle={mapStyle}
         >
             {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
