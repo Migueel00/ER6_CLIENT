@@ -21,7 +21,7 @@ const ModalContainer = styled.View`
 `;
 
 const ModalContent = styled.View`
-    background-color: white;
+    background-color: black;
     padding: ${height * 0.02}px;
     border-radius: ${width * 0.05}px;
     align-items: center;
@@ -29,8 +29,8 @@ const ModalContent = styled.View`
 `;
 
 const ModalText = styled.Text`
-    font-size: 25px;
-    color: black;
+    font-size: ${width * 0.08}px;
+    color: white;
     font-family: KochAltschrift;
     text-align: center;
     margin-bottom: ${height * 0.02}px;
@@ -56,7 +56,7 @@ const GreenButton = styled.TouchableOpacity`
 
 const ButtonText = styled.Text`
     color: white;
-    font-size: 24px;
+    font-size: ${width * 0.08}px;
     text-align: center;
     font-family: KochAltschrift;
 `;
