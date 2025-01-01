@@ -65,6 +65,7 @@ function App(): React.JSX.Element {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
   const [missions, setMissions] = useState<any>([]);
+  const [spinnerText, setSpinnerText] = useState<string>("Loading...");
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -285,18 +286,22 @@ function App(): React.JSX.Element {
       // Funcion gestionar sockets
       handleSockets(socket);
 
+      setSpinnerText('Verifying login status...');
+
       await checkLoginStatus();
 
       const isVerified = await AsyncStorage.getItem('isVerified');
 
       console.log("IS VERIFIED?" + isVerified);
       
+      setSpinnerText('Retrieving FCM Token...');
+
       const FCMToken = await getFCMToken();
 
       console.log("FCM TOKEN AFTER RETRIEVING");
       console.log(FCMToken);
       
-      
+      setSpinnerText('Requesting permissions...');
         
       await requestUserPermission();
 
@@ -304,6 +309,7 @@ function App(): React.JSX.Element {
 
       if(!isVerified)
       {
+        setSpinnerText('Verifying user...');
         await verifyUser();
       }
 
@@ -315,6 +321,7 @@ function App(): React.JSX.Element {
       
       setUserEmail(`${email}`);
 
+      setSpinnerText("Retrieving player data from kaotika's server...");
 
       // Construir la URL con el email del alumno
       const kaotikaApiUrl = `https://kaotika-server.fly.dev/players/email/${email}`;
@@ -326,6 +333,7 @@ function App(): React.JSX.Element {
       }
       else
       {
+        setSpinnerText("Succesfully retrieved player data!");
         console.log("Succesfully connected with Kaotika API");
         
       }
@@ -355,8 +363,11 @@ function App(): React.JSX.Element {
         setAreArtifactsValidated(false);
       }
 
+      setSpinnerText("Updating player in our database...");
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
+
+      setSpinnerText("Player updated!");
       setLocation(player.location);
       setPlayer(player);
       await fetchIngredients(player.role);
@@ -480,7 +491,7 @@ function App(): React.JSX.Element {
         >
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
           {isSpinner ? (
-            <LoadSpinner />
+            <LoadSpinner SpinnerText={spinnerText}/>
           ) : (
             <SignInScreen handleButtonPress={handleButtonPress} />
           )}
