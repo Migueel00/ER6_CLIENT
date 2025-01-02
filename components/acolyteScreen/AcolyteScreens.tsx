@@ -168,7 +168,8 @@ const AcolyteProvider = () => {
                             : acolyteLocation === 'HOLLOW' ? <MenuHollow />
                               : acolyteLocation === 'INN' ? <MenuInn />
                                 : acolyteLocation === 'DUNGEON' ? <MenuDungeon />
-                                  : <MenuHome />}
+                                  : player?.isBetrayer ? <MenuHollow />
+                                    : <MenuHome />}
         </MenuContainer>
       </NavigationContainer>
     </AcolyteContext.Provider>
