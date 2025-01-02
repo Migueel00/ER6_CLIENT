@@ -28,13 +28,18 @@ const MenuHollow = () => {
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
     const setIsMenuHollowLoaded = acolyteContext?.setIsMenuHollowLoaded!;
+    const player = appContext?.player;
 
     useEffect(() => {
         setIsMenuHollowLoaded(true);
 
+        if (player?.isBetrayer) {
+            player.location = 'HOLLOW';
+        }
+
         const value = {
-            playerID: appContext?.player._id,
-            location: appContext?.location
+            playerID: player?._id,
+            location: player?.location
         };
 
         socket.emit("UpdateLocation", value);
