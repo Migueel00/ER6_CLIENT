@@ -23,13 +23,10 @@ const Icon = styled.Image`
 
 const MenuHome = () => {
 
-    const appContext = useContext(AppContext);
-    const player = appContext?.player;
-
     const screens = [
         {
             name: 'HOME',
-            component: player?.isBetrayer ? HollowScreen : HomeScreen,
+            component: HomeScreen,
             iconSource: require('./../../../assets/icons/fixed/homeIcon.png'),
         },
         {
@@ -52,6 +49,7 @@ const MenuHome = () => {
     ];
 
     const acolyteContext = useContext(AcolyteContext);
+    const appContext = useContext(AppContext);
     const setMenuIsLoaded = acolyteContext?.setIsMenuLoaded!;
     const socket = appContext?.socket;
 

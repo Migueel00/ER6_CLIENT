@@ -133,9 +133,17 @@ const MapScreen = () => {
     }, [isMenuLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded, isMenuObituaryLoaded, isMenuHollowLoaded, isMenuInnLoaded]);
 
     const handleHomeIconPress = () => {
-        setLocation('HOME');
-        if (isMenuLoaded) {
+
+        if (player?.isBetrayer){
+            setLocation('HOLLOW');
+        } else {
+            setLocation('HOME');
+        }
+
+        if (isMenuLoaded && !player?.isBetrayer) {
             navigation.navigate('HOME');
+        } else {
+            navigation.navigate('HOLLOW');
         }
     }
 
