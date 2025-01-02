@@ -10,6 +10,7 @@ import SettingsScreen from "../../settings/settingsScreen";
 import HomeScreen from "../../shared/homeScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import ProfileScreen from "../../shared/ProfileScreen";
+import HollowScreen from "../../shared/HollowScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,10 +23,13 @@ const Icon = styled.Image`
 
 const MenuHome = () => {
 
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+
     const screens = [
         {
             name: 'HOME',
-            component: HomeScreen,
+            component: player?.isBetrayer ? HollowScreen : HomeScreen,
             iconSource: require('./../../../assets/icons/fixed/homeIcon.png'),
         },
         {
@@ -47,10 +51,8 @@ const MenuHome = () => {
         }
     ];
 
-
     const acolyteContext = useContext(AcolyteContext);
     const setMenuIsLoaded = acolyteContext?.setIsMenuLoaded!;
-    const appContext = useContext(AppContext);
     const socket = appContext?.socket;
 
     useEffect(() => {
@@ -68,8 +70,6 @@ const MenuHome = () => {
             setMenuIsLoaded(false);
         }
     }, []);
-
-
 
     return (
 
