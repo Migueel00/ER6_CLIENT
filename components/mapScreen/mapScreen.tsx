@@ -58,7 +58,6 @@ const MapScreen = () => {
     // Acolyte Necesita del Appcontext, setLocation,  lo ncesitan todos y areArtifactsValidated
     // Del acolyteContext isMenuLoaded, isMenuLabLoaded, isMenuTowerLoaded, isMenuSwampLoaded, isMenuOldSchoolLoaded
 
-
     const appContext = useContext(AppContext);
     const setLocation = useContext(AppContext)?.setLocation;
     const acolyteContext = useContext(AcolyteContext);
@@ -70,8 +69,7 @@ const MapScreen = () => {
     const isMenuObituaryLoaded = acolyteContext?.isMenuObituaryLoaded;
     const isMenuHollowLoaded = acolyteContext?.isMenuHollowLoaded;
     const isMenuInnLoaded = acolyteContext?.isMenuInnLoaded;
-
-    console.log("Are artifacts validated" + areArtifactsValidated);
+    const player = appContext?.player;
 
     // Navigation tipado
     const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -228,12 +226,14 @@ const MapScreen = () => {
                 </TouchableIcon>
             </IconContainer>
 
-            <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
-                <IconText>School</IconText>
-                <TouchableIcon onPress={handleSchoolIconPress}>
-                    <Icon source={schoolIcon} />
-                </TouchableIcon>
-            </IconContainer>
+            {player?.isBetrayer ? null : (
+                <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
+                    <IconText>School</IconText>
+                    <TouchableIcon onPress={handleSchoolIconPress}>
+                        <Icon source={schoolIcon} />
+                    </TouchableIcon>
+                </IconContainer>
+            )}
 
             <IconContainer style={{ top: height * 0.17, right: width * 0.70 }}>
                 <IconText>Hollow</IconText>
