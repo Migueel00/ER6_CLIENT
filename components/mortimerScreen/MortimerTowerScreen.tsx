@@ -33,37 +33,35 @@ const MortimerTowerScreen = () => {
         setPlayerPositions(calculatePlayerPositions(players));
     }, [players]);
 
-    
-
     return (
         <Container>
             <BackgroundImage source={require('../../assets/png/insideTower.png')}>
                 <Content>
-                <TowerTitle>THE TOWER</TowerTitle>
-                <KaotikaFontHeads>Below you have displayed who's{' '}
-                    <ColoredText color="green">INSIDE</ColoredText> the Tower
-                </KaotikaFontHeads>
+                    <TowerTitle>THE TOWER</TowerTitle>
+                    <KaotikaFontHeads>Below you have displayed who's{' '}
+                        <ColoredText color="green">INSIDE</ColoredText> the Tower
+                    </KaotikaFontHeads>
                     <PlayerContainer>
                         {players
-                        .filter((player => player.isInsideTower))
-                        .map((player, index) => {
-                            const position = playerPositions[index];
-                            if (!position) return null;
+                            .filter(player => player.isInsideTower && !player.isBetrayer)
+                            .map((player, index) => {
+                                const position = playerPositions[index];
+                                if (!position) return null;
 
-                            return (
-                                <AvatarWrapper
-                                    key={player.id}
-                                    style={{
-                                        transform: [
-                                            { translateX: position.x },
-                                            { translateY: position.y }
-                                        ]
-                                    }}
-                                >
-                                    <Avatar source={{ uri: player.avatar }} />
-                                </AvatarWrapper>
-                            );
-                        })}
+                                return (
+                                    <AvatarWrapper
+                                        key={player.id}
+                                        style={{
+                                            transform: [
+                                                { translateX: position.x },
+                                                { translateY: position.y }
+                                            ]
+                                        }}
+                                    >
+                                        <Avatar source={{ uri: player.avatar }} />
+                                    </AvatarWrapper>
+                                );
+                            })}
                     </PlayerContainer>
                 </Content>
             </BackgroundImage>

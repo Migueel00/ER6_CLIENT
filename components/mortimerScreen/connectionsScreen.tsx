@@ -15,7 +15,7 @@ const ConnectionScreen = () => {
     const setLocation = appContext?.setLocation;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
 
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
 
     useEffect(() => {
 
@@ -48,17 +48,19 @@ const ConnectionScreen = () => {
                     <ColoredText color="red">OUTSIDE</ColoredText> the Lab
                 </KaotikaFontHeads>
                 <PlayersList>
-                    {players.filter((player: any) => player.role === 'ACOLYTE').map((player: any) => (
-                        <PlayerItem key={player.id}>
-                            <Avatar source={{ uri: player.avatar }} />
-                            <KaotikaFont2>{player.nickname}</KaotikaFont2>
-                            <Icon
-                                name={player.isInsideLab ? 'circle' : 'circle-o'}
-                                size={width * 0.07}
-                                color={player.isInsideLab ? 'green' : 'red'}
-                            />
-                        </PlayerItem>
-                    ))}
+                    {players
+                        .filter((player: any) => player.role === 'ACOLYTE' && !player.isBetrayer)
+                        .map((player: any) => (
+                            <PlayerItem key={player.id}>
+                                <Avatar source={{ uri: player.avatar }} />
+                                <KaotikaFont2>{player.nickname}</KaotikaFont2>
+                                <Icon
+                                    name={player.isInsideLab ? 'circle' : 'circle-o'}
+                                    size={width * 0.07}
+                                    color={player.isInsideLab ? 'green' : 'red'}
+                                />
+                            </PlayerItem>
+                        ))}
                 </PlayersList>
 
                 <StyledButton onPress={handleExitLab}>
