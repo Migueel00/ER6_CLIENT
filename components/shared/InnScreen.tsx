@@ -135,6 +135,15 @@ const InnScreen = () => {
 
     const handleAngeloPress = () => {
         console.log("Angelo clicked!");
+        setShowAngelo(false);
+        Vibration.vibrate(200);
+
+        const value = {
+            playerID: player?._id,
+            isBetrayer: player?.isBetrayer
+        };
+
+        socket.emit("UpdateCaptured", value)
     };
 
 
