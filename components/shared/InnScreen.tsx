@@ -139,8 +139,8 @@ const InnScreen = () => {
         Vibration.vibrate(200);
 
         const value = {
-            playerID: player?._id,
-            isBetrayer: player?.isBetrayer
+            playerID: angelo?._id,
+            isBetrayer: angelo?.isCaptured
         };
 
         socket.emit("UpdateCaptured", value)
