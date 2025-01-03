@@ -413,6 +413,7 @@ function App(): React.JSX.Element {
       const isInsideLab = playersData[i].isInsideLab;
       const isInsideTower = playersData[i].isInsideTower;
       const isInsideHall = playersData[i].isInsideHall;
+      const isCaptured = playersData[i].isCaptured;
       const isBetrayer = playersData[i].isBetrayer;
       const socketId    = playersData[i].socketId;
       const avatar      = playersData[i].avatar;
@@ -428,6 +429,7 @@ function App(): React.JSX.Element {
         isInsideTower:  isInsideTower,
         isInsideHall:   isInsideHall,
         isBetrayer:     isBetrayer,
+        isCaptured:     isCaptured,
         socketId:       socketId,
         avatar:         avatar,
         id:             id,
