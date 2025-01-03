@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components/native";
-import { Dimensions, Modal, Vibration } from "react-native";
+import { Dimensions, Modal, Vibration, TouchableOpacity } from "react-native";
 import AppContext from "../../helpers/context";
 import { Player } from "../../interfaces/contextInterface";
 
@@ -133,6 +133,11 @@ const InnScreen = () => {
         console.log("Remains Loyal");
     };
 
+    const handleAngeloPress = () => {
+        console.log("Angelo clicked!");
+    };
+
+
     return (
         <CustomBackground source={background}>
             <Modal
@@ -163,7 +168,9 @@ const InnScreen = () => {
 
             {showAngelo && angelo?.avatar && (
                 <AvatarWrapper>
-                    <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
+                    <TouchableOpacity onPress={handleAngeloPress}>
+                        <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
+                    </TouchableOpacity>
                 </AvatarWrapper>
             )}
         </CustomBackground>
