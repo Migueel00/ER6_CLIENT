@@ -85,6 +85,7 @@ const InnScreen = () => {
     const socket = appContext?.socket;
     const setPlayer = appContext?.setPlayer;
     const players = appContext?.players;
+    const setPlayers = appContext?.setPlayers;
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
@@ -106,6 +107,22 @@ const InnScreen = () => {
             socket.off('IsBetrayer');
         };
     }, [socket, player, setPlayer]);
+
+    useEffect(() => {
+        socket.on('IsCaptured', (updatedPlayer: Player) => {
+
+            // Update only angelo
+            const updatedPlayers = players?.map(player =>
+                player.role === 'ANGELO' ? { ...player, isCaptured: updatedPlayer.isCaptured }: player
+            );
+
+            setPlayers(updatedPlayers);
+        });
+
+        return () => {
+            socket.off('IsCaptured');
+        };
+    }, [socket, players, setPlayers]);
 
     useEffect(() => {
         if (isBetrayer === false) {
