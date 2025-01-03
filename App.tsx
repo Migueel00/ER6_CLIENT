@@ -202,9 +202,9 @@ function App(): React.JSX.Element {
 
 
     //const email = 'ozarate@aeg.eus';
-    const email = 'oskar.calvo@aeg.eus';
+    //const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
-    //const email = userInfo.data?.user.email;
+    const email = userInfo.data?.user.email;
     // const email = "lander.labaka@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
@@ -315,7 +315,10 @@ function App(): React.JSX.Element {
 
       await AsyncStorage.setItem('isVerified', 'true');
 
-      const email = await AsyncStorage.getItem('email');;
+      //const email = await AsyncStorage.getItem('email');
+
+      //ANGELO EMAIL
+      const email = "angelo@kaotika.guru";
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
       
