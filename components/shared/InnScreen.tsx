@@ -61,6 +61,22 @@ const ButtonText = styled.Text`
     font-family: KochAltschrift;
 `;
 
+const AvatarWrapper = styled.View`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: ${width * 0.5}px;
+    border-width: ${width * 0.004}px;
+    border-color: white;
+    overflow: hidden;
+    margin: 0 ${width * 0.05}px;
+`;
+
+const Avatar = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: ${width * 0.4}px;
+`;
+
 const background = require('../../assets/backgrounds/inn.png');
 
 const InnScreen = () => {
@@ -68,9 +84,13 @@ const InnScreen = () => {
     const player = appContext?.player;
     const socket = appContext?.socket;
     const setPlayer = appContext?.setPlayer;
+    const players = appContext?.players;
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
+    const [showAngelo, setShowAngelo] = useState(false);
+
+    const angelo = players?.find(player => player.role === 'ANGELO');
 
     useEffect(() => {
         socket.on('IsBetrayer', (updatedPlayer: Player) => {
@@ -82,11 +102,9 @@ const InnScreen = () => {
             setPlayer({ ...player, isBetrayer: updatedPlayer.isBetrayer });
         });
 
-        // Limpiar el listener cuando el componente se desmonte
         return () => {
             socket.off('IsBetrayer');
         };
-
     }, [socket, player, setPlayer]);
 
     useEffect(() => {
@@ -99,6 +117,7 @@ const InnScreen = () => {
 
     const handleBetray = () => {
         setModalVisible(false);
+        setShowAngelo(true);
 
         const value = {
             playerID: player?._id,
@@ -115,7 +134,6 @@ const InnScreen = () => {
 
     return (
         <CustomBackground source={background}>
-
             <Modal
                 transparent
                 visible={isModalVisible}
@@ -141,6 +159,12 @@ const InnScreen = () => {
                     </ModalContent>
                 </ModalContainer>
             </Modal>
+
+            {showAngelo && angelo?.avatar && (
+                <AvatarWrapper>
+                    <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
+                </AvatarWrapper>
+            )}
         </CustomBackground>
     );
 }

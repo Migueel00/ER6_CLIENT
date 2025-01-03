@@ -1,6 +1,6 @@
 import MortimerScreens from "./mortimerScreen/mortimerScreens";
 import IstvanScreens from "./istvanScreen/istvanScreens";
-import AcolyteScreens2 from "./acolyteScreen/AcolyteScreens";
+import AcolyteScreens from "./acolyteScreen/AcolyteScreens";
 import React, { useContext, useEffect } from "react";
 import { Text, Vibration } from 'react-native';
 import AppContext from "../helpers/context";
@@ -104,7 +104,7 @@ const MainScreens = () => {
     return (
         <>
             {userRole === 'ACOLYTE' ? (
-                <AcolyteScreens2 />
+                <AcolyteScreens />
             ) : userRole === 'MORTIMER' ? (
                 <MortimerScreens />
             ) : userRole === 'ISTVAN' ? (
