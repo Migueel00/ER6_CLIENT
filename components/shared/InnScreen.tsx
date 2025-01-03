@@ -125,9 +125,9 @@ const InnScreen = () => {
     }, [socket, players, setPlayers]);
 
     useEffect(() => {
-        if (isBetrayer === false) {
+        if (!isBetrayer) {
             setModalVisible(true);
-        } else {
+        } else if (isBetrayer && !angelo?.isCaptured) {
             setModalVisible(false);
             setShowAngelo(true);
         }
