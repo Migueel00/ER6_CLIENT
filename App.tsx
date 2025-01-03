@@ -315,10 +315,7 @@ function App(): React.JSX.Element {
 
       await AsyncStorage.setItem('isVerified', 'true');
 
-      //const email = await AsyncStorage.getItem('email');
-
-      //ANGELO EMAIL
-      const email = "angelo@kaotika.guru";
+      const email = await AsyncStorage.getItem('email');
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
       
