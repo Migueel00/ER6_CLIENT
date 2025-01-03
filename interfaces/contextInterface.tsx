@@ -41,6 +41,7 @@ export interface Player {
   isInsideTower: boolean,
   isInsideHall: boolean,
   isBetrayer:   boolean,
+  isCaptured:   boolean,
   avatar:       string,
   id:           string,
   role:         string,
