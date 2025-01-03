@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components/native";
-import { Dimensions, Modal } from "react-native";
+import { Dimensions, Modal, Vibration } from "react-native";
 import AppContext from "../../helpers/context";
 import { Player } from "../../interfaces/contextInterface";
 
@@ -112,12 +112,13 @@ const InnScreen = () => {
             setModalVisible(true);
         } else {
             setModalVisible(false);
+            setShowAngelo(true);
         }
     }, [isBetrayer]);
 
     const handleBetray = () => {
         setModalVisible(false);
-        setShowAngelo(true);
+        Vibration.vibrate(200);
 
         const value = {
             playerID: player?._id,
