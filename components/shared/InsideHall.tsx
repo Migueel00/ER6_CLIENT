@@ -158,12 +158,15 @@ const InsideHall = () => {
 
     const handleArrestAngelo = () => {
         console.log("ARREST ANGELO");
-        setIsAcolyteWaitingArrest(true);
-    };
 
-    useEffect(()=>{
-        console.log(isAcolyteWaitingArrest);
-    })
+        const values = {
+            playerID: angelo?._id,
+            isArrested: angelo?.isArrested,
+        };
+
+        socket.emit('UpdateArrested', values)
+        //setIsAcolyteWaitingArrest(true);
+    };
 
     return (
         <InsideHallBackground source={insideHall}>
