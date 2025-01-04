@@ -21,6 +21,7 @@ const InsideHall = () => {
     const socket = appContext?.socket;
     const players = appContext?.players!;
     const artifacts = appContext?.artifacts;
+    const setPlayers = appContext?.setPlayers;
     const setAreArtifactsValidated = appContext?.setAreArtifactsValidated!;
     const [insidePlayers, setInsidePlayers] = useState<Player[]>([]);
     const [callMortimerButton, setCallMortimerButton] = useState(false);
@@ -38,6 +39,22 @@ const InsideHall = () => {
     const angelo = players?.find(player => player.role === 'ANGELO');
 
     useEffect(() => {
+        socket.on('IsArrested', (updatedPlayer: Player) => {
+
+            // Update only angelo
+            const updatedPlayers = players?.map(player =>
+                player.role === 'ANGELO' ? { ...player, isArrested: updatedPlayer.isArrested } : player
+            );
+
+            setPlayers(updatedPlayers);
+        });
+
+        return () => {
+            socket.off('IsArrested');
+        };
+    }, [socket, players, setPlayers]);
+
+    useEffect(() => {
         socket.on('changeIsValidating', (isValidating: boolean) => {
 
             console.log(isValidating);
@@ -48,6 +65,12 @@ const InsideHall = () => {
     useEffect(() => {
         console.log("IS VALIDATING " + isValidating);
     }, [isValidating])
+
+    useEffect(() => {
+        const angelo = players?.find(player => player.role === 'ANGELO');
+        console.log("IS ANGELO ARRESTED?");
+        console.log(angelo?.isArrested);
+    }, [players]); // Este useEffect se ejecutará cuando players cambie
 
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
