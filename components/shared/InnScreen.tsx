@@ -132,10 +132,7 @@ const InnScreen = () => {
 
     const handleBetray = () => {
         setModalVisible(false);
-
-        if (!angelo?.isCaptured) {
-            setShowAngelo(true);
-        }
+        
         Vibration.vibrate(200);
 
         const value = {
