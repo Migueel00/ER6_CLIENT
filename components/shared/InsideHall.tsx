@@ -158,7 +158,12 @@ const InsideHall = () => {
 
     const handleArrestAngelo = () => {
         console.log("ARREST ANGELO");
+        setIsAcolyteWaitingArrest(true);
     };
+
+    useEffect(()=>{
+        console.log(isAcolyteWaitingArrest);
+    })
 
     return (
         <InsideHallBackground source={insideHall}>

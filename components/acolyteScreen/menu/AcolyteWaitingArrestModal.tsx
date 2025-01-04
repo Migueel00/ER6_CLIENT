@@ -17,11 +17,10 @@ interface ModalComponentProps {
 }
 
 const AcolyteWaitingArrestModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
-    const appContext = useContext(AppContext);
-    const artifacts = appContext?.artifacts;
-    const isValidating = appContext?.isValidating;
 
-    const [validatingText, setValidatingText] = useState<string>('Waiting for validation');
+    const appContext = useContext(AppContext);
+
+    const [validatingText, setValidatingText] = useState<string>('Waiting for arrest');
     const [dots, setDots] = useState<string>('');
     const [currentFunFact, setCurrentFunFact] = useState(0);
     const [fadeAnim] = useState(new Animated.Value(1)); // Controla el fade
@@ -74,7 +73,7 @@ const AcolyteWaitingArrestModal: React.FC<ModalComponentProps> = ({ visible, onC
     
 
     useEffect(() => {
-        if (validatingText === 'Waiting for validation') {
+        if (validatingText === 'Waiting for arrest') {
             const interval = setInterval(() => {
                 setDots((prevDots) => {
                     if (prevDots === '...') return '';
@@ -85,9 +84,6 @@ const AcolyteWaitingArrestModal: React.FC<ModalComponentProps> = ({ visible, onC
         }
     }, [validatingText]);
 
-    if(!isValidating){
-        onClose();
-    }
     return (
         <Modal
             animationType="fade"
