@@ -69,42 +69,49 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
 
-        if (!areArtifactsValidated || angelo?.isCaptured) {
-            console.log("ARTIFACTS NOT VALIDATED");
-
-            if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
-                console.log("MORTIMER NOT INSIDE CALL IT HALL IS FULL");
-                setCallMortimerButton(true);
-                setShowArtifacts(false);
-            }
-            else if (!isMortimerInside && angelo?.isCaptured) {
-                console.log("MORTIMER NOT INSIDE CALL IT FOR ANGELO");
-                setCallMortimerButton(true);
-            }
-            else if (isMortimerInside && angelo?.isCaptured) {
-                setCallMortimerButton(false);
-                setShowArrestAngelo(true);
-            }
-            else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4) {
-                console.log("MORTIMER INSIDE HALL IS FULL");
-                setCallMortimerButton(false);
-                setShowArtifacts(true);
-            } else if (retrievedArtifacts.length < 4) {
-                setShowArtifacts(false);
-            } else {
-                setShowArtifacts(false);
-                setCallMortimerButton(false);
-            }
+        // Hide angelo arrest button if is arrested
+        if (angelo?.isArrested) {
+            setShowArrestAngelo(false);
         } else {
-            console.log("ARTIFACTS VALIDATED");
-            setShowArtifacts(false);
-            setCallMortimerButton(false);
-        }
 
+            if (!areArtifactsValidated || angelo?.isCaptured) {
+                console.log("ARTIFACTS NOT VALIDATED");
+
+                if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
+                    console.log("MORTIMER NOT INSIDE CALL IT HALL IS FULL");
+                    setCallMortimerButton(true);
+                    setShowArtifacts(false);
+                }
+                else if (!isMortimerInside && angelo?.isCaptured) {
+                    console.log("MORTIMER NOT INSIDE CALL IT FOR ANGELO");
+                    setCallMortimerButton(true);
+                }
+                else if (isMortimerInside && angelo?.isCaptured) {
+                    setCallMortimerButton(false);
+                    setShowArrestAngelo(true);
+                }
+                else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4) {
+                    console.log("MORTIMER INSIDE HALL IS FULL");
+                    setCallMortimerButton(false);
+                    setShowArtifacts(true);
+                } else if (retrievedArtifacts.length < 4) {
+                    setShowArtifacts(false);
+                }
+                else {
+                    setShowArtifacts(false);
+                    setCallMortimerButton(false);
+                }
+            } else {
+                console.log("ARTIFACTS VALIDATED");
+                setShowArtifacts(false);
+                setCallMortimerButton(false);
+            }
+        }
 
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
-    }, [insidePlayers, retrievedArtifacts, artifacts, areArtifactsValidated]);
+    }, [insidePlayers, retrievedArtifacts, artifacts, areArtifactsValidated, angelo?.isArrested]);
+
 
     useEffect(() => {
         socket.on('setArtifacts', () => {
@@ -175,9 +182,9 @@ const InsideHall = () => {
 
             <AcolyteValidatingModal visible={isAcolyteModalVisible} onClose={handleCloseAcolyteModal} />
 
-            <MortimerArrestingModal visible={isMortimerArresting} onClose={handleArrestCloseModal}/>
+            <MortimerArrestingModal visible={isMortimerArresting} onClose={handleArrestCloseModal} />
 
-            <AcolyteWaitingArrestModal visible={isAcolyteWaitingArrest} onClose={handleAcolyteArrestCloseModal}/>
+            <AcolyteWaitingArrestModal visible={isAcolyteWaitingArrest} onClose={handleAcolyteArrestCloseModal} />
 
             {showArtifacts && player.role === 'ACOLYTE' && (
                 <ShowArtifactsButton onPress={handleShowArtifacts}>
