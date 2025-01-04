@@ -27,10 +27,10 @@ const MenuDungeon = () => {
     const acolyteContext = useContext(AcolyteContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuInnLoaded = acolyteContext?.setIsMenuInnLoaded!;
+    const setIsMenuDungeonLoaded = acolyteContext?.setIsMenuDungeonLoaded!;
 
     useEffect(() => {
-        setIsMenuInnLoaded(true);
+        setIsMenuDungeonLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -41,7 +41,7 @@ const MenuDungeon = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuInnLoaded(false);
+            setIsMenuDungeonLoaded(false);
         }
     }, []);
 
