@@ -6,6 +6,8 @@ import { Player } from '../../interfaces/contextInterface';
 import MortimerValidatingModal from '../mortimerScreen/components/MortimerValidatingModal';
 import AcolyteValidatingModal from '../acolyteScreen/menu/AcolyteValidatingModal';
 import Artifact from '../../interfaces/ArtifactsInterface';
+import MortimerArrestingModal from '../mortimerScreen/components/MortimerArrestingModal';
+import AcolyteWaitingArrestModal from '../acolyteScreen/menu/AcolyteWaitingArrestModal';
 
 const insideHall = require('./../../assets/backgrounds/insideHall.png');
 const watchingEyes = require('./../../assets/png/watchingEyes.png');
@@ -26,6 +28,8 @@ const InsideHall = () => {
     const setIsValidating = appContext?.setIsValidating!;
     const [isModalVisible, setModalVisible] = useState(false);
     const [isAcolyteModalVisible, setIsAcolyteModalVisible] = useState(false);
+    const [isMortimerArresting, setIsMortimerArresting] = useState(false);
+    const [isAcolyteWaitingArrest, setIsAcolyteWaitingArrest] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
     const [showArrestAngelo, setShowArrestAngelo] = useState(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
@@ -129,6 +133,10 @@ const InsideHall = () => {
 
     const handleCloseAcolyteModal = () => setIsAcolyteModalVisible(false);
 
+    const handleArrestCloseModal = () => setIsMortimerArresting(false);
+
+    const handleAcolyteArrestCloseModal = () => setIsAcolyteWaitingArrest(false);
+
     const handleExitHall = () => {
         console.log("EXITING HALL");
         console.log(player.isInsideHall);
@@ -158,6 +166,10 @@ const InsideHall = () => {
             <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal} />
 
             <AcolyteValidatingModal visible={isAcolyteModalVisible} onClose={handleCloseAcolyteModal} />
+
+            <MortimerArrestingModal visible={isMortimerArresting} onClose={handleArrestCloseModal}/>
+
+            <AcolyteWaitingArrestModal visible={isAcolyteWaitingArrest} onClose={handleAcolyteArrestCloseModal}/>
 
             {showArtifacts && player.role === 'ACOLYTE' && (
                 <ShowArtifactsButton onPress={handleShowArtifacts}>
