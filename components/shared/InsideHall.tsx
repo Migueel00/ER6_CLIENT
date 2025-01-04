@@ -63,6 +63,19 @@ const InsideHall = () => {
     }, []);
 
     useEffect(() => {
+        socket.on('ArrestingAngelo', () => {
+
+            if (player.role === 'MORTIMER') {
+                setIsMortimerArresting(true);
+            }
+
+            if (player.role === 'ACOLYTE') {
+                setIsAcolyteWaitingArrest(true);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
         console.log("IS VALIDATING " + isValidating);
     }, [isValidating])
 
@@ -188,13 +201,7 @@ const InsideHall = () => {
             isArrested: angelo?.isArrested,
         };
 
-        if (player.role === 'MORTIMER'){
-            setIsMortimerArresting(true)
-        }
-
-        if (player.role === 'ACOLYTE'){
-            setIsAcolyteWaitingArrest(true);
-        }
+        socket.emit('ArrestAngelo');
 
         socket.emit('UpdateArrested', values)
     };
