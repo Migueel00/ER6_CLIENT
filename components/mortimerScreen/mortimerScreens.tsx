@@ -74,7 +74,7 @@ useEffect(() => {
   // Manage messages inside the app
   messaging().onMessage(async (remoteMessage) => {
     console.log('Notificación recibida en primer plano:', remoteMessage);
-    if (remoteMessage.notification?.title === 'The acolytes call you, destiny awaits.') {
+    if (remoteMessage.notification?.title === 'Urgent: Your presence is needed immediately!') {
         console.log('Mostrar icono de alerta');
         setShowAlertButton(true);
         Vibration.vibrate(350);
@@ -152,7 +152,7 @@ const handleCloseModal = () => {
           <TouchableWithoutFeedback onPress={handleCloseModal}>
             <ModalContainer>
               <ModalContent>
-                <ModalText>Mortimer, the acolytes rise, and your fate is sealed!</ModalText>
+                <ModalText>Mortimer, the acolytes are calling you, your presence is needed!</ModalText>
                 <ModalText>Go to the Hall Of Sages</ModalText>
               </ModalContent>
             </ModalContainer>
