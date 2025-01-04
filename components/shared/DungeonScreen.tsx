@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { Dimensions, TouchableOpacity } from "react-native";
 import { useContext } from "react";
 import AppContext from "../../helpers/context";
-import AcolyteContext from "../../helpers/AcolyteContext";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
@@ -43,40 +42,70 @@ const StyledCorridorButton = styled(TouchableOpacity)`
     bottom: ${height * 0.03}px;
 `;
 
+const AvatarWrapper = styled.View`
+    width: ${width * 0.2}px;
+    height: ${width * 0.2}px;
+    border-radius: ${width * 0.5}px;
+    border-width: ${width * 0.004}px;
+    border-color: white;
+    overflow: hidden;
+    position: absolute;
+    top: ${height * 0.3}px;
+`;
 
+const Avatar = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: ${width * 0.5}px;
+`;
 
 const background = require('../../assets/backgrounds/dungeon.png');
 
 const DungeonScreen = () => {
-
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
-    
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
     const appContext = useContext(AppContext);
-    const player = appContext?.player;
+    const players = appContext?.players;
     const setLocation = appContext?.setLocation;
-    const acolyteContext = useContext(AcolyteContext);
-    const isMenuOldSchoolLoaded = acolyteContext?.isMenuOldSchoolLoaded;
+
+    const angelo = players?.find(player => player.role === 'ANGELO');
+    const [showAngelo, setShowAngelo] = useState(false);
+
+    useEffect(() => {
+        if (angelo?.isArrested) {
+            setShowAngelo(true);
+        } else {
+            setShowAngelo(false);
+        }
+    }, [angelo]);
 
     const handleGoToCorridor = () => {
         console.log("PRESSED SCHOOL BUTTON IN DUNGEON");
-        
+
         setLocation('OLDSCHOOL');
-        if(isMenuOldSchoolLoaded){
-            console.log("NAVIGATING TO OLDSCHOOL");
-            
-            navigation.navigate('OLDSCHOOL');
-        }
-    }   
+        navigation.navigate('OLDSCHOOL');
+    };
+
+    const handleAngeloPress = () => {
+        console.log("Angelo clicked!");
+        setShowAngelo(false);
+    };
 
     return (
         <CustomBackground source={background}>
-            <CenteredText>THE OLD SCHOOL DUNGEON</CenteredText>
 
             <StyledCorridorButton onPress={handleGoToCorridor}>
                 <StyledButtonText>Go back to the corridor</StyledButtonText>
             </StyledCorridorButton>
+
+            {showAngelo && angelo?.avatar && (
+                <AvatarWrapper>
+                    <TouchableOpacity onPress={handleAngeloPress}>
+                        <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
+                    </TouchableOpacity>
+                </AvatarWrapper>
+            )}
         </CustomBackground>
     );
-}
+};
 
 export default DungeonScreen;
