@@ -4,10 +4,10 @@ import messaging from '@react-native-firebase/messaging';
 import LoadSpinner from './components/utils/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import React, { useEffect, useRef, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions, PermissionsAndroid} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions, PermissionsAndroid } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import io, { Socket } from 'socket.io-client';
 import { searchAndIfDontExistPost } from "./src/API/get&post";
 import { getAllPlayers } from './src/API/getAllPlayers';
@@ -17,7 +17,7 @@ import AppContext from './helpers/context';
 import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
 import Ingredient from './components/potions/ingredient';
-import { getIngredientsAndFilter, getParchmentIngredients} from './src/API/getIngredients';
+import { getIngredientsAndFilter, getParchmentIngredients } from './src/API/getIngredients';
 import { URL } from './src/API/urls';
 import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
 import { Alert } from 'react-native';
@@ -28,18 +28,18 @@ import Artifact from './interfaces/ArtifactsInterface';
 import { getALlMissions } from './src/API/missions';
 
 GoogleSignin.configure({
-  webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com', 
+  webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com',
   offlineAccess: true,
 });
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 function App(): React.JSX.Element {
 
   const [isVerified, setIsVerified] = useState(false); // -> no se usa isVerified?
   const isDarkMode = useColorScheme() === 'dark';
   const [userSocket, setUserSocket] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>("") ;
+  const [userRole, setUserRole] = useState<string>("");
   const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
     dexterity: 0,
@@ -50,13 +50,13 @@ function App(): React.JSX.Element {
   });
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Aquí controlas el login
-  const [isSpinner, setIsSpinner]   = useState(false);
+  const [isSpinner, setIsSpinner] = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
   const [location, setLocation] = useState<string>("");
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]);
-  const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]); 
+  const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]);
   const [parchmentState, setParchmentState] = useState<boolean>(true);
   const [towerIngredientsState, setTowerIngredientsState] = useState<boolean>(true);
   const [newIngredients, setNewIngredients] = useState<Ingredient[] | undefined>([]);
@@ -73,13 +73,13 @@ function App(): React.JSX.Element {
       // El item existe en AsyncStorage
       await setIsVerified(true);
       console.log('El item existe:', email);
-  } else {
+    } else {
       // El item no existe en AsyncStorage
       await setIsVerified(false);
       console.log('El item no existe');
     }
   };
-  
+
   const sendNotificationToUser = async (fcmToken: any) => {
     try {
       const response = await fetch(URL.NOTIFICATION, {
@@ -93,7 +93,7 @@ function App(): React.JSX.Element {
           body: "¡Gracias por unirte a la aventura!",
         }),
       });
-  
+
       if (response.ok) {
         console.log('Notificación enviada exitosamente');
       } else {
@@ -107,11 +107,11 @@ function App(): React.JSX.Element {
   async function requestNotificationPermission() {
     try {
       const hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-      
+
       if (!hasPermission) {
         // Si no tiene permiso, solicitarlo
         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-        
+
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log("Permiso de notificaciones concedido");
         } else {
@@ -127,12 +127,12 @@ function App(): React.JSX.Element {
 
   async function requestUserPermission() {
     console.log("PIDIENDO PERMISOS PARA NOTIFICACIONES");
-    
+
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  
+
     if (enabled) {
       console.log('Authorization status:', authStatus);
     }
@@ -154,16 +154,16 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     fetch(URL.GET_ARTIFACTS)
-    .then((response) => response.json())
-    .then((artifacts) => {
+      .then((response) => response.json())
+      .then((artifacts) => {
         console.log(artifacts);
         const data = artifacts.data;
         setArtifacts(data);
-    });
-   
+      });
+
     SplashScreen.hide();
   }, []);
-    
+
   useEffect(() => {
     requestUserPermission();
     onMessageReceivedService();
@@ -176,7 +176,7 @@ function App(): React.JSX.Element {
   }, [profileAttributes]);
 
 
-  const fetchIngredients = async (playerRole : string) => {
+  const fetchIngredients = async (playerRole: string) => {
     try {
       const ingredients = await getIngredientsAndFilter(playerRole);
       const newIngredients = await getParchmentIngredients();
@@ -188,7 +188,7 @@ function App(): React.JSX.Element {
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
-  };  
+  };
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -208,12 +208,12 @@ function App(): React.JSX.Element {
     // const email = "lander.labaka@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
-    
+
     // Create a Google credential with the token
     const googleCredential = await auth.GoogleAuthProvider.credential(`${googleIdToken}`);
 
     // Sign-in the user with the credential
-    const signInWithCredential = await  auth().signInWithCredential(
+    const signInWithCredential = await auth().signInWithCredential(
       googleCredential,
     );
 
@@ -225,7 +225,7 @@ function App(): React.JSX.Element {
     const idToken = idTokenResult?.token;
 
     //console.log("TOKEN: " + idToken);
-    
+
 
     // Envía el idToken al servidor
     const fireBaseResponse = await fetch(URL.VERIFY_TOKEN, {
@@ -240,38 +240,38 @@ function App(): React.JSX.Element {
 
     if (fireBaseResponse.ok) {
       console.log('Respuesta del servidor:', fireBaseResult);
-            //Async storage
+      //Async storage
       // await manageRole(email as string);
       await AsyncStorage.setItem('email', email as string);
-      
+
     } else {
       throw new Error(fireBaseResult.error || 'Error al verificar el token');
     }
   }
 
-  const handleSockets = (socket : any)=> {
-      // Conectar al socket
-      socket.on('connect', () => {
-        console.log('Conectado al servidor de Socket.IO');
-  
-        const socketId  : string = socket.id as string;
-  
-        setUserSocket(socketId);
-  
-        console.log('El socketID de esta conexion es: ' + socket.id);
-      });
-  
-      // Desconexion
-      socket.on('disconnect', ()=> {
-        console.log('Desconectado del servidor de Socket ');
-      })
-  
-      // Limpiar la conexion al desmontar el componente
-      return () => {
-        socket.off('connect');
-        socket.off('disconnect');
-        socket.disconnect();
-      }
+  const handleSockets = (socket: any) => {
+    // Conectar al socket
+    socket.on('connect', () => {
+      console.log('Conectado al servidor de Socket.IO');
+
+      const socketId: string = socket.id as string;
+
+      setUserSocket(socketId);
+
+      console.log('El socketID de esta conexion es: ' + socket.id);
+    });
+
+    // Desconexion
+    socket.on('disconnect', () => {
+      console.log('Desconectado del servidor de Socket ');
+    })
+
+    // Limpiar la conexion al desmontar el componente
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.disconnect();
+    }
   }
 
   const handleButtonPress = async () => {
@@ -280,7 +280,7 @@ function App(): React.JSX.Element {
       setIsSpinner(true);
       setError(null);
       // Iniciar socket
-      const socket = io(URL.SOCKET); 
+      const socket = io(URL.SOCKET);
       // Settear socket 
       setSocket(socket);
       // Funcion gestionar sockets
@@ -293,22 +293,21 @@ function App(): React.JSX.Element {
       const isVerified = await AsyncStorage.getItem('isVerified');
 
       console.log("IS VERIFIED?" + isVerified);
-      
+
       setSpinnerText('Retrieving FCM Token...');
 
       const FCMToken = await getFCMToken();
 
       console.log("FCM TOKEN AFTER RETRIEVING");
       console.log(FCMToken);
-      
+
       setSpinnerText('Requesting permissions...');
-        
+
       await requestUserPermission();
 
       await requestNotificationPermission();
 
-      if(!isVerified)
-      {
+      if (!isVerified) {
         setSpinnerText('Verifying user...');
         await verifyUser();
       }
@@ -318,7 +317,7 @@ function App(): React.JSX.Element {
       const email = await AsyncStorage.getItem('email');
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
-      
+
       setUserEmail(`${email}`);
 
       setSpinnerText("Retrieving player data from kaotika's server...");
@@ -328,21 +327,20 @@ function App(): React.JSX.Element {
 
       const response = await fetch(kaotikaApiUrl);
 
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error('Error en la solicitud a la API');
       }
-      else
-      {
+      else {
         setSpinnerText("Succesfully retrieved player data!");
         console.log("Succesfully connected with Kaotika API");
-        
+
       }
 
       const profileData = await response.json();
       const profileDataAttr = profileData.data.attributes
       setProfileAttributes(profileDataAttr);
-    
-      const playerDataToPost    = profileData.data;
+
+      const playerDataToPost = profileData.data;
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
       playerDataToPost.location = "HOME";
@@ -354,12 +352,12 @@ function App(): React.JSX.Element {
       console.log(missions);
 
 
-      if(missions[0].isCompleted) {
+      if (missions[0].isCompleted) {
         console.log("MISION COMPLETADA");
         setAreArtifactsValidated(true);
       } else {
         console.log("MISION NO COMPLETADA");
-        
+
         setAreArtifactsValidated(false);
       }
 
@@ -375,10 +373,10 @@ function App(): React.JSX.Element {
       await AsyncStorage.setItem("my-role", player.role);
 
       await getDataAndAsign();
-      
+
       setIsLoggedIn(true);
       setIsSpinner(false);
-    
+
     } catch (error: any) {
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -399,62 +397,64 @@ function App(): React.JSX.Element {
     }
 
   };
-  
+
   const getDataAndAsign = async () => {
-    const players      = await getAllPlayers();
-    const playersData  = players.data;
+    const players = await getAllPlayers();
+    const playersData = players.data;
     const newPlayers = [];
 
-    
-    for(let i = 0; i < playersData.length; i++){
 
-      const nickname    = playersData[i].nickname;
-      const email       = playersData[i].email;
+    for (let i = 0; i < playersData.length; i++) {
+
+      const nickname = playersData[i].nickname;
+      const email = playersData[i].email;
       const isInsideLab = playersData[i].isInsideLab;
       const isInsideTower = playersData[i].isInsideTower;
       const isInsideHall = playersData[i].isInsideHall;
       const isCaptured = playersData[i].isCaptured;
       const isBetrayer = playersData[i].isBetrayer;
-      const socketId    = playersData[i].socketId;
-      const avatar      = playersData[i].avatar;
-      const role        = playersData[i].role;
-      const id          = playersData[i]._id;
-      const location    = playersData[i].location;
+      const isArrested = playersData[i].isArrested;
+      const socketId = playersData[i].socketId;
+      const avatar = playersData[i].avatar;
+      const role = playersData[i].role;
+      const id = playersData[i]._id;
+      const location = playersData[i].location;
 
-      const player  = {
+      const player = {
 
-        nickname:       nickname,
-        email:          email,
-        isInsideLab:    isInsideLab,
-        isInsideTower:  isInsideTower,
-        isInsideHall:   isInsideHall,
-        isBetrayer:     isBetrayer,
-        isCaptured:     isCaptured,
-        socketId:       socketId,
-        avatar:         avatar,
-        id:             id,
-        role:           role,
-        _id:            id,
-        location:       location,
+        nickname: nickname,
+        email: email,
+        isInsideLab: isInsideLab,
+        isInsideTower: isInsideTower,
+        isInsideHall: isInsideHall,
+        isBetrayer: isBetrayer,
+        isCaptured: isCaptured,
+        isArrested: isArrested,
+        socketId: socketId,
+        avatar: avatar,
+        id: id,
+        role: role,
+        _id: id,
+        location: location,
       };
 
       newPlayers.push(player);
+    }
+
+    setPlayers(newPlayers);
   }
 
-  setPlayers(newPlayers);
-  }
-  
   return (
-    <AppContext.Provider 
-      value={{   
-        userRole:userRole, 
-        profileAttributes:profileAttributes,
-        userEmail:userEmail,
-        socketID:userSocket, 
-        player:player!,
-        players:players,
-        setPlayers:setPlayers,
-        setIsLoggedIn:setIsLoggedIn ,
+    <AppContext.Provider
+      value={{
+        userRole: userRole,
+        profileAttributes: profileAttributes,
+        userEmail: userEmail,
+        socketID: userSocket,
+        player: player!,
+        players: players,
+        setPlayers: setPlayers,
+        setIsLoggedIn: setIsLoggedIn,
         socket: socket,
         location: location,
         setLocation: setLocation,
@@ -476,35 +476,35 @@ function App(): React.JSX.Element {
         areArtifactsValidated,
         setAreArtifactsValidated,
       }}>
-    
-    <SafeAreaView style={{ flex: 1 }}>
 
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      {isLoggedIn ? (
-        <MainScreens/>
-      ) : (
-        <ImageBackground 
-        source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees
-        style={styles.imageBackground} // Usamos flex para que ocupe toda la pantalla
-        resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
-        >
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
-          {isSpinner ? (
-            <LoadSpinner SpinnerText={spinnerText}/>
-          ) : (
-            <SignInScreen handleButtonPress={handleButtonPress} />
-          )}
-        </ScrollView>
-        </ImageBackground>
-      )}
-      <Toast config={toastConfig}/>
-    </SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
+
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        {isLoggedIn ? (
+          <MainScreens />
+        ) : (
+          <ImageBackground
+            source={require('./assets/png/appMainScreen.png')} // Cambia esta ruta a la imagen que desees
+            style={styles.imageBackground} // Usamos flex para que ocupe toda la pantalla
+            resizeMode="cover" // Asegúrate de que la imagen cubra todo el área
+          >
+            <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ flex: 1 }}>
+              {isSpinner ? (
+                <LoadSpinner SpinnerText={spinnerText} />
+              ) : (
+                <SignInScreen handleButtonPress={handleButtonPress} />
+              )}
+            </ScrollView>
+          </ImageBackground>
+        )}
+        <Toast config={toastConfig} />
+      </SafeAreaView>
     </AppContext.Provider>
   );
-  
+
 }
 
 const styles = StyleSheet.create({
@@ -513,18 +513,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'transparent', // Personaliza el fondo
-    width: '100%', 
-    height: '100%', 
+    width: '100%',
+    height: '100%',
     paddingTop: 20,
     paddingBottom: 50
-},
+  },
   kaotika: {
     color: 'white', // Color blanco para "Kati" y "ka"
   },
   o: {
-      color: 'orange', // Color naranja para la "o"
+    color: 'orange', // Color naranja para la "o"
   },
-  overlayText: { 
+  overlayText: {
     padding: 20,
   },
   overlayButton: {
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-},
+  },
   profileText: {
     color: 'black',
     fontSize: 24,
