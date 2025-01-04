@@ -47,6 +47,7 @@ const InsideHall = () => {
             );
 
             setPlayers(updatedPlayers);
+            setIsAcolyteWaitingArrest(false);
         });
 
         return () => {
