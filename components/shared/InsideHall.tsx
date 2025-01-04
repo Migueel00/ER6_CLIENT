@@ -27,6 +27,7 @@ const InsideHall = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isAcolyteModalVisible, setIsAcolyteModalVisible] = useState(false);
     const [showArtifacts, setShowArtifacts] = useState(false);
+    const [showArrestAngelo, setShowArrestAngelo] = useState(false);
     const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
@@ -75,6 +76,10 @@ const InsideHall = () => {
             else if (!isMortimerInside && angelo?.isCaptured) {
                 console.log("MORTIMER NOT INSIDE CALL IT FOR ANGELO");
                 setCallMortimerButton(true);
+            }
+            else if (isMortimerInside && angelo?.isCaptured) {
+                setCallMortimerButton(false);
+                setShowArrestAngelo(true);
             }
             else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4) {
                 console.log("MORTIMER INSIDE HALL IS FULL");
@@ -143,6 +148,10 @@ const InsideHall = () => {
         socket.emit('changeIsValidatingTrue');
     };
 
+    const handleArrestAngelo = () => {
+        console.log("ARREST ANGELO");
+    };
+
     return (
         <InsideHallBackground source={insideHall}>
 
@@ -153,6 +162,13 @@ const InsideHall = () => {
             {showArtifacts && player.role === 'ACOLYTE' && (
                 <ShowArtifactsButton onPress={handleShowArtifacts}>
                     <ShowArtifactsText>Show Artifacts</ShowArtifactsText>
+                </ShowArtifactsButton>
+            )
+            }
+
+            {showArrestAngelo && player.role === 'ACOLYTE' && (
+                <ShowArtifactsButton onPress={handleArrestAngelo}>
+                    <ShowArtifactsText>Arrest Angelo</ShowArtifactsText>
                 </ShowArtifactsButton>
             )
             }
