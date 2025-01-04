@@ -38,6 +38,7 @@ const InsideHall = () => {
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
+    // UPDATE ANGELO IS ARRESTED VALUE
     useEffect(() => {
         socket.on('IsArrested', (updatedPlayer: Player) => {
 
@@ -55,6 +56,7 @@ const InsideHall = () => {
         };
     }, [socket, players, setPlayers]);
 
+
     useEffect(() => {
         socket.on('changeIsValidating', (isValidating: boolean) => {
 
@@ -63,6 +65,7 @@ const InsideHall = () => {
         });
     }, []);
 
+    // OPEN MODALS DEPENDING ON THE ROLE
     useEffect(() => {
         socket.on('ArrestingAngelo', () => {
 
@@ -75,6 +78,18 @@ const InsideHall = () => {
             }
         });
     }, []);
+
+    // CLOSE MODAL IF ANGELO IS FREE
+    useEffect(() => {
+        socket.on('NotArrestingAngelo', () => {
+
+            setIsAcolyteWaitingArrest(false);
+        });
+
+        return () => {
+            socket.off('NotArrestingAngelo');
+        };
+    }, [socket]);
 
     useEffect(() => {
         console.log("IS VALIDATING " + isValidating);

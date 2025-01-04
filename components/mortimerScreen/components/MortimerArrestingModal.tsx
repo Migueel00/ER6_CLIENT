@@ -18,6 +18,7 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
+    // Arrest Angelo
     const handleArrestAngelo = () => {
 
         const values = {
@@ -29,8 +30,10 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
         onClose();
     };
 
+    // Free Angelo
     const handleFreeAngelo = () => {
-        console.log('Reset Search');
+
+        socket.emit('NotArrestAngelo');
         onClose();
     };
 
