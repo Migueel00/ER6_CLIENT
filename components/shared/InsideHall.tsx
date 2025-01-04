@@ -30,10 +30,11 @@ const InsideHall = () => {
     const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
+    const angelo = players?.find(player => player.role === 'ANGELO');
 
     useEffect(() => {
-        socket.on('changeIsValidating' , (isValidating : boolean) => {
-            
+        socket.on('changeIsValidating', (isValidating: boolean) => {
+
             console.log(isValidating);
             setIsValidating(isValidating);
         });
@@ -62,18 +63,24 @@ const InsideHall = () => {
     useEffect(() => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
-    
-        if(!areArtifactsValidated){
+
+        if (!areArtifactsValidated) {
             console.log("ARTIFACTS NOT VALIDATED");
-            
+
             if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
-                console.log("HALL IS FULL");
+                console.log("MORTIMER NOT INSIDE CALL IT HALL IS FULL");
                 setCallMortimerButton(true);
                 setShowArtifacts(false);
-            } else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4){
+            }
+            else if (!isMortimerInside && angelo?.isCaptured) {
+                console.log("MORTIMER NOT INSIDE CALL IT FOR ANGELO");
+                setCallMortimerButton(true);
+            }
+            else if (acolytesInside.length === 3 && isMortimerInside && retrievedArtifacts.length === 4) {
+                console.log("MORTIMER INSIDE HALL IS FULL");
                 setCallMortimerButton(false);
                 setShowArtifacts(true);
-            } else if (retrievedArtifacts.length < 4){
+            } else if (retrievedArtifacts.length < 4) {
                 setShowArtifacts(false);
             } else {
                 setShowArtifacts(false);
@@ -84,8 +91,8 @@ const InsideHall = () => {
             setShowArtifacts(false);
             setCallMortimerButton(false);
         }
-      
-        
+
+
         console.log("ACOLYTES INSIDE HALL:");
         insidePlayers.map(player => player.role === 'ACOLYTE', console.log(player.nickname));
     }, [insidePlayers, retrievedArtifacts, artifacts, areArtifactsValidated]);
@@ -107,7 +114,7 @@ const InsideHall = () => {
             setModalVisible(!isModalVisible);
         }
 
-        if(isValidating && player.role === 'ACOLYTE') {
+        if (isValidating && player.role === 'ACOLYTE') {
             setIsAcolyteModalVisible(!isAcolyteModalVisible);
         }
 
@@ -139,16 +146,16 @@ const InsideHall = () => {
     return (
         <InsideHallBackground source={insideHall}>
 
-            <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal}/>
+            <MortimerValidatingModal visible={isModalVisible} onClose={handleCloseModal} />
 
-            <AcolyteValidatingModal visible={isAcolyteModalVisible} onClose={handleCloseAcolyteModal}/>
+            <AcolyteValidatingModal visible={isAcolyteModalVisible} onClose={handleCloseAcolyteModal} />
 
-            {showArtifacts && player.role === 'ACOLYTE' &&(
+            {showArtifacts && player.role === 'ACOLYTE' && (
                 <ShowArtifactsButton onPress={handleShowArtifacts}>
                     <ShowArtifactsText>Show Artifacts</ShowArtifactsText>
                 </ShowArtifactsButton>
-                )
-                }
+            )
+            }
 
             <ContainerTopLeft>
                 {players
@@ -162,11 +169,11 @@ const InsideHall = () => {
             </ContainerTopLeft>
 
             {callMortimerButton && player.role === 'ACOLYTE' && (
-            <BellIconContainer>
-                <TouchableOpacity onPress={callButton}>
-                    <CallBellIcon source={callingBell} />
-                </TouchableOpacity>
-            </BellIconContainer>
+                <BellIconContainer>
+                    <TouchableOpacity onPress={callButton}>
+                        <CallBellIcon source={callingBell} />
+                    </TouchableOpacity>
+                </BellIconContainer>
             )}
 
             <ContainerTopRight>
@@ -205,7 +212,7 @@ const InsideHall = () => {
                 <StyledButtonText>Exit from the Hall</StyledButtonText>
             </StyledButton>
         </InsideHallBackground>
-    );    
+    );
 };
 
 // Estilo del texto "Someone might be watching..."

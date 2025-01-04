@@ -113,7 +113,7 @@ const InnScreen = () => {
 
             // Update only angelo
             const updatedPlayers = players?.map(player =>
-                player.role === 'ANGELO' ? { ...player, isCaptured: updatedPlayer.isCaptured }: player
+                player.role === 'ANGELO' ? { ...player, isCaptured: updatedPlayer.isCaptured } : player
             );
 
             setPlayers(updatedPlayers);
@@ -127,14 +127,15 @@ const InnScreen = () => {
     useEffect(() => {
         if (!isBetrayer) {
             setModalVisible(true);
-        } else if (isBetrayer && !angelo?.isCaptured) {
-            setModalVisible(false);
-            setShowAngelo(true);
         }
     }, [isBetrayer]);
 
     const handleBetray = () => {
         setModalVisible(false);
+
+        if (!angelo?.isCaptured) {
+            setShowAngelo(true);
+        }
         Vibration.vibrate(200);
 
         const value = {
@@ -147,6 +148,10 @@ const InnScreen = () => {
 
     const handleLoyal = () => {
         setModalVisible(false);
+        
+        if (!angelo?.isCaptured) {
+            setShowAngelo(true);
+        }
         console.log("Remains Loyal");
     };
 
