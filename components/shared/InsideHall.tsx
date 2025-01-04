@@ -64,7 +64,7 @@ const InsideHall = () => {
         const acolytesInside = insidePlayers.filter(player => player.role === 'ACOLYTE');
         const isMortimerInside = insidePlayers.some(player => player.role === 'MORTIMER');
 
-        if (!areArtifactsValidated) {
+        if (!areArtifactsValidated || angelo?.isCaptured) {
             console.log("ARTIFACTS NOT VALIDATED");
 
             if (acolytesInside.length === 3 && !isMortimerInside && retrievedArtifacts.length === 4) {
