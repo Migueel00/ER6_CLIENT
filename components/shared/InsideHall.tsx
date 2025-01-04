@@ -66,12 +66,6 @@ const InsideHall = () => {
         console.log("IS VALIDATING " + isValidating);
     }, [isValidating])
 
-    useEffect(() => {
-        const angelo = players?.find(player => player.role === 'ANGELO');
-        console.log("IS ANGELO ARRESTED?");
-        console.log(angelo?.isArrested);
-    }, [players]); // Este useEffect se ejecutará cuando players cambie
-
     // Update insidePlayers when someone is inside the hall
     useEffect(() => {
         setInsidePlayers(players.filter(player => player.isInsideHall));
