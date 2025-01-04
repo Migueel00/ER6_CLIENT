@@ -188,8 +188,15 @@ const InsideHall = () => {
             isArrested: angelo?.isArrested,
         };
 
+        if (player.role === 'MORTIMER'){
+            setIsMortimerArresting(true)
+        }
+
+        if (player.role === 'ACOLYTE'){
+            setIsAcolyteWaitingArrest(true);
+        }
+
         socket.emit('UpdateArrested', values)
-        //setIsAcolyteWaitingArrest(true);
     };
 
     return (
