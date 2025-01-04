@@ -196,14 +196,7 @@ const InsideHall = () => {
     const handleArrestAngelo = () => {
         console.log("ARREST ANGELO");
 
-        const values = {
-            playerID: angelo?._id,
-            isArrested: angelo?.isArrested,
-        };
-
         socket.emit('ArrestAngelo');
-
-        socket.emit('UpdateArrested', values)
     };
 
     return (

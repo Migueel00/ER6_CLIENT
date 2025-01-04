@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dimensions, Modal, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import AppContext from '../../../helpers/context';
 
 const { width } = Dimensions.get('window');
 
@@ -10,12 +11,25 @@ interface ModalComponentProps {
 }
 
 const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClose }) => {
-    const handleValidate = () => {
-        console.log('Validate Search');
+
+    const appContext = useContext(AppContext);
+    const socket = appContext?.socket;
+    const players = appContext?.players!;
+
+    const angelo = players?.find(player => player.role === 'ANGELO');
+
+    const handleArrestAngelo = () => {
+
+        const values = {
+            playerID: angelo?._id,
+            isArrested: angelo?.isArrested,
+        };
+
+        socket.emit('UpdateArrested', values)
         onClose();
     };
 
-    const handleReset = () => {
+    const handleFreeAngelo = () => {
         console.log('Reset Search');
         onClose();
     };
@@ -29,10 +43,10 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
         >
             <ModalBackground>
                 <ButtonsWrapper>
-                    <ValidateButton onPress={handleValidate}>
+                    <ValidateButton onPress={handleArrestAngelo}>
                         <ValidateButtonText>Arrest Angelo</ValidateButtonText>
                     </ValidateButton>
-                    <ResetButton onPress={handleReset}>
+                    <ResetButton onPress={handleFreeAngelo}>
                         <ResetButtonText>Free Angelo</ResetButtonText>
                     </ResetButton>
                 </ButtonsWrapper>
