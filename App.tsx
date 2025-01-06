@@ -367,6 +367,7 @@ function App(): React.JSX.Element {
 
       setSpinnerText("Player updated!");
       setLocation(player.location);
+      player.role = "ISTVAN";
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);

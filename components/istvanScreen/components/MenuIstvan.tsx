@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useContext, useEffect } from 'react';
+import { Component, useContext, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
@@ -10,6 +10,7 @@ import HomeScreen from '../../shared/homeScreen';
 import MainTabNavigator from '../../shared/MainTabNavigator';
 import ProfileScreen from '../../shared/ProfileScreen';
 import MapScreenIstvan from './MapScreenIstvan';
+import ApplyCurseScreen from '../applyCurseScreen';
 
 
 const { width, height } = Dimensions.get('window');
@@ -45,7 +46,11 @@ const MenuIstvan = () => {
             name: 'MAP',
             component: MapScreenIstvan,
             iconSource: require('./../../../assets/icons/mapIcon.png'),
-           
+        },
+        {
+            name: "CURSE",
+            component: ApplyCurseScreen,
+            iconSource: require('./../../../assets/icons/villainLabIcon.png')
         }
     ];
 
