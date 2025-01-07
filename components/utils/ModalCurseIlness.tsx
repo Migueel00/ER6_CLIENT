@@ -18,19 +18,24 @@ type AttributeKey =
 const ModalCurseIllness: React.FC = () => {
     const appContext = useContext(AppContext);
     const player = appContext?.player;
+    const setPlayer = appContext?.setPlayer;
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        if(player?.ethazium || player?.epicWeakness || player?.medularApocalypse || player?.putridPlague){
+        if(player?.ethazium || player?.epicWeakness || player?.medularApocalypse || player?.putridPlague || player?.attributes.resistence! <= 30){
             setVisible(true)
         }
+        
     }, []);
 
-    // Helper function to calculate the width of the nerfed bar.
-    const calculateBarWidth = (attribute: number, modifiedAttribute?: number): number => {
+    const calculateBarWidth = (attribute: number, modifiedAttribute?: number, key?: AttributeKey): number => {
+        if (key === "resistence") {
+            return Math.max((attribute / 100) * 100, 0); // Use 100 as max for resistence
+        }
         if (modifiedAttribute === undefined) return 0;
         return Math.max((modifiedAttribute / attribute) * 100, 0);
     };
+
 
     // Filter the attributes to display based on the player's conditions
     const getFilteredAttributes = (): AttributeKey[] => {
@@ -42,6 +47,8 @@ const ModalCurseIllness: React.FC = () => {
             return ["intelligence"];
         } else if (player?.medularApocalypse) {
             return ["constitution"];
+        } else if(player?.attributes.resistence! <= 30){
+            return ["resistence"];
         }
         return [];
     };
@@ -52,6 +59,7 @@ const ModalCurseIllness: React.FC = () => {
         if (player?.putridPlague) return "Suffering from Putrid Plague";
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
+        if (player?.attributes.resistence! <= 30) return "Tired only mortimer can recover you"
         return null;
     };
 
@@ -78,16 +86,18 @@ const ModalCurseIllness: React.FC = () => {
                                             style={{
                                                 width: `${calculateBarWidth(
                                                     player.attributes[key],
-                                                    player.modifiedAttributes[key]
+                                                    player.modifiedAttributes[key],
+                                                    key
                                                 )}%`,
                                             }}
                                         />
                                     </BarBackground>
                                     <AttributeValues>
-                                        {player.modifiedAttributes[key] !== undefined
-                                            ? player.modifiedAttributes[key]
-                                            : "-"}{" "}
-                                        / {player.attributes[key]}
+                                        {key === "resistence"
+                                            ? `${player.attributes[key]} / 100` // Custom display for resistence
+                                            : player.modifiedAttributes[key] !== undefined
+                                            ? `${player.modifiedAttributes[key]} / ${player.attributes[key]}`
+                                            : `- / ${player.attributes[key]}`}
                                     </AttributeValues>
                                 </AttributeBarContainer>
                             ))}
