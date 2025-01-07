@@ -5,31 +5,17 @@ export const searchAndIfDontExistPost = async (playerData) => {
     const email = playerData.email;
     const { _id, ...data } = playerData;
 
-    console.log("PLAYERDATA FCM TOKEN");
-    console.log(playerData.fcmToken);
-    console.log("PLAYERDATA LOCATION");
-    console.log(playerData.location);
-
     try {
         const response = await fetch(`${URL.API_PLAYERS}/${email}`);
 
         const responseJSON = await response.json();
 
-        console.log("RESPONSE JSON");
-        console.log(responseJSON.data.fcmToken);
-
-        
         if(response.ok){
                 console.log(`El correo ${email} ya está registrado`);
 
-                console.log("PLAYERDATA FCM TOKEN");
-                console.log(playerData.fcmToken);
-
                 const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
 
-                console.log("UPDATEDPLAYERDATA IN RESPONSE OK");  
-                console.log(updatedPlayerData.data.fcmToken);
-
+                console.log(`resistence in updatedPlayerData ` + JSON.stringify(updatedPlayerData.data.attributes));
 
                 const player = await updatePlayerByEmail(updatedPlayerData.data);
 
@@ -186,6 +172,7 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
     newObj.data = {};
 
     newObj.data = newPlayerData;
+    newObj.data.attributes.resistence = responseJSON.data.attributes.resistence;
 
     return newObj;
 

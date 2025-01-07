@@ -26,6 +26,7 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from './src/constants';
 import Artifact from './interfaces/ArtifactsInterface';
 import { getALlMissions } from './src/API/missions';
+import { reduceAllStats } from './src/functions/reduceAllStats';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com',
@@ -367,6 +368,12 @@ function App(): React.JSX.Element {
 
       setSpinnerText("Player updated!");
       setLocation(player.location);
+
+      if(player.ethazium){
+        reduceAllStats(player.modifiedAttributes);
+        console.log("SI TIENE ETHAZIUM");
+        console.log(JSON.stringify(player.modifiedAttributes));
+      }
 
       setPlayer(player);
       await fetchIngredients(player.role);
