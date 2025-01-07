@@ -5,6 +5,7 @@ import AppContext from '../../helpers/context';
 import MortimerContext from '../../helpers/MortimerContext';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
+import { Player } from '../../interfaces/contextInterface';
 
 const { height, width } = Dimensions.get('window');
 
@@ -37,6 +38,14 @@ const ConnectionScreen = () => {
         }
     };
 
+    const getTextDetail = (player : Player) => {
+        if(player.ethazium) return "Cursed"
+        if(player.medularApocalypse || player.epicWeakness || player.putridPlague) return "Ill"
+        if(player.attributes.resistence <= 30) return "Tired"
+
+        return;
+    }   
+
     return (
         <BackgroundImage
             source={require('../../assets/png/connectionsBackground.png')}
@@ -59,6 +68,7 @@ const ConnectionScreen = () => {
                                     size={width * 0.07}
                                     color={player.isInsideLab ? 'green' : 'red'}
                                 />
+                                <IllCursedText>{getTextDetail(player)}</IllCursedText>
                             </PlayerItem>
                         ))}
                 </PlayersList>
@@ -77,6 +87,13 @@ const ColoredText = styled.Text<{ color: string }>`
     font-size: ${width * 0.08}px;
 `;
 
+const IllCursedText = styled.Text`
+    font-family: KochAltschrift;
+    font-size: ${width * 0.05}px;
+    color: red;
+    margin-left: ${width * 0.02}px;
+`;
+
 const BackgroundImage = styled.ImageBackground`
     flex: 1;
     justify-content: center;
@@ -90,6 +107,7 @@ const Container = styled.View`
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    width: ${width}px;
 `;
 
 const LabTitle = styled.Text`
@@ -121,9 +139,9 @@ const KaotikaFont2 = styled.Text`
     color: white;
     margin-vertical: 5px;
     text-align: left;
-    margin-left: 10px;
-    width: 90%;
-    font-size: ${width * 0.08}px;
+    margin-left: 5px;
+    width: 40%;
+    font-size: ${width * 0.05}px;
 `;
 
 const PlayersList = styled.View`
@@ -133,7 +151,7 @@ const PlayersList = styled.View`
     border-radius: ${width * 0.1}px;
     border-width: ${width * 0.002}px;
     border-color: white;
-    width: 85%;
+    width: 90%;
 `;
 
 const PlayerItem = styled.View`
@@ -143,7 +161,7 @@ const PlayerItem = styled.View`
     padding-bottom: ${width * 0.05}px;
     border-bottom-width: ${width * 0.005}px;
     margin-bottom:${width * 0.05}px;
-
+    width: 90%;
 `;
 
 const Avatar = styled.Image`
