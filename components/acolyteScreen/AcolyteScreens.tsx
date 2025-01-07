@@ -17,6 +17,7 @@ import MenuObituary from './menu/MenuObituary';
 import MenuHollow from './menu/MenuHollow';
 import MenuInn from './menu/MenuInn';
 import MenuDungeon from './menu/MenuDungeon';
+import ModalCurseIlness from '../utils/ModalCurseIlness';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -155,6 +156,7 @@ const AcolyteProvider = () => {
     }}>
 
       <NavigationContainer>
+        <ModalCurseIlness></ModalCurseIlness>
         <MenuContainer>
           {isInsideLab ? <MenuLabInside />
             : isInsideTower ? <MenuTowerInside />

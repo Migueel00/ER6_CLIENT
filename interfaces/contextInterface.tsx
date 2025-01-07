@@ -50,7 +50,26 @@ export interface Player {
   putridPlague: boolean,
   epicWeakness: boolean,
   medularApocalypse: boolean,
-  ethazium: boolean
+  ethazium: boolean,
+  attributes: {
+    insanity: number,
+    strength: number,
+    dexterity: number,
+    resistence: number,
+    charisma: number,
+    intelligence: number,
+    constitution: number
+  },
+  modifiedAttributes: {
+    insanity: number,
+    strength: number,
+    dexterity: number,
+    charisma: number,
+    intelligence: number,
+    constitution: number,
+    resistence: number
+  }
+
 }
 
 export interface Ingredient {
