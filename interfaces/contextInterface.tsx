@@ -47,6 +47,10 @@ export interface Player {
   id:           string,
   role:         string,
   location:     string,
+  putridPlague: boolean,
+  epicWeakness: boolean,
+  medularApocalypse: boolean,
+  ethazium: boolean
 }
 
 export interface Ingredient {

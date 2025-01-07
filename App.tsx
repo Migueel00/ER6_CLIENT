@@ -401,48 +401,8 @@ function App(): React.JSX.Element {
 
   const getDataAndAsign = async () => {
     const players = await getAllPlayers();
-    const playersData = players.data;
-    const newPlayers = [];
-
-
-    for (let i = 0; i < playersData.length; i++) {
-
-      const nickname = playersData[i].nickname;
-      const email = playersData[i].email;
-      const isInsideLab = playersData[i].isInsideLab;
-      const isInsideTower = playersData[i].isInsideTower;
-      const isInsideHall = playersData[i].isInsideHall;
-      const isCaptured = playersData[i].isCaptured;
-      const isBetrayer = playersData[i].isBetrayer;
-      const isArrested = playersData[i].isArrested;
-      const socketId = playersData[i].socketId;
-      const avatar = playersData[i].avatar;
-      const role = playersData[i].role;
-      const id = playersData[i]._id;
-      const location = playersData[i].location;
-
-      const player = {
-
-        nickname: nickname,
-        email: email,
-        isInsideLab: isInsideLab,
-        isInsideTower: isInsideTower,
-        isInsideHall: isInsideHall,
-        isBetrayer: isBetrayer,
-        isCaptured: isCaptured,
-        isArrested: isArrested,
-        socketId: socketId,
-        avatar: avatar,
-        id: id,
-        role: role,
-        _id: id,
-        location: location,
-      };
-
-      newPlayers.push(player);
-    }
-
-    setPlayers(newPlayers);
+    const data = players.data;
+    setPlayers(data);
   }
 
   return (

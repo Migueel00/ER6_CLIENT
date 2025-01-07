@@ -56,7 +56,7 @@ const ApplyCurseScreen = () => {
                             src={acolyte.avatar}
                         />
                         <PlayerName>{acolyte.nickname}</PlayerName>
-                        { !cursed.includes(acolyte._id) ? (
+                        { !acolyte.ethazium && !cursed.includes(acolyte._id) ? (
                             <CurseButton 
                                 onPress={() => handleApplyCurse(acolyte._id)}
                             >
