@@ -13,8 +13,7 @@ const Stats = () => {
     const fontSize = width * 0.062;
     const appContext = useContext(AppContext);
     const player = appContext?.player;
-
-   
+    
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
 
@@ -39,13 +38,13 @@ const Stats = () => {
     return (
         <AppContext.Consumer>
             {({ profileAttributes, player }: any) => {
-                let attributesToPrint = convertAttributesToPercentage(player.attributes);
+                let attributesToPrint = convertAttributesToPercentage(player.modifiedAttributes);
                 console.log(attributesToPrint);
                 const allAtributes = calculateAllAttributes(player);
 
                 console.log("ALL ATRIBUTES");
                 console.log(allAtributes);
-               attributesToPrint = convertAttributesToPercentage(allAtributes); 
+                attributesToPrint = convertAttributesToPercentage(allAtributes); 
                 
                 
                 return (
@@ -173,7 +172,7 @@ const calculateAllAttributes = (player: any) => {
         player.equipment.boot?.modifiers.charisma! + 
         player.equipment.ring?.modifiers.charisma!;
       const constitution =  
-        player.attributes?.constitution + 
+        player.attributes.constitution + 
         player.equipment.helmet?.modifiers.constitution! + 
         player.equipment.weapon.modifiers.constitution + 
         player.equipment.armor.modifiers.constitution + 
@@ -182,7 +181,7 @@ const calculateAllAttributes = (player: any) => {
         player.equipment.boot?.modifiers.constitution! + 
         player.equipment.ring?.modifiers.constitution!;
       const dexterity =  
-        player.attributes?.dexterity + 
+        player.modifiedAttributes?.dexterity + 
         player.equipment.helmet?.modifiers.dexterity! + 
         player.equipment.weapon.modifiers.dexterity + 
         player.equipment.armor.modifiers.dexterity + 
@@ -191,7 +190,7 @@ const calculateAllAttributes = (player: any) => {
         player.equipment.boot?.modifiers.dexterity! + 
         player.equipment.ring?.modifiers.dexterity!;
       const insanity =  
-        player.attributes?.insanity + 
+        player.modifiedAttributes?.insanity + 
         player.equipment.helmet?.modifiers.insanity! + 
         player.equipment.weapon.modifiers.insanity + 
         player.equipment.armor.modifiers.insanity + 
@@ -200,7 +199,7 @@ const calculateAllAttributes = (player: any) => {
         player.equipment.boot?.modifiers.insanity! + 
         player.equipment.ring?.modifiers.insanity!;
       const intelligence =  
-        player.attributes?.intelligence + 
+        player.modifiedAttributes?.intelligence + 
         player.equipment.helmet?.modifiers.intelligence! + 
         player.equipment.weapon.modifiers.intelligence + 
         player.equipment.armor.modifiers.intelligence + 
@@ -209,7 +208,7 @@ const calculateAllAttributes = (player: any) => {
         player.equipment.boot?.modifiers.intelligence! + 
         player.equipment.ring?.modifiers.intelligence!;
       const strength =  
-        player.attributes?.strength + 
+        player.modifiedAttributes?.strength + 
         player.equipment.helmet?.modifiers.strength! + 
         player.equipment.weapon.modifiers.strength + 
         player.equipment.armor.modifiers.strength + 
