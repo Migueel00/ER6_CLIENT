@@ -15,6 +15,7 @@ import { Dimensions, Modal, TouchableWithoutFeedback, Vibration } from 'react-na
 import MenuObituaryMortimer from './components/MenuObituaryMortimer';
 import MenuDungeonMortimer from './components/MenuDungeonMortimer';
 import MenuInnMortimer from './components/MenuInnMortimer';
+import MenuHollowMortimer from './components/MenuHollowMortimer';
 
 const alertIcon = require('./../../assets/icons/alertIcon.png');
 
@@ -48,6 +49,7 @@ const MortimerProvider = () => {
   const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
   const [isMenuDungeonLoaded, setIsMenuDungeonLoaded] = useState<boolean>(false);
   const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
+  const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -127,6 +129,8 @@ const handleCloseModal = () => {
       setShowAlertButton,
       isMenuInnLoaded,
       setIsMenuInnLoaded,
+      isMenuHollowLoaded,
+      setIsMenuHollowLoaded
     }}>
       <NavigationContainer>
         <MenuContainer>
@@ -139,6 +143,7 @@ const handleCloseModal = () => {
           : mortimerLocation === 'OBITUARY' ? <MenuObituaryMortimer/>
           : mortimerLocation === 'DUNGEON' ? <MenuDungeonMortimer/>
           : mortimerLocation === 'INN' ? <MenuInnMortimer/>
+          : mortimerLocation === 'HOLLOW' ? <MenuHollowMortimer/>
           : <MenuMortimer/>}
         </MenuContainer>
 
