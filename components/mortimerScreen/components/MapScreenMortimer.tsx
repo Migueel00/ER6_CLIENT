@@ -146,7 +146,7 @@ const MapScreenMortimer = () => {
             if (remoteMessage.notification?.title === "Tower Entrance detected") {
                 setLocation('TOWER');
                 navigation.navigate('TOWER');
-            } else if (remoteMessage.notification?.title === "The acolytes call you, destiny awaits.")
+            } else if (remoteMessage.notification?.title === "Urgent: Your presence is needed immediately!")
                 setLocation('HALL');
             navigation.navigate('HALL');
         });
@@ -162,7 +162,7 @@ const MapScreenMortimer = () => {
                             navigation.navigate('TOWER');
                             break;
 
-                        case "The acolytes call you, destiny awaits.":
+                        case "Urgent: Your presence is needed immediately!":
                             setLocation('HALL');
                             navigation.navigate('HALL');
                             break;
