@@ -12,6 +12,7 @@ import MenuOldSchoolVillain from './components/MenuOldSchoolVillain';
 import MenuSwamp from '../acolyteScreen/menu/MenuSwamp';
 import MenuSwampVillain from './components/MenuSwampVIllain';
 import MenuObituaryVillain from './components/MenuObituaryVIllain';
+import MenuInnVillain from './components/MenuInnVillain';
 
 
 const MenuContainer = styled.View`
@@ -37,7 +38,7 @@ const VillainProvider = () => {
     const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
     const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
     const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
-    
+    const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
 
     return (
         <VillainContext.Provider
@@ -54,7 +55,9 @@ const VillainProvider = () => {
                 isMenuHallOfSagesLoaded,
                 setIsMenuHallOfSagesLoaded,
                 isMenuObituaryLoaded,
-                setIsMenuObituaryLoaded
+                setIsMenuObituaryLoaded,
+                isMenuInnLoaded,
+                setIsMenuInnLoaded
             }}>
             <NavigationContainer>
                 <MenuContainer>
@@ -65,6 +68,8 @@ const VillainProvider = () => {
                     : location === 'SWAMP' ? <MenuSwampVillain/>
                     : location === 'HALL' ? <MenuHallVillain/>
                     : location === 'OBITUARY' ? <MenuObituaryVillain/>
+                    : location === 'INN' ? <MenuInnVillain/>
+
                     : <MenuVillain/>  }
                 </MenuContainer>  
             </NavigationContainer>
