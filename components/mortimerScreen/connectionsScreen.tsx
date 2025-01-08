@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppContext from '../../helpers/context';
@@ -6,6 +6,7 @@ import MortimerContext from '../../helpers/MortimerContext';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
+import ModalInfo from './ModalInfo';
 
 const { height, width } = Dimensions.get('window');
 
@@ -15,6 +16,8 @@ const ConnectionScreen = () => {
     const players = appContext?.players!;
     const setLocation = appContext?.setLocation;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
+    const [playerInfo, setPlayerInfo] = useState<Player | null>(null);
+    const [visible, setVisible] = useState<boolean>(false);
 
     const navigation: NavigationProp<ParamListBase> = useNavigation();
 
@@ -44,12 +47,26 @@ const ConnectionScreen = () => {
         if(player.attributes.resistence <= 30) return "Tired"
 
         return;
-    }   
+    }
+
+    const hanldeOpenModal = (player : Player) => {
+        setPlayerInfo(player);
+        setVisible(true);
+    }
+
+    const handleCloseModal = () => {
+        setVisible(false);
+    }
 
     return (
         <BackgroundImage
             source={require('../../assets/png/connectionsBackground.png')}
-        >
+        >   
+            <ModalInfo 
+                player={playerInfo} 
+                visible={visible}
+                handleCloseModal={handleCloseModal}    
+            />
             <Container>
                 <LabTitle>LABORATORY</LabTitle>
                 <KaotikaFontHeads>Below you have checkmarked who's{' '}
@@ -61,7 +78,10 @@ const ConnectionScreen = () => {
                         .filter((player: any) => player.role === 'ACOLYTE' && !player.isBetrayer)
                         .map((player: any) => (
                             <PlayerItem key={player.id}>
-                                <Avatar source={{ uri: player.avatar }} />
+                                <TouchableOpacity 
+                                    onPress={() => hanldeOpenModal(player)}>
+                                    <Avatar source={{ uri: player.avatar }} />
+                                </TouchableOpacity>
                                 <KaotikaFont2>{player.nickname}</KaotikaFont2>
                                 <Icon
                                     name={player.isInsideLab ? 'circle' : 'circle-o'}
