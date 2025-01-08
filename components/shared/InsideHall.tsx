@@ -139,6 +139,9 @@ const InsideHall = () => {
     } else if (areArtifactsValidated && angelo?.isCaptured && !angelo?.isArrested) {
       if (acolytesInside.length === maxAcolytes.length && !isMortimerInside) {
         setCallMortimerButton(true);
+        setShowArrestAngelo(false);
+      } else if (acolytesInside.length === maxAcolytes.length && isMortimerInside) {
+        setCallMortimerButton(false);
         setShowArrestAngelo(true);
       }
     }
