@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import MortimerContext from '../../helpers/MortimerContext';
@@ -39,6 +39,7 @@ const MortimerProvider = () => {
   const players = appContext?.players!;
   const setPlayers = appContext?.setPlayers;
   const isInsideHall = player?.isInsideHall;
+  const setLocation = appContext?.setLocation;
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
@@ -52,6 +53,8 @@ const MortimerProvider = () => {
   const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -88,6 +91,38 @@ useEffect(() => {
       }
     });
 }, []);
+
+    // Navigate to location when tapping notification but app is not closed
+    useEffect(() => {
+      messaging().onNotificationOpenedApp(remoteMessage => {
+          if (remoteMessage.notification?.title === "Tower Entrance detected") {
+              setLocation('TOWER');
+              navigation.navigate('TOWER');
+          } else if (remoteMessage.notification?.title === "Urgent: Your presence is needed immediately!")
+              setLocation('HALL');
+          navigation.navigate('HALL');
+      });
+
+      // Navigate to location when tapping notification but app is closed
+      messaging()
+          .getInitialNotification()
+          .then(remoteMessage => {
+              if (remoteMessage) {
+                  switch (remoteMessage.notification?.title) {
+                      case "Tower Entrance detected":
+                          setLocation('TOWER');
+                          navigation.navigate('TOWER');
+                          break;
+
+                      case "Urgent: Your presence is needed immediately!":
+                          setLocation('HALL');
+                          navigation.navigate('HALL');
+                          break;
+                      default:
+                  }
+              }
+          });
+  }, []);
 
 // Hide button if player is inside
 useEffect(() => {
