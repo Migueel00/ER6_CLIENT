@@ -19,6 +19,8 @@ interface MortimerContextType {
     setShowAlertButton:  (loaded: boolean) => void;
     isMenuDungeonLoaded: boolean;
     setIsMenuDungeonLoaded: (loaded: boolean) => void;
+    isMenuInnLoaded: boolean;
+    setIsMenuInnLoaded: (loaded: boolean) => void;
 }
 
 const MortimerContext = createContext<MortimerContextType | null>(null);

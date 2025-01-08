@@ -14,6 +14,7 @@ import messaging from '@react-native-firebase/messaging';
 import { Dimensions, Modal, TouchableWithoutFeedback, Vibration } from 'react-native';
 import MenuObituaryMortimer from './components/MenuObituaryMortimer';
 import MenuDungeonMortimer from './components/MenuDungeonMortimer';
+import MenuInnMortimer from './components/MenuInnMortimer';
 
 const alertIcon = require('./../../assets/icons/alertIcon.png');
 
@@ -46,6 +47,7 @@ const MortimerProvider = () => {
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
   const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
   const [isMenuDungeonLoaded, setIsMenuDungeonLoaded] = useState<boolean>(false);
+  const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -122,7 +124,9 @@ const handleCloseModal = () => {
       isMenuDungeonLoaded,
       setIsMenuDungeonLoaded,
       showAlertButton,
-      setShowAlertButton
+      setShowAlertButton,
+      isMenuInnLoaded,
+      setIsMenuInnLoaded,
     }}>
       <NavigationContainer>
         <MenuContainer>
@@ -134,6 +138,7 @@ const handleCloseModal = () => {
           : mortimerLocation === 'SWAMP' ? <MenuSwampMortimer/>
           : mortimerLocation === 'OBITUARY' ? <MenuObituaryMortimer/>
           : mortimerLocation === 'DUNGEON' ? <MenuDungeonMortimer/>
+          : mortimerLocation === 'INN' ? <MenuInnMortimer/>
           : <MenuMortimer/>}
         </MenuContainer>
 
