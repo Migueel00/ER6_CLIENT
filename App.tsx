@@ -376,7 +376,7 @@ function App(): React.JSX.Element {
       }
 
       setPlayer(player);
-      player.role = "ISTVAN";
+      //player.role = "ISTVAN";
       await fetchIngredients(player.role);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
