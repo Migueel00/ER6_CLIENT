@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions, Platform, PermissionsAndroid, ScrollView, Vibration, ToastAndroid, Linking } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
-import MapView, {Callout, Marker, Circle, BoundingBox} from 'react-native-maps';
+import MapView, { Callout, Marker, Circle, BoundingBox } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Image } from 'react-native';
 import * as geolib from 'geolib';
-import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG} from './mapStyle';
+import { mapStyle, greenInsideRGBA, greenRGBA, redInsideRGBA, redRGBA, regionAEG } from './mapStyle';
 import Toast from 'react-native-toast-message';
 import Artifact from '../../interfaces/ArtifactsInterface';
 import { URL } from '../../src/API/urls';
@@ -39,13 +39,14 @@ type LocationType = {
 };
 
 interface LocationAvatar {
-    coordinates : LocationType,
+    coordinates: LocationType,
     avatar: string,
     _id: string,
     role: string
+    isBetrayer: boolean
 }
 
-const SwampScreen = () => {  
+const SwampScreen = () => {
 
     const context = useContext(AppContext);
     const player = context?.player;
@@ -62,7 +63,7 @@ const SwampScreen = () => {
 
     const [markerColors, setMarkerColors] = useState([
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
-        { circleColor: redRGBA, insideCircleColor: redInsideRGBA }, 
+        { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA },
         { circleColor: redRGBA, insideCircleColor: redInsideRGBA }
     ]);
@@ -77,7 +78,7 @@ const SwampScreen = () => {
         const longitude = position.coords.longitude;
         console.log("Posición actual del usuario:", latitude, longitude);
         setUserLocation({ latitude, longitude });
-        
+
     };
 
 
@@ -101,7 +102,7 @@ const SwampScreen = () => {
             setMarkerColors(updatedColors);
         }
     }, [userLocation]);
-   
+
     const requestLocationPermission = async () => {
         try {
             if (Platform.OS === 'android') {
@@ -146,7 +147,7 @@ const SwampScreen = () => {
 
         socket.on('deleteLocation', (playerId: string) => {
             console.log(playerId);
-    
+
             // Usamos el callback de setState, el argumento es siempre el estado mas reciente
             setOthersUserLocation((prevLocations) => {
                 console.log("ANTES DEL FILTRADO: ", prevLocations);
@@ -159,37 +160,37 @@ const SwampScreen = () => {
 
     useEffect(() => {
         if (locationPermissionGranted) {
-          console.log("PERMISOS OTORGADOS");
-    
-          // Obtener la ubicación actual del usuario
-          Geolocation.getCurrentPosition(
-            (position) => {
-                console.log(
-                    'You are ',
-                    geolib.getDistance(position.coords, {
-                        latitude: artifacts[0].coordinate.latitude,
-                        longitude: artifacts[0].coordinate.longitude,
-                    }),
-                    'meters away from 51.525, 7.4575'
-                );
-              // Acceder a la ubicación cuando la promesa se resuelva
-              const latitude = position.coords.latitude;
-              const longitude = position.coords.longitude;
-              console.log("Posición inicial del usuario:", latitude, longitude);
-              setUserLocation({ latitude, longitude });
-            },
-            (error) => {
-              // Manejo de errores si no se puede obtener la ubicación
-              console.log("Error al obtener la ubicación:", error);
-            }
-          );
+            console.log("PERMISOS OTORGADOS");
+
+            // Obtener la ubicación actual del usuario
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    console.log(
+                        'You are ',
+                        geolib.getDistance(position.coords, {
+                            latitude: artifacts[0].coordinate.latitude,
+                            longitude: artifacts[0].coordinate.longitude,
+                        }),
+                        'meters away from 51.525, 7.4575'
+                    );
+                    // Acceder a la ubicación cuando la promesa se resuelva
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    console.log("Posición inicial del usuario:", latitude, longitude);
+                    setUserLocation({ latitude, longitude });
+                },
+                (error) => {
+                    // Manejo de errores si no se puede obtener la ubicación
+                    console.log("Error al obtener la ubicación:", error);
+                }
+            );
         }
-      }, [locationPermissionGranted]);
+    }, [locationPermissionGranted]);
 
     useEffect(() => {
         if (locationPermissionGranted) {
             console.log("PERMISSIONS GRANTED");
-            
+
             // Start watching the user position
             const watchId = Geolocation.watchPosition(
                 (position) => {
@@ -203,7 +204,7 @@ const SwampScreen = () => {
             // Log to confirm watching started
             console.log("Started watching location");
             console.log(watchId);
-            
+
 
             // Cleanup the watcher when the component is unmounted or permission is revoked
             return () => {
@@ -212,8 +213,8 @@ const SwampScreen = () => {
             };
         }
     }, [locationPermissionGranted]);
-    
-  
+
+
 
     // Socket to send player Location data and avatar
     useEffect(() => {
@@ -221,20 +222,21 @@ const SwampScreen = () => {
             coordinates: userLocation,
             avatar: player?.avatar,
             _id: player?._id,
-            role: player?.role
+            role: player?.role,
+            isBetrayer: player?.isBetrayer
         }
 
         // userLocation And Avatar
-        if(userLocation){
-         
-            socket.emit('sendLocation' , userInfo);
-    
+        if (userLocation) {
+
+            socket.emit('sendLocation', userInfo);
+
             console.log("MANDO SOCKET ");
         }
 
         socket.on('requestLocation', () => {
-            if(userLocation){
-                
+            if (userLocation) {
+
                 socket.emit('sendLocation', userInfo);
 
                 //console.log("PETICION SOCKET DE OTRAS UBICACIONES"); 
@@ -246,14 +248,14 @@ const SwampScreen = () => {
     useEffect(() => {
 
         socket.on('disconnect', () => {
-            socket.on('deleteLocation' ,  player?._id);
+            socket.on('deleteLocation', player?._id);
         });
 
         return () => {
             console.log("EJECUTA ALGO AL CERRAR LA");
 
             socket.emit('deleteLocation', player?._id);
-        }        
+        }
     }, []);
 
     useEffect(() => {
@@ -266,43 +268,43 @@ const SwampScreen = () => {
                     return prevLocations.map(user => user._id === value._id ? value : user);
                 }
                 return [...prevLocations, value];
-            });            
+            });
         });
-    
+
         // Clean the event at removing the component
         return () => {
             socket?.off('updatedCoordinates');
         };
     }, []);
-    
 
 
-    const markArtifactAsRetrieved = (markerId: number, avatar : string) => {
+
+    const markArtifactAsRetrieved = (markerId: number, avatar: string) => {
         console.log("MARKING ARTIFACT AS RETRIEVED");
-        
+
         const updatedMarkers = artifacts.map((marker) =>
-            marker.id === markerId ? { ...marker, isRetrieved: true, avatar} : marker
+            marker.id === markerId ? { ...marker, isRetrieved: true, avatar } : marker
         );
 
         updatedMarkers.map(artifact => {
-            if(artifact.id === markerId){
+            if (artifact.id === markerId) {
 
                 updateArtifact(artifact._id, artifact.isRetrieved, avatar);
             }
         });
 
-        console.log("UPDATED MARKERS"); 
+        console.log("UPDATED MARKERS");
         console.log(updatedMarkers);
-        
+
         setArtifacts(updatedMarkers);
         setRetrievedArtifacts(updatedMarkers.filter((marker) => !marker.isRetrieved) || [])
         console.log("MARKERS AFTER SET");
         console.log(artifacts);
-        
+
         Vibration.vibrate(100);
     };
 
-    useEffect(() =>  {
+    useEffect(() => {
         othersUserLocations.map((user) => {
 
             //console.log("OTHERS USER LOCATIONS " + JSON.stringify(user)); 
@@ -328,7 +330,7 @@ const SwampScreen = () => {
     const onMapReady = () => {
         console.log("MapRef: ");
         console.log(mapRef);
-        
+
         if (mapRef.current) {
             console.log("ANIMATING");
             // Aquí puedes usar la referencia, por ejemplo, centrar el mapa
@@ -363,61 +365,61 @@ const SwampScreen = () => {
     return (
 
         <SwampBackground source={swampBackgroundImage}>
-        <MapView
-            ref={mapRef}
-            style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
-            initialRegion={{
-                latitude: 43.324620,
-                longitude: -1.935203,
-                latitudeDelta: 0.001,
-                longitudeDelta: 0.001
-              }} 
-            customMapStyle={mapStyle}
-        >
-            {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
-            artifacts.map((marker, index) => (
-                marker.coordinate && !marker.isRetrieved && (
-                <React.Fragment key={marker.id}>
-                     <Marker
-                        coordinate={marker.coordinate}
-                        style={{height: width * 0.14, width: width * 0.14}}
-                        onPress={() => {
-                            // Verificar si el usuario está dentro o fuera del radio del marcador
-                            if (userLocation) {
-                                const isWithinRadius = geolib.isPointWithinRadius(
-                                    userLocation,
-                                    marker.coordinate,
-                                    circleRadius
-                                );
+            <MapView
+                ref={mapRef}
+                style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
+                initialRegion={{
+                    latitude: 43.324620,
+                    longitude: -1.935203,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001
+                }}
+                customMapStyle={mapStyle}
+            >
+                {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
+                    artifacts.map((marker, index) => (
+                        marker.coordinate && !marker.isRetrieved && (
+                            <React.Fragment key={marker.id}>
+                                <Marker
+                                    coordinate={marker.coordinate}
+                                    style={{ height: width * 0.14, width: width * 0.14 }}
+                                    onPress={() => {
+                                        // Verificar si el usuario está dentro o fuera del radio del marcador
+                                        if (userLocation) {
+                                            const isWithinRadius = geolib.isPointWithinRadius(
+                                                userLocation,
+                                                marker.coordinate,
+                                                circleRadius
+                                            );
 
-                                // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
-                                if (isWithinRadius && player?.role === 'ACOLYTE') {
-                                    // Marcar el artefacto como recogido
-                                    markArtifactAsRetrieved(marker.id, player.avatar);
-                                    //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
-                                    Toast.show({
-                                        type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
-                                        position: 'top',   // Posición en la pantalla ('top', 'bottom')
-                                        text1: 'Artifact ' + marker.title + ' retrieved succesfully',
-                                        text1Style: {
-                                          color: 'white',   // Estilo para el primer texto
-                                          fontSize: 18,
-                                          fontWeight: 'bold',
-                                        },
-                                        visibilityTime: 3000, // Duración del toast (en milisegundos)
-                                        topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
-                                      });
-                                } 
-                            }
-                        }}
-                    >
-                        <Image
-                            source={getImage(marker.markerImage)}
-                            style={{height: width * 0.14, width: width * 0.14}}>
-                            
-                        </Image>
-                        {/* Solo mostrar el Callout si el usuario está fuera del rango */}
-                        {/* {userLocation && player?.role === 'ACOLYTE' && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
+                                            // Si está fuera del círculo (isWithinRadius == false), marcar como recogido
+                                            if (isWithinRadius && player?.role === 'ACOLYTE') {
+                                                // Marcar el artefacto como recogido
+                                                markArtifactAsRetrieved(marker.id, player.avatar);
+                                                //ToastAndroid.showWithGravity(marker.title + ' has been retrieved', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                                Toast.show({
+                                                    type: 'success',  // Tipo de toast, puede ser 'success', 'error', 'info', etc.
+                                                    position: 'top',   // Posición en la pantalla ('top', 'bottom')
+                                                    text1: 'Artifact ' + marker.title + ' retrieved succesfully',
+                                                    text1Style: {
+                                                        color: 'white',   // Estilo para el primer texto
+                                                        fontSize: 18,
+                                                        fontWeight: 'bold',
+                                                    },
+                                                    visibilityTime: 3000, // Duración del toast (en milisegundos)
+                                                    topOffset: 100, // Ajusta la distancia desde la parte superior de la pantalla
+                                                });
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <Image
+                                        source={getImage(marker.markerImage)}
+                                        style={{ height: width * 0.14, width: width * 0.14 }}>
+
+                                    </Image>
+                                    {/* Solo mostrar el Callout si el usuario está fuera del rango */}
+                                    {/* {userLocation && player?.role === 'ACOLYTE' && !geolib.isPointWithinRadius(userLocation, marker.coordinate, circleRadius) && (
                             <Callout>
                                 <CalloutContainer>
                                     <TextTitle>{marker.title}</TextTitle>
@@ -425,21 +427,21 @@ const SwampScreen = () => {
                                 </CalloutContainer>
                             </Callout>
                         )} */}
-                    </Marker>
-                    <Circle
-                        center={marker.coordinate}
-                        radius={circleRadius}  // Cambiado temporalmente a 10 metros    
-                        strokeColor={markerColors[index].circleColor}
-                        fillColor={markerColors[index].insideCircleColor}
-                    />
-                </React.Fragment>
-                )
-                ))
-            )}
+                                </Marker>
+                                <Circle
+                                    center={marker.coordinate}
+                                    radius={circleRadius}  // Cambiado temporalmente a 10 metros    
+                                    strokeColor={markerColors[index].circleColor}
+                                    fillColor={markerColors[index].insideCircleColor}
+                                />
+                            </React.Fragment>
+                        )
+                    ))
+                )}
 
-            {userLocation && (
+                {userLocation && (
                     <Marker
-                        coordinate={userLocation}  
+                        coordinate={userLocation}
                         title="Your location"
                         description="You are here"
                     >
@@ -447,50 +449,47 @@ const SwampScreen = () => {
                             <AvatarImage source={{ uri: avatar }} />
                         </AvatarContainer>
                     </Marker>
+                )}
+
+                {othersUserLocations.length > 0 && othersUserLocations.map(user => user.role === 'ACOLYTE' && !user.isBetrayer ?
+                    (
+                        <Marker
+                            key={user._id} // Es importante agregar una clave única
+                            coordinate={user.coordinates}
+                        >
+                            <AvatarContainer>
+                                <AvatarImage source={{ uri: user.avatar }} />
+                            </AvatarContainer>
+                        </Marker>
+                    ) : null)}
+            </MapView>
+
+            {player?.role === 'ACOLYTE' && retrievedArtifacts && (
+                <>
+                    <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
+                    <StyledScrollView>
+                        <GridContainer>
+                            {artifacts.map((marker) => (
+                                <GridItem key={marker.id}>
+                                    {marker.isRetrieved ? (
+                                        <>
+                                            <ArtifactBackgroundImage source={getImage(marker.markerImage)}>
+                                                <AvatarContainerRetrievedArtifact>
+                                                    <AvatarImageRetrieved source={{ uri: marker.avatar }} />
+                                                </AvatarContainerRetrievedArtifact>
+                                            </ArtifactBackgroundImage>
+                                        </>
+                                    ) : (
+                                        <EmptyArtifactBox />
+                                    )}
+                                </GridItem>
+                            ))}
+                        </GridContainer>
+                    </StyledScrollView>
+                </>
             )}
 
-        {othersUserLocations.length > 0 && othersUserLocations.map(user =>   
-        
-        user.role === 'ACOLYTE' ? 
-        (
-            <Marker
-                key={user._id} // Es importante agregar una clave única
-                coordinate={user.coordinates}
-            >
-                <AvatarContainer>
-                    <AvatarImage source={{ uri: user.avatar }}/>
-                </AvatarContainer>
-            </Marker>
-        ) : null )}
-        </MapView>
-
-        {player?.role === 'ACOLYTE' && retrievedArtifacts  && (
-            <>
-            <ScrollViewTitle>Retrieved Artifacts</ScrollViewTitle>
-            <StyledScrollView>
-                <GridContainer>
-                    {artifacts.map((marker) => (
-                        <GridItem key={marker.id}>
-                            {marker.isRetrieved ? (
-                                <> 
-                                    <ArtifactBackgroundImage source={getImage(marker.markerImage)}>
-                                        <AvatarContainerRetrievedArtifact>
-                                            <AvatarImageRetrieved source={{ uri: marker.avatar }}/>
-                                        </AvatarContainerRetrievedArtifact>
-                                    </ArtifactBackgroundImage>
-                                </>
-                             
-                            ) : (
-                                <EmptyArtifactBox />
-                            )}
-                        </GridItem>
-                    ))}
-                </GridContainer>
-            </StyledScrollView>
-    </>
-    )}
-
-        {/* {userLocation && (
+            {/* {userLocation && (
                 <CoordinatesContainer>
                      <CoordinatesText>
                        Your position
@@ -502,7 +501,7 @@ const SwampScreen = () => {
             )}   */}
 
 
-    </SwampBackground>
+        </SwampBackground>
 
     );
 };
@@ -553,14 +552,14 @@ const AvatarContainer = styled.View`
 `;
 
 const AvatarImage = styled.Image`
-    width: ${width*0.12}px;
-    height: ${width*0.12}px;
+    width: ${width * 0.12}px;
+    height: ${width * 0.12}px;
     border-radius: 40px;
 `;
 
 const AvatarImageRetrieved = styled.Image`
-    width: ${width*0.07}px;
-    height: ${width*0.07}px;
+    width: ${width * 0.07}px;
+    height: ${width * 0.07}px;
     border-radius: 40px;
 `;
 
