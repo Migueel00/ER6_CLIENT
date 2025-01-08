@@ -215,7 +215,7 @@ const MapScreenMortimer = () => {
 
         setLocation('INN');
         if (isMenuInnLoaded) {
-            console.log("NAVIGATING TO HOLLOW");
+            console.log("NAVIGATING TO INN");
 
             navigation.navigate('INN');
         }

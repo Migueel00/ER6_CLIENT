@@ -10,6 +10,7 @@ import MainTabNavigator from "../../shared/MainTabNavigator";
 import ProfileScreen from "../../shared/ProfileScreen";
 import DungeonScreen from "../../shared/DungeonScreen";
 import MortimerContext from "../../../helpers/MortimerContext";
+import MapScreenMortimer from "./MapScreenMortimer";
 
 
 
@@ -65,7 +66,7 @@ const MenuDungeonMortimer = () => {
         },
         {
             name: 'MAP',
-            component: MapScreen,
+            component: MapScreenMortimer,
             iconSource: require('./../../../assets/icons/mapIcon.png'),
 
         }
