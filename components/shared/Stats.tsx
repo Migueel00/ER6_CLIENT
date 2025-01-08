@@ -38,7 +38,13 @@ const Stats = () => {
     return (
         <AppContext.Consumer>
             {({ profileAttributes, player }: any) => {
-                let attributesToPrint = convertAttributesToPercentage(player.modifiedAttributes);
+                let attributesToPrint;
+
+                if (player.role === 'ACOLYTE') {
+                    attributesToPrint = convertAttributesToPercentage(player.attributes);
+                } else {
+                    attributesToPrint = convertAttributesToPercentage(player.attributes);
+                }
                 console.log(attributesToPrint);
                 const allAtributes = calculateAllAttributes(player);
 

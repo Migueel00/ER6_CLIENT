@@ -13,6 +13,7 @@ const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
 const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
 const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
+const innIcon = require('../../../assets/icons/innIcon.png');
 const exclamationIcon =  require('../../../assets/icons/exclamationIcon.png');
 
 
@@ -77,6 +78,7 @@ const MapScreenMortimer = () => {
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
     const isMenuObituaryLoaded = mortimerContext?.isMenuObituaryLoaded;
+    const isMenuInnLoaded = mortimerContext?.isMenuInnLoaded;
     const showAlertButton = mortimerContext?.showAlertButton;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
@@ -118,6 +120,11 @@ const MapScreenMortimer = () => {
                     navigation.navigate('OBITUARY');
                 }, 200);
                 break;
+            case isMenuInnLoaded:
+                setTimeout(() => {
+                    navigation.navigate('INN');
+                }, 200);
+                break;
             default:
                 break;
         }
@@ -125,7 +132,7 @@ const MapScreenMortimer = () => {
 
     navigateToMenu();
     
-}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded]);
+}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded, isMenuInnLoaded]);
 
     // Navigate to location when tapping notification but app is not closed
     useEffect(() => {
@@ -203,6 +210,17 @@ const MapScreenMortimer = () => {
         }
     }   
 
+    const handleInnIconPress = () => {
+        console.log("PRESSED INN BUTTON IN MAP");
+
+        setLocation('INN');
+        if (isMenuInnLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('INN');
+        }
+    }
+
     const handleAlertButtonPress = () => {
         console.log('Botón de alerta presionado');
     };
@@ -242,6 +260,13 @@ const MapScreenMortimer = () => {
                 <IconText>Swamp</IconText>
                 <TouchableIcon onPress={handleSwampIconPress}>
                     <Icon source={swampIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
+                <IconText>Inn of the forgotten</IconText>
+                <TouchableIcon onPress={handleInnIconPress}>
+                    <Icon source={innIcon} />
                 </TouchableIcon>
             </IconContainer>
 
