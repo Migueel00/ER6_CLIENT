@@ -140,6 +140,38 @@ const MapScreenMortimer = () => {
 
     }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded, isMenuInnLoaded, isMenuHollowLoaded]);
 
+       // Navigate to location when tapping notification but app is not closed
+       useEffect(() => {
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            if (remoteMessage.notification?.title === "Tower Entrance detected") {
+                setLocation('TOWER');
+                navigation.navigate('TOWER');
+            } else if (remoteMessage.notification?.title === "Urgent: Your presence is needed immediately!")
+                setLocation('HALL');
+            navigation.navigate('HALL');
+        });
+  
+        // Navigate to location when tapping notification but app is closed
+        messaging()
+            .getInitialNotification()
+            .then(remoteMessage => {
+                if (remoteMessage) {
+                    switch (remoteMessage.notification?.title) {
+                        case "Tower Entrance detected":
+                            setLocation('TOWER');
+                            navigation.navigate('TOWER');
+                            break;
+  
+                        case "Urgent: Your presence is needed immediately!":
+                            setLocation('HALL');
+                            navigation.navigate('HALL');
+                            break;
+                        default:
+                    }
+                }
+            });
+    }, []);
+
     const handleHomeIconPress = () => {
         setLocation('HOME');
         if (isMenuLoaded) {
