@@ -125,7 +125,7 @@ const InnScreen = () => {
     }, [socket, players, setPlayers]);
 
     useEffect(() => {
-        if (!isBetrayer) {
+        if (!isBetrayer && player?.role === 'ACOLYTE') {
             setModalVisible(true);
         }
     }, [isBetrayer]);
