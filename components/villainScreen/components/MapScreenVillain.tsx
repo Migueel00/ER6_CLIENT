@@ -13,7 +13,7 @@ const schoolIcon = require('./../../../assets/icons/schoolIcon.png');
 const swampIcon = require('./../../../assets/icons/swampIcon.png');
 const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
 const innIcon = require('../../../assets/icons/innIcon.png');
-
+const hollowIcon = require('../../../assets/icons/hollowIcon.png');
 
 const { width, height } = Dimensions.get('window');
 
@@ -66,6 +66,7 @@ const MapScreenVillain = () => {
     const isMenuSwampLoaded = villainContext?.isMenuSwampLoaded;
     const isMenuObituaryLoaded = villainContext?.isMenuObituaryLoaded;
     const isMenuInnLoaded = villainContext?.isMenuInnLoaded;
+    const isMenuHollowLoaded = villainContext?.isMenuHollowLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
     // Navigation tipado
@@ -108,20 +109,23 @@ const MapScreenVillain = () => {
                         navigation.navigate('OBITUARY');
                     }, 200);
                     break;
-
                 case isMenuInnLoaded:
                     setTimeout(() => {
                         navigation.navigate('INN');
                     }, 200);
                     break;
-
+                case isMenuHollowLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOLLOW');
+                    }, 200);
+                    break;
                 default:
                     break;
             }
         };
 
         navigateToMenu();
-    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded, isMenuObituaryLoaded, isMenuInnLoaded]);
+    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded, isMenuObituaryLoaded, isMenuInnLoaded, isMenuHollowLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
@@ -175,6 +179,17 @@ const MapScreenVillain = () => {
         }
     }
 
+    const handleHollowIconPress = () => {
+        console.log("PRESSED HOLLOW BUTTON IN MAP");
+
+        setLocation('HOLLOW');
+        if (isMenuHollowLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('HOLLOW');
+        }
+    }
+
     return (
         <Container>
             <BackgroundImage source={mapImage} />
@@ -211,6 +226,13 @@ const MapScreenVillain = () => {
                 <IconText>Inn of the forgotten</IconText>
                 <TouchableIcon onPress={handleInnIconPress}>
                     <Icon source={innIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.17, right: width * 0.70 }}>
+                <IconText>Hollow</IconText>
+                <TouchableIcon onPress={handleHollowIconPress}>
+                    <Icon source={hollowIcon} />
                 </TouchableIcon>
             </IconContainer>
 

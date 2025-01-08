@@ -17,6 +17,8 @@ interface VillainContexType {
     setIsMenuObituaryLoaded: (loaded: boolean) => void;
     isMenuInnLoaded: boolean;
     setIsMenuInnLoaded: (loaded: boolean) => void;
+    isMenuHollowLoaded: boolean;
+    setIsMenuHollowLoaded: (loaded: boolean) => void;
 }
 
 const VillainContext = createContext<VillainContexType | null>(null);
