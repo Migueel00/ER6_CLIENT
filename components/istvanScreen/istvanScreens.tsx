@@ -13,6 +13,7 @@ import MenuHallIstvan from './components/MenuHallIstvan';
 import MenuIstvan from './components/MenuIstvan';
 import MenuObituaryIstvan from './components/MenuObituaryIstvan';
 import MenuInnIstvan from './components/MenuInnIstvan';
+import MenuHollowIstvan from './components/MenuHollowIstvan';
 
 const MenuContainer = styled.View`
     flex: 1;
@@ -35,6 +36,7 @@ const IstvanScreens = () => {
     const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
     const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
     const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
+    const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
 
     return (
         <IstvanContext.Provider
@@ -55,6 +57,8 @@ const IstvanScreens = () => {
                 setIsMenuObituaryLoaded,
                 isMenuInnLoaded,
                 setIsMenuInnLoaded,
+                isMenuHollowLoaded,
+                setIsMenuHollowLoaded
             }}>
             <NavigationContainer>
                 <MenuContainer>
@@ -66,7 +70,8 @@ const IstvanScreens = () => {
                                         : location === 'HALL' ? <MenuHallIstvan />
                                             : location === 'OBITUARY' ? <MenuObituaryIstvan />
                                                 : location === 'INN' ? <MenuInnIstvan />
-                                                    : <MenuIstvan />}
+                                                    : location === 'HOLLOW' ? <MenuHollowIstvan />
+                                                        : <MenuIstvan />}
                 </MenuContainer>
             </NavigationContainer>
         </IstvanContext.Provider>
