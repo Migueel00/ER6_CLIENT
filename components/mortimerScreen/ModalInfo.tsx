@@ -3,6 +3,9 @@ import { Dimensions, Modal, Text } from "react-native";
 import AppContext from "../../helpers/context";
 import styled from "styled-components/native";
 import { Player } from "../../interfaces/contextInterface";
+import { URL } from "../../src/API/urls";
+import LoadSpinner from "../utils/loadSpinner";
+
 
 const { width } = Dimensions.get("screen");
 
@@ -20,9 +23,27 @@ interface ModalInfoProps {
     player : Player | null;
     visible: boolean;
     handleCloseModal: () => void;
+    handleHealButton: () => void;
 }
 
-const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal}) => {
+const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal, handleHealButton}) => {
+    const [isSick, setIsSick] = useState<boolean>(false);
+    const [visibleSpinner, SetVisibleSpinner] = useState<boolean>(false);
+
+    useEffect(() => {
+        setIsSick(checkIfPlayerIsSick());
+
+    }, [player])
+
+    const checkIfPlayerIsSick = () => {
+        if (player?.epicWeakness) return true;
+        if (player?.putridPlague) return true;
+        if (player?.medularApocalypse) return true;
+        if (player?.ethazium) return true;
+        if (player?.attributes.resistence! <= 30) return true;
+        return false;
+    }
+
     const calculateBarWidth = (attribute: number, modifiedAttribute?: number, key?: AttributeKey): number => {
         if (key === "resistence") {
             return Math.max((attribute / 100) * 100, 0); // Use 100 as max for resistence
@@ -102,6 +123,14 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal}
                         onPress={handleCloseModal}>
                         <AttributeValues>Close</AttributeValues>
                     </CloseModalButton>
+                    {isSick ? 
+                        <HealButton 
+                            onPress={handleHealButton}    
+                        >
+                            <AttributeValues>Heal</AttributeValues>
+                        </HealButton> 
+                    : null}
+                    {visibleSpinner ? <LoadSpinner SpinnerText="Healing Acolyte"></LoadSpinner> : null}
                 </ModalContainer>
             </ModalBackground>
         </Modal>
@@ -184,4 +213,10 @@ const CloseModalButton = styled.TouchableOpacity`
     width: ${width * 0.3}px;
     background-color: red;  
     border-radius: ${width * 0.2}px;
+`
+const HealButton = styled.TouchableOpacity`
+    width: ${width * 0.3}px;
+    background-color: green;  
+    border-radius: ${width * 0.2}px;
+    margin-top: ${width * 0.03}px;
 `

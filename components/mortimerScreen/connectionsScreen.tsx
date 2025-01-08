@@ -7,6 +7,7 @@ import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
 import ModalInfo from './ModalInfo';
+import { URL } from '../../src/API/urls';
 
 const { height, width } = Dimensions.get('window');
 
@@ -14,6 +15,7 @@ const ConnectionScreen = () => {
     const appContext = useContext(AppContext);
     const mortimerContext = useContext(MortimerContext);
     const players = appContext?.players!;
+    const setPlayers = appContext?.setPlayers;
     const setLocation = appContext?.setLocation;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const [playerInfo, setPlayerInfo] = useState<Player | null>(null);
@@ -43,10 +45,52 @@ const ConnectionScreen = () => {
 
     const getTextDetail = (player : Player) => {
         if(player.ethazium) return "Cursed"
-        if(player.medularApocalypse || player.epicWeakness || player.putridPlague) return "Ill"
+        if(player.medularApocalypse || player.epicWeakness || player.putridPlague) return "Sick"
         if(player.attributes.resistence <= 30) return "Tired"
 
         return;
+    }
+
+    const handleHealButton = async() => {
+        try {
+            const updatedState: Partial<Player> = {};
+
+            if (playerInfo?.ethazium) updatedState.ethazium = false;
+            if (playerInfo?.epicWeakness) updatedState.epicWeakness = false;
+            if (playerInfo?.putridPlague) updatedState.putridPlague = false;
+            if (playerInfo?.medularApocalypse) updatedState.medularApocalypse = false;
+            if (playerInfo?.attributes.resistence! <= 30) updatedState.attributes!.resistence = 100;
+            // Verificar si hay algo que actualizar
+            if (Object.keys(updatedState).length === 0) {
+                console.log("No state to update.");
+                return;
+            }
+
+            const res = await fetch(`${URL.API_PLAYERS}/${playerInfo?._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(updatedState)
+            });
+
+            const json = await res.json();
+            const data = json.data;
+
+            if(res.ok){
+                const updatedPlayers = players.map(player =>
+                    player._id === data._id ? data : player
+                );
+    
+                setPlayers?.(updatedPlayers);
+                handleCloseModal();
+            }
+
+        }
+
+        catch (error){
+            console.log(`And error has ocurred ${error}`);
+        }
     }
 
     const hanldeOpenModal = (player : Player) => {
@@ -65,7 +109,8 @@ const ConnectionScreen = () => {
             <ModalInfo 
                 player={playerInfo} 
                 visible={visible}
-                handleCloseModal={handleCloseModal}    
+                handleCloseModal={handleCloseModal}
+                handleHealButton={handleHealButton}    
             />
             <Container>
                 <LabTitle>LABORATORY</LabTitle>
