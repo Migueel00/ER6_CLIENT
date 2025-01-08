@@ -13,11 +13,11 @@ const Stats = () => {
     const fontSize = width * 0.062;
     const appContext = useContext(AppContext);
     const player = appContext?.player;
-    
+
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
 
-        const maxAttributeValue = 300; 
+        const maxAttributeValue = 300;
 
         return {
             intelligence: profileAttributes.intelligence / maxAttributeValue,
@@ -26,33 +26,28 @@ const Stats = () => {
             charisma: profileAttributes.charisma / maxAttributeValue,
             constitution: profileAttributes.constitution / maxAttributeValue,
             strength: profileAttributes.strength / maxAttributeValue,
-            hit_points: (profileAttributes.constitution + profileAttributes.dexterity - (profileAttributes.insanity / 2))/ maxAttributeValue,
-            attack: (profileAttributes.strength - (profileAttributes.insanity / 2))/ maxAttributeValue,
-            defense: (profileAttributes.dexterity + profileAttributes.constitution +  (profileAttributes.intelligence / 2)) / maxAttributeValue,
-            magic_resistance: (profileAttributes.intelligence + profileAttributes.charisma)/ maxAttributeValue,
+            hit_points: (profileAttributes.constitution + profileAttributes.dexterity - (profileAttributes.insanity / 2)) / maxAttributeValue,
+            attack: (profileAttributes.strength - (profileAttributes.insanity / 2)) / maxAttributeValue,
+            defense: (profileAttributes.dexterity + profileAttributes.constitution + (profileAttributes.intelligence / 2)) / maxAttributeValue,
+            magic_resistance: (profileAttributes.intelligence + profileAttributes.charisma) / maxAttributeValue,
             cfp: (profileAttributes.insanity) / maxAttributeValue,
-            bcfa: (profileAttributes.strength + profileAttributes.insanity)/ maxAttributeValue
+            bcfa: (profileAttributes.strength + profileAttributes.insanity) / maxAttributeValue
         };
     };
 
     return (
         <AppContext.Consumer>
-            {({ profileAttributes, player }: any) => {
-                let attributesToPrint;
+            {({ player }: any) => {
 
-                if (player.role === 'ACOLYTE') {
-                    attributesToPrint = convertAttributesToPercentage(player.attributes);
-                } else {
-                    attributesToPrint = convertAttributesToPercentage(player.attributes);
-                }
+                let attributesToPrint = convertAttributesToPercentage(player.role === 'ACOLYTE' ? player.modifiedAttributes : player.attributes);
+
                 console.log(attributesToPrint);
                 const allAtributes = calculateAllAttributes(player);
 
                 console.log("ALL ATRIBUTES");
                 console.log(allAtributes);
-                attributesToPrint = convertAttributesToPercentage(allAtributes); 
-                
-                
+                attributesToPrint = convertAttributesToPercentage(allAtributes);
+
                 return (
                     <StyledImageBackground
                         source={require('../../assets/png/profileBackground.png')}
@@ -65,7 +60,7 @@ const Stats = () => {
                             </TitleContainer>
 
                             <StyledImage
-                                source={{ uri: player.avatar}} // Puedes cambiar el source aquí
+                                source={{ uri: player.avatar }} // Puedes cambiar el source aquí
                                 resizeMode="contain"
                             />
 
@@ -83,7 +78,7 @@ const Stats = () => {
                                         progress={attributesToPrint.dexterity}
                                         width={width * 0.3}
                                         color="#C19A6B"
-                                        
+
                                     />
 
                                     <ProfileText fontSize={fontSize}>Insanity</ProfileText>
@@ -167,66 +162,69 @@ const Stats = () => {
 };
 
 const calculateAllAttributes = (player: any) => {
-    if(player) {
-      const charisma =  
-        player.attributes?.charisma + 
-        player.equipment.helmet?.modifiers.charisma! + 
-        player.equipment.weapon.modifiers.charisma + 
-        player.equipment.armor.modifiers.charisma + 
-        player.equipment.shield?.modifiers.charisma! + 
-        player.equipment.artifact.modifiers.charisma + 
-        player.equipment.boot?.modifiers.charisma! + 
-        player.equipment.ring?.modifiers.charisma!;
-      const constitution =  
-        player.attributes.constitution + 
-        player.equipment.helmet?.modifiers.constitution! + 
-        player.equipment.weapon.modifiers.constitution + 
-        player.equipment.armor.modifiers.constitution + 
-        player.equipment.shield?.modifiers.constitution! + 
-        player.equipment.artifact.modifiers.constitution + 
-        player.equipment.boot?.modifiers.constitution! + 
-        player.equipment.ring?.modifiers.constitution!;
-      const dexterity =  
-        player.modifiedAttributes?.dexterity + 
-        player.equipment.helmet?.modifiers.dexterity! + 
-        player.equipment.weapon.modifiers.dexterity + 
-        player.equipment.armor.modifiers.dexterity + 
-        player.equipment.shield?.modifiers.dexterity! + 
-        player.equipment.artifact.modifiers.dexterity + 
-        player.equipment.boot?.modifiers.dexterity! + 
-        player.equipment.ring?.modifiers.dexterity!;
-      const insanity =  
-        player.modifiedAttributes?.insanity + 
-        player.equipment.helmet?.modifiers.insanity! + 
-        player.equipment.weapon.modifiers.insanity + 
-        player.equipment.armor.modifiers.insanity + 
-        player.equipment.shield?.modifiers.insanity! + 
-        player.equipment.artifact.modifiers.insanity + 
-        player.equipment.boot?.modifiers.insanity! + 
-        player.equipment.ring?.modifiers.insanity!;
-      const intelligence =  
-        player.modifiedAttributes?.intelligence + 
-        player.equipment.helmet?.modifiers.intelligence! + 
-        player.equipment.weapon.modifiers.intelligence + 
-        player.equipment.armor.modifiers.intelligence + 
-        player.equipment.shield?.modifiers.intelligence! + 
-        player.equipment.artifact.modifiers.intelligence + 
-        player.equipment.boot?.modifiers.intelligence! + 
-        player.equipment.ring?.modifiers.intelligence!;
-      const strength =  
-        player.modifiedAttributes?.strength + 
-        player.equipment.helmet?.modifiers.strength! + 
-        player.equipment.weapon.modifiers.strength + 
-        player.equipment.armor.modifiers.strength + 
-        player.equipment.shield?.modifiers.strength! + 
-        player.equipment.artifact.modifiers.strength + 
-        player.equipment.boot?.modifiers.strength! + 
-        player.equipment.ring?.modifiers.strength!;
-      return({constitution, charisma, dexterity, intelligence, strength, insanity })
-    }
-  }
+    if (player) {
 
-const StyledImageBackground = styled(ImageBackground)<{ width: number; height: number }>`
+        const attributes = player.role === 'ACOLYTE' ? player.modifiedAttributes : player.attributes;
+
+        const charisma =
+            attributes.charisma +
+            player.equipment.helmet?.modifiers.charisma! +
+            player.equipment.weapon.modifiers.charisma +
+            player.equipment.armor.modifiers.charisma +
+            player.equipment.shield?.modifiers.charisma! +
+            player.equipment.artifact.modifiers.charisma +
+            player.equipment.boot?.modifiers.charisma! +
+            player.equipment.ring?.modifiers.charisma!;
+        const constitution =
+            attributes.constitution +
+            player.equipment.helmet?.modifiers.constitution! +
+            player.equipment.weapon.modifiers.constitution +
+            player.equipment.armor.modifiers.constitution +
+            player.equipment.shield?.modifiers.constitution! +
+            player.equipment.artifact.modifiers.constitution +
+            player.equipment.boot?.modifiers.constitution! +
+            player.equipment.ring?.modifiers.constitution!;
+        const dexterity =
+            attributes.dexterity +
+            player.equipment.helmet?.modifiers.dexterity! +
+            player.equipment.weapon.modifiers.dexterity +
+            player.equipment.armor.modifiers.dexterity +
+            player.equipment.shield?.modifiers.dexterity! +
+            player.equipment.artifact.modifiers.dexterity +
+            player.equipment.boot?.modifiers.dexterity! +
+            player.equipment.ring?.modifiers.dexterity!;
+        const insanity =
+            attributes.insanity +
+            player.equipment.helmet?.modifiers.insanity! +
+            player.equipment.weapon.modifiers.insanity +
+            player.equipment.armor.modifiers.insanity +
+            player.equipment.shield?.modifiers.insanity! +
+            player.equipment.artifact.modifiers.insanity +
+            player.equipment.boot?.modifiers.insanity! +
+            player.equipment.ring?.modifiers.insanity!;
+        const intelligence =
+            attributes.intelligence +
+            player.equipment.helmet?.modifiers.intelligence! +
+            player.equipment.weapon.modifiers.intelligence +
+            player.equipment.armor.modifiers.intelligence +
+            player.equipment.shield?.modifiers.intelligence! +
+            player.equipment.artifact.modifiers.intelligence +
+            player.equipment.boot?.modifiers.intelligence! +
+            player.equipment.ring?.modifiers.intelligence!;
+        const strength =
+            attributes.strength +
+            player.equipment.helmet?.modifiers.strength! +
+            player.equipment.weapon.modifiers.strength +
+            player.equipment.armor.modifiers.strength +
+            player.equipment.shield?.modifiers.strength! +
+            player.equipment.artifact.modifiers.strength +
+            player.equipment.boot?.modifiers.strength! +
+            player.equipment.ring?.modifiers.strength!;
+        return ({ constitution, charisma, dexterity, intelligence, strength, insanity })
+    }
+}
+
+const StyledImageBackground = styled(ImageBackground) <{ width: number; height: number }>`
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -294,6 +292,6 @@ const StyledImage = styled.Image`
     border-radius: ${width * 0.5}px;
     border-color: #C19A6B;
     bottom: ${height * 0.015}px;
-`; 
+`;
 
 export default Stats;
