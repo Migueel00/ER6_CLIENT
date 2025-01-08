@@ -11,21 +11,19 @@ import MenuOldSchoolIstvan from './components/MenuOldSchoolIstvan';
 import MenuSwampIstvan from './components/MenuSwampIstvan';
 import MenuHallIstvan from './components/MenuHallIstvan';
 import MenuIstvan from './components/MenuIstvan';
-import MenuObituary from '../acolyteScreen/menu/MenuObituary';
 import MenuObituaryIstvan from './components/MenuObituaryIstvan';
+import MenuInnIstvan from './components/MenuInnIstvan';
 
 const MenuContainer = styled.View`
     flex: 1;
 `;
-
-
 
 const Tab = createMaterialTopTabNavigator();
 
 const IstvanScreens = () => {
 
     const appContext = useContext(AppContext);
-    const location   = appContext?.location;
+    const location = appContext?.location;
     const player = appContext?.player;
     const isInsideHall = player?.isInsideHall;
 
@@ -36,11 +34,12 @@ const IstvanScreens = () => {
     const [isMenuOldSchoolLoaded, setIsMenuOldSchoolLoaded] = useState<boolean>(false);
     const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
     const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
-    
+    const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
 
     return (
         <IstvanContext.Provider
-            value={{isMenuLoaded,
+            value={{
+                isMenuLoaded,
                 setIsMenuLoaded,
                 isMenuLabLoaded,
                 setIsMenuLabLoaded,
@@ -53,23 +52,25 @@ const IstvanScreens = () => {
                 isMenuHallOfSagesLoaded,
                 setIsMenuHallOfSagesLoaded,
                 isMenuObituaryLoaded,
-                setIsMenuObituaryLoaded
+                setIsMenuObituaryLoaded,
+                isMenuInnLoaded,
+                setIsMenuInnLoaded,
             }}>
             <NavigationContainer>
                 <MenuContainer>
-                    {isInsideHall ? <MenuHallInside/>
-                    : location === 'LAB' ? <MenuIstvanLab/> 
-                    : location === 'TOWER' ? <MenuIstvanTower/> 
-                    : location === 'OLDSCHOOL' ? <MenuOldSchoolIstvan/>
-                    : location === 'SWAMP' ? <MenuSwampIstvan/>
-                    : location === 'HALL' ? <MenuHallIstvan/>
-                    : location === 'OBITUARY' ? <MenuObituaryIstvan/>
-                    : <MenuIstvan/>  }
-                </MenuContainer>  
+                    {isInsideHall ? <MenuHallInside />
+                        : location === 'LAB' ? <MenuIstvanLab />
+                            : location === 'TOWER' ? <MenuIstvanTower />
+                                : location === 'OLDSCHOOL' ? <MenuOldSchoolIstvan />
+                                    : location === 'SWAMP' ? <MenuSwampIstvan />
+                                        : location === 'HALL' ? <MenuHallIstvan />
+                                            : location === 'OBITUARY' ? <MenuObituaryIstvan />
+                                                : location === 'INN' ? <MenuInnIstvan />
+                                                    : <MenuIstvan />}
+                </MenuContainer>
             </NavigationContainer>
         </IstvanContext.Provider>
     );
 };
-
 
 export default IstvanScreens;
