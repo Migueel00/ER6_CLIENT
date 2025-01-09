@@ -18,6 +18,7 @@ import MenuHollow from './menu/MenuHollow';
 import MenuInn from './menu/MenuInn';
 import MenuDungeon from './menu/MenuDungeon';
 import ModalCurseIlness from '../utils/ModalCurseIlness';
+import { reduceAllStats } from '../../src/functions/reduceAllStats';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -36,7 +37,7 @@ const AcolyteProvider = () => {
 
   const appContext = useContext(AppContext);
   // const [player, setPlayer] = useState(appContext?.player);
-  const player = appContext?.player;
+  const player = appContext?.player!;
   const setPlayer = appContext?.setPlayer;
 
   const players = appContext?.players!;
@@ -125,6 +126,15 @@ const AcolyteProvider = () => {
   useEffect(() => {
     console.log("ESTADO DE isInsideHall " + isInsideHall);
   }, [isInsideHall]);
+
+  useEffect(() => {
+    if(player.ethazium){
+      reduceAllStats(player.modifiedAttributes);
+      console.log("SI TIENE ETHAZIUM");
+      console.log(JSON.stringify(player.modifiedAttributes));
+    }
+
+  }, [player]);
 
   return (
     <AcolyteContext.Provider value={{
