@@ -37,6 +37,9 @@ const CONSTANTS = {
 };
 
 const PotionCreator = () => {
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+
     const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
@@ -44,8 +47,8 @@ const PotionCreator = () => {
     const [curses, setCurses] = useState(require('../../../fakedata/fake-curses.json'));
 
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
-    const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
-    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [ingredients, setIngredients] = useState<Ingredient[] | any>(player?.ingredients || []);
+    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(player?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
