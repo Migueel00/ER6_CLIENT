@@ -106,7 +106,9 @@ const FlatListCurses : React.FC<FlatListCurses> = ({ curses, handleLongPress, sh
                                 <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
                                     <CurseName>{item.name}</CurseName>
                                     <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
-
+                                    <ApplyButton>
+                                        <ApplyButtonText>Apply</ApplyButtonText>
+                                    </ApplyButton>
                                     {/* <CurseEffects>{formatEffects(item.effects)}</CurseEffects> */}
                                 </CurseItem>
                             </CurseContainer>
@@ -120,6 +122,21 @@ const FlatListCurses : React.FC<FlatListCurses> = ({ curses, handleLongPress, sh
         </FlatListView>
     );
 }
+
+const ApplyButton = styled.TouchableOpacity`
+    margin-top: ${height * 0.02}px;
+    background-color: #C19A6B;
+    padding: ${height * 0.005}px ${width * 0.05}px;
+    border-radius: ${width * 0.02}px;
+    align-items: center;
+`;
+
+const ApplyButtonText = styled.Text`
+    font-size: ${width * 0.1}px;
+    font-family: 'KochAltschrift';
+    bottom: ${height * 0.005}px;
+    color: #FFF;
+`;
 
 const FlatListView = styled.View`
     width: 100%;
