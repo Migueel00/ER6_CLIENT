@@ -24,6 +24,7 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
   const appContext = useContext(AppContext);
   const players = appContext?.players;
   const setPlayers = appContext?.setPlayers;
+  const socket = appContext?.socket;
   const [applyingCurse, setApplyingCurse] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -56,10 +57,11 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
       const updatedPlayer = await patchPlayerWithUserID(player._id, patchJSON);
 
       //console.log(updatedPlayer);
+      socket.emit('applyCurse', updatedPlayer);
 
-      const newPlayers = players?.map(player => player._id === updatedPlayer._id ? updatedPlayer : player);
+      // const newPlayers = players?.map(player => player._id === updatedPlayer._id ? updatedPlayer : player);
 
-      setPlayers(newPlayers);
+      // setPlayers(newPlayers);
 
       setApplyingCurse(false);
     } catch (error) {

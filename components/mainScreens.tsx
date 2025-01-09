@@ -6,6 +6,7 @@ import { Text, Vibration } from 'react-native';
 import AppContext from "../helpers/context";
 import VillainScreens from "./villainScreen/VillainScreens";
 import Artifact from "../interfaces/ArtifactsInterface";
+import { Player } from "../interfaces/contextInterface";
 
 interface updateTowerEvent {
     playerId: string;
@@ -80,6 +81,26 @@ const MainScreens = () => {
 
         return () => {
             socket.off('updateTower');
+        };
+    }, [socket, players, setPlayers]);
+
+    useEffect(() => {
+
+        console.log('UPDATING CURSES FOR PLAYERS');
+
+        socket.on('updatePlayerCurses', (updatedPlayer:any) => {
+            console.log('UPDATED PLAYER CURSES IN SOCKET:');
+            console.log(updatedPlayer.curses);
+            
+            const updatedPlayers = players.map(player =>
+                player.id === updatedPlayer._id ? { ...player, curses: updatedPlayer.curses } : player
+            );
+
+            setPlayers(updatedPlayers);
+        });
+
+        return () => {
+            socket.off('updatePlayerCurses');
         };
     }, [socket, players, setPlayers]);
 

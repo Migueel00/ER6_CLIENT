@@ -65,8 +65,8 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
     setModalVisible(false);
   };
 
-  console.log("CURSES IN FLATLIST");
-  console.log(curses);
+  // console.log("CURSES IN FLATLIST");
+  // console.log(curses);
 
   useEffect(() => {
     console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
@@ -83,8 +83,8 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
     <FlatListView>
       {showNotFoundText ? (
         <NotFoundTextContainer>
-          <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
-          <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
+          <NotFoundTextOutline>{`No curses matches your filter`}</NotFoundTextOutline>
+          <NotFoundText>{`No curses matches your filter`}</NotFoundText>
         </NotFoundTextContainer>
       ) : (
         <Animated.FlatList
@@ -144,6 +144,7 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
           curse={selectedCurse}
         />
       )}
+
 
     </FlatListView>
   );
