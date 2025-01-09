@@ -47,7 +47,7 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
     const scrollX = useRef(new Animated.Value(0)).current;
     const flatListRef = useRef<Animated.FlatList>(null); 
 
-    console.log("INGREDIENTS");
+    console.log("INGREDIENTS IN FLATLIST");
     console.log(ingredients[1]);
     
     useEffect(() => {
@@ -107,6 +107,7 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
                                     <IngredientImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
 
                                     <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
+                                    <IngredientQty>x{item.qty}</IngredientQty>
                                 </IngredientItem>
                             </IngredientContainer>
                         </TouchableWithoutFeedback>
@@ -140,6 +141,16 @@ const IngredientName = styled.Text`
     color: #FFF;
     text-align: center;
     margin-bottom: ${height * 0.01}px;
+`;
+
+const IngredientQty = styled.Text`
+    font-size: ${width * 0.12}px;
+    font-family: 'KochAltschrift';
+    color: #FFF;
+    text-align: left;
+    position: absolute;
+    bottom: ${height * 0.01}px;
+    right: ${width * 0.03}px;
 `;
 
 const IngredientImage = styled.Image`

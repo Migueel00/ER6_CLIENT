@@ -185,6 +185,7 @@ function App(): React.JSX.Element {
       setIngredientsUnmodified(ingredients);
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
       setCleanseIngredients(newIngredients);
+
     } catch (error) {
       console.error("Error fetching ingredients:", error);
     }
