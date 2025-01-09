@@ -117,11 +117,11 @@ const MainScreens = () => {
             const updatedPlayers = players.map(player =>
                 player._id === updatePlayer._id ? updatePlayer : player
             );
-            
-            console.log("ENTRA A UPDATE ALL");
-            console.log(JSON.stringify(updatePlayer));
             setPlayers?.(updatedPlayers);
-            setPlayer(updatePlayer);
+            
+            if(player?._id === updatePlayer._id){
+                setPlayer(updatePlayer);
+            }
         });
     }, []);
 
