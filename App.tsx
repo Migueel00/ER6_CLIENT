@@ -202,7 +202,7 @@ function App(): React.JSX.Element {
     const userInfo = await GoogleSignin.signIn();
 
 
-    //const email = 'ozarate@aeg.eus';
+    const email = 'ozarate@aeg.eus';
     // const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
     //const email = userInfo.data?.user.email;
@@ -375,7 +375,7 @@ function App(): React.JSX.Element {
         console.log(JSON.stringify(player.modifiedAttributes));
       }
 
-      player.role = "MORTIMER";
+      // player.role = "MORTIMER";
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);

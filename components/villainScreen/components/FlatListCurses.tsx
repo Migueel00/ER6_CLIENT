@@ -15,7 +15,6 @@ interface FlatListCurses {
 
 }
 
-
 const curseIcon2 = require('./../../../assets/icons/curseIcon2.png');
 
 const kaotikaApiUrl = 'https://kaotika.vercel.app'
@@ -43,10 +42,6 @@ const formatEffects = (effects: string[]): string => {
     )
     .join(', '); // Une los diferentes efectos con comas
 };
-
-
-
-
 
 const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, showNotFoundText }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
