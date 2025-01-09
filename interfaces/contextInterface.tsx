@@ -1,3 +1,4 @@
+import Curse from "../components/potions/curse";
 import Artifact from "./ArtifactsInterface"
 import { Dispatch, SetStateAction } from "react"
 
@@ -69,7 +70,7 @@ export interface Player {
     constitution: number,
     resistence: number
   }
-
+  curses: Curse[]
 }
 
 export interface Ingredient {

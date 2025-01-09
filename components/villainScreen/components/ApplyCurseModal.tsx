@@ -6,8 +6,12 @@ import { Dimensions } from "react-native";
 import AppContext from "../../../helpers/context";
 import { patchPlayerWithUserID } from "../../../src/API/get&post";
 import LoadCurseSpinner from "../../utils/loadCurseSpinner";
+import { Player } from "../../../interfaces/contextInterface";
 
 const { width, height } = Dimensions.get('window');
+
+const curseIcon3 = require('./../../../assets/icons/curseIcon3.png');
+const curseIcon1 = require('./../../../assets/icons/curseIcon.png');
 
 interface ApplyCurseModalProps {
   visible: boolean;
@@ -20,9 +24,10 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
   const appContext = useContext(AppContext);
   const players = appContext?.players;
   const setPlayers = appContext?.setPlayers;
+  const socket = appContext?.socket;
   const [applyingCurse, setApplyingCurse] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
+
 
   const acolytePlayers = players?.filter(player => player.role === 'ACOLYTE');
 
@@ -52,10 +57,11 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
       const updatedPlayer = await patchPlayerWithUserID(player._id, patchJSON);
 
       //console.log(updatedPlayer);
-      
-      const newPlayers = players?.map(player => player._id === updatedPlayer._id ? updatedPlayer : player);
+      socket.emit('applyCurse', updatedPlayer);
 
-      setPlayers(newPlayers);
+      // const newPlayers = players?.map(player => player._id === updatedPlayer._id ? updatedPlayer : player);
+
+      // setPlayers(newPlayers);
 
       setApplyingCurse(false);
     } catch (error) {
@@ -81,12 +87,17 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
 
             {acolytePlayers && acolytePlayers.length > 0 && (
               <PlayersList>
-                {acolytePlayers.map((player, index) => (
+                {acolytePlayers.map((player: Player, index) => (
                   <React.Fragment key={player.id}>
                     <PlayerRow>
                       <PlayerText>{player.nickname}</PlayerText>
                       <TouchableOpacity onPress={() => handleSquarePress(player, curse!)}>
-                        <Square />
+                        {/* Renderizamos el ícono del cuadrado */}
+                        <Square>
+                          <PlayerIcon
+                            source={player.curses.some((c: Curse) => c.name === curse?.name) ? curseIcon3 : curseIcon1}
+                          />
+                        </Square>
                       </TouchableOpacity>
                     </PlayerRow>
                     {index < acolytePlayers.length - 1 && <Separator />}
@@ -111,7 +122,7 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
           onRequestClose={() => setErrorMessage(null)}
         >
           <ModalContainer>
-          <ModalContent style={{ justifyContent: 'center' }}>
+            <ModalContent style={{ justifyContent: 'center' }}>
               <ModalText style={{ textAlign: 'center' }}>{errorMessage}</ModalText>
               <CloseButton onPress={() => setErrorMessage(null)}>
                 <CloseButtonText>Close</CloseButtonText>
@@ -134,7 +145,7 @@ const ModalContainer = styled.View`
 
 const ModalContent = styled.View`
     width: 90%; /* Adjust width to be larger */
-    height: 80%; /* Adjust height to occupy more of the screen */
+    height: 90%; /* Adjust height to occupy more of the screen */
     padding: ${height * 0.03}px;
     background-color: #1e1e1e;
     border-radius: ${width * 0.05}px;
@@ -196,10 +207,18 @@ const PlayerRow = styled.View`
 `;
 
 const Square = styled.View`
-  width: ${width * 0.1}px; /* Tamaño del cuadrado */
-  height: ${width * 0.1}px; /* Tamaño del cuadrado */
-  background-color: #C19A6B;
+  width: ${width * 0.17}px; /* Tamaño del cuadrado */
+  height: ${width * 0.17}px; /* Tamaño del cuadrado */
+  background-color: transparent;
   border-radius: 4px; /* Redondear ligeramente las esquinas */
+  justify-content: center;
+  align-items: center;
+`;
+
+const PlayerIcon = styled.Image`
+  width: 100%; /* Ajusta el tamaño del ícono dentro del cuadrado */
+  height: 100%; /* Ajusta el tamaño del ícono dentro del cuadrado */
+  resize-mode: fill;
 `;
 
 const Separator = styled.View`
@@ -212,3 +231,6 @@ const Separator = styled.View`
 `;
 
 export default ApplyCurseModal;
+
+
+//#C19A6B
