@@ -47,8 +47,10 @@ const PotionCreator = () => {
     const [curses, setCurses] = useState(require('../../../fakedata/fake-curses.json'));
 
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
-    const [ingredients, setIngredients] = useState<Ingredient[] | any>(player?.ingredients || []);
-    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(player?.ingredients || []);
+    const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [playerIngredients, setPlayerIngredients] = useState<Ingredient[] | any>(player?.ingredients || []);
+    const [playerIngredientsCopy, setPlayerIngredientsCopy] = useState<Ingredient[] | any>(player?.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
@@ -72,6 +74,8 @@ const PotionCreator = () => {
         if (!potionFactory) {
             setPotionFactory(new Cauldron(ingredients, curses.data));
         }
+
+        setPlayerIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
     }, []);
 
     useEffect(() => {
@@ -136,7 +140,7 @@ const PotionCreator = () => {
             <StatusBar />
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 {/* Flalist de los ingredientes */}
-                <FlatListIngredients ingredients={ingredientsCopy} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText}/>
+                <FlatListIngredients ingredients={playerIngredientsCopy} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText}/>
                 <FilterButton onPress={handlePressFilter}>
                     <IconImage source={filterIcon}></IconImage>
                 </FilterButton>
@@ -217,12 +221,12 @@ const PotionCreator = () => {
                 >
                     <FilterModal 
                         closeModal={() => setFilterModalVisible(false)}
-                        ingredients={ingredients}
-                        setIngredients={setIngredients}
+                        ingredients={playerIngredients}
+                        setIngredients={setPlayerIngredients}
                         filterBooleans={filterBooleans}
                         setFilterBooleans={setFilterBooleans}
-                        ingredientsCopy={ingredientsCopy}
-                        setIngredientsCopy={setIngredientCopy}
+                        ingredientsCopy={playerIngredientsCopy}
+                        setIngredientsCopy={setPlayerIngredientsCopy}
                         setShowNotFoundText={setShowNotFoundText}
                     />
                 </Modal>
