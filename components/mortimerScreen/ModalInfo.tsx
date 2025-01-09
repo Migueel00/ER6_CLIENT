@@ -7,7 +7,10 @@ import { URL } from "../../src/API/urls";
 import LoadSpinner from "../utils/loadSpinner";
 
 
-const { width } = Dimensions.get("screen");
+const closeIconImg = require('../../assets/icons/close_icon.png');
+const healButtonImg = require('../../assets/icons/heal_button.png');
+
+const { width, height } = Dimensions.get("screen");
 
 // Define un tipo para las claves de los atributos
 type AttributeKey =
@@ -28,7 +31,6 @@ interface ModalInfoProps {
 
 const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal, handleHealButton}) => {
     const [isSick, setIsSick] = useState<boolean>(false);
-    const [visibleSpinner, SetVisibleSpinner] = useState<boolean>(false);
 
     useEffect(() => {
         setIsSick(checkIfPlayerIsSick());
@@ -119,18 +121,26 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
                             ))}
                         </>
                     )}
-                    <CloseModalButton 
-                        onPress={handleCloseModal}>
-                        <AttributeValues>Close</AttributeValues>
-                    </CloseModalButton>
-                    {isSick ? 
-                        <HealButton 
-                            onPress={handleHealButton}    
-                        >
-                            <AttributeValues>Heal</AttributeValues>
-                        </HealButton> 
-                    : null}
-                    {visibleSpinner ? <LoadSpinner SpinnerText="Healing Acolyte"></LoadSpinner> : null}
+                    <ContainerRow>
+                        <CloseModalButton 
+                            onPress={handleCloseModal}>
+                            <ButtonImage
+                                source={closeIconImg}
+                            />
+                        </CloseModalButton>
+                        {isSick ? 
+                            <HealButton 
+                                onPress={handleHealButton}    
+                            >      
+                                <ContainerRow>
+                                    <ButtonImage
+                                        source={healButtonImg}
+                                    />
+                                    <StyledText>Heal</StyledText>
+                                </ContainerRow>
+                            </HealButton> 
+                        : null}
+                    </ContainerRow>
                 </ModalContainer>
             </ModalBackground>
         </Modal>
@@ -145,11 +155,12 @@ const ModalBackground = styled.View`
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.7);
+    height: ${height}px;
 `;
 
 const ModalContainer = styled.View`
     width: ${width * 0.8}px;
-    padding: 20px;
+    padding: ${width * 0.03}px;
     background-color: #222;
     border-radius: 10px;
     align-items: center;
@@ -159,33 +170,41 @@ const StyledText = styled.Text`
     font-size: ${width * 0.07}px;
     color: white;
     font-family: 'KochAltschrift';
-    margin-bottom: 20px;
+    margin-left: ${width * 0.02}px;
 `;
 
 const Avatar = styled.Image`
     width: ${width * 0.2}px;
     height: ${width * 0.2}px;
     border-radius: ${width * 0.2}px;
-    margin-bottom: 20px;
 `;
+
+const ButtonImage = styled.Image `
+    width: ${width * 0.12}px;
+    height: ${width * 0.12}px;
+    border-radius: ${width * 0.12}px;
+`
+
+const ButtonHealImg = styled.Image `
+    width: ${width * 0.15}px;
+    height: ${width * 0.15}px;
+    border-radius: ${width * 0.15}px;
+`
 
 const DiseaseText = styled.Text`
     font-size: ${width * 0.07}px;
     color: #f00;
     font-family: 'KochAltschrift';
-    margin-bottom: 20px;
     text-align: center;
 `;
 
 const AttributeBarContainer = styled.View`
     width: 100%;
-    margin-bottom: 2px;
 `;
 
 const AttributeLabel = styled.Text`
     font-size: ${width * 0.06}px;
     color: white;
-    margin-bottom: 2px;
     font-family: 'KochAltschrift';
 `;
 
@@ -205,18 +224,22 @@ const BarForeground = styled.View`
 const AttributeValues = styled.Text`
     font-size: ${width * 0.04}px;
     color: white;
-    margin-top: 5px;
     text-align: center;
+    font-family: 'KochAltschrift';
 `;
 
 const CloseModalButton = styled.TouchableOpacity`
     width: ${width * 0.3}px;
-    background-color: red;  
     border-radius: ${width * 0.2}px;
 `
+
 const HealButton = styled.TouchableOpacity`
     width: ${width * 0.3}px;
-    background-color: green;  
     border-radius: ${width * 0.2}px;
     margin-top: ${width * 0.03}px;
+`
+const ContainerRow = styled.View`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 `

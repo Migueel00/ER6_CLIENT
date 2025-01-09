@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Dimensions} from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
-import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
+import { useNavigation, ParamListBase, NavigationProp } from "@react-navigation/native";
 import VillainContext from "../../../helpers/VillainContext";
 import IstvanContext from "../../../helpers/IstvanContext";
 
@@ -10,10 +10,11 @@ import IstvanContext from "../../../helpers/IstvanContext";
 const mapImage = require('./../../../assets/backgrounds/map_background.png');
 const homeIcon = require('./../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('./../../../assets/icons/towerIcon.png');
-const schoolIcon =  require('./../../../assets/icons/schoolIcon.png');
-const swampIcon =  require('./../../../assets/icons/swampIcon.png');
+const schoolIcon = require('./../../../assets/icons/schoolIcon.png');
+const swampIcon = require('./../../../assets/icons/swampIcon.png');
 const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
-
+const innIcon = require('../../../assets/icons/innIcon.png');
+const hollowIcon = require('../../../assets/icons/hollowIcon.png');
 
 const { width, height } = Dimensions.get('window');
 
@@ -55,7 +56,7 @@ const TouchableIcon = styled.TouchableOpacity`
 `
 
 const MapScreenIstvan = () => {
-    
+
     const appContext = useContext(AppContext);
     const setLocation = appContext?.setLocation;
     const istvanContext = useContext(IstvanContext);
@@ -65,11 +66,12 @@ const MapScreenIstvan = () => {
     const isMenuLabLoaded = istvanContext?.isMenuLabLoaded;
     const isMenuSwampLoaded = istvanContext?.isMenuSwampLoaded;
     const isMenuObituaryLoaded = istvanContext?.isMenuObituaryLoaded;
+    const isMenuInnLoaded = istvanContext?.isMenuInnLoaded;
+    const isMenuHollowLoaded = istvanContext?.isMenuHollowLoaded;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
-
     // Navigation tipado
-    const navigation: NavigationProp<ParamListBase> = useNavigation(); 
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
 
     useEffect(() => {
         console.log("ESTADO DE IS MENU LAB LOADED " + isMenuLabLoaded);
@@ -108,55 +110,87 @@ const MapScreenIstvan = () => {
                         navigation.navigate('OBITUARY');
                     }, 200);
                     break;
-                
+                case isMenuInnLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('INN');
+                    }, 200);
+                    break;
+                case isMenuHollowLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOLLOW');
+                    }, 200);
+                    break;
+
                 default:
                     break;
             }
         };
-    
+
         navigateToMenu();
 
-    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded, isMenuObituaryLoaded]);
+    }, [isMenuLabLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuLoaded, isMenuObituaryLoaded, isMenuInnLoaded]);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
         console.log(isMenuLoaded);
-        if(isMenuLoaded){
+        if (isMenuLoaded) {
             navigation.navigate('HOME');
         }
-    }   
+    }
 
     const handleTowerIconPress = () => {
         setLocation('TOWER');
-        if(isMenuTowerLoaded){
+        if (isMenuTowerLoaded) {
             navigation.navigate('TOWER');
         }
-    }   
+    }
 
     const handleSwampIconPress = () => {
         setLocation('SWAMP');
-        if(isMenuSwampLoaded){
+        if (isMenuSwampLoaded) {
             navigation.navigate('SWAMP');
         }
-    }   
+    }
 
     const handleSchoolIconPress = () => {
         setLocation('OLDSCHOOL');
-        if(isMenuOldSchoolLoaded){
+        if (isMenuOldSchoolLoaded) {
             navigation.navigate('OLDSCHOOL');
         }
-    }   
+    }
 
     const handleObituaryIconPress = () => {
         console.log("PRESSED OBITUARY BUTTON IN MAP");
-        
+
         setLocation('OBITUARY');
-        if(isMenuObituaryLoaded){
+        if (isMenuObituaryLoaded) {
             console.log("NAVIGATING TO OBITUARY");
-            
+
             navigation.navigate('OBITUARY');
         }
-    }   
+    }
+
+    const handleInnIconPress = () => {
+        console.log("PRESSED INN BUTTON IN MAP");
+
+        setLocation('INN');
+        if (isMenuInnLoaded) {
+            console.log("NAVIGATING TO INN");
+
+            navigation.navigate('INN');
+        }
+    }
+
+    const handleHollowIconPress = () => {
+        console.log("PRESSED HOLLOW BUTTON IN MAP");
+
+        setLocation('HOLLOW');
+        if (isMenuHollowLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('HOLLOW');
+        }
+    }
 
 
     return (
@@ -183,7 +217,7 @@ const MapScreenIstvan = () => {
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
-            
+
             <IconContainer style={{ top: height * 0.45, right: width * 0.02 }}>
                 <IconText>Swamp</IconText>
                 <TouchableIcon onPress={handleSwampIconPress}>
@@ -191,11 +225,25 @@ const MapScreenIstvan = () => {
                 </TouchableIcon>
             </IconContainer>
 
-            { areArtifactsValidated ? (
-                <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
+            <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
+                <IconText>Inn of the forgotten</IconText>
+                <TouchableIcon onPress={handleInnIconPress}>
+                    <Icon source={innIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.17, right: width * 0.70 }}>
+                <IconText>Hollow</IconText>
+                <TouchableIcon onPress={handleHollowIconPress}>
+                    <Icon source={hollowIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            {areArtifactsValidated ? (
+                <IconContainer style={{ top: height * 0.13, right: width * 0.28 }}>
                     <IconText>Obituary</IconText>
                     <TouchableIcon onPress={handleObituaryIconPress}>
-                        <Icon source={obituaryIcon}/>
+                        <Icon source={obituaryIcon} />
                     </TouchableIcon>
                 </IconContainer>
             ) : null}

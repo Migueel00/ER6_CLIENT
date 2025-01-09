@@ -8,6 +8,7 @@ import Inventory from './Inventory';
 import { NavigationContainer } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import * as CONSTANTS from "../../src/constants";
+import RestScreen from '../acolyteScreen/RestScreen';
 
 const {width, height} = Dimensions.get('window');
 
@@ -109,6 +110,19 @@ const ProfileScreen = () => {
                                     ),
                                 }}
                             />
+                            <Tab.Screen
+                                name="Rest"
+                                component={RestScreen}
+                                options={{
+                                    tabBarIcon: ({ focused }) => (
+                                        <Icon source={require('../../assets/icons/statsIcon.png')}
+                                            focused={focused}                                        
+                                        />
+                                    )
+                                }}
+                            >
+
+                            </Tab.Screen>
                         </Tab.Navigator>
                     </NavigationContainer>
                 );

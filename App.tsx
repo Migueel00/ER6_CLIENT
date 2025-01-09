@@ -375,8 +375,8 @@ function App(): React.JSX.Element {
         console.log(JSON.stringify(player.modifiedAttributes));
       }
 
+      // player.role = "MORTIMER";
       setPlayer(player);
-      player.role = "MORTIMER";
       await fetchIngredients(player.role);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
@@ -410,7 +410,7 @@ function App(): React.JSX.Element {
   const getDataAndAsign = async () => {
     const players = await getAllPlayers();
     const data = players.data;
-    setPlayers(data);
+    setPlayers(players);
   }
 
   return (

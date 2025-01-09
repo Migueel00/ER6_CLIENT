@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Dimensions} from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
-import { useNavigation, ParamListBase, NavigationProp} from "@react-navigation/native";
+import { useNavigation, ParamListBase, NavigationProp } from "@react-navigation/native";
 import MortimerContext from "../../../helpers/MortimerContext";
 import messaging from '@react-native-firebase/messaging';
 
@@ -11,10 +11,11 @@ const mapImage = require('../../../assets/backgrounds/map_background.png');
 const swampIcon = require('../../../assets/icons/swampIcon.png');
 const homeIcon = require('../../../assets/icons/fixed/homeIcon.png');
 const towerIcon = require('../../../assets/icons/towerIcon.png');
-const schoolIcon =  require('../../../assets/icons/schoolIcon.png');
+const schoolIcon = require('../../../assets/icons/schoolIcon.png');
 const obituaryIcon = require('./../../../assets/icons/obituaryIcon.png');
-const exclamationIcon =  require('../../../assets/icons/exclamationIcon.png');
-
+const innIcon = require('../../../assets/icons/innIcon.png');
+const hollowIcon = require('../../../assets/icons/hollowIcon.png');
+const exclamationIcon = require('../../../assets/icons/exclamationIcon.png');
 
 const { width, height } = Dimensions.get('window');
 
@@ -68,7 +69,7 @@ const ExclamationButton = styled.TouchableOpacity`
 `;
 
 const MapScreenMortimer = () => {
-    
+
     const appContext = useContext(AppContext);
     const setLocation = appContext?.setLocation;
     const mortimerContext = useContext(MortimerContext);
@@ -77,6 +78,8 @@ const MapScreenMortimer = () => {
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
     const isMenuSwampLoaded = mortimerContext?.isMenuSwampLoaded;
     const isMenuObituaryLoaded = mortimerContext?.isMenuObituaryLoaded;
+    const isMenuInnLoaded = mortimerContext?.isMenuInnLoaded;
+    const isMenuHollowLoaded = mortimerContext?.isMenuHollowLoaded;
     const showAlertButton = mortimerContext?.showAlertButton;
     const areArtifactsValidated = appContext?.areArtifactsValidated;
 
@@ -89,119 +92,151 @@ const MapScreenMortimer = () => {
             isMenuTowerLoaded,
             isMenuOldSchoolLoaded,
             isMenuSwampLoaded
-    });
+        });
 
-    const navigateToMenu = () => {
-        switch (true) {
-            case isMenuLoaded:
-                setTimeout(() => {
-                    navigation.navigate('HOME');
-                }, 200);
-                break;
-            case isMenuTowerLoaded:
-                setTimeout(() => {
-                    navigation.navigate('TOWER');
-                }, 200);
-                break;
-            case isMenuOldSchoolLoaded:
-                setTimeout(() => {
-                    navigation.navigate('OLDSCHOOL');
-                }, 200);
-                break;
-            case isMenuSwampLoaded:
-                setTimeout(() => {
-                    navigation.navigate('SWAMP');
-                }, 200);
-                break;
-            case isMenuObituaryLoaded:
-                setTimeout(() => {
-                    navigation.navigate('OBITUARY');
-                }, 200);
-                break;
-            default:
-                break;
-        }
-    };
+        const navigateToMenu = () => {
+            switch (true) {
+                case isMenuLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOME');
+                    }, 200);
+                    break;
+                case isMenuTowerLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('TOWER');
+                    }, 200);
+                    break;
+                case isMenuOldSchoolLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('OLDSCHOOL');
+                    }, 200);
+                    break;
+                case isMenuSwampLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('SWAMP');
+                    }, 200);
+                    break;
+                case isMenuObituaryLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('OBITUARY');
+                    }, 200);
+                    break;
+                case isMenuInnLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('INN');
+                    }, 200);
+                    break;
+                case isMenuHollowLoaded:
+                    setTimeout(() => {
+                        navigation.navigate('HOLLOW');
+                    }, 200);
+                    break;
+                default:
+                    break;
+            }
+        };
 
-    navigateToMenu();
-    
-}, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded]);
+        navigateToMenu();
 
-    // Navigate to location when tapping notification but app is not closed
-    useEffect(() => {
+    }, [isMenuLoaded, isMenuTowerLoaded, isMenuOldSchoolLoaded, isMenuSwampLoaded, isMenuObituaryLoaded, isMenuInnLoaded, isMenuHollowLoaded]);
+
+       // Navigate to location when tapping notification but app is not closed
+       useEffect(() => {
         messaging().onNotificationOpenedApp(remoteMessage => {
-            if (remoteMessage.notification?.title === "Tower Entrance detected"){
+            if (remoteMessage.notification?.title === "Tower Entrance detected") {
                 setLocation('TOWER');
                 navigation.navigate('TOWER');
-            } else if (remoteMessage.notification?.title === "The acolytes call you, destiny awaits.")
+            } else if (remoteMessage.notification?.title === "Urgent: Your presence is needed immediately!")
                 setLocation('HALL');
-                navigation.navigate('HALL');
-    });
-
-    // Navigate to location when tapping notification but app is closed
-    messaging()
-        .getInitialNotification()
-        .then(remoteMessage => {
-            if (remoteMessage) {
-                switch(remoteMessage.notification?.title){
-                    case "Tower Entrance detected":
-                        setLocation('TOWER');
-                        navigation.navigate('TOWER');
-                    break;
-                    
-                    case "The acolytes call you, destiny awaits.":
-                        setLocation('HALL');
-                        navigation.navigate('HALL');
-                    break;
-                    default:
-                }
-            }
+            navigation.navigate('HALL');
         });
+  
+        // Navigate to location when tapping notification but app is closed
+        messaging()
+            .getInitialNotification()
+            .then(remoteMessage => {
+                if (remoteMessage) {
+                    switch (remoteMessage.notification?.title) {
+                        case "Tower Entrance detected":
+                            setLocation('TOWER');
+                            navigation.navigate('TOWER');
+                            break;
+  
+                        case "Urgent: Your presence is needed immediately!":
+                            setLocation('HALL');
+                            navigation.navigate('HALL');
+                            break;
+                        default:
+                    }
+                }
+            });
     }, []);
 
     const handleHomeIconPress = () => {
         setLocation('HOME');
-        if(isMenuLoaded){
+        if (isMenuLoaded) {
             navigation.navigate('HOME');
         }
-    }   
+    }
 
     const handleTowerIconPress = () => {
         setLocation('TOWER');
-        if(isMenuTowerLoaded){
+        if (isMenuTowerLoaded) {
             navigation.navigate('TOWER');
         }
-    }   
+    }
 
     const handleSchoolIconPress = () => {
         setLocation('OLDSCHOOL');
-        if(isMenuOldSchoolLoaded){
+        if (isMenuOldSchoolLoaded) {
             navigation.navigate('OLDSCHOOL');
         }
-    }   
+    }
 
     const handleSwampIconPress = () => {
         console.log("PRESSED SWAMP BUTTON IN MAP");
         console.log(isMenuSwampLoaded);
-        
+
         setLocation('SWAMP');
-        if(isMenuSwampLoaded){
+        if (isMenuSwampLoaded) {
             console.log("NAVIGATING TO SWAMP");
-            
+
             navigation.navigate('SWAMP');
         }
-    }   
+    }
 
     const handleObituaryIconPress = () => {
         console.log("PRESSED OBITUARY BUTTON IN MAP");
-        
+
         setLocation('OBITUARY');
-        if(isMenuObituaryLoaded){
+        if (isMenuObituaryLoaded) {
             console.log("NAVIGATING TO OBITUARY");
-            
+
             navigation.navigate('OBITUARY');
         }
-    }   
+    }
+
+    const handleInnIconPress = () => {
+        console.log("PRESSED INN BUTTON IN MAP");
+
+        setLocation('INN');
+        if (isMenuInnLoaded) {
+            console.log("NAVIGATING TO INN");
+
+            navigation.navigate('INN');
+        }
+    }
+
+    const handleHollowIconPress = () => {
+        console.log("PRESSED HOLLOW BUTTON IN MAP");
+
+        setLocation('HOLLOW');
+        if (isMenuHollowLoaded) {
+            console.log("NAVIGATING TO HOLLOW");
+
+            navigation.navigate('HOLLOW');
+        }
+    }
 
     const handleAlertButtonPress = () => {
         console.log('Botón de alerta presionado');
@@ -228,12 +263,12 @@ const MapScreenMortimer = () => {
             <IconContainer style={{ top: height * 0.50, right: width * 0.50 }}>
                 <IconText>School</IconText>
                 <TouchableIcon onPress={handleSchoolIconPress}>
-                    
-                {showAlertButton && (
-                <ExclamationButton onPress={handleAlertButtonPress}>
-                    <ExclamationImage source={exclamationIcon} />
-                </ExclamationButton>
-                )}
+
+                    {showAlertButton && (
+                        <ExclamationButton onPress={handleAlertButtonPress}>
+                            <ExclamationImage source={exclamationIcon} />
+                        </ExclamationButton>
+                    )}
                     <Icon source={schoolIcon} />
                 </TouchableIcon>
             </IconContainer>
@@ -245,15 +280,29 @@ const MapScreenMortimer = () => {
                 </TouchableIcon>
             </IconContainer>
 
-            { areArtifactsValidated ? (
-                <IconContainer style={{ top: height * 0.13, right: width * 0.28}}>
+            <IconContainer style={{ top: height * 0.34, right: width * 0.40 }}>
+                <IconText>Inn of the forgotten</IconText>
+                <TouchableIcon onPress={handleInnIconPress}>
+                    <Icon source={innIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            <IconContainer style={{ top: height * 0.17, right: width * 0.70 }}>
+                <IconText>Hollow</IconText>
+                <TouchableIcon onPress={handleHollowIconPress}>
+                    <Icon source={hollowIcon} />
+                </TouchableIcon>
+            </IconContainer>
+
+            {areArtifactsValidated ? (
+                <IconContainer style={{ top: height * 0.13, right: width * 0.28 }}>
                     <IconText>Obituary</IconText>
                     <TouchableIcon onPress={handleObituaryIconPress}>
-                        <Icon source={obituaryIcon}/>
+                        <Icon source={obituaryIcon} />
                     </TouchableIcon>
                 </IconContainer>
             ) : null}
-            
+
         </Container>
     );
 }
