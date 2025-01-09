@@ -6,6 +6,7 @@ import { Text, Vibration } from 'react-native';
 import AppContext from "../helpers/context";
 import VillainScreens from "./villainScreen/VillainScreens";
 import Artifact from "../interfaces/ArtifactsInterface";
+import { Player } from "../interfaces/contextInterface";
 
 interface updateTowerEvent {
     playerId: string;
@@ -96,7 +97,16 @@ const MainScreens = () => {
             })
         
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-        });      
+        });
+        
+        socket.on('updateAll', (updatePlayer : Player) => {
+            const updatedPlayers = players.map(player =>
+                player._id === updatePlayer._id ? updatePlayer : player
+            );
+            
+            setPlayers?.(updatedPlayers);
+        });
+
     }, []);
 
 
