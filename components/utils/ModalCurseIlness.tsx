@@ -1,9 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, Text } from "react-native";
+import { Dimensions, Modal, Text, ScrollView } from "react-native";
 import AppContext from "../../helpers/context";
 import styled from "styled-components/native";
 
 const { width } = Dimensions.get("screen");
+
+const tiredBackground = require('./../../assets/backgrounds/tiredBackground.png');
+const putridBackground = require('./../../assets/backgrounds/sickBackground.png');
+const medularBackground = require('./../../assets/backgrounds/crazyBackground.png');
+const weaknessBackground = require('./../../assets/backgrounds/epicWeaknessBackground.png');
+const ethaziumBackground = require('./../../assets/backgrounds/ethaziumBackground.png');
 
 // Define un tipo para las claves de los atributos
 type AttributeKey =
@@ -22,10 +28,10 @@ const ModalCurseIllness: React.FC = () => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        if(player?.ethazium || player?.epicWeakness || player?.medularApocalypse || player?.putridPlague || player?.attributes.resistence! <= 30){
+        if (player?.ethazium || player?.epicWeakness || player?.medularApocalypse || player?.putridPlague || player?.attributes.resistence! <= 30) {
             setVisible(true)
         }
-        
+
     }, [player]);
 
     const calculateBarWidth = (attribute: number, modifiedAttribute?: number, key?: AttributeKey): number => {
@@ -47,7 +53,7 @@ const ModalCurseIllness: React.FC = () => {
             return ["intelligence"];
         } else if (player?.medularApocalypse) {
             return ["constitution"];
-        } else if(player?.attributes.resistence! <= 30){
+        } else if (player?.attributes.resistence! <= 30) {
             return ["resistence"];
         }
         return [];
@@ -63,9 +69,23 @@ const ModalCurseIllness: React.FC = () => {
         return null;
     };
 
+    const getBackgroundImage = () => {
+        if (player?.epicWeakness) return weaknessBackground;
+        if (player?.putridPlague) return putridBackground;
+        if (player?.medularApocalypse) return medularBackground;
+        if (player?.ethazium) return ethaziumBackground;
+        if (player?.attributes.resistence! <= 30) return tiredBackground;
+        return null;
+    };
+
+    const capitalizeFirstLetter = (str: string): string => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
+
     return (
         <Modal animationType="fade" transparent={true} visible={visible}>
-            <ModalBackground>
+            <ModalBackground source={getBackgroundImage()}>
                 <ModalContainer>
                     {player && (
                         <>
@@ -78,29 +98,31 @@ const ModalCurseIllness: React.FC = () => {
                             )}
 
                             {/* Display the filtered attributes */}
-                            {getFilteredAttributes().map((key) => (
-                                <AttributeBarContainer key={key}>
-                                    <AttributeLabel>{key}</AttributeLabel>
-                                    <BarBackground>
-                                        <BarForeground
-                                            style={{
-                                                width: `${calculateBarWidth(
-                                                    player.attributes[key],
-                                                    player.modifiedAttributes[key],
-                                                    key
-                                                )}%`,
-                                            }}
-                                        />
-                                    </BarBackground>
-                                    <AttributeValues>
-                                        {key === "resistence"
-                                            ? `${player.attributes[key]} / 100` // Custom display for resistence
-                                            : player.modifiedAttributes[key] !== undefined
-                                            ? `${player.modifiedAttributes[key]} / ${player.attributes[key]}`
-                                            : `- / ${player.attributes[key]}`}
-                                    </AttributeValues>
-                                </AttributeBarContainer>
-                            ))}
+                            <ScrollView style={{ width: "100%" }} contentContainerStyle={{ alignItems: "center" }}>
+                                {getFilteredAttributes().map((key) => (
+                                    <AttributeBarContainer key={key}>
+                                        <AttributeLabel>{capitalizeFirstLetter(key)}</AttributeLabel>
+                                        <BarBackground>
+                                            <BarForeground
+                                                style={{
+                                                    width: `${calculateBarWidth(
+                                                        player.attributes[key],
+                                                        player.modifiedAttributes[key],
+                                                        key
+                                                    )}%`,
+                                                }}
+                                            />
+                                        </BarBackground>
+                                        <AttributeValues>
+                                            {key === "resistence"
+                                                ? `${player.attributes[key]} / 100`
+                                                : player.modifiedAttributes[key] !== undefined
+                                                    ? `${player.modifiedAttributes[key]} / ${player.attributes[key]}`
+                                                    : `- / ${player.attributes[key]}`}
+                                        </AttributeValues>
+                                    </AttributeBarContainer>
+                                ))}
+                            </ScrollView>
                         </>
                     )}
                 </ModalContainer>
@@ -112,7 +134,7 @@ const ModalCurseIllness: React.FC = () => {
 export default ModalCurseIllness;
 
 // Styled components (sin cambios)
-const ModalBackground = styled.View`
+const ModalBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -120,10 +142,10 @@ const ModalBackground = styled.View`
 `;
 
 const ModalContainer = styled.View`
-    width: ${width * 0.8}px;
+    width: ${width * 1}px;
+    height: 100%;
     padding: 20px;
-    background-color: #222;
-    border-radius: 10px;
+    background-color: rgba(0,0,0,0.8);
     align-items: center;
 `;
 
@@ -155,7 +177,7 @@ const AttributeBarContainer = styled.View`
 `;
 
 const AttributeLabel = styled.Text`
-    font-size: ${width * 0.06}px;
+    font-size: ${width * 0.07}px;
     color: white;
     margin-bottom: 2px;
     font-family: 'KochAltschrift';
