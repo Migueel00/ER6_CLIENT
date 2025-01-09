@@ -1,0 +1,244 @@
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, Vibration} from 'react-native';
+import styled from 'styled-components/native';
+import AppContext from '../../../helpers/context';
+import Cauldron from '../../potions/cauldron';
+import Ingredient from '../../potions/ingredient';
+import Potion from '../../potions/potion';
+import FilterModal from '../../shared/PotionCreator/FilterModal';
+import PotionModal from '../../shared/PotionCreator/components/PotionModal';
+import FlatListIngredients from '../../shared/PotionCreator/components/FlatListIngredients';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Octicons from "react-native-vector-icons/Octicons";
+import HelpModal from '../../shared/PotionCreator/HelpModal';
+import RecipeModal from '../../shared/PotionCreator/RecipeModal';
+import FlatListCurses from './FlatListCurses';
+
+const backgroundImageURL = require('./../../../assets/backgrounds/potionCreationBG.png');
+const defaultPotionImage = require('../../../assets/png/ingredients.jpeg');
+const goBackImage = require('../../../assets/icons/back-arrow.png');
+const createPotionImage = require('../../../assets/icons/darkButton2.png');
+const gridImage = require('../../../assets/png/gridImage.jpeg');
+const { width, height } = Dimensions.get('window');
+const filterIcon = require('./../../../assets/icons/magnifyingGlassIcon.png');  // Añade la ruta de tu icono
+const recipeBookIcon = require('./../../../assets/icons/bookIcon.png')
+const questionMarkIcon = require('./../../../assets/icons/questionMarkIcon.png')
+const kaotikaApiUrl = 'https://kaotika.vercel.app'
+
+const ITEM_SIZE = width * 0.60;
+
+const CONSTANTS = {
+    ITEM_SIZE,
+    SPACING: 10,
+    WIDTH: width,
+    SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
+    HEIGHT: height,
+    BUTTON_SPACING: 0.01,
+    BUTTON_RIGHT: 0.05
+};
+
+const IllnessScreen = () => {
+    const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
+    const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
+    const context = useContext(AppContext);
+    const [potionFactory, setPotionFactory] = useState<Cauldron | null>();
+    const [curses, setCurses] = useState(require('../../../fakedata/fake-curses.json'));
+
+    const [createdPotion, setCreatedPotion] = useState<Potion | null>();
+    const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [ingredientsCopy, setIngredientCopy] = useState<Ingredient[] | any>(context?.ingredients || []);
+    const [potionModalVisible, setPotionModalVisible] = useState(false);
+    const [showBackButton, setShowBackButton] = useState(false);
+    const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
+    const [filterBooleans, setFilterBooleans] = useState<boolean[]>([]);
+    const [helpModalVisible, setHelpModalVisible] = useState<boolean>(false);
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
+    const [recipeModalVisible, setRecipeModalVisible] = useState<boolean>(false);
+    const [createText, setCreateText] = useState<string>("Create Potion of Purification");
+    const [showNotFoundText, setShowNotFoundText] = useState<boolean>(false);
+    const parchmentState = context?.parchment;
+    const towerIngredientsState = context?.tower_ingredients;
+
+    const toggleModal = () => {
+        console.log("ENTRA A TOGGLE MODAL");
+        
+        setPotionModalVisible(!potionModalVisible);
+        setSelectedIngredientArray([]); 
+    };
+
+    useEffect(() => {
+        if (!potionFactory) {
+            setPotionFactory(new Cauldron(ingredients, curses.data));
+        }
+ 
+        const formattedCurses = Array.isArray(curses.data) ? curses.data : [];
+        
+        console.log('FORMATED CURSES', formattedCurses);
+
+        setCurses([{ key: 'left-spacer' }, ...formattedCurses, { key: 'right-spacer' }]);
+
+        
+    }, []);
+
+    const handlePressFilter = () => {
+        setFilterModalVisible(true);
+    }
+
+    const handlePressHelp = () => {
+        setHelpModalVisible(true);
+    }
+
+    const handlePressRecipe = () => {
+        setRecipeModalVisible(true);
+    }
+
+    const handleLongPress = (ingredient: Ingredient) => {
+        
+        if (selectedIngredientArray.length < 4) {
+            ToastAndroid.show(ingredient.name + " added", ToastAndroid.SHORT);
+            Vibration.vibrate(100); 
+            // Preguntar si esta linea es realmente necesaria??
+            // <FlatListIngredients ingredients={ingredients} handleLongPress={handleLongPress}/>
+            console.log("Ingrediente seleccionado");
+            setSelectedIngredientArray(prev => [...prev, ingredient]);
+        }
+        else {
+            Vibration.vibrate(100);
+            console.log("Maximo de ingredientes añadidos");
+            ToastAndroid.show("Maximum ingredients", ToastAndroid.SHORT);
+        }
+    }
+
+    useEffect(() => {
+        //Apareceran los botones si se cumple
+        setShowBackButton(selectedIngredientArray.length >= 1);
+    }, [selectedIngredientArray]);
+
+    const gridItems = Array.from({ length: 4 }, (_, index) => {
+        return selectedIngredientArray[index] || null; // Asignamos un objeto del inventario o null si no hay
+    });
+
+    return (
+        <Container>
+
+            <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
+                {/* Flalist de los ingredientes */}
+                <FlatListCurses curses={curses} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText}/>
+                <FilterButton onPress={handlePressFilter}>
+                    <IconImage source={filterIcon}></IconImage>
+                </FilterButton>
+                <HelpButton onPress={handlePressHelp}>
+                    <IconImage source={questionMarkIcon}></IconImage>
+                </HelpButton>
+                <RecipeButton onPress={handlePressRecipe}>
+                    <IconImage source={recipeBookIcon}></IconImage>
+                </RecipeButton>
+                {selectedIngredient.name && (  //Si existe el nombre de la pocion se imprimira el nombre y el efecto
+                    <IngredientInfoContainer>
+                        <IngredientName numberOfLines={2}>{selectedIngredient.name}</IngredientName>
+                        <IngredientEffects numberOfLines={3}>{selectedIngredient.effects}</IngredientEffects>
+                    </IngredientInfoContainer>
+                )}
+
+              
+                
+            </ImageBackground>
+        </Container>
+    );
+};
+
+//STYLED COMPONENTS
+
+const Container = styled.View`
+    flex: 1;
+    padding-bottom: 50px;
+`
+
+const IngredientInfoContainer = styled.View`
+    position: absolute;
+    top: ${height / 2 - 200}px; /* Ajusta esta posición según sea necesario */
+    left: ${width / 2 - (width * 0.40) / 2}px;
+    width: ${CONSTANTS.ITEM_SIZE}px;
+    align-items: center;
+`;
+
+const IngredientName = styled.Text`
+    font-size: ${width * 0.08}px;
+    font-family: 'KochAltschrift';
+    color: #FFF;
+    text-align: center;
+    margin-bottom: ${height * 0.01}px;
+`;
+
+const IngredientEffects = styled.Text`
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
+    color: #FFF;
+    text-align: center;
+    margin-top: ${height * 0.005}px;
+`;
+
+
+const styles = StyleSheet.create({
+    backgroundImage: {
+        width: width,
+        height: height,
+        justifyContent: 'flex-start'
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+    permissionButton: {
+        padding: 10,
+        borderRadius: 5,
+    },
+});
+
+const FilterButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    right: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
+`;
+
+const HelpButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    left: ${CONSTANTS.BUTTON_RIGHT * CONSTANTS.WIDTH}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px;
+
+
+`;
+
+const RecipeButton = styled.TouchableOpacity`
+    position: absolute;
+    top: ${CONSTANTS.BUTTON_SPACING * CONSTANTS.HEIGHT}px;
+    left: ${CONSTANTS.WIDTH * 0.43}px;
+    align-items: center;
+    justify-content: center;
+    width: ${CONSTANTS.WIDTH * 0.17}px;
+    height: ${CONSTANTS.WIDTH * 0.17}px; 
+
+
+`;
+
+const IconImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: transparent;
+`;
+
+
+export default IllnessScreen;
