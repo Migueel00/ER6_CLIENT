@@ -78,6 +78,7 @@ const Avatar = styled.Image`
 `;
 
 const background = require('../../assets/backgrounds/inn.png');
+const angeloAvatar = require('../../assets/icons/angelo.png');
 
 const MessageContainer = styled(Animated.View)`
     position: absolute;
@@ -231,7 +232,7 @@ const InnScreen = () => {
             {showAngelo && angelo?.avatar && (
                 <AvatarWrapper>
                     <TouchableOpacity onPress={handleAngeloPress}>
-                        <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
+                        <Avatar source={angeloAvatar} />
                     </TouchableOpacity>
                 </AvatarWrapper>
             )}

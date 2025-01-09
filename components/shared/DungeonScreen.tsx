@@ -60,6 +60,7 @@ const Avatar = styled.Image`
 `;
 
 const background = require('../../assets/backgrounds/dungeon.png');
+const angeloAvatar = require('../../assets/icons/angelo.png');
 
 const DungeonScreen = () => {
     const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -85,11 +86,6 @@ const DungeonScreen = () => {
         navigation.navigate('OLDSCHOOL');
     };
 
-    const handleAngeloPress = () => {
-        console.log("Angelo clicked!");
-        setShowAngelo(false);
-    };
-
     return (
         <CustomBackground source={background}>
 
@@ -99,9 +95,7 @@ const DungeonScreen = () => {
 
             {showAngelo && angelo?.avatar && (
                 <AvatarWrapper>
-                    <TouchableOpacity onPress={handleAngeloPress}>
-                        <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
-                    </TouchableOpacity>
+                    <Avatar source={angeloAvatar} />
                 </AvatarWrapper>
             )}
         </CustomBackground>
