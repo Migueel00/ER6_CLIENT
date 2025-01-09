@@ -107,7 +107,7 @@ const InnScreen = () => {
     const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
     const [showAngelo, setShowAngelo] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
-    const [fadeAnim] = useState(new Animated.Value(0));  // Opacity inicial en 0
+    const [fadeAnim] = useState(new Animated.Value(0));
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { TouchableOpacity, Dimensions, Animated } from 'react-native';
 import AppContext from '../../helpers/context';
 import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
@@ -33,6 +33,8 @@ const InsideHall = () => {
   const [isAcolyteWaitingArrest, setIsAcolyteWaitingArrest] = useState(false);
   const [showArtifacts, setShowArtifacts] = useState(false);
   const [showArrestAngelo, setShowArrestAngelo] = useState(false);
+  const [showAngeloArrested, setShowAngeloArrested] = useState(false);
+  const [fadeAnim] = useState(new Animated.Value(0));
   const [retrievedArtifacts, setRetrievedArtifacts] = useState<Artifact[]>([]);
   const areArtifactsValidated = appContext?.areArtifactsValidated;
 
@@ -49,6 +51,23 @@ const InsideHall = () => {
 
       setPlayers(updatedPlayers);
       setIsAcolyteWaitingArrest(false);
+
+      setShowAngeloArrested(true);
+
+      // Message animation
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+
+      setTimeout(() => {
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }, 2000);
     });
 
     return () => {
@@ -292,6 +311,13 @@ const InsideHall = () => {
       <StyledButton onPress={handleExitHall}>
         <StyledButtonText>Exit from the Hall</StyledButtonText>
       </StyledButton>
+
+      {showAngeloArrested && (
+        <MessageContainer style={{ opacity: fadeAnim }}>
+          <MessageText>Angelo has been arrested!</MessageText>
+        </MessageContainer>
+      )}
+
     </InsideHallBackground>
   );
 };
@@ -398,5 +424,22 @@ const ShowArtifactsText = styled.Text`
     font-size: ${width * 0.08}px;
     font-family: 'KochAltschrift';
 `;
+
+const MessageContainer = styled(Animated.View)`
+    position: absolute;
+    top: 20%;
+    padding: ${height * 0.02}px;
+    border-radius: ${width * 0.05}px;
+    width: 80%;
+    align-items: center;
+`;
+
+const MessageText = styled.Text`
+    font-size: ${width * 0.1}px;
+    color: red;
+    font-family: KochAltschrift;
+    text-align: center;
+`;
+
 
 export default InsideHall;
