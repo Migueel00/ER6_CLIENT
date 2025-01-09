@@ -1,9 +1,10 @@
 import { Dimensions } from "react-native"
 import styled from "styled-components/native"
 import * as CONSTANTS from "../../../src/constants";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Ingredient from "../../potions/ingredient";
 import FilterOption from "./components/FilterOption";
+import AppContext from "../../../helpers/context";
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,7 +22,7 @@ interface FilterModalProps {
 interface filters {
     func: () => void,
     name: string,
-    selected: boolean 
+    selected: boolean
 }
 
 const ModalContainer = styled.View`
@@ -91,7 +92,7 @@ const ColumnContainer2 = styled.View`
 
 
 
-const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy, setShowNotFoundText}) => {
+const FilterModal: React.FC<FilterModalProps> = ({ closeModal, ingredients, setIngredients, filterBooleans, setFilterBooleans, setIngredientsCopy, ingredientsCopy, setShowNotFoundText }) => {
     const [isHpSelected, setIsHpSelected] = useState<boolean>(false);
     const [isLeastSelected, setIsLeastSelected] = useState<boolean>(false);
     const [isIntSelected, setIsIntSelected] = useState<boolean>(false);
@@ -107,7 +108,10 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const [isCleanseSelected, setIsCleanseSelected] = useState<boolean>(false);
     const [filters, setFilters] = useState<string[]>([]);
 
-    const filtersBoolean : boolean[] = [
+    const appContext = useContext(AppContext);
+    const player = appContext?.player;
+
+    const filtersBoolean: boolean[] = [
         isHpSelected,
         isLeastSelected,
         isIntSelected,
@@ -123,7 +127,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         isCleanseSelected,
 
     ];
-    
+
     const filterSetters: ((value: boolean) => void)[] = [
         setIsHpSelected,
         setIsLeastSelected,
@@ -157,9 +161,9 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     }
 
     useEffect(() => {
-        if(filterBooleans.length > 0) filterSetters.map((filterSetter, index) => filterSetter(filterBooleans[index]));
-        
-    }, [filterBooleans]); 
+        if (filterBooleans.length > 0) filterSetters.map((filterSetter, index) => filterSetter(filterBooleans[index]));
+
+    }, [filterBooleans]);
 
     const clearAllFilters = () => {
         filterSetters.map(filterSetter => filterSetter(false));
@@ -170,22 +174,22 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
     const handleApplyFilters = () => {
         setFilterBooleans(filtersBoolean);
 
-        const filtersString : string[] =  [];7
+        const filtersString: string[] = []; 7
 
         console.log(filtersString);
 
         // Arrays para los strings de atributos y rareza
-        const attributeFilterString: string[] = []; 
+        const attributeFilterString: string[] = [];
         const rarityFilterString: string[] = [];
 
-        for(let i = 0; i < filtersBoolean.length; i++){
+        for (let i = 0; i < filtersBoolean.length; i++) {
             const filterBoolean = filtersBoolean[i];
 
-            switch(i){
+            switch (i) {
                 case CONSTANTS.IS_HP:
                     filterBoolean ? attributeFilterString.push('hit_points') : filterBoolean;
                     break;
-                    
+
                 case CONSTANTS.IS_LEAST:
                     filterBoolean ? rarityFilterString.push('least') : filterBoolean;
                     break;
@@ -240,47 +244,51 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             }
         }
 
-
-        
         //console.log(filtersString);
         setFilters(filtersString);
 
         //console.log(attributeFilterString);
-        console.log("RARITY FILTERS:");    
+        console.log("RARITY FILTERS:");
         console.log(rarityFilterString);
-        
+
 
         // COMBINE FILTERS
         const filteredIngredients = ingredients.filter(ingredient => {
             if (!Array.isArray(ingredient.effects)) {
                 return false; // Aseguramos que effects sea un array
             }
-        
+
             // VERIFY ATTRIBUTE MATCHING
-            const matchesAttribute = attributeFilterString.length > 0 && 
-                attributeFilterString.some(attrFilter => 
+            const matchesAttribute = attributeFilterString.length > 0 &&
+                attributeFilterString.some(attrFilter =>
                     ingredient.effects.some(effect => effect.includes(attrFilter))
                 );
-        
+
             // VERIFY RARITYS MATCHING
             const matchesRarity = rarityFilterString.length > 0 &&
                 rarityFilterString.some(rarityFilter => {
                     if (rarityFilter === "default") {
                         //DEFAULT FILTER LOGIC
-                        return ingredient.effects.some(effect => 
-                            !effect.startsWith("least") && 
-                            !effect.startsWith("lesser") && 
+                        return ingredient.effects.some(effect =>
+                            !effect.startsWith("least") &&
+                            !effect.startsWith("lesser") &&
                             !effect.startsWith("greater")
                         );
                     } else {
                         // Lógica estándar para rarezas (least, lesser, greater)
                         return ingredient.effects.some(effect => effect.includes(rarityFilter));
                     }
-            });
-        
-            // Devuelve ingredientes que cumplen al menos uno de los filtros
+                });
 
-            if(attributeFilterString.length > 0 && rarityFilterString.length > 0){
+            if (player?.isBetrayer) {
+                const betrayerEffects = ["damage", "decrease", "setBack", "frenzy"];
+                return ingredient.effects.some((effect) =>
+                    betrayerEffects.some((betrayerEffect) => effect.includes(betrayerEffect))
+                );
+            }
+
+            // Devuelve ingredientes que cumplen al menos uno de los filtros
+            if (attributeFilterString.length > 0 && rarityFilterString.length > 0) {
                 return matchesAttribute && matchesRarity;
             }
             return matchesAttribute || matchesRarity;
@@ -288,16 +296,14 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
 
         console.log("FILTERED INGREDIENTS");
         console.log(filteredIngredients);
-        
-        
 
         // Si hay filtros aplicados, se actualiza la lista de ingredientes filtrados
         if (filteredIngredients.length > 0 && (rarityFilterString.length > 0 || attributeFilterString.length > 0)) {
             console.log("FILTERS APPLIED AND RESULTS");
-            
+
             setShowNotFoundText(false);
             setIngredientsCopy([{ key: 'left-spacer' }, ...filteredIngredients, { key: 'right-spacer' }]);
-        } else if (filteredIngredients.length === 0 && rarityFilterString.length > 0 || attributeFilterString.length > 0){
+        } else if (filteredIngredients.length === 0 && rarityFilterString.length > 0 || attributeFilterString.length > 0) {
             // Si no hay filtros aplicados o no hay resultados, se muestra la lista completa
             console.log("FILTERS APPLIED BUT NO RESULTS");
             setShowNotFoundText(true);
@@ -306,13 +312,12 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
             console.log("NO INGREDIENTS AND NO FILTERS");
             console.log("INGREDIENTS BASE");
             console.log(ingredients);
-            
-            
+
             setShowNotFoundText(false);
             setIngredientsCopy(ingredients);
         }
-        
-        closeModal();  
+
+        closeModal();
     }
 
     const filtersColumn: filters[] = [
@@ -328,7 +333,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         },
         {
             func: () => setIsConstitutionSelected(prevState => !prevState),
-            name : 'CONS',
+            name: 'CONS',
             selected: isConstitutionSelected
         },
         {
@@ -338,7 +343,7 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         },
         {
             func: () => setIsCharismaSelected(prevState => !prevState),
-            name : "CHA",
+            name: "CHA",
             selected: isCharismaSelected
         },
         {
@@ -348,41 +353,41 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         }
     ];
 
-    const filtersColumn2 : filters[] = [{
-            func: () => setIsLeastSelected(prevState => !prevState),
-            name: 'LEAST',
-            selected: isLeastSelected
-        },
-        {
-            func: () => setIsLesserSelected(prevState => !prevState),
-            name: 'LESSER',
-            selected: isLesserSelected
-        },
-        {
-            func: () => setIsDefaultSelected(prevState => !prevState),
-            name: 'NORMAL',
-            selected: isDefaultSelected
-        },
-        {
-            func: () => setIsGreaterSelected(prevState => !prevState),
-            name: 'GREATER',
-            selected: isGreaterSelected
-        },
-        {
-            func: () => setIsCalmSelected(prevState => !prevState),
-            name: 'CALM',
-            selected: isCalmSelected
-        },
-        {
-            func: () => setIsFrenzySelected(prevState => !prevState),
-            name: 'FRENZY',
-            selected: isFrenzySelected
-        },
-        {
-            func: () => setIsCleanseSelected(prevState => !prevState),
-            name: 'RARE',
-            selected: isCleanseSelected
-        }   
+    const filtersColumn2: filters[] = [{
+        func: () => setIsLeastSelected(prevState => !prevState),
+        name: 'LEAST',
+        selected: isLeastSelected
+    },
+    {
+        func: () => setIsLesserSelected(prevState => !prevState),
+        name: 'LESSER',
+        selected: isLesserSelected
+    },
+    {
+        func: () => setIsDefaultSelected(prevState => !prevState),
+        name: 'NORMAL',
+        selected: isDefaultSelected
+    },
+    {
+        func: () => setIsGreaterSelected(prevState => !prevState),
+        name: 'GREATER',
+        selected: isGreaterSelected
+    },
+    {
+        func: () => setIsCalmSelected(prevState => !prevState),
+        name: 'CALM',
+        selected: isCalmSelected
+    },
+    {
+        func: () => setIsFrenzySelected(prevState => !prevState),
+        name: 'FRENZY',
+        selected: isFrenzySelected
+    },
+    {
+        func: () => setIsCleanseSelected(prevState => !prevState),
+        name: 'RARE',
+        selected: isCleanseSelected
+    }
 
     ];
 
@@ -390,24 +395,24 @@ const FilterModal : React.FC<FilterModalProps>  = ({ closeModal, ingredients, se
         <ModalContainer>
             <FilterContainer>
                 <FilterTitle>Filters</FilterTitle>
-                
+
                 {/* Contenedor que agrupa las dos columnas */}
                 <FilterOptionsContainer>
 
                     {/* Columna izquierda (atributos) */}
                     <ColumnContainer>
-                        { filtersColumn.map(filter => 
-                            <FilterOption 
+                        {filtersColumn.map(filter =>
+                            <FilterOption
                                 selected={filter.selected}
                                 name={filter.name}
                                 func={filter.func}
                             />
-                        )} 
+                        )}
                     </ColumnContainer>
 
                     {/* Columna derecha (rareza) */}
                     <ColumnContainer2>
-                        { filtersColumn2.map(filter => 
+                        {filtersColumn2.map(filter =>
                             <FilterOption
                                 selected={filter.selected}
                                 name={filter.name}
