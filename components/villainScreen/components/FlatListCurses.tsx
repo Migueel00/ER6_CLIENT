@@ -102,14 +102,14 @@ const FlatListCurses : React.FC<FlatListCurses> = ({ curses, handleLongPress, sh
 
                     return(
                         <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
-                            <IngredientContainer>
-                                <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <IngredientName>{item.name}</IngredientName>
-                                    <IngredientImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
+                            <CurseContainer>
+                                <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                    <CurseName>{item.name}</CurseName>
+                                    <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
 
-                                    {/* <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects> */}
-                                </IngredientItem>
-                            </IngredientContainer>
+                                    {/* <CurseEffects>{formatEffects(item.effects)}</CurseEffects> */}
+                                </CurseItem>
+                            </CurseContainer>
                         </TouchableWithoutFeedback>
                     )
                 }}
@@ -130,12 +130,13 @@ const DummyContainer = styled.View`
     width: ${CONSTANTS.SPACER_ITEM_SIZE}px;
 `;
 
-const IngredientContainer = styled.View`
+
+const CurseContainer = styled.View`
     width: ${CONSTANTS.ITEM_SIZE}px;
     margin-top: ${height * - 0.10}px;
 `;
 
-const IngredientName = styled.Text`
+const CurseName = styled.Text`
     font-size: ${width * 0.08}px;
     font-family: 'KochAltschrift';
     color: #FFF;
@@ -143,7 +144,7 @@ const IngredientName = styled.Text`
     margin-bottom: ${height * 0.01}px;
 `;
 
-const IngredientImage = styled.Image`
+const CurseImage = styled.Image`
     width: ${CONSTANTS.ITEM_SIZE * 0.60}px;
     height: ${CONSTANTS.ITEM_SIZE * 0.60}px;
     resize-mode: cover;
@@ -152,7 +153,7 @@ const IngredientImage = styled.Image`
     border-radius: ${width * 0.02}px;
 `;
 
-const IngredientEffects = styled.Text`
+const CurseEffects = styled.Text`
     font-size: ${width * 0.06}px;
     font-family: 'KochAltschrift';
     color: #FFF;
@@ -160,7 +161,7 @@ const IngredientEffects = styled.Text`
     margin-top: ${height * 0.005}px;
 `;
 
-const IngredientItem = styled.View`
+const CurseItem = styled.View`
     margin-horizontal: ${CONSTANTS.SPACING}px;
     padding: ${CONSTANTS.SPACING}px;
     align-items: center;
