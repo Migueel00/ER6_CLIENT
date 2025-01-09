@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import Curse from "../../potions/curse";
 import { Dimensions } from "react-native";
 import AppContext from "../../../helpers/context";
+import { patchPlayerWithUserID } from "../../../src/API/get&post";
+import LoadCurseSpinner from "../../utils/loadCurseSpinner";
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,12 +19,50 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
 
   const appContext = useContext(AppContext);
   const players = appContext?.players;
+  const setPlayers = appContext?.setPlayers;
+  const [applyingCurse, setApplyingCurse] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  
 
   const acolytePlayers = players?.filter(player => player.role === 'ACOLYTE');
 
-  const handleSquarePress = (playerId: string) => {
-    // Aquí puedes agregar la lógica de lo que pasa cuando presionas el cuadrado
-    console.log(`Square pressed for player with ID: ${playerId}`);
+  const handleSquarePress = async (player: any, curse: Curse) => {
+
+    try {
+      setApplyingCurse(true);
+      // Aquí puedes agregar la lógica de lo que pasa cuando presionas el cuadrado
+
+      const curseExists = player.curses.some((c: Curse) => c.name === curse.name);
+
+      if (curseExists) {
+        setErrorMessage(`The player "${player.nickname}" already has this curse applied.`);
+        console.log(`The curse "${curse.name}" is already applied to the player.`);
+        setApplyingCurse(false);
+        return;
+      }
+
+      console.log(`Square pressed for player with ID: ${player._id} and applied the ${curse.name} curse`);
+
+      const updatedCurses = [...player.curses, curse];
+
+      const patchJSON = {
+        curses: updatedCurses,
+      };
+
+      const updatedPlayer = await patchPlayerWithUserID(player._id, patchJSON);
+
+      //console.log(updatedPlayer);
+      
+      const newPlayers = players?.map(player => player._id === updatedPlayer._id ? updatedPlayer : player);
+
+      setPlayers(newPlayers);
+
+      setApplyingCurse(false);
+    } catch (error) {
+      console.error('Error handling square press:', error);
+    }
+
+
   };
 
   return (
@@ -32,35 +72,57 @@ const ApplyCurseModal: React.FC<ApplyCurseModalProps> = ({ visible, onClose, cur
       visible={visible}
       onRequestClose={onClose}
     >
-      <ModalContainer>
-        <ModalContent>
-          <ModalTitle>Apply {curse?.name}</ModalTitle>
+      {applyingCurse ? (
+        <LoadCurseSpinner SpinnerText="Applying curse..." />
+      ) : (
+        <ModalContainer>
+          <ModalContent>
+            <ModalTitle>Apply {curse?.name}</ModalTitle>
 
-          {acolytePlayers && acolytePlayers.length > 0 && (
-            <PlayersList>
-              {acolytePlayers.map((player, index) => (
-                <React.Fragment key={player.id}>
-                  <PlayerRow>
-                    <PlayerText>{player.nickname}</PlayerText>
-                    {/* Cuadrado pulsable alineado a la derecha */}
-                    <TouchableOpacity onPress={() => handleSquarePress(player._id)}>
-                      <Square />
-                    </TouchableOpacity>
-                  </PlayerRow>
-                  {/* Mostrar el separador solo si no es el último jugador */}
-                  {index < acolytePlayers.length - 1 && <Separator/>}
-                </React.Fragment>
-              ))}
-            </PlayersList>
-          )}
+            {acolytePlayers && acolytePlayers.length > 0 && (
+              <PlayersList>
+                {acolytePlayers.map((player, index) => (
+                  <React.Fragment key={player.id}>
+                    <PlayerRow>
+                      <PlayerText>{player.nickname}</PlayerText>
+                      <TouchableOpacity onPress={() => handleSquarePress(player, curse!)}>
+                        <Square />
+                      </TouchableOpacity>
+                    </PlayerRow>
+                    {index < acolytePlayers.length - 1 && <Separator />}
+                  </React.Fragment>
+                ))}
+              </PlayersList>
+            )}
 
-          <CloseButton onPress={onClose}>
-            <CloseButtonText>Close</CloseButtonText>
-          </CloseButton>
-        </ModalContent>
-      </ModalContainer>
+            <CloseButton onPress={onClose}>
+              <CloseButtonText>Close</CloseButtonText>
+            </CloseButton>
+          </ModalContent>
+        </ModalContainer>
+      )}
+
+      {/* Modal para mostrar el mensaje de error */}
+      {errorMessage && (
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={!!errorMessage}
+          onRequestClose={() => setErrorMessage(null)}
+        >
+          <ModalContainer>
+          <ModalContent style={{ justifyContent: 'center' }}>
+              <ModalText style={{ textAlign: 'center' }}>{errorMessage}</ModalText>
+              <CloseButton onPress={() => setErrorMessage(null)}>
+                <CloseButtonText>Close</CloseButtonText>
+              </CloseButton>
+            </ModalContent>
+          </ModalContainer>
+        </Modal>
+      )}
     </Modal>
   );
+
 };
 
 const ModalContainer = styled.View`
@@ -85,10 +147,11 @@ const ModalTitle = styled.Text`
     font-family: 'KochAltschrift';
     color: #FFF;
     margin-bottom: ${height * 0.05}px;
+    text-align: center;
 `;
 
 const ModalText = styled.Text`
-    font-size: ${width * 0.06}px; /* Adjust the size of the text */
+    font-size: ${width * 0.1}px; /* Adjust the size of the text */
     font-family: 'KochAltschrift';
     color: #FFF;
     margin-vertical: ${height * 0.02}px;
@@ -98,13 +161,13 @@ const ModalText = styled.Text`
 const CloseButton = styled(TouchableOpacity)`
     margin-top: ${height * 0.05}px;
     background-color: #C19A6B;
-    padding: ${height * 0.015}px ${width * 0.1}px;
+    padding: ${height * 0.015}px ${width * 0.07}px;
     border-radius: ${width * 0.03}px;
     align-items: center;
 `;
 
 const CloseButtonText = styled.Text`
-    font-size: ${width * 0.06}px; /* Increase the font size for the close button text */
+    font-size: ${width * 0.09}px; /* Increase the font size for the close button text */
     font-family: 'KochAltschrift';
     color: #FFF;
 `;
