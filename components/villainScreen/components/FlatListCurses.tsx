@@ -140,7 +140,7 @@ const ApplyButtonText = styled.Text`
 
 const FlatListView = styled.View`
     width: 100%;
-    height: ${height * 0.8}px;
+    height: ${height * 0.9}px;
 `;
 
 const DummyContainer = styled.View`
