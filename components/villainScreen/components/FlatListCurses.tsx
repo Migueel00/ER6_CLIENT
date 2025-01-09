@@ -4,14 +4,15 @@ import { Animated } from "react-native";
 import { useRef, useEffect, useState } from "react";
 import Ingredient from "../../potions/ingredient";
 import Curse from "../../potions/curse";
+import ApplyCurseModal from "./ApplyCurseModal";
 
 const { width, height } = Dimensions.get('window');
 
 interface FlatListCurses {
-    curses: Curse[];
-    handleLongPress: (item : Ingredient) => void;
-    showNotFoundText: boolean;
-    
+  curses: Curse[];
+  handleLongPress: (item: Ingredient) => void;
+  showNotFoundText: boolean;
+
 }
 
 const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
@@ -20,107 +21,130 @@ const kaotikaApiUrl = 'https://kaotika.vercel.app'
 const ITEM_SIZE = width * 0.60;
 
 const CONSTANTS = {
-    ITEM_SIZE,
-    SPACING: 10,
-    WIDTH: width,
-    SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
-    HEIGHT: height,
-    BUTTON_SPACING: 0.02,
-    BUTTON_RIGHT: 0.05
+  ITEM_SIZE,
+  SPACING: 10,
+  WIDTH: width,
+  SPACER_ITEM_SIZE: (width - ITEM_SIZE) / 2,
+  HEIGHT: height,
+  BUTTON_SPACING: 0.02,
+  BUTTON_RIGHT: 0.05
 };
 
 // Función para formatear los efectos
 const formatEffects = (effects: string[]): string => {
-    return effects
-        .map(effect =>
-            effect
-                .split('_') // Divide los guiones bajos
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Primera letra de cada palabra mayúscula
-                .join(' ') // Une las palabras con espacios
-        )
-        .join(', '); // Une los diferentes efectos con comas
+  return effects
+    .map(effect =>
+      effect
+        .split('_') // Divide los guiones bajos
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Primera letra de cada palabra mayúscula
+        .join(' ') // Une las palabras con espacios
+    )
+    .join(', '); // Une los diferentes efectos con comas
 };
 
 
 
 
-const FlatListCurses : React.FC<FlatListCurses> = ({ curses, handleLongPress, showNotFoundText}) => {
-    const scrollX = useRef(new Animated.Value(0)).current;
-    const flatListRef = useRef<Animated.FlatList>(null); 
 
-    console.log("CURSES IN FLATLIST");
-    console.log(curses);
-    
-    useEffect(() => {
-        console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
-        
-        // Desplazar FlatList al índice 0 cuando cambian los ingredientes
-        if (flatListRef.current && curses.length > 0) {
-            console.log("CURRENT EXISTE");
-            
-            flatListRef.current.scrollToIndex({ index: 0, animated: true });
-        }
-    }, [curses]);
+const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, showNotFoundText }) => {
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef<Animated.FlatList>(null);
 
-    return(
-        <FlatListView>
-             {showNotFoundText ? (
-               <NotFoundTextContainer>
-               <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
-               <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
-           </NotFoundTextContainer>
-            ) : (
-            <Animated.FlatList
-                initialNumToRender={curses.length}
-                maxToRenderPerBatch={curses.length}
-                updateCellsBatchingPeriod={curses.length}
-                ref={flatListRef}
-                snapToInterval={CONSTANTS.ITEM_SIZE}
-                decelerationRate={0}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ alignItems: 'center'}}
-                scrollEventThrottle={16}
-                horizontal
-                data={curses}
-                keyExtractor={(item) => item._id ? item._id.toString() : item.key }
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset : { x : scrollX }}}],
-                    { useNativeDriver: true }
-                )}
-                renderItem={({item, index}) => {
-                    if(!item.name) return <DummyContainer/>
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCurse, setSelectedCurse] = useState<Curse | null>(null);
 
-                    const inputRange = [
-                        (index - 2) * CONSTANTS.ITEM_SIZE,
-                        (index - 1) * CONSTANTS.ITEM_SIZE,
-                        index * CONSTANTS.ITEM_SIZE
-                    ];
-                    const translateY = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [-20, -50, -20]
-                    });
+  const openModal = (curse: Curse) => {
+    setSelectedCurse(curse);
+    setModalVisible(true);
+  };
 
-                    return(
-                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
-                            <CurseContainer>
-                                <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <CurseName>{item.name}</CurseName>
-                                    <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
-                                    <ApplyButton>
-                                        <ApplyButtonText>Apply</ApplyButtonText>
-                                    </ApplyButton>
-                                    {/* <CurseEffects>{formatEffects(item.effects)}</CurseEffects> */}
-                                </CurseItem>
-                            </CurseContainer>
-                        </TouchableWithoutFeedback>
-                    )
-                }}
-                
-            />
-            
-        )}
-        </FlatListView>
-    );
+  const closeModal = () => {
+    setSelectedCurse(null);
+    setModalVisible(false);
+  };
+
+  console.log("CURSES IN FLATLIST");
+  console.log(curses);
+
+  useEffect(() => {
+    console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
+
+    // Desplazar FlatList al índice 0 cuando cambian los ingredientes
+    if (flatListRef.current && curses.length > 0) {
+      console.log("CURRENT EXISTE");
+
+      flatListRef.current.scrollToIndex({ index: 0, animated: true });
+    }
+  }, [curses]);
+
+  return (
+    <FlatListView>
+      {showNotFoundText ? (
+        <NotFoundTextContainer>
+          <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
+          <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
+        </NotFoundTextContainer>
+      ) : (
+        <Animated.FlatList
+          initialNumToRender={curses.length}
+          maxToRenderPerBatch={curses.length}
+          updateCellsBatchingPeriod={curses.length}
+          ref={flatListRef}
+          snapToInterval={CONSTANTS.ITEM_SIZE}
+          decelerationRate={0}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: 'center' }}
+          scrollEventThrottle={16}
+          horizontal
+          data={curses}
+          keyExtractor={(item) => item._id ? item._id.toString() : item.key}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true }
+          )}
+          renderItem={({ item, index }) => {
+            if (!item.name) return <DummyContainer />
+
+            const inputRange = [
+              (index - 2) * CONSTANTS.ITEM_SIZE,
+              (index - 1) * CONSTANTS.ITEM_SIZE,
+              index * CONSTANTS.ITEM_SIZE
+            ];
+            const translateY = scrollX.interpolate({
+              inputRange,
+              outputRange: [-20, -50, -20]
+            });
+
+            return (
+              <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
+                <CurseContainer>
+                  <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                    <CurseName>{item.name}</CurseName>
+                    <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
+                    <ApplyButton onPress={() => openModal(item)}>
+                      <ApplyButtonText>Apply</ApplyButtonText>
+                    </ApplyButton>
+                    {/* <CurseEffects>{formatEffects(item.effects)}</CurseEffects> */}
+                  </CurseItem>
+                </CurseContainer>
+              </TouchableWithoutFeedback>
+            )
+          }}
+
+        />
+
+      )}
+
+      {modalVisible && selectedCurse && (
+        <ApplyCurseModal
+          visible={modalVisible}
+          onClose={closeModal}
+          curse={selectedCurse}
+        />
+      )}
+
+    </FlatListView>
+  );
 }
 
 const ApplyButton = styled.TouchableOpacity`
