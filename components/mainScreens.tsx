@@ -112,6 +112,17 @@ const MainScreens = () => {
 
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
         });
+        
+        socket.on('updateAll', (updatePlayer : Player) => {
+            const updatedPlayers = players.map(player =>
+                player._id === updatePlayer._id ? updatePlayer : player
+            );
+            
+            console.log("ENTRA A UPDATE ALL");
+            console.log(JSON.stringify(updatePlayer));
+            setPlayers?.(updatedPlayers);
+            setPlayer(updatePlayer);
+        });
     }, []);
 
 

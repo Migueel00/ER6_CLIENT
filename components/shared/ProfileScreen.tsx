@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dimensions } from 'react-native';
 import AppContext from '../../helpers/context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -41,6 +41,8 @@ const convertAttributesToPercentage = (profileAttributes: any) => {
 const ProfileScreen = () => {
     const { height, width } = Dimensions.get('window');
 
+    const appContext = useContext(AppContext);
+    const player = appContext?.player!;
     
     return (
         <AppContext.Consumer>
@@ -110,19 +112,20 @@ const ProfileScreen = () => {
                                     ),
                                 }}
                             />
-                            <Tab.Screen
-                                name="Rest"
-                                component={RestScreen}
-                                options={{
-                                    tabBarIcon: ({ focused }) => (
-                                        <Icon source={require('../../assets/icons/statsIcon.png')}
-                                            focused={focused}                                        
-                                        />
-                                    )
-                                }}
-                            >
-
-                            </Tab.Screen>
+                            {player.role === 'ACOLYTE' && !player.isBetrayer && (
+                                <Tab.Screen
+                                    name="Rest"
+                                    component={RestScreen}
+                                    options={{
+                                        tabBarIcon: ({ focused }) => (
+                                            <Icon 
+                                                source={require('../../assets/icons/statsIcon.png')}
+                                                focused={focused}                                        
+                                            />
+                                        ),
+                                    }}
+                                />
+                            )}
                         </Tab.Navigator>
                     </NavigationContainer>
                 );
