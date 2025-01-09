@@ -17,7 +17,7 @@ const Stats = () => {
 
     const convertAttributesToPercentage = (profileAttributes: any) => {
 
-        const maxAttributeValue = 300;
+        const maxAttributeValue = 150;
 
         return {
             intelligence: profileAttributes.intelligence / maxAttributeValue,
@@ -161,68 +161,96 @@ const Stats = () => {
     );
 };
 
+const addCurseModifiers = (attributes: any, curses: any[]) => {
+    const modifiers = curses.reduce((acc, curse) => {
+        Object.keys(acc).forEach(key => {
+            acc[key] += curse.modifiers[key] || 0;
+        });
+        return acc;
+    }, {
+        constitution: 0,
+        charisma: 0,
+        dexterity: 0,
+        intelligence: 0,
+        strength: 0,
+        insanity: 0
+    });
+
+    return {
+        constitution: attributes.constitution + modifiers.constitution,
+        charisma: attributes.charisma + modifiers.charisma,
+        dexterity: attributes.dexterity + modifiers.dexterity,
+        intelligence: attributes.intelligence + modifiers.intelligence,
+        strength: attributes.strength + modifiers.strength,
+        insanity: attributes.insanity + modifiers.insanity
+    };
+};
+
 const calculateAllAttributes = (player: any) => {
     if (player) {
+        const baseAttributes = player.role === 'ACOLYTE' ? player.modifiedAttributes : player.attributes;
 
-        const attributes = player.role === 'ACOLYTE' ? player.modifiedAttributes : player.attributes;
+        const attributes = {
+            charisma:
+                baseAttributes.charisma +
+                player.equipment.helmet?.modifiers.charisma! +
+                player.equipment.weapon.modifiers.charisma +
+                player.equipment.armor.modifiers.charisma +
+                player.equipment.shield?.modifiers.charisma! +
+                player.equipment.artifact.modifiers.charisma +
+                player.equipment.boot?.modifiers.charisma! +
+                player.equipment.ring?.modifiers.charisma!,
+            constitution:
+                baseAttributes.constitution +
+                player.equipment.helmet?.modifiers.constitution! +
+                player.equipment.weapon.modifiers.constitution +
+                player.equipment.armor.modifiers.constitution +
+                player.equipment.shield?.modifiers.constitution! +
+                player.equipment.artifact.modifiers.constitution +
+                player.equipment.boot?.modifiers.constitution! +
+                player.equipment.ring?.modifiers.constitution!,
+            dexterity:
+                baseAttributes.dexterity +
+                player.equipment.helmet?.modifiers.dexterity! +
+                player.equipment.weapon.modifiers.dexterity +
+                player.equipment.armor.modifiers.dexterity +
+                player.equipment.shield?.modifiers.dexterity! +
+                player.equipment.artifact.modifiers.dexterity +
+                player.equipment.boot?.modifiers.dexterity! +
+                player.equipment.ring?.modifiers.dexterity!,
+            insanity:
+                baseAttributes.insanity +
+                player.equipment.helmet?.modifiers.insanity! +
+                player.equipment.weapon.modifiers.insanity +
+                player.equipment.armor.modifiers.insanity +
+                player.equipment.shield?.modifiers.insanity! +
+                player.equipment.artifact.modifiers.insanity +
+                player.equipment.boot?.modifiers.insanity! +
+                player.equipment.ring?.modifiers.insanity!,
+            intelligence:
+                baseAttributes.intelligence +
+                player.equipment.helmet?.modifiers.intelligence! +
+                player.equipment.weapon.modifiers.intelligence +
+                player.equipment.armor.modifiers.intelligence +
+                player.equipment.shield?.modifiers.intelligence! +
+                player.equipment.artifact.modifiers.intelligence +
+                player.equipment.boot?.modifiers.intelligence! +
+                player.equipment.ring?.modifiers.intelligence!,
+            strength:
+                baseAttributes.strength +
+                player.equipment.helmet?.modifiers.strength! +
+                player.equipment.weapon.modifiers.strength +
+                player.equipment.armor.modifiers.strength +
+                player.equipment.shield?.modifiers.strength! +
+                player.equipment.artifact.modifiers.strength +
+                player.equipment.boot?.modifiers.strength! +
+                player.equipment.ring?.modifiers.strength!
+        };
 
-        const charisma =
-            attributes.charisma +
-            player.equipment.helmet?.modifiers.charisma! +
-            player.equipment.weapon.modifiers.charisma +
-            player.equipment.armor.modifiers.charisma +
-            player.equipment.shield?.modifiers.charisma! +
-            player.equipment.artifact.modifiers.charisma +
-            player.equipment.boot?.modifiers.charisma! +
-            player.equipment.ring?.modifiers.charisma!;
-        const constitution =
-            attributes.constitution +
-            player.equipment.helmet?.modifiers.constitution! +
-            player.equipment.weapon.modifiers.constitution +
-            player.equipment.armor.modifiers.constitution +
-            player.equipment.shield?.modifiers.constitution! +
-            player.equipment.artifact.modifiers.constitution +
-            player.equipment.boot?.modifiers.constitution! +
-            player.equipment.ring?.modifiers.constitution!;
-        const dexterity =
-            attributes.dexterity +
-            player.equipment.helmet?.modifiers.dexterity! +
-            player.equipment.weapon.modifiers.dexterity +
-            player.equipment.armor.modifiers.dexterity +
-            player.equipment.shield?.modifiers.dexterity! +
-            player.equipment.artifact.modifiers.dexterity +
-            player.equipment.boot?.modifiers.dexterity! +
-            player.equipment.ring?.modifiers.dexterity!;
-        const insanity =
-            attributes.insanity +
-            player.equipment.helmet?.modifiers.insanity! +
-            player.equipment.weapon.modifiers.insanity +
-            player.equipment.armor.modifiers.insanity +
-            player.equipment.shield?.modifiers.insanity! +
-            player.equipment.artifact.modifiers.insanity +
-            player.equipment.boot?.modifiers.insanity! +
-            player.equipment.ring?.modifiers.insanity!;
-        const intelligence =
-            attributes.intelligence +
-            player.equipment.helmet?.modifiers.intelligence! +
-            player.equipment.weapon.modifiers.intelligence +
-            player.equipment.armor.modifiers.intelligence +
-            player.equipment.shield?.modifiers.intelligence! +
-            player.equipment.artifact.modifiers.intelligence +
-            player.equipment.boot?.modifiers.intelligence! +
-            player.equipment.ring?.modifiers.intelligence!;
-        const strength =
-            attributes.strength +
-            player.equipment.helmet?.modifiers.strength! +
-            player.equipment.weapon.modifiers.strength +
-            player.equipment.armor.modifiers.strength +
-            player.equipment.shield?.modifiers.strength! +
-            player.equipment.artifact.modifiers.strength +
-            player.equipment.boot?.modifiers.strength! +
-            player.equipment.ring?.modifiers.strength!;
-        return ({ constitution, charisma, dexterity, intelligence, strength, insanity })
+        return player.curses.length < 0 ? addCurseModifiers(attributes, player.curses) : attributes;
     }
-}
+};
+
 
 const StyledImageBackground = styled(ImageBackground) <{ width: number; height: number }>`
     flex: 1;
