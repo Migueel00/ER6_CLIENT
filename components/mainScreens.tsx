@@ -33,11 +33,11 @@ const MainScreens = () => {
     useEffect(() => {
         socket?.on('updateMyHall', ({ nickname, playerId, isInsideHall }: updateHallEvent) => {
             if (player && setPlayer) {
-                if(playerId === player._id){
+                if (playerId === player._id) {
                     console.log("INCOMMING NICKNAME: " + nickname);
                     console.log("INCOMING IS INSIDE HALL:", isInsideHall);
                     console.log("INCOMING PLAYERID:", playerId);
-    
+
                     // Actualiza el jugador actual
                     const updatedPlayer = { ...player, isInsideHall };
                     setPlayer(updatedPlayer);
@@ -70,10 +70,8 @@ const MainScreens = () => {
     useEffect(() => {
         socket.on('updateTower', ({ playerId, isInsideTower }: updateTowerEvent) => {
             const updatedPlayers = players.map(player =>
-                player.id === playerId ? { ...player, isInsideTower } : player
+                player._id === playerId ? { ...player, isInsideTower } : player
             );
-
-            
 
             setPlayers(updatedPlayers);
 
@@ -86,14 +84,10 @@ const MainScreens = () => {
 
     useEffect(() => {
 
-        console.log('UPDATING CURSES FOR PLAYERS');
+        socket.on('updatePlayerCurses', (updatedPlayer: Player) => {
 
-        socket.on('updatePlayerCurses', (updatedPlayer:any) => {
-            console.log('UPDATED PLAYER CURSES IN SOCKET:');
-            console.log(updatedPlayer.curses);
-            
             const updatedPlayers = players.map(player =>
-                player.id === updatedPlayer._id ? { ...player, curses: updatedPlayer.curses } : player
+                player._id === updatedPlayer._id ? { ...player, curses: updatedPlayer.curses } : player
             );
 
             setPlayers(updatedPlayers);
@@ -105,19 +99,19 @@ const MainScreens = () => {
     }, [socket, players, setPlayers]);
 
 
-    useEffect(() => {         
-        socket?.on('updateArtifact', (updateArtifact: Artifact) => {       
+    useEffect(() => {
+        socket?.on('updateArtifact', (updateArtifact: Artifact) => {
 
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-            
+
             // setArtifacts(updatedArtifacts);
             setArtifacts((prevArtifacts) => {
-                return prevArtifacts.map(artifact => 
+                return prevArtifacts.map(artifact =>
                     artifact.id === updateArtifact.id ? updateArtifact : artifact);
             })
-        
+
             console.log("SOCKET ARTIFACTS " + JSON.stringify(artifacts));
-        });      
+        });
     }, []);
 
 
@@ -130,8 +124,8 @@ const MainScreens = () => {
                 <MortimerScreens />
             ) : userRole === 'ISTVAN' ? (
                 <IstvanScreens />
-            ) : userRole === 'VILLAIN' ?(
-                <VillainScreens/>
+            ) : userRole === 'VILLAIN' ? (
+                <VillainScreens />
             ) :
                 <Text>No role assigned</Text>}
         </>
