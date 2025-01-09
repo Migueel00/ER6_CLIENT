@@ -54,10 +54,10 @@ const RestScreen = () => {
 
   return (
     <Container>
-      <ProfileText fontSize={width * 0.1}>Resistence</ProfileText>
+      <ProfileText fontSize={width * 0.1}>Resistence {progress*100}/100</ProfileText>
       <Progress.Bar progress={progress} width={width * 0.8} color="#C19A6B" />
       <RestButtons onPress={handleRestButton}>
-        <ProfileText fontSize={width * 0.05}>Rest</ProfileText>
+        <RestText >Rest</RestText>
       </RestButtons>
 
       {/* Separador */}
@@ -101,13 +101,21 @@ const ProfileText = styled.Text<{ fontSize: number }>`
     color: white;
     font-family: "KochAltschrift";
     font-size: ${({ fontSize }) => fontSize}px;
-    padding: 5px;
+    padding: ${height * 0.004}px;
+`;
+
+const RestText = styled.Text`
+    color: white;
+    font-family: "KochAltschrift";
+    font-size: ${height * 0.05}px;
+    padding: ${height * 0.004}px;
+    bottom: ${height * 0.005}px;
 `;
 
 const RestButtons = styled.TouchableOpacity`
     background-color: orange;
     width: ${width * 0.4}px;
-    height: ${width * 0.1}px;
+    height: ${width * 0.13}px;
     border-radius: ${width * 0.2}px;
     margin-top: ${width * 0.05}px;
     display: flex;
