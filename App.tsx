@@ -203,7 +203,7 @@ function App(): React.JSX.Element {
 
 
     //const email = 'ozarate@aeg.eus';
-    //const email = 'oskar.calvo@aeg.eus';
+    // const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
     const email = userInfo.data?.user.email;
     // const email = "lander.labaka@ikasle.aeg.eus";
@@ -375,8 +375,8 @@ function App(): React.JSX.Element {
         console.log(JSON.stringify(player.modifiedAttributes));
       }
 
-      setPlayer(player);
       player.role = "MORTIMER";
+      setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
