@@ -47,7 +47,7 @@ const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, hand
     const scrollX = useRef(new Animated.Value(0)).current;
     const flatListRef = useRef<Animated.FlatList>(null); 
 
-    console.log("INGREDIENTS");
+    console.log("INGREDIENTS IN FLATLIST");
     console.log(ingredients[1]);
     
     useEffect(() => {

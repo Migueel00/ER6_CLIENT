@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, Vibration} from 'react-native';
+import { Animated, Dimensions, ImageBackground, Modal, StatusBar, StyleSheet, ToastAndroid, Vibration } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
 import Cauldron from '../../potions/cauldron';
@@ -65,9 +65,9 @@ const PotionCreator = () => {
 
     const toggleModal = () => {
         console.log("ENTRA A TOGGLE MODAL");
-        
+
         setPotionModalVisible(!potionModalVisible);
-        setSelectedIngredientArray([]); 
+        setSelectedIngredientArray([]);
     };
 
     useEffect(() => {
@@ -75,14 +75,16 @@ const PotionCreator = () => {
             setPotionFactory(new Cauldron(ingredients, curses.data));
         }
 
-        setPlayerIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
+
+        setPlayerIngredients([{ key: 'left-spacer' }, ...(playerIngredients || []), { key: 'right-spacer' }]);
+        setPlayerIngredientsCopy([{ key: 'left-spacer' }, ...(playerIngredientsCopy || []), { key: 'right-spacer' }]);
     }, []);
 
     useEffect(() => {
         if (selectedIngredientArray.length === 2 &&
             selectedIngredientArray.some(ingredient => ingredient.name === "Dragon's Blood Resin") &&
-            selectedIngredientArray.some(ingredient => ingredient.name === "Gloomshade Moss") && 
-            !parchmentState && 
+            selectedIngredientArray.some(ingredient => ingredient.name === "Gloomshade Moss") &&
+            !parchmentState &&
             !towerIngredientsState) {
             setCreateText("Create Potion of Purification");
         } else {
@@ -93,7 +95,7 @@ const PotionCreator = () => {
         console.log("TOWER INGREDIENTS: " + towerIngredientsState);
         console.log("SELECTED INGREDIENTS ARRAY");
         console.log(selectedIngredientArray);
-    
+
     }, [selectedIngredientArray]);
 
 
@@ -110,10 +112,10 @@ const PotionCreator = () => {
     }
 
     const handleLongPress = (ingredient: Ingredient) => {
-        
+
         if (selectedIngredientArray.length < 4) {
             ToastAndroid.show(ingredient.name + " added", ToastAndroid.SHORT);
-            Vibration.vibrate(100); 
+            Vibration.vibrate(100);
             // Preguntar si esta linea es realmente necesaria??
             // <FlatListIngredients ingredients={ingredients} handleLongPress={handleLongPress}/>
             console.log("Ingrediente seleccionado");
@@ -140,7 +142,7 @@ const PotionCreator = () => {
             <StatusBar />
             <ImageBackground source={backgroundImageURL} style={styles.backgroundImage}>
                 {/* Flalist de los ingredientes */}
-                <FlatListIngredients ingredients={playerIngredientsCopy} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText}/>
+                <FlatListIngredients ingredients={playerIngredientsCopy} handleLongPress={handleLongPress} showNotFoundText={showNotFoundText} />
                 <FilterButton onPress={handlePressFilter}>
                     <IconImage source={filterIcon}></IconImage>
                 </FilterButton>
@@ -161,23 +163,45 @@ const PotionCreator = () => {
                     {gridItems.map((item, index) => (
                         <GridItem key={index}>
                             {item ? (
-                                <IngredientListImage key={index} source={{ uri: `${kaotikaApiUrl + item.image}` }}  />
+                                <IngredientListImage key={index} source={{ uri: `${kaotikaApiUrl + item.image}` }} />
                             ) : (
-                                <IngredientListImage key={index} source ={gridImage}/>
+                                <IngredientListImage key={index} source={gridImage} />
                             )}
                         </GridItem>
                     ))}
                 </Grid>
                 {showCreatePotionButton && (  // Condición para mostrar el botón
-                        <CreatePotionButton
+                    <CreatePotionButton
                         onPress={() => {
                             if (potionFactory && typeof potionFactory.createPotion === 'function' && selectedIngredientArray.length >= 2) {
                                 const potion = potionFactory.createPotion(selectedIngredientArray);
-                                
+
                                 if (potion) {
                                     console.log("Potion created successfully:", potion);
                                     setCreatedPotion(potion); // Asigna la poción creada
                                     toggleModal(); // Muestra el modal
+
+                                    // Quitar cantidad a todos los ingredientes del selectedIngredientArray
+                                    selectedIngredientArray.forEach((ingredient) => {
+                                        const playerIngredient = playerIngredients.find(
+                                            (item: Ingredient) => item._id === ingredient._id
+                                        );
+                                        if (playerIngredient) {
+                                            playerIngredient.qty--;
+                                        }
+                                    });
+
+                                    // Comprobar si algún ingrediente tiene cantidad 0 o menor
+                                    const newPlayerIngredients = playerIngredients.filter(
+                                        (ingredient: Ingredient) => ingredient.qty > 0
+                                    );
+                                    // Actualizar playerIngredientsCopy para reflejar los cambios
+                                    setPlayerIngredientsCopy([{ key: 'left-spacer' }, ...(newPlayerIngredients || []), { key: 'right-spacer' }]);
+                                    setPlayerIngredients([{ key: 'left-spacer' }, ...(newPlayerIngredients || []), { key: 'right-spacer' }]);
+
+                                    console.log('NEW PLAYER INGREDIENTS');
+                                    console.log(newPlayerIngredients);
+                                    
                                 } else {
                                     console.log("Potion creation failed");
                                 }
@@ -185,15 +209,15 @@ const PotionCreator = () => {
                                 console.log("PotionFactory or createPotion method is not available");
                                 ToastAndroid.show("Not enough Ingredients", ToastAndroid.SHORT);
                             }
-                        }}> 
+                        }}>
 
-                            <CreatePotionIcon source={createPotionImage} />
-                            {createText === "Create Potion of Purification" ? (
-                                <PurificationCreationText>{createText}</PurificationCreationText>
-                            ) : (
-                                <PotionCreationText>{createText}</PotionCreationText>
-                            )}
-                        </CreatePotionButton>
+                        <CreatePotionIcon source={createPotionImage} />
+                        {createText === "Create Potion of Purification" ? (
+                            <PurificationCreationText>{createText}</PurificationCreationText>
+                        ) : (
+                            <PotionCreationText>{createText}</PotionCreationText>
+                        )}
+                    </CreatePotionButton>
                 )}
 
                 {showBackButton && (
@@ -206,7 +230,7 @@ const PotionCreator = () => {
                         <BackIcon source={goBackImage} />
                     </IngredientBackButton>
                 )}
-                
+
                 {/* Potion created Modal */}
                 <PotionModal
                     visible={potionModalVisible}
@@ -219,7 +243,7 @@ const PotionCreator = () => {
                     animationType="fade"
                     onRequestClose={() => setFilterModalVisible(false)}
                 >
-                    <FilterModal 
+                    <FilterModal
                         closeModal={() => setFilterModalVisible(false)}
                         ingredients={playerIngredients}
                         setIngredients={setPlayerIngredients}
@@ -230,12 +254,12 @@ const PotionCreator = () => {
                         setShowNotFoundText={setShowNotFoundText}
                     />
                 </Modal>
-                <HelpModal 
+                <HelpModal
                     visible={helpModalVisible}
                     onClose={() => setHelpModalVisible(false)}
                     onOpenRecipeModal={handlePressRecipe}  // Pass the function to open the RecipeModal
                 />
-                <RecipeModal 
+                <RecipeModal
                     visible={recipeModalVisible}
                     onClose={() => setRecipeModalVisible(false)}
                     curses={curses.data}
