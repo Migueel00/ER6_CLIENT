@@ -1,13 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
 import { Player } from "../../interfaces/contextInterface";
 
-
-
-const { width, height } = Dimensions.get('screen');
+const { width, height } = Dimensions.get("screen");
 
 const RestScreen = () => {
     const appContext = useContext(AppContext);
@@ -18,44 +16,47 @@ const RestScreen = () => {
     const progress = player?.attributes.resistence! / 100;
 
     useEffect(() => {
-        socket.on('changeResistence' , (value : Player) => {
+        socket.on("changeResistence", (value: Player) => {
             console.log("VALUE CHANGE RESISTENCE: ");
             console.log(value);
-
-
             setPlayer(value);
-
         });
     }, []);
 
-    const handleRestButton = async() => {
-
+    const handleRestButton = async () => {
         const values = {
             playerID: player?._id,
-            resistence: 100
+            resistence: 100,
+        };
 
-        }
-
-        socket.emit('rest', values);        
-    }
-
+        socket.emit("rest", values);
+    };
 
     return (
         <Container>
             <ProfileText fontSize={width * 0.1}>Resistence</ProfileText>
-            <Progress.Bar
-                progress={progress}
-                width={width * 0.8}
-                color="#C19A6B"
-            />
-            <RestButtons 
-                onPress={handleRestButton}
-            >
-                <ProfileText fontSize={width * 0.05}> Rest</ProfileText>
+            <Progress.Bar progress={progress} width={width * 0.8} color="#C19A6B" />
+            <RestButtons onPress={handleRestButton}>
+                <ProfileText fontSize={width * 0.05}>Rest</ProfileText>
             </RestButtons>
+
+            {/* Separador */}
+            <Separator />
+
+            {/* Curses Section */}
+            <CursesTitle >Curses affecting you</CursesTitle>
+            <ScrollViewContainer>
+                <ScrollView>
+                    {player?.curses?.map((curse, index) => (
+                        <CurseItem key={index}>
+                            <CurseName>{curse.name}</CurseName>
+                        </CurseItem>
+                    ))}
+                </ScrollView>
+            </ScrollViewContainer>
         </Container>
-    )
-}
+    );
+};
 
 const Container = styled.View`
     width: ${width}px;
@@ -65,11 +66,11 @@ const Container = styled.View`
     z-index: -1;
     padding: ${width * 0.01}px;
     align-items: center;
-`
+`;
 
 const ProfileText = styled.Text<{ fontSize: number }>`
     color: white;
-    font-family: 'KochAltschrift';
+    font-family: "KochAltschrift";
     font-size: ${({ fontSize }) => fontSize}px;
     padding: 5px;
 `;
@@ -82,7 +83,44 @@ const RestButtons = styled.TouchableOpacity`
     margin-top: ${width * 0.05}px;
     display: flex;
     align-items: center;
-`
+    justify-content: center;
+`;
 
+// Separador
+const Separator = styled.View`
+    width: ${width * 0.8}px;
+    height: 1px;
+    background-color: gray;
+    margin: ${width * 0.05}px 0;
+`;
+
+// Contenedor de ScrollView
+const ScrollViewContainer = styled.View`
+    width: ${width * 0.95}px;
+    height: ${height * 0.39}px;
+    margin-top: ${width * 0.05}px;
+    border: ${height * 0.001}px solid gray;
+    border-radius: ${height * 0.01}px;
+    overflow: hidden;
+`;
+
+// Elemento individual de Curse
+const CurseItem = styled.View`
+    padding: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
+`;
+
+const CurseName = styled.Text`
+    color: white;
+    font-family: "KochAltschrift";
+    font-size: ${height * 0.035}px;
+    padding: 5px;
+`
+const CursesTitle = styled.Text`
+    color: white;
+    font-family: "KochAltschrift";
+    font-size: ${height * 0.05}px;
+    padding: 5px;`
 
 export default RestScreen;
