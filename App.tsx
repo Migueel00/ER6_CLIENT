@@ -374,8 +374,6 @@ function App(): React.JSX.Element {
         console.log("SI TIENE ETHAZIUM");
         console.log(JSON.stringify(player.modifiedAttributes));
       }
-
-      // player.role = "MORTIMER";
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);

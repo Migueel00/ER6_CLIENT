@@ -26,7 +26,7 @@ const ModalCurseIllness: React.FC = () => {
             setVisible(true)
         }
         
-    }, []);
+    }, [player]);
 
     const calculateBarWidth = (attribute: number, modifiedAttribute?: number, key?: AttributeKey): number => {
         if (key === "resistence") {

@@ -118,9 +118,11 @@ const MainScreens = () => {
                 player._id === updatePlayer._id ? updatePlayer : player
             );
             
+            console.log("ENTRA A UPDATE ALL");
+            console.log(JSON.stringify(updatePlayer));
             setPlayers?.(updatedPlayers);
+            setPlayer(updatePlayer);
         });
-
     }, []);
 
 
