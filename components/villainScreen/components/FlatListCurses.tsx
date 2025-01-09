@@ -15,7 +15,8 @@ interface FlatListCurses {
 
 }
 
-const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
+const curseIcon2 = require('./../../../assets/icons/curseIcon2.png');
+
 const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
@@ -42,10 +43,6 @@ const formatEffects = (effects: string[]): string => {
     .join(', '); // Une los diferentes efectos con comas
 };
 
-
-
-
-
 const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, showNotFoundText }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<Animated.FlatList>(null);
@@ -63,8 +60,8 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
     setModalVisible(false);
   };
 
-  console.log("CURSES IN FLATLIST");
-  console.log(curses);
+  // console.log("CURSES IN FLATLIST");
+  // console.log(curses);
 
   useEffect(() => {
     console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
@@ -81,8 +78,8 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
     <FlatListView>
       {showNotFoundText ? (
         <NotFoundTextContainer>
-          <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
-          <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
+          <NotFoundTextOutline>{`No curses matches your filter`}</NotFoundTextOutline>
+          <NotFoundText>{`No curses matches your filter`}</NotFoundText>
         </NotFoundTextContainer>
       ) : (
         <Animated.FlatList
@@ -120,7 +117,7 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
                 <CurseContainer>
                   <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
                     <CurseName>{item.name}</CurseName>
-                    <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
+                    <CurseImage source={curseIcon2} />
                     <ApplyButton onPress={() => openModal(item)}>
                       <ApplyButtonText>Apply</ApplyButtonText>
                     </ApplyButton>
@@ -142,6 +139,7 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
           curse={selectedCurse}
         />
       )}
+
 
     </FlatListView>
   );
