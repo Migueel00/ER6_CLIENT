@@ -141,13 +141,11 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
     return json.data;
 }
 
-
-
 export const updateNewAtributtes = async (responseJSON, playerData) => {
     
     const newPlayerData = playerData;
 
-    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer', 'isCaptured', 'isArrested', 'curses'];
+    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer', 'isCaptured', 'isArrested', 'curses', 'ingredients'];
 
     newAtributtes.forEach(attr => {
         if (attr in responseJSON.data) {

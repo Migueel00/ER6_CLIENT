@@ -71,6 +71,7 @@ export interface Player {
     resistence: number
   }
   curses: Curse[]
+  ingredients: Ingredient[]
 }
 
 export interface Ingredient {
