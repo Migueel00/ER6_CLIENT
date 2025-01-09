@@ -15,7 +15,9 @@ interface FlatListCurses {
 
 }
 
-const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
+
+const curseIcon2 = require('./../../../assets/icons/curseIcon2.png');
+
 const kaotikaApiUrl = 'https://kaotika.vercel.app'
 
 const ITEM_SIZE = width * 0.60;
@@ -120,7 +122,7 @@ const FlatListCurses: React.FC<FlatListCurses> = ({ curses, handleLongPress, sho
                 <CurseContainer>
                   <CurseItem as={Animated.View} style={{ transform: [{ translateY }] }}>
                     <CurseName>{item.name}</CurseName>
-                    <CurseImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
+                    <CurseImage source={curseIcon2} />
                     <ApplyButton onPress={() => openModal(item)}>
                       <ApplyButtonText>Apply</ApplyButtonText>
                     </ApplyButton>
