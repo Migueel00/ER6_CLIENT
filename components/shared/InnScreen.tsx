@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components/native";
-import { Dimensions, Modal, Vibration, TouchableOpacity } from "react-native";
+import { Dimensions, Modal, Vibration, TouchableOpacity, Animated } from "react-native";
 import AppContext from "../../helpers/context";
 import { Player } from "../../interfaces/contextInterface";
 
@@ -79,6 +79,22 @@ const Avatar = styled.Image`
 
 const background = require('../../assets/backgrounds/inn.png');
 
+const MessageContainer = styled(Animated.View)`
+    position: absolute;
+    top: 20%;
+    padding: ${height * 0.02}px;
+    border-radius: ${width * 0.05}px;
+    width: 80%;
+    align-items: center;
+`;
+
+const MessageText = styled.Text`
+    font-size: ${width * 0.1}px;
+    color: red;
+    font-family: KochAltschrift;
+    text-align: center;
+`;
+
 const InnScreen = () => {
     const appContext = useContext(AppContext);
     const player = appContext?.player;
@@ -90,6 +106,8 @@ const InnScreen = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
     const [showAngelo, setShowAngelo] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [fadeAnim] = useState(new Animated.Value(0));  // Opacity inicial en 0
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
@@ -125,7 +143,7 @@ const InnScreen = () => {
     }, [socket, players, setPlayers]);
 
     useEffect(() => {
-        if (!isBetrayer) {
+        if (!isBetrayer && player?.role === 'ACOLYTE') {
             setModalVisible(true);
         }
     }, [isBetrayer]);
@@ -162,9 +180,25 @@ const InnScreen = () => {
             isBetrayer: angelo?.isCaptured
         };
 
-        socket.emit("UpdateCaptured", value)
-    };
+        socket.emit("UpdateCaptured", value);
 
+        setShowMessage(true);
+
+        // Message animation
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
+
+        setTimeout(() => {
+            Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver: true,
+            }).start();
+        }, 2000);
+    };
 
     return (
         <CustomBackground source={background}>
@@ -200,6 +234,12 @@ const InnScreen = () => {
                         <Avatar source={{ uri: `https://kaotika-server.fly.dev${angelo.avatar}` }} />
                     </TouchableOpacity>
                 </AvatarWrapper>
+            )}
+
+            {showMessage && (
+                <MessageContainer style={{ opacity: fadeAnim }}>
+                    <MessageText>Angelo has been captured!</MessageText>
+                </MessageContainer>
             )}
         </CustomBackground>
     );

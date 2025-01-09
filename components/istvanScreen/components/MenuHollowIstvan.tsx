@@ -4,15 +4,12 @@ import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
-import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
+import HollowScreen from "../../shared/HollowScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import ProfileScreen from "../../shared/ProfileScreen";
-import DungeonScreen from "../../shared/DungeonScreen";
-import MortimerContext from "../../../helpers/MortimerContext";
-import MapScreenMortimer from "./MapScreenMortimer";
-
-
+import MapScreenIstvan from "./MapScreenIstvan";
+import IstvanContext from "../../../helpers/IstvanContext";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,34 +20,39 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuDungeonMortimer = () => {
+const MenuHollowIstvan = () => {
 
-    const mortimerContext = useContext(MortimerContext);
+    const istvanContext = useContext(IstvanContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuDungeonLoaded = mortimerContext?.setIsMenuDungeonLoaded!;
+    const setIsMenuHollowLoaded = istvanContext?.setIsMenuHollowLoaded!;
+    const player = appContext?.player;
 
     useEffect(() => {
-        setIsMenuDungeonLoaded(true);
+        setIsMenuHollowLoaded(true);
+
+        if (player?.isBetrayer) {
+            player.location = 'HOLLOW';
+        }
 
         const value = {
-            playerID: appContext?.player._id,
-            location: appContext?.location
+            playerID: player?._id,
+            location: player?.location
         };
 
         socket.emit("UpdateLocation", value);
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuDungeonLoaded(false);
+            setIsMenuHollowLoaded(false);
         }
     }, []);
 
     const screens = [
         {
-            name: 'DUNGEON',
-            component: DungeonScreen,
-            iconSource: require('./../../../assets/icons/dungeonIcon.png'),
+            name: 'HOLLOW',
+            component: HollowScreen,
+            iconSource: require('../../../assets/icons/hollowIcon.png')
         },
         {
             name: 'Profile',
@@ -66,7 +68,7 @@ const MenuDungeonMortimer = () => {
         },
         {
             name: 'MAP',
-            component: MapScreenMortimer,
+            component: MapScreenIstvan,
             iconSource: require('./../../../assets/icons/mapIcon.png'),
 
         }
@@ -79,4 +81,4 @@ const MenuDungeonMortimer = () => {
     );
 }
 
-export default MenuDungeonMortimer
+export default MenuHollowIstvan

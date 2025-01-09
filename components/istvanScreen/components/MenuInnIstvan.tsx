@@ -4,13 +4,13 @@ import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import AppContext from "../../../helpers/context";
 import * as CONSTANTS from "../../../src/constants";
-import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import ProfileScreen from "../../shared/ProfileScreen";
-import DungeonScreen from "../../shared/DungeonScreen";
+import InnScreen from "../../shared/InnScreen";
 import MortimerContext from "../../../helpers/MortimerContext";
-import MapScreenMortimer from "./MapScreenMortimer";
+import MapScreenIstvan from "./MapScreenIstvan";
+import IstvanContext from "../../../helpers/IstvanContext";
 
 
 
@@ -23,15 +23,15 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuDungeonMortimer = () => {
+const MenuInnIstvan = () => {
 
-    const mortimerContext = useContext(MortimerContext);
+    const istvanContext = useContext(IstvanContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuDungeonLoaded = mortimerContext?.setIsMenuDungeonLoaded!;
+    const setIsMenuInnLoaded = istvanContext?.setIsMenuInnLoaded!;
 
     useEffect(() => {
-        setIsMenuDungeonLoaded(true);
+        setIsMenuInnLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -42,15 +42,15 @@ const MenuDungeonMortimer = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuDungeonLoaded(false);
+            setIsMenuInnLoaded(false);
         }
     }, []);
 
     const screens = [
         {
-            name: 'DUNGEON',
-            component: DungeonScreen,
-            iconSource: require('./../../../assets/icons/dungeonIcon.png'),
+            name: 'INN',
+            component: InnScreen,
+            iconSource: require('./../../../assets/icons/innIcon.png'),
         },
         {
             name: 'Profile',
@@ -66,7 +66,7 @@ const MenuDungeonMortimer = () => {
         },
         {
             name: 'MAP',
-            component: MapScreenMortimer,
+            component: MapScreenIstvan,
             iconSource: require('./../../../assets/icons/mapIcon.png'),
 
         }
@@ -79,4 +79,4 @@ const MenuDungeonMortimer = () => {
     );
 }
 
-export default MenuDungeonMortimer
+export default MenuInnIstvan

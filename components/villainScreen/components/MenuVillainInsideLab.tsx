@@ -10,6 +10,7 @@ import ExitLab from '../../shared/ExitLab';
 import MainTabNavigator from '../../shared/MainTabNavigator';
 import PotionCreator from '../../shared/PotionCreator/PotionCreator';
 import ProfileScreen from '../../shared/ProfileScreen';
+import IllnessScreen from './IllnessScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,7 +27,7 @@ const MenuVillainInsideLab = () => {
     const screens = [
         {
             name: 'LAB',
-            component: PotionCreator,
+            component: IllnessScreen,
             iconSource: require('./../../../assets/icons/villainLabIcon.png'),
         },
         {

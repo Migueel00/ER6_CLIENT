@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import MortimerContext from '../../helpers/MortimerContext';
@@ -14,6 +14,8 @@ import messaging from '@react-native-firebase/messaging';
 import { Dimensions, Modal, TouchableWithoutFeedback, Vibration } from 'react-native';
 import MenuObituaryMortimer from './components/MenuObituaryMortimer';
 import MenuDungeonMortimer from './components/MenuDungeonMortimer';
+import MenuInnMortimer from './components/MenuInnMortimer';
+import MenuHollowMortimer from './components/MenuHollowMortimer';
 
 const alertIcon = require('./../../assets/icons/alertIcon.png');
 
@@ -37,6 +39,7 @@ const MortimerProvider = () => {
   const players = appContext?.players!;
   const setPlayers = appContext?.setPlayers;
   const isInsideHall = player?.isInsideHall;
+  const setLocation = appContext?.setLocation;
 
   const [isMenuLoaded, setIsMenuLoaded] = useState<boolean>(false);
   const [isMenuConnectionLoaded, setIsMenuConnectionLoaded] = useState<boolean>(false);
@@ -46,8 +49,12 @@ const MortimerProvider = () => {
   const [isMenuHallOfSagesLoaded, setIsMenuHallOfSagesLoaded] = useState<boolean>(false);
   const [isMenuObituaryLoaded, setIsMenuObituaryLoaded] = useState<boolean>(false);
   const [isMenuDungeonLoaded, setIsMenuDungeonLoaded] = useState<boolean>(false);
+  const [isMenuInnLoaded, setIsMenuInnLoaded] = useState<boolean>(false);
+  const [isMenuHollowLoaded, setIsMenuHollowLoaded] = useState<boolean>(false);
   const [showAlertButton, setShowAlertButton] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+
 
   useEffect(() => {
     console.log("ENTRA AL USEFFECT")
@@ -84,6 +91,8 @@ useEffect(() => {
       }
     });
 }, []);
+
+ 
 
 // Hide button if player is inside
 useEffect(() => {
@@ -122,7 +131,11 @@ const handleCloseModal = () => {
       isMenuDungeonLoaded,
       setIsMenuDungeonLoaded,
       showAlertButton,
-      setShowAlertButton
+      setShowAlertButton,
+      isMenuInnLoaded,
+      setIsMenuInnLoaded,
+      isMenuHollowLoaded,
+      setIsMenuHollowLoaded
     }}>
       <NavigationContainer>
         <MenuContainer>
@@ -134,6 +147,8 @@ const handleCloseModal = () => {
           : mortimerLocation === 'SWAMP' ? <MenuSwampMortimer/>
           : mortimerLocation === 'OBITUARY' ? <MenuObituaryMortimer/>
           : mortimerLocation === 'DUNGEON' ? <MenuDungeonMortimer/>
+          : mortimerLocation === 'INN' ? <MenuInnMortimer/>
+          : mortimerLocation === 'HOLLOW' ? <MenuHollowMortimer/>
           : <MenuMortimer/>}
         </MenuContainer>
 

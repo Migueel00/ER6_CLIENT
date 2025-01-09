@@ -130,7 +130,15 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
         body: JSON.stringify(patchJSON),
     });
 
+    console.log('RESPONSE IN PATCH PLAYER WITH USER ID:');
     console.log(updateResponse);
+
+    const json = await updateResponse.json();
+
+    console.log('JSON FROM UPDATE RESPONSE:');
+    console.log(json);
+
+    return json.data;
 }
 
 
@@ -139,7 +147,7 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
     
     const newPlayerData = playerData;
 
-    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer', 'isCaptured', 'isArrested'];
+    const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer', 'isCaptured', 'isArrested', 'curses'];
 
     newAtributtes.forEach(attr => {
         if (attr in responseJSON.data) {

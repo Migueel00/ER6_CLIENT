@@ -14,7 +14,6 @@ const hollowIcon = require('../../assets/icons/hollowIcon.png');
 const schoolIcon = require('../../assets/icons/schoolIcon.png');
 const obituaryIcon = require('./../../assets/icons/obituaryIcon.png');
 
-
 const { width, height } = Dimensions.get('window');
 
 const Container = styled.View`

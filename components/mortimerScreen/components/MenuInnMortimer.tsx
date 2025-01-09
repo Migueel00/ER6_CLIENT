@@ -8,7 +8,7 @@ import MapScreen from "../../mapScreen/mapScreen";
 import SettingsScreen from "../../settings/settingsScreen";
 import MainTabNavigator from "../../shared/MainTabNavigator";
 import ProfileScreen from "../../shared/ProfileScreen";
-import DungeonScreen from "../../shared/DungeonScreen";
+import InnScreen from "../../shared/InnScreen";
 import MortimerContext from "../../../helpers/MortimerContext";
 import MapScreenMortimer from "./MapScreenMortimer";
 
@@ -23,15 +23,15 @@ const Icon = styled.Image`
     height: ${CONSTANTS.ICON_WIDTH * width}px;
 `
 
-const MenuDungeonMortimer = () => {
+const MenuInnMortimer = () => {
 
     const mortimerContext = useContext(MortimerContext);
     const appContext = useContext(AppContext);
     const socket = appContext?.socket;
-    const setIsMenuDungeonLoaded = mortimerContext?.setIsMenuDungeonLoaded!;
+    const setIsMenuInnLoaded = mortimerContext?.setIsMenuInnLoaded!;
 
     useEffect(() => {
-        setIsMenuDungeonLoaded(true);
+        setIsMenuInnLoaded(true);
 
         const value = {
             playerID: appContext?.player._id,
@@ -42,15 +42,15 @@ const MenuDungeonMortimer = () => {
 
         // Se ejecuta al desmontar el componente
         return () => {
-            setIsMenuDungeonLoaded(false);
+            setIsMenuInnLoaded(false);
         }
     }, []);
 
     const screens = [
         {
-            name: 'DUNGEON',
-            component: DungeonScreen,
-            iconSource: require('./../../../assets/icons/dungeonIcon.png'),
+            name: 'INN',
+            component: InnScreen,
+            iconSource: require('./../../../assets/icons/innIcon.png'),
         },
         {
             name: 'Profile',
@@ -79,4 +79,4 @@ const MenuDungeonMortimer = () => {
     );
 }
 
-export default MenuDungeonMortimer
+export default MenuInnMortimer
