@@ -31,14 +31,6 @@ const RestScreen = () => {
 
   const progress = player?.attributes.resistence! / 100;
 
-  useEffect(() => {
-    socket.on("changeResistence", (value: Player) => {
-      console.log("VALUE CHANGE RESISTENCE: ");
-      console.log(value);
-      setPlayer(value);
-    });
-  }, [player]);
-
   const handleRestButton = async () => {
     const values = {
       playerID: player?._id,
