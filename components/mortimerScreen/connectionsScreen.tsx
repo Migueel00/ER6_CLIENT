@@ -69,7 +69,7 @@ const ConnectionScreen = () => {
                     constitution: playerInfo?.attributes.constitution,
                     strength: playerInfo?.attributes.strength,
                     insanity: playerInfo?.attributes.insanity,
-                    resistence: 0
+                    resistence: playerInfo?.attributes.resistence
                 }
             };
             
@@ -79,7 +79,7 @@ const ConnectionScreen = () => {
             if (playerInfo?.putridPlague) updatedState.putridPlague = false;
             if (playerInfo?.medularApocalypse) updatedState.medularApocalypse = false;
             
-            // Actualizar resistencia
+            //ctualizar resistencia
             if (playerInfo?.attributes?.resistence !== undefined) {
                 updateState.attributes.resistence = 
                     playerInfo.attributes.resistence <= 30 
@@ -87,6 +87,8 @@ const ConnectionScreen = () => {
                     : playerInfo.attributes.resistence;
             }
 
+            console.log("UPDATE STATE");
+            
             console.log(updateState);
             
 
