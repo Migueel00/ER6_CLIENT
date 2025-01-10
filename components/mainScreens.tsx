@@ -172,6 +172,26 @@ const MainScreens = () => {
         };
     }, [socket, players, setPlayers]);
 
+    useEffect(() => {
+
+        socket.on('changeResistence', (updatedPlayer: Player) => {
+
+            const updatedPlayers = players.map(player =>
+                player._id === updatedPlayer._id ? { ...player, attributes: updatedPlayer.attributes} : player
+            );
+
+            setPlayers(updatedPlayers);
+
+            if(player?._id === updatedPlayer._id){
+                setPlayer(updatedPlayer);
+            }
+        });
+
+        return () => {
+            socket.off('changeResistence');
+        };
+    }, [socket, players, setPlayers]);
+
 
 
     return (
