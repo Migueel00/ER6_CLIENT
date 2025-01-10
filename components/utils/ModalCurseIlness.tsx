@@ -30,6 +30,8 @@ const ModalCurseIllness: React.FC = () => {
     useEffect(() => {
         if (player?.ethazium || player?.epicWeakness || player?.medularApocalypse || player?.putridPlague || player?.attributes.resistence! <= 30) {
             setVisible(true)
+        } else {
+            setVisible(false)
         }
 
     }, [player]);
