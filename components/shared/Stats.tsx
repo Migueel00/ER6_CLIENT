@@ -247,7 +247,7 @@ const calculateAllAttributes = (player: any) => {
                 player.equipment.ring?.modifiers.strength!
         };
 
-        return player.curses.length < 0 ? addCurseModifiers(attributes, player.curses) : attributes;
+        return player.curses.length > 0 ? addCurseModifiers(attributes, player.curses) : attributes;
     }
 };
 

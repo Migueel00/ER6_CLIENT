@@ -368,12 +368,7 @@ const SwampScreen = () => {
             <MapView
                 ref={mapRef}
                 style={{ width: '100%', height: '100%' }}  // Asigna el tamaño completo del mapa
-                initialRegion={{
-                    latitude: 43.324620,
-                    longitude: -1.935203,
-                    latitudeDelta: 0.001,
-                    longitudeDelta: 0.001
-                }}
+                initialRegion={regionAEG}
                 customMapStyle={mapStyle}
             >
                 {(player?.role === 'ACOLYTE' || player?.role === 'MORTIMER') && artifacts && (
