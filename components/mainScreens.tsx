@@ -126,6 +126,23 @@ const MainScreens = () => {
     }, []);
 
 
+    useEffect(() => {
+
+        socket.on('updateEthazium', (updatedPlayer: Player) => {
+
+            const updatedPlayers = players.map(player =>
+                player._id === updatedPlayer._id ? { ...player, ethazium: updatedPlayer.ethazium } : player
+            );
+
+            setPlayers(updatedPlayers);
+        });
+
+        return () => {
+            socket.off('updateEthazium');
+        };
+    }, [socket, players, setPlayers]);
+
+
 
     return (
         <>

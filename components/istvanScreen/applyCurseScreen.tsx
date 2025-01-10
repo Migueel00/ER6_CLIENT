@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import AppContext from "../../helpers/context";
 import { Player } from "../../interfaces/contextInterface";
 import { URL } from "../../src/API/urls";
+import { patchPlayerWithUserID } from "../../src/API/get&post";
 
 const { width, height } = Dimensions.get('screen');
 const bgImg = require('../../assets/backgrounds/exitLabBG.png');
@@ -15,35 +16,35 @@ const ApplyCurseScreen = () => {
     const appContext = useContext(AppContext);
     const players = appContext?.players!;
     const setPlayers = appContext?.setPlayers!;
+    const socket = appContext?.socket;
 
-    const [acolytes, setAcolytes] = useState<Player[]>(players?.filter((player) => player.role === 'ACOLYTE'));
+    const [acolytes, setAcolytes] = useState<Player[]>(players?.filter((player) => player.role === 'ACOLYTE' && !player.isBetrayer));
 
     useEffect(() => {
-
-    }, []);
+        setAcolytes(players?.filter((player) => player.role === 'ACOLYTE' && !player.isBetrayer));
+        console.log("ACOLYTE ETHAZIUM STATE");
+        console.log(players?.filter((player) => player.role === 'ACOLYTE' && !player.isBetrayer)[0]);
+        console.log(players?.filter((player) => player.role === 'ACOLYTE' && !player.isBetrayer)[1]);
+        console.log(players?.filter((player) => player.role === 'ACOLYTE' && !player.isBetrayer)[2]);
+        
+    }, [players]);
 
     const handleApplyCurse = async (playerId: string) => {
         try {
-            const res = await fetch(`${URL.API_PLAYERS}/${playerId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify({ ethazium: true })
-            });
-    
-            console.log(res);
-            if (res.ok) {
-                // Actualiza el jugador en el array
-                const updatedPlayers = players.map(player =>
-                    player._id === playerId ? { ...player, ethazium: true } : player
-                );
-                // Setea los nuevos jugadores
-                setPlayers(updatedPlayers);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+
+            const patchJSON = {
+              ethazium: true,
+            };
+      
+            const updatedPlayer = await patchPlayerWithUserID(playerId, patchJSON);
+      
+            //console.log(updatedPlayer);
+            socket.emit('applyEthazium', updatedPlayer);
+      
+
+          } catch (error) {
+            console.error('Error handling square press:', error);
+          }
     };
 
     return (
