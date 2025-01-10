@@ -61,6 +61,12 @@ const ConnectionScreen = () => {
                 putridPlague: false,
                 medularApocalypse: false,
                 attributes: {
+                    intelligence: playerInfo?.attributes.intelligence,
+                    dexterity: playerInfo?.attributes.dexterity,
+                    charisma: playerInfo?.attributes.charisma,
+                    constitution: playerInfo?.attributes.constitution,
+                    strength: playerInfo?.attributes.strength,
+                    insanity: playerInfo?.attributes.insanity,
                     resistence: 0
                 }
             };
