@@ -55,13 +55,35 @@ const ConnectionScreen = () => {
         try {
             const updatedState: Partial<Player> = {};
 
+            const updateState = {
+                ethazium: false,
+                epicWeakness: false,
+                putridPlague: false,
+                medularApocalypse: false,
+                attributes: {
+                    resistence: 0
+                }
+            };
+            
+            // Actualizar los valores booleanos
             if (playerInfo?.ethazium) updatedState.ethazium = false;
             if (playerInfo?.epicWeakness) updatedState.epicWeakness = false;
             if (playerInfo?.putridPlague) updatedState.putridPlague = false;
             if (playerInfo?.medularApocalypse) updatedState.medularApocalypse = false;
-            if (playerInfo?.attributes.resistence! <= 30) updatedState.attributes!.resistence = 100;
+            
+            // Actualizar resistencia
+            if (playerInfo?.attributes?.resistence !== undefined) {
+                updateState.attributes.resistence = 
+                    playerInfo.attributes.resistence <= 30 
+                    ? 100 
+                    : playerInfo.attributes.resistence;
+            }
+
+            console.log(updateState);
+            
+
             // Verificar si hay algo que actualizar
-            if (Object.keys(updatedState).length === 0) {
+            if (Object.keys(updateState).length === 0) {
                 console.log("No state to update.");
                 return;
             }
@@ -71,7 +93,7 @@ const ConnectionScreen = () => {
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(updatedState)
+                body: JSON.stringify(updateState)
             });
 
             const json = await res.json();
