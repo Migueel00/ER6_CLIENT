@@ -91,6 +91,10 @@ const MainScreens = () => {
             );
 
             setPlayers(updatedPlayers);
+
+            if(player?._id === updatedPlayer._id){
+                setPlayer(updatedPlayer);
+            }
         });
 
         return () => {
@@ -135,6 +139,10 @@ const MainScreens = () => {
             );
 
             setPlayers(updatedPlayers);
+
+            if(player?._id === updatedPlayer._id){
+                setPlayer(updatedPlayer);
+            }
         });
 
         return () => {
@@ -153,6 +161,10 @@ const MainScreens = () => {
             );
 
             setPlayers(updatedPlayers);
+
+            if(player?._id === updatedPlayer._id){
+                setPlayer(updatedPlayer);
+            }
         });
 
         return () => {
