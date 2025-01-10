@@ -42,6 +42,13 @@ const ApplyCurseScreen = () => {
     
     }   
 
+    useEffect(() => {
+        const alreadyCursed = players
+            ?.filter((player) => player.ethazium) // Jugadores ya infectados
+            .map((player) => player._id) || [];
+        setCursed(alreadyCursed);
+    }, [players]);
+
     return (
         <StyledImageBackground 
             source={bgImg}
