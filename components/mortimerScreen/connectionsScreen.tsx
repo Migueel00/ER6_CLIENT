@@ -171,9 +171,9 @@ const ColoredText = styled.Text<{ color: string }>`
 
 const IllCursedText = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.05}px;
+    font-size: ${width * 0.08}px;
     color: red;
-    margin-left: ${width * 0.02}px;
+    margin-left: ${width * 0.05}px;
 `;
 
 const BackgroundImage = styled.ImageBackground`
