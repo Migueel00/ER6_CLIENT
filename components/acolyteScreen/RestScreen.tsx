@@ -37,7 +37,7 @@ const RestScreen = () => {
       console.log(value);
       setPlayer(value);
     });
-  }, []);
+  }, [player]);
 
   const handleRestButton = async () => {
     const values = {

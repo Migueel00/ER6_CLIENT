@@ -36,6 +36,12 @@ const ModalCurseIllness: React.FC = () => {
 
     }, [player]);
 
+    useEffect(() => {
+        if (player?.ethazium) {
+            player.attributes.resistence -= player.attributes.resistence * 0.4;
+        }
+    }, [player])
+
     const calculateBarWidth = (attribute: number, modifiedAttribute?: number, key?: AttributeKey): number => {
         if (key === "resistence") {
             return Math.max((attribute / 100) * 100, 0); // Use 100 as max for resistence
