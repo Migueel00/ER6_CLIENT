@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 import { Player } from '../../interfaces/contextInterface';
 import ModalInfo from './ModalInfo';
 import { URL } from '../../src/API/urls';
+import { patchPlayerWithUserID } from '../../src/API/get&post';
 
 const { height, width } = Dimensions.get('window');
 
@@ -15,6 +16,7 @@ const ConnectionScreen = () => {
     const appContext = useContext(AppContext);
     const mortimerContext = useContext(MortimerContext);
     const players = appContext?.players!;
+    const socket = appContext?.socket;
     const setPlayers = appContext?.setPlayers;
     const setLocation = appContext?.setLocation;
     const isMenuOldSchoolLoaded = mortimerContext?.isMenuOldSchoolLoaded;
@@ -94,26 +96,11 @@ const ConnectionScreen = () => {
                 return;
             }
 
-            const res = await fetch(`${URL.API_PLAYERS}/${playerInfo?._id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(updateState)
-            });
+            const updatedPlayer = await patchPlayerWithUserID(playerInfo?._id, updateState);
 
-            const json = await res.json();
-            const data = json.data;
+            socket.emit('applyHeal', updatedPlayer);
 
-            if(res.ok){
-                const updatedPlayers = players.map(player =>
-                    player._id === data._id ? data : player
-                );
-    
-                setPlayers?.(updatedPlayers);
-                handleCloseModal();
-            }
-
+            handleCloseModal();
         }
 
         catch (error){

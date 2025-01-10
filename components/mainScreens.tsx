@@ -142,6 +142,24 @@ const MainScreens = () => {
         };
     }, [socket, players, setPlayers]);
 
+    useEffect(() => {
+
+        socket.on('updateHeal', (updatedPlayer: Player) => {
+
+            const updatedPlayers = players.map(player =>
+                player._id === updatedPlayer._id ? { ...player, ethazium: updatedPlayer.ethazium, epicWeakness: updatedPlayer.epicWeakness,  
+                                                    putridPlague: updatedPlayer.putridPlague, medularApocalypse: updatedPlayer.medularApocalypse,
+                                                    attributes: updatedPlayer.attributes } : player
+            );
+
+            setPlayers(updatedPlayers);
+        });
+
+        return () => {
+            socket.off('updateHeal');
+        };
+    }, [socket, players, setPlayers]);
+
 
 
     return (
