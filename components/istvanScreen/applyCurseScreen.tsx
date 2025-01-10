@@ -10,44 +10,41 @@ const { width, height } = Dimensions.get('screen');
 const bgImg = require('../../assets/backgrounds/exitLabBG.png');
 
 const ApplyCurseScreen = () => {
-    const [cursed, setCursed] = useState<String[]>([]);
-    const [acolytes, setAcolytes] = useState<Player[]>([]);
+
 
     const appContext = useContext(AppContext);
     const players = appContext?.players!;
+    const setPlayers = appContext?.setPlayers!;
+
+    const [acolytes, setAcolytes] = useState<Player[]>(players?.filter((player) => player.role === 'ACOLYTE'));
 
     useEffect(() => {
-        setAcolytes(players?.filter((player) => player.role === 'ACOLYTE'));
+
     }, []);
 
-    const handleApplyCurse = async(playerId : string) => {
+    const handleApplyCurse = async (playerId: string) => {
         try {
             const res = await fetch(`${URL.API_PLAYERS}/${playerId}`, {
-                method: 'PATCH',  
+                method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify({ethazium: true})
-
+                body: JSON.stringify({ ethazium: true })
             });
+    
             console.log(res);
-            if(res.ok){
-                setCursed(prev => [...prev, playerId]);
+            if (res.ok) {
+                // Actualiza el jugador en el array
+                const updatedPlayers = players.map(player =>
+                    player._id === playerId ? { ...player, ethazium: true } : player
+                );
+                // Setea los nuevos jugadores
+                setPlayers(updatedPlayers);
             }
-        }
-
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
-    
-    }   
-
-    useEffect(() => {
-        const alreadyCursed = players
-            ?.filter((player) => player.ethazium) // Jugadores ya infectados
-            .map((player) => player._id) || [];
-        setCursed(alreadyCursed);
-    }, [players]);
+    };
 
     return (
         <StyledImageBackground 
@@ -63,7 +60,7 @@ const ApplyCurseScreen = () => {
                             src={acolyte.avatar}
                         />
                         <PlayerName>{acolyte.nickname}</PlayerName>
-                        { !acolyte.ethazium && !cursed.includes(acolyte._id) ? (
+                        { !acolyte.ethazium ? (
                             <CurseButton 
                                 onPress={() => handleApplyCurse(acolyte._id)}
                             >
