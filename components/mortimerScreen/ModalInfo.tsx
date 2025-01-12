@@ -48,7 +48,6 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return true;
         if (player?.medularApocalypse) return true;
         if (player?.ethazium) return true;
-        if (player?.attributes.resistence! <= 30) return true;
         return false;
     }
 
@@ -71,8 +70,6 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
             return ["intelligence"];
         } else if (player?.medularApocalypse) {
             return ["constitution"];
-        } else if(player?.attributes.resistence! <= 30){
-            return ["resistence"];
         }
         return [];
     };
@@ -83,7 +80,6 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return "Suffering from Putrid Plague";
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
-        if (player?.attributes.resistence! <= 30) return "This acolyte is really tired"
         return "This acolyte is healthy";
     };
 
@@ -93,7 +89,6 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return putridBackground;
         if (player?.medularApocalypse) return medularBackground;
         if (player?.ethazium) return ethaziumBackground;
-        if (player?.attributes.resistence! <= 30) return tiredBackground;
         return healthyAcolyte;
     };
 
