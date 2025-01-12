@@ -48,7 +48,6 @@ const ConnectionScreen = () => {
     const getTextDetail = (player : Player) => {
         if(player.ethazium) return "Cursed"
         if(player.medularApocalypse || player.epicWeakness || player.putridPlague) return "Sick"
-        if(player.attributes.resistence <= 30) return "Tired"
 
         return;
     }
@@ -78,18 +77,6 @@ const ConnectionScreen = () => {
             if (playerInfo?.epicWeakness) updatedState.epicWeakness = false;
             if (playerInfo?.putridPlague) updatedState.putridPlague = false;
             if (playerInfo?.medularApocalypse) updatedState.medularApocalypse = false;
-            
-            //ctualizar resistencia
-            if (playerInfo?.attributes?.resistence !== undefined) {
-                updateState.attributes.resistence = 
-                    playerInfo.attributes.resistence <= 30 
-                    ? 100 
-                    : playerInfo.attributes.resistence;
-            }
-
-            console.log("UPDATE STATE");
-            
-            console.log(updateState);
             
 
             // Verificar si hay algo que actualizar
