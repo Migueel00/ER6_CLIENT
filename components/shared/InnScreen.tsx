@@ -94,6 +94,7 @@ const MessageText = styled.Text`
     color: red;
     font-family: KochAltschrift;
     text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
 `;
 
 const InnScreen = () => {
@@ -108,17 +109,15 @@ const InnScreen = () => {
     const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
     const [showAngelo, setShowAngelo] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
+    const [showBetrayMessage, setShowBetrayMessage] = useState(false);
+    const [showLoyalMessage, setShowLoyalMessage] = useState(false);
     const [fadeAnim] = useState(new Animated.Value(0));
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
     useEffect(() => {
         socket.on('IsBetrayer', (updatedPlayer: Player) => {
-
-            // Update local isBetrayer
             setIsBetrayer(updatedPlayer.isBetrayer);
-
-            // Set Player to update
             setPlayer({ ...player, isBetrayer: updatedPlayer.isBetrayer });
         });
 
@@ -129,12 +128,9 @@ const InnScreen = () => {
 
     useEffect(() => {
         socket.on('IsCaptured', (updatedPlayer: Player) => {
-
-            // Update only angelo
             const updatedPlayers = players?.map(player =>
                 player.role === 'ANGELO' ? { ...player, isCaptured: updatedPlayer.isCaptured } : player
             );
-
             setPlayers(updatedPlayers);
         });
 
@@ -151,7 +147,7 @@ const InnScreen = () => {
 
     const handleBetray = () => {
         setModalVisible(false);
-        
+        setShowBetrayMessage(true);
         Vibration.vibrate(200);
 
         const value = {
@@ -160,15 +156,44 @@ const InnScreen = () => {
         };
 
         socket.emit("UpdateBetrayer", value);
+
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
+
+        setTimeout(() => {
+            Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver: true,
+            }).start(() => setShowBetrayMessage(false));
+        }, 2000);
     };
 
     const handleLoyal = () => {
         setModalVisible(false);
-        
+        setShowLoyalMessage(true);
+
         if (!angelo?.isCaptured) {
             setShowAngelo(true);
         }
         console.log("Remains Loyal");
+
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
+
+        setTimeout(() => {
+            Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver: true,
+            }).start(() => setShowLoyalMessage(false));
+        }, 2000);
     };
 
     const handleAngeloPress = () => {
@@ -185,7 +210,6 @@ const InnScreen = () => {
 
         setShowMessage(true);
 
-        // Message animation
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 500,
@@ -197,7 +221,7 @@ const InnScreen = () => {
                 toValue: 0,
                 duration: 500,
                 useNativeDriver: true,
-            }).start();
+            }).start(() => setShowMessage(false));
         }, 2000);
     };
 
@@ -237,13 +261,19 @@ const InnScreen = () => {
                 </AvatarWrapper>
             )}
 
-            {showMessage && (
+            {showBetrayMessage && (
                 <MessageContainer style={{ opacity: fadeAnim }}>
-                    <MessageText>Angelo has been captured!</MessageText>
+                    <MessageText>You have decided to betray kaotika. Beware, for such actions come with dire consequences!</MessageText>
+                </MessageContainer>
+            )}
+
+            {showLoyalMessage && (
+                <MessageContainer style={{ opacity: fadeAnim }}>
+                    <MessageText>You have chosen to be loyal to kaotika, for now...</MessageText>
                 </MessageContainer>
             )}
         </CustomBackground>
     );
-}
+};
 
 export default InnScreen;
