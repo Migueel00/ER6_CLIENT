@@ -83,7 +83,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return "Suffering from Putrid Plague";
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
-        if (player?.attributes.resistence! <= 30) return "Tired only mortimer can recover you"
+        if (player?.attributes.resistence! <= 30) return "This acolyte is really tired"
         return "This acolyte is healthy";
     };
 
@@ -96,6 +96,11 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.attributes.resistence! <= 30) return tiredBackground;
         return healthyAcolyte;
     };
+
+    const capitalizeFirstLetter = (str: string): string => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
 
     return (
         <Modal animationType="fade" transparent={true} visible={visible}>
@@ -114,7 +119,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
                             {/* Display the filtered attributes */}
                             {getFilteredAttributes().map((key) => (
                                 <AttributeBarContainer key={key}>
-                                    <AttributeLabel>{key}</AttributeLabel>
+                                    <AttributeLabel>{capitalizeFirstLetter(key)}</AttributeLabel>
                                     <BarBackground>
                                         <BarForeground
                                             style={{
