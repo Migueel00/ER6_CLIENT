@@ -50,7 +50,7 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                         <ValidateButtonText>Arrest Angelo</ValidateButtonText>
                     </ValidateButton>
                     <ResetButton onPress={handleFreeAngelo}>
-                        <ResetButtonText>Free Angelo</ResetButtonText>
+                        <ResetButtonText>Return Angelo</ResetButtonText>
                     </ResetButton>
                 </ButtonsWrapper>
             </ModalBackground>
