@@ -8,9 +8,9 @@ const { width, height } = Dimensions.get('window');
 
 interface FlatListIngredients {
     ingredients: Ingredient[];
-    handleLongPress: (item : Ingredient) => void;
+    handleLongPress: (item: Ingredient) => void;
     showNotFoundText: boolean;
-    
+
 }
 
 const defaultPotionImage = require('../../../../assets/png/ingredients.jpeg');
@@ -43,80 +43,91 @@ const formatEffects = (effects: string[]): string => {
 
 
 
-const FlatListIngredients : React.FC<FlatListIngredients> = ({ ingredients, handleLongPress, showNotFoundText}) => {
+const FlatListIngredients: React.FC<FlatListIngredients> = ({ ingredients, handleLongPress, showNotFoundText }) => {
     const scrollX = useRef(new Animated.Value(0)).current;
-    const flatListRef = useRef<Animated.FlatList>(null); 
+    const flatListRef = useRef<Animated.FlatList>(null);
 
     console.log("INGREDIENTS IN FLATLIST");
     console.log(ingredients[1]);
-    
+
+    // Only spacers in ingredients
+    const onlySpacers = ingredients.length === 2 &&
+        ingredients.some((item) => item.key === "left-spacer") &&
+        ingredients.some((item) => item.key === "right-spacer");
+
     useEffect(() => {
         console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
-        
+
         // Desplazar FlatList al índice 0 cuando cambian los ingredientes
         if (flatListRef.current) {
             console.log("CURRENT EXISTE");
-            
+
             flatListRef.current.scrollToIndex({ index: 0, animated: true });
         }
+
+        console.log("INGREDIENTS INGREDIENTS");
+        console.log(ingredients);
+    
     }, [ingredients]);
 
-    return(
+    return (
         <FlatListView>
-             {showNotFoundText ? (
-               <NotFoundTextContainer>
-               <NotFoundTextOutline>{`No ingredients matches your filter`}</NotFoundTextOutline>
-               <NotFoundText>{`No ingredients matches your filter`}</NotFoundText>
-           </NotFoundTextContainer>
+            {onlySpacers ? (
+                <NotFoundTextContainer>
+                    <NotFoundTextOutline>{`You have no ingredients`}</NotFoundTextOutline>
+                    <NotFoundText>{`You have no ingredients!`}</NotFoundText>
+                </NotFoundTextContainer>
+            ) : showNotFoundText ? (
+                <NotFoundTextContainer>
+                    <NotFoundTextOutline>{`No ingredients match your filter`}</NotFoundTextOutline>
+                    <NotFoundText>{`No ingredients match your filter`}</NotFoundText>
+                </NotFoundTextContainer>
             ) : (
-            <Animated.FlatList
-                initialNumToRender={ingredients.length}
-                maxToRenderPerBatch={ingredients.length}
-                updateCellsBatchingPeriod={ingredients.length}
-                ref={flatListRef}
-                snapToInterval={CONSTANTS.ITEM_SIZE}
-                decelerationRate={0}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ alignItems: 'center'}}
-                scrollEventThrottle={16}
-                horizontal
-                data={ingredients}
-                keyExtractor={(item) => item._id ? item._id.toString() : item.key }
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset : { x : scrollX }}}],
-                    { useNativeDriver: true }
-                )}
-                renderItem={({item, index}) => {
-                    if(!item.name) return <DummyContainer/>
+                <Animated.FlatList
+                    initialNumToRender={ingredients.length}
+                    maxToRenderPerBatch={ingredients.length}
+                    updateCellsBatchingPeriod={ingredients.length}
+                    ref={flatListRef}
+                    snapToInterval={CONSTANTS.ITEM_SIZE}
+                    decelerationRate={0}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ alignItems: 'center' }}
+                    scrollEventThrottle={16}
+                    horizontal
+                    data={ingredients}
+                    keyExtractor={(item) => item._id ? item._id.toString() : item.key}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: true }
+                    )}
+                    renderItem={({ item, index }) => {
+                        if (!item.name) return <DummyContainer />
 
-                    const inputRange = [
-                        (index - 2) * CONSTANTS.ITEM_SIZE,
-                        (index - 1) * CONSTANTS.ITEM_SIZE,
-                        index * CONSTANTS.ITEM_SIZE
-                    ];
-                    const translateY = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [-20, -50, -20]
-                    });
+                        const inputRange = [
+                            (index - 2) * CONSTANTS.ITEM_SIZE,
+                            (index - 1) * CONSTANTS.ITEM_SIZE,
+                            index * CONSTANTS.ITEM_SIZE
+                        ];
+                        const translateY = scrollX.interpolate({
+                            inputRange,
+                            outputRange: [-20, -50, -20]
+                        });
 
-                    return(
-                        <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
-                            <IngredientContainer>
-                                <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
-                                    <IngredientName>{item.name}</IngredientName>
-                                    <IngredientImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
-
-                                    <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
-                                    <IngredientQty>x{item.qty}</IngredientQty>
-                                </IngredientItem>
-                            </IngredientContainer>
-                        </TouchableWithoutFeedback>
-                    )
-                }}
-                
-            />
-            
-        )}
+                        return (
+                            <TouchableWithoutFeedback onLongPress={() => handleLongPress(item)}>
+                                <IngredientContainer>
+                                    <IngredientItem as={Animated.View} style={{ transform: [{ translateY }] }}>
+                                        <IngredientName>{item.name}</IngredientName>
+                                        <IngredientImage source={{ uri: `${kaotikaApiUrl + item.image}` }} />
+                                        <IngredientEffects>{formatEffects(item.effects)}</IngredientEffects>
+                                        <IngredientQty>x{item.qty}</IngredientQty>
+                                    </IngredientItem>
+                                </IngredientContainer>
+                            </TouchableWithoutFeedback>
+                        );
+                    }}
+                />
+            )}
         </FlatListView>
     );
 }
