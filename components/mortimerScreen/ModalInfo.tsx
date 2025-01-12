@@ -9,6 +9,12 @@ import LoadSpinner from "../utils/loadSpinner";
 
 const closeIconImg = require('../../assets/icons/close_icon.png');
 const healButtonImg = require('../../assets/icons/heal_button.png');
+const tiredBackground = require('./../../assets/backgrounds/tiredBackground.png');
+const putridBackground = require('./../../assets/backgrounds/sickBackground.png');
+const medularBackground = require('./../../assets/backgrounds/crazyBackground.png');
+const weaknessBackground = require('./../../assets/backgrounds/epicWeaknessBackground.png');
+const ethaziumBackground = require('./../../assets/backgrounds/ethaziumBackground.png');
+const healthyAcolyte = require('./../../assets/backgrounds/healthy_acolyte.png');
 
 const { width, height } = Dimensions.get("screen");
 
@@ -78,12 +84,22 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
         if (player?.attributes.resistence! <= 30) return "Tired only mortimer can recover you"
-        return null;
+        return "This acolyte is healthy";
+    };
+
+
+    const getBackgroundImage = () => {
+        if (player?.epicWeakness) return weaknessBackground;
+        if (player?.putridPlague) return putridBackground;
+        if (player?.medularApocalypse) return medularBackground;
+        if (player?.ethazium) return ethaziumBackground;
+        if (player?.attributes.resistence! <= 30) return tiredBackground;
+        return healthyAcolyte;
     };
 
     return (
         <Modal animationType="fade" transparent={true} visible={visible}>
-            <ModalBackground>
+            <ModalBackground source={getBackgroundImage()}>
                 <ModalContainer>
                     {player && (
                         <>
@@ -149,20 +165,19 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
 
 export default ModalInfo;
 
-// Styled components (sin cambios)
-const ModalBackground = styled.View`
+
+const ModalBackground = styled.ImageBackground`
     flex: 1;
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.7);
-    height: ${height}px;
 `;
 
 const ModalContainer = styled.View`
-    width: ${width * 0.8}px;
-    padding: ${width * 0.03}px;
-    background-color: #222;
-    border-radius: 10px;
+    width: ${width * 1}px;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.8);
     align-items: center;
 `;
 
