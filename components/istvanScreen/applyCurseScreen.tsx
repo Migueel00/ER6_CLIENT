@@ -29,14 +29,17 @@ const ApplyCurseScreen = () => {
         
     }, [players]);
 
-    const handleApplyCurse = async (playerId: string) => {
+    const handleApplyCurse = async (player: Player) => {
         try {
+
+            const reducedResistence = player.attributes.resistence * 0.4;
 
             const patchJSON = {
               ethazium: true,
+              "attributes.resistence": reducedResistence,
             };
       
-            const updatedPlayer = await patchPlayerWithUserID(playerId, patchJSON);
+            const updatedPlayer = await patchPlayerWithUserID(player._id, patchJSON);
       
             //console.log(updatedPlayer);
             socket.emit('applyEthazium', updatedPlayer);
@@ -63,7 +66,7 @@ const ApplyCurseScreen = () => {
                         <PlayerName>{acolyte.nickname}</PlayerName>
                         { !acolyte.ethazium ? (
                             <CurseButton 
-                                onPress={() => handleApplyCurse(acolyte._id)}
+                                onPress={() => handleApplyCurse(acolyte)}
                             >
                                 <ButtonText>Apply</ButtonText>
                             </CurseButton>
