@@ -73,7 +73,7 @@ const ModalCurseIllness: React.FC = () => {
         if (player?.putridPlague) return "Suffering from Putrid Plague";
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
-        if (player?.attributes.resistence! <= 30) return "Tired only mortimer can recover you"
+        if (player?.attributes.resistence! <= 30) return "You are really tired"
         return null;
     };
 

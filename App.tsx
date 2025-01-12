@@ -203,9 +203,9 @@ function App(): React.JSX.Element {
 
 
     //const email = 'ozarate@aeg.eus';
-    const email = 'oskar.calvo@aeg.eus';
+    //const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
-    //const email = userInfo.data?.user.email;
+    const email = userInfo.data?.user.email;
     // const email = "lander.labaka@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
@@ -369,7 +369,7 @@ function App(): React.JSX.Element {
       setSpinnerText("Player updated!");
       setLocation(player.location);
 
-      player.role = "MORTIMER";
+      //player.role = "MORTIMER";
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
