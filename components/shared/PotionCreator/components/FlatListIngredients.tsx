@@ -58,16 +58,13 @@ const FlatListIngredients: React.FC<FlatListIngredients> = ({ ingredients, handl
     useEffect(() => {
         console.log("HA ENTRADO A HACER EL SCROLL AL INICIO");
 
-        // Desplazar FlatList al índice 0 cuando cambian los ingredientes
-        if (flatListRef.current) {
-            console.log("CURRENT EXISTE");
+        if (flatListRef.current && ingredients.length > 0) {
+            const hasOnlyIngredients = ingredients.some(item => item.key !== "left-spacer" && item.key !== "right-spacer");
 
-            flatListRef.current.scrollToIndex({ index: 0, animated: true });
+            if (hasOnlyIngredients) {
+                flatListRef.current.scrollToIndex({ index: 0, animated: true });
+            }
         }
-
-        console.log("INGREDIENTS INGREDIENTS");
-        console.log(ingredients);
-    
     }, [ingredients]);
 
     return (
