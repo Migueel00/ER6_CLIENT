@@ -80,6 +80,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return "Suffering from Putrid Plague";
         if (player?.medularApocalypse) return "Suffering from Medular Apocalypse";
         if (player?.ethazium) return "Suffering from Ethazium";
+        if (player?.attributes.resistence! <= 30) return "This player is tired!";
         return "This acolyte is healthy";
     };
 
@@ -89,6 +90,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({player, visible, handleCloseModal,
         if (player?.putridPlague) return putridBackground;
         if (player?.medularApocalypse) return medularBackground;
         if (player?.ethazium) return ethaziumBackground;
+        if (player?.attributes.resistence! <= 30) return tiredBackground;
         return healthyAcolyte;
     };
 
