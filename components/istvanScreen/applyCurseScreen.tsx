@@ -32,7 +32,7 @@ const ApplyCurseScreen = () => {
     const handleApplyCurse = async (player: Player) => {
         try {
 
-            const reducedResistence = player.attributes.resistence * 0.4;
+            const reducedResistence = player.attributes.resistence * 0.6;
 
             const patchJSON = {
               ethazium: true,
