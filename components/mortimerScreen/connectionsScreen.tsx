@@ -122,6 +122,9 @@ const ConnectionScreen = () => {
                     <ColoredText color="green">INSIDE</ColoredText> or{' '}
                     <ColoredText color="red">OUTSIDE</ColoredText> the Lab
                 </KaotikaFontHeads>
+
+                <KaotikaFontHeads>Click on an avatar if you want to heal the Acolyte{' '}
+                </KaotikaFontHeads>
                 <PlayersList>
                     {players
                         .filter((player: any) => player.role === 'ACOLYTE' && !player.isBetrayer)
@@ -195,6 +198,8 @@ const KaotikaFontHeads = styled.Text`
     margin-bottom:  ${width * 0.02}px;
     align-items: center;
     text-align: center;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: ${height * 0.02}px;
 `;
 
 const KaotikaFontHeads2 = styled(KaotikaFontHeads)`

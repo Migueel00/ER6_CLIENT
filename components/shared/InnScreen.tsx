@@ -115,16 +115,7 @@ const InnScreen = () => {
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
-    useEffect(() => {
-        socket.on('IsBetrayer', (updatedPlayer: Player) => {
-            setIsBetrayer(updatedPlayer.isBetrayer);
-            setPlayer({ ...player, isBetrayer: updatedPlayer.isBetrayer });
-        });
-
-        return () => {
-            socket.off('IsBetrayer');
-        };
-    }, [socket, player, setPlayer]);
+  
 
     useEffect(() => {
         socket.on('IsCaptured', (updatedPlayer: Player) => {
@@ -140,10 +131,10 @@ const InnScreen = () => {
     }, [socket, players, setPlayers]);
 
     useEffect(() => {
-        if (!isBetrayer && player?.role === 'ACOLYTE') {
+        if (!player?.isBetrayer && player?.role === 'ACOLYTE') {
             setModalVisible(true);
         }
-    }, [isBetrayer]);
+    }, [player]);
 
     const handleBetray = () => {
         setModalVisible(false);

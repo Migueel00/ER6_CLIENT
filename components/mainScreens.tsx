@@ -192,7 +192,25 @@ const MainScreens = () => {
         };
     }, [socket, players, setPlayers]);
 
+    useEffect(() => {
+        socket.on('IsBetrayer', (updatedPlayer: Player) => {
 
+            const updatedPlayers = players.map(player =>
+                player._id === updatedPlayer._id ? { ...player, isBetrayer: updatedPlayer.isBetrayer} : player
+            );
+
+            setPlayers(updatedPlayers);
+
+            if(player?._id === updatedPlayer._id){
+                setPlayer(updatedPlayer);
+            }
+
+        });
+
+        return () => {
+            socket.off('IsBetrayer');
+        };
+    }, [socket, player, setPlayer]);
 
     return (
         <>
