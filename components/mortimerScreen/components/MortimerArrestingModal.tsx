@@ -30,13 +30,6 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
         onClose();
     };
 
-    // Free Angelo
-    const handleFreeAngelo = () => {
-
-        socket.emit('NotArrestAngelo');
-        onClose();
-    };
-
     return (
         <Modal
             animationType="fade"
@@ -50,9 +43,6 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
                     <ValidateButton onPress={handleArrestAngelo}>
                         <ValidateButtonText>Arrest Angelo</ValidateButtonText>
                     </ValidateButton>
-                    <ResetButton onPress={handleFreeAngelo}>
-                        <ResetButtonText>Return Angelo</ResetButtonText>
-                    </ResetButton>
                 </ButtonsWrapper>
             </ModalBackground>
         </Modal>
@@ -70,7 +60,7 @@ const ModalBackground = styled.View`
 
 const ButtonsWrapper = styled.View`
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 80%;
 `;
@@ -88,24 +78,11 @@ const ValidateButtonText = styled.Text`
     text-align: center;
 `;
 
-const ResetButton = styled(TouchableOpacity)`
-    background-color: red;
-    padding: ${width * 0.04}px ${width * 0.05}px;
-    border-radius: ${width * 0.02}px;
-`;
-
-const ResetButtonText = styled.Text`
-    color: white;
-    font-size: ${width * 0.07}px;
-    font-family: 'KochAltschrift';
-    text-align: center;
-`;
-
 const ModalText = styled.Text`
-    font-size: ${width * 0.06}px;
+    font-size: ${width * 0.09}px;
     font-family: 'KochAltschrift';
     color: red;
     text-align: center;
     margin-bottom: ${width * 0.05}px;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+    text-shadow: 2px 2px 6px rgba(145, 138, 138, 0.9);
 `;
