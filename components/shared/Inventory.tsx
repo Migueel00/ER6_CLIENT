@@ -11,13 +11,16 @@ const { width, height } = Dimensions.get('window');
 const newHeight = height * 0.96;
 
 const Equipment = () => {
-
     return (
         <AppContext.Consumer>
             {({ player }: any) => {
+                let inventory = player.inventory;
 
-                const inventory = player.inventory;
+                if(inventory.length <= 0) {
+                    return null; // No renderizamos nada si el inventario está vacío
+                }
 
+                // Verifica si el inventario está vacío
                 const items = [
                     ...inventory.antidote_potions,
                     ...inventory.armors,
@@ -31,6 +34,10 @@ const Equipment = () => {
                     ...inventory.weapons,
                     ...player.ingredients
                 ];
+
+                if (items.length === 0) {
+                    return null; // No renderizamos nada si el inventario está vacío
+                }
 
                 // Inicializamos un array de 64 elementos
                 const gridItems = Array.from({ length: 54 }, (_, index) => {
@@ -68,6 +75,7 @@ const Equipment = () => {
         </AppContext.Consumer>
     );
 };
+
 
 const Header = styled.Text`
     font-size: ${width * 0.1}px;
