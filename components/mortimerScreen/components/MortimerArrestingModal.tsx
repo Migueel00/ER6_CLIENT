@@ -104,7 +104,7 @@ const ResetButtonText = styled.Text`
 const ModalText = styled.Text`
     font-size: ${width * 0.06}px;
     font-family: 'KochAltschrift';
-    color: black;
+    color: red;
     text-align: center;
     margin-bottom: ${width * 0.05}px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
