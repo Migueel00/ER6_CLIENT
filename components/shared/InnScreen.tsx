@@ -106,7 +106,6 @@ const InnScreen = () => {
     const setPlayers = appContext?.setPlayers;
 
     const [isModalVisible, setModalVisible] = useState(false);
-    const [isBetrayer, setIsBetrayer] = useState(player?.isBetrayer);
     const [showAngelo, setShowAngelo] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const [showBetrayMessage, setShowBetrayMessage] = useState(false);
@@ -140,11 +139,6 @@ const InnScreen = () => {
         setModalVisible(false);
         setShowBetrayMessage(true);
         Vibration.vibrate(200);
-
-        const value = {
-            playerID: player?._id,
-            isBetrayer: player?.isBetrayer
-        };
 
         socket.emit("UpdateBetrayer", player);
 
@@ -194,7 +188,7 @@ const InnScreen = () => {
 
         const value = {
             playerID: angelo?._id,
-            isBetrayer: angelo?.isCaptured
+            isCaptured: angelo?.isCaptured
         };
 
         socket.emit("UpdateCaptured", value);
