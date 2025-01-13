@@ -146,7 +146,7 @@ const InnScreen = () => {
             isBetrayer: player?.isBetrayer
         };
 
-        socket.emit("UpdateBetrayer", value);
+        socket.emit("UpdateBetrayer", player);
 
         Animated.timing(fadeAnim, {
             toValue: 1,

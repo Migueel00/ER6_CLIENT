@@ -46,7 +46,7 @@ const RestScreen = () => {
 
   return (
     <Container>
-      <ProfileText fontSize={width * 0.1}>Resistence {progress*100}/100</ProfileText>
+      <ProfileText fontSize={width * 0.1}>Resistence {progress * 100}/100</ProfileText>
       <Progress.Bar progress={progress} width={width * 0.8} color="#C19A6B" />
       <RestButtons onPress={handleRestButton}>
         <RestText >Rest</RestText>
@@ -66,15 +66,17 @@ const RestScreen = () => {
           ))}
         </ScrollView>
       </ScrollViewContainer>
-      <RecipeButton onPress={handlePressRecipe}>
-        <IconImage source={recipeBookIcon}></IconImage>
-      </RecipeButton>
+      {player?.curses?.length! > 0 && (
+        <RecipeButton onPress={handlePressRecipe}>
+          <IconImage source={recipeBookIcon}></IconImage>
+        </RecipeButton>
+      )}
 
       <RecipeModal
-          visible={recipeModalVisible}
-          onClose={() => setRecipeModalVisible(false)}
-          curses={player?.curses!}
-        />
+        visible={recipeModalVisible}
+        onClose={() => setRecipeModalVisible(false)}
+        curses={player?.curses!}
+      />
     </Container>
   );
 };
@@ -152,7 +154,7 @@ const CursesTitle = styled.Text`
     font-size: ${height * 0.05}px;
     padding: 5px;`
 
-    const RecipeButton = styled.TouchableOpacity`
+const RecipeButton = styled.TouchableOpacity`
     margin-top: ${height * 0.02}px;
     align-items: center;
     justify-content: center;

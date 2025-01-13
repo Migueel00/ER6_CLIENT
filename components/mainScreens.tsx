@@ -202,6 +202,8 @@ const MainScreens = () => {
             setPlayers(updatedPlayers);
 
             if(player?._id === updatedPlayer._id){
+                console.log('IM NOW A BETRAYER: ', updatedPlayer.isBetrayer);
+                
                 setPlayer(updatedPlayer);
             }
 
