@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dimensions, Modal, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../../../helpers/context';
@@ -45,6 +45,7 @@ const MortimerArrestingModal: React.FC<ModalComponentProps> = ({ visible, onClos
             onRequestClose={onClose}
         >
             <ModalBackground>
+                <ModalText>Do you want to arrest Angelo?</ModalText>
                 <ButtonsWrapper>
                     <ValidateButton onPress={handleArrestAngelo}>
                         <ValidateButtonText>Arrest Angelo</ValidateButtonText>
@@ -98,4 +99,13 @@ const ResetButtonText = styled.Text`
     font-size: ${width * 0.07}px;
     font-family: 'KochAltschrift';
     text-align: center;
+`;
+
+const ModalText = styled.Text`
+    font-size: ${width * 0.06}px;
+    font-family: 'KochAltschrift';
+    color: black;
+    text-align: center;
+    margin-bottom: ${width * 0.05}px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
 `;
