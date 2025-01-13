@@ -261,6 +261,12 @@ const InnScreen = () => {
                 </AvatarWrapper>
             )}
 
+            {showMessage && (
+                <MessageContainer style={{ opacity: fadeAnim }}>
+                    <MessageText>Angelo has been captured!</MessageText>
+                </MessageContainer>
+            )}
+
             {showBetrayMessage && (
                 <MessageContainer style={{ opacity: fadeAnim }}>
                     <MessageText>You have decided to betray kaotika. Beware, for such actions come with dire consequences!</MessageText>
