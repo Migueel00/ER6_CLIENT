@@ -119,7 +119,7 @@ const InnScreen = () => {
             setIsBetrayer(updatedPlayer.isBetrayer);
 
             // Set Player to update
-            setPlayer({ ...player, isBetrayer: updatedPlayer.isBetrayer });
+            setPlayer(updatedPlayer);
         });
 
         return () => {
