@@ -156,7 +156,7 @@ function App(): React.JSX.Element {
     fetch(URL.GET_ARTIFACTS)
       .then((response) => response.json())
       .then((artifacts) => {
-        console.log(artifacts);
+        // console.log(artifacts);
         const data = artifacts.data;
         setArtifacts(data);
       });
