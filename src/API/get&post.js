@@ -12,11 +12,9 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
         if(response.ok){
                 console.log(`El correo ${email} ya está registrado`);
-
+                
                 const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
-
-                console.log(`resistence in updatedPlayerData ` + JSON.stringify(updatedPlayerData.data.attributes));
-
+                
                 const player = await updatePlayerByEmail(updatedPlayerData.data);
 
                 return player;
@@ -130,13 +128,13 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
         body: JSON.stringify(patchJSON),
     });
 
-    console.log('RESPONSE IN PATCH PLAYER WITH USER ID:');
-    console.log(updateResponse);
+    // console.log('RESPONSE IN PATCH PLAYER WITH USER ID:');
+    // console.log(updateResponse);
 
     const json = await updateResponse.json();
 
-    console.log('JSON FROM UPDATE RESPONSE:');
-    console.log(json);
+    // console.log('JSON FROM UPDATE RESPONSE:');
+    // console.log(json);
 
     return json.data;
 }
@@ -155,6 +153,9 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
                 console.log(playerData[attr]);
                 newPlayerData[attr] = playerData[attr];
             }
+            else if(attr === 'isBetrayer') {
+                newPlayerData[attr] = playerData[attr];   
+            }
             else
             {
                 newPlayerData[attr] = responseJSON.data[attr];
@@ -171,7 +172,7 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
         }
     });
 
-    console.log('location: ' + newPlayerData.location);
+    console.log('isBetrayer after forEach: ' + newPlayerData.isBetrayer);
     
     let newObj = {};
 

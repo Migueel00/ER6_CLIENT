@@ -13,7 +13,7 @@ export const getAllPlayers = async () => {
         // Verifica que la respuesta contiene datos válidos
         const players = await res.json();
 
-        console.log('GET ALL PLAYERS RESPONSE');
+        // console.log('GET ALL PLAYERS RESPONSE');
         //console.log(players.data);
         
         // if (!players || !Array.isArray(players)) {
@@ -26,8 +26,8 @@ export const getAllPlayers = async () => {
             player => player.email !== 'asier.arguinchona.fake@ikasle.aeg.eus'
         );
 
-        console.log('ALL PLAYERS FILTERED');
-        console.log(filteredPlayers);
+        // console.log('ALL PLAYERS FILTERED');
+        // console.log(filteredPlayers);
         
         
 

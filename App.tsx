@@ -181,7 +181,7 @@ function App(): React.JSX.Element {
       const ingredients = await getIngredientsAndFilter(playerRole);
       const newIngredients = await getParchmentIngredients();
       setNewIngredients(newIngredients);
-      console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
+      // console.log("NEW INGREDIENTS" + JSON.stringify(newIngredients));
       setIngredientsUnmodified(ingredients);
       setIngredients([{ key: 'left-spacer' }, ...(ingredients || []), { key: 'right-spacer' }]);
       setCleanseIngredients(newIngredients);
@@ -205,8 +205,8 @@ function App(): React.JSX.Element {
     //const email = 'ozarate@aeg.eus';
     //const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
-    const email = userInfo.data?.user.email;
-    // const email = "lander.labaka@ikasle.aeg.eus";
+    //const email = userInfo.data?.user.email;
+    const email = "lander.labaka@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
 
@@ -342,6 +342,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
       const playerDataToPost = profileData.data;
+      
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
       playerDataToPost.location = "HOME";
@@ -349,15 +350,15 @@ function App(): React.JSX.Element {
       const missions = await getALlMissions();
       setMissions(missions);
 
-      console.log("missions");
-      console.log(missions);
+      // console.log("missions");
+      // console.log(missions);
 
 
       if (missions[0].isCompleted) {
-        console.log("MISION COMPLETADA");
+        //console.log("MISION COMPLETADA");
         setAreArtifactsValidated(true);
       } else {
-        console.log("MISION NO COMPLETADA");
+        //console.log("MISION NO COMPLETADA");
 
         setAreArtifactsValidated(false);
       }
