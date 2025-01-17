@@ -10,6 +10,7 @@ import styled from 'styled-components/native';
 import * as CONSTANTS from "../../src/constants";
 import RestScreen from '../acolyteScreen/RestScreen';
 import ConnectionScreen from '../mortimerScreen/connectionsScreen';
+import HealingScreen from '../mortimerScreen/healingScreen';
 
 const {width, height} = Dimensions.get('window');
 
@@ -130,7 +131,7 @@ const ProfileScreen = () => {
                              {player.role === 'MORTIMER' && (
                                 <Tab.Screen
                                     name="Heal"
-                                    component={ConnectionScreen}
+                                    component={HealingScreen}
                                     options={{
                                         tabBarIcon: ({ focused }) => (
                                             <Icon 
