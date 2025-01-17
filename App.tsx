@@ -26,6 +26,8 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from './src/constants';
 import Artifact from './interfaces/ArtifactsInterface';
 import { getALlMissions } from './src/API/missions';
+import axiosInstance from './components/utils/axiosInstance';
+import axios from 'axios';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com',
@@ -168,7 +170,32 @@ function App(): React.JSX.Element {
     requestUserPermission();
     onMessageReceivedService();
     //onNotificationOpenedApp();
+    
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get('/some-protected-endpoint');
+        console.log('Data:', response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  const tokensHandler = async() => {
+    try {
+      const accessToken = AsyncStorage.getItem('accessToken');
+      if(accessToken === null){
+        const { data } = await axios.post(`${URL.GET_ACCESS_TOKEN}`);
+        await AsyncStorage.setItem('accessToken', data.accessToken);
+        console.log("SUCCESSFULL");
+      }
+    }
+    catch (error){
+      console.error('Error handling tokens: ', error);
+    }
+  }
 
   // Simular obtener los datos del perfil
   useEffect(() => {
@@ -280,6 +307,7 @@ function App(): React.JSX.Element {
     try {
       setIsSpinner(true);
       setError(null);
+      await tokensHandler();
       // Iniciar socket
       const socket = io(URL.SOCKET);
       // Settear socket 

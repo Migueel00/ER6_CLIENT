@@ -11,17 +11,17 @@
 //     GET_MISSIONS: 'http://10.80.128.225:3000/api/missions'
 // }
 
-export const URL = {
-    GET_ALL_PLAYERS: 'https://er6-staging-server.onrender.com/api/players',
-    API_PLAYERS:     'https://er6-staging-server.onrender.com/api/players',
-    UPDATE_PLAYER_BY_EMAIL: 'https://er6-staging-server.onrender.com/api/players/email',
-    VERIFY_TOKEN:  'https://er6-staging-server.onrender.com/verify-token',
-    SOCKET: 'https://er6-staging-server.onrender.com',
-    NOTIFICATION: 'https://er6-staging-server.onrender.com/send-notification',
-    GET_ARTIFACTS: 'https://er6-staging-server.onrender.com/api/artifacts',
-    UPDATE_ARTIFACT: 'https://er6-staging-server.onrender.com/api/artifacts',
-    GET_MISSIONS: 'https://er6-staging-server.onrender.com/api/missions',
-}
+// export const URL = {
+//     GET_ALL_PLAYERS: 'https://er6-staging-server.onrender.com/api/players',
+//     API_PLAYERS:     'https://er6-staging-server.onrender.com/api/players',
+//     UPDATE_PLAYER_BY_EMAIL: 'https://er6-staging-server.onrender.com/api/players/email',
+//     VERIFY_TOKEN:  'https://er6-staging-server.onrender.com/verify-token',
+//     SOCKET: 'https://er6-staging-server.onrender.com',
+//     NOTIFICATION: 'https://er6-staging-server.onrender.com/send-notification',
+//     GET_ARTIFACTS: 'https://er6-staging-server.onrender.com/api/artifacts',
+//     UPDATE_ARTIFACT: 'https://er6-staging-server.onrender.com/api/artifacts',
+//     GET_MISSIONS: 'https://er6-staging-server.onrender.com/api/missions',
+// }
 
 // Miguel IP CASA
 // export const URL = {
@@ -38,17 +38,19 @@ export const URL = {
 
 
 // Miguel IP Clase
-// export const URL = {
-//     GET_ALL_PLAYERS: 'http://10.80.128.31:3000/api/players',
-//     API_PLAYERS:     'http://10.80.128.31:3000/api/players',
-//     UPDATE_PLAYER_BY_EMAIL: 'http://10.80.128.31:3000/api/players/email',
-//     VERIFY_TOKEN:  'http://10.80.128.31:3000/verify-token',
-//     SOCKET: 'http://10.80.128.31:3000',
-//     NOTIFICATION: 'http://10.80.128.31:3000/send-notification',
-//     GET_ARTIFACTS: 'http://10.80.128.31:3000/api/artifacts',
-//     UPDATE_ARTIFACT: 'http://10.80.128.31:3000/api/artifacts',
-//     GET_MISSIONS: 'http://10.80.128.31:3000/api/missions'
-// }
+export const URL = {
+    GET_ALL_PLAYERS: 'http://10.80.128.31:3000/api/players',
+    API_PLAYERS:     'http://10.80.128.31:3000/api/players',
+    UPDATE_PLAYER_BY_EMAIL: 'http://10.80.128.31:3000/api/players/email',
+    VERIFY_TOKEN:  'http://10.80.128.31:3000/verify-token',
+    SOCKET: 'http://10.80.128.31:3000',
+    NOTIFICATION: 'http://10.80.128.31:3000/send-notification',
+    GET_ARTIFACTS: 'http://10.80.128.31:3000/api/artifacts',
+    UPDATE_ARTIFACT: 'http://10.80.128.31:3000/api/artifacts',
+    GET_MISSIONS: 'http://10.80.128.31:3000/api/missions',
+    GET_ACCESS_TOKEN: 'http://10.80.128.31:3000/api/generate-access-token',
+    GET_REFRESH_TOKEN: 'http://10.80.128.31:3000/api/refresh-token'
+}
 
 
 // LANDER IP CASA
