@@ -122,6 +122,20 @@ const InnScreen = () => {
             setPlayers(updatedPlayers);
             setShowAngelo(false);
             setShowMessage(true);
+
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+            }).start();
+    
+            setTimeout(() => {
+                Animated.timing(fadeAnim, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true,
+                }).start(() => setShowMessage(false));
+            }, 2000);
         });
 
         return () => {
@@ -191,20 +205,6 @@ const InnScreen = () => {
         };
 
         socket.emit("UpdateCaptured", value);
-
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
-
-        setTimeout(() => {
-            Animated.timing(fadeAnim, {
-                toValue: 0,
-                duration: 500,
-                useNativeDriver: true,
-            }).start(() => setShowMessage(false));
-        }, 2000);
     };
 
     return (
