@@ -121,6 +121,7 @@ const InnScreen = () => {
             );
             setPlayers(updatedPlayers);
             setShowAngelo(false);
+            setShowMessage(true);
         });
 
         return () => {
@@ -190,8 +191,6 @@ const InnScreen = () => {
         };
 
         socket.emit("UpdateCaptured", value);
-
-        setShowMessage(true);
 
         Animated.timing(fadeAnim, {
             toValue: 1,
