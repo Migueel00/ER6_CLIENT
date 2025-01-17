@@ -183,10 +183,9 @@ function App(): React.JSX.Element {
     // fetchData();
   }, []);
 
-  const tokensHandler = async () => {
+  const tokensHandler = async (email: string | null) => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
-      const email = await AsyncStorage.getItem('email');
 
       if (accessToken === null || accessToken != null) {
         console.log("SE VA A GENERAR EL ACCESS TOKEN");
@@ -198,6 +197,7 @@ function App(): React.JSX.Element {
         await AsyncStorage.setItem('accessToken', data.data);
         console.log("SUCCESSFULL");
         console.log(data.data); 
+
 
       } else {
         console.log("ACCESTOKEN ALREADY EXISTS");
@@ -323,7 +323,6 @@ function App(): React.JSX.Element {
       setError(null);
       console.log('EMPIEZA EL BUTTON PRESS');
 
-      await tokensHandler();
       // Iniciar socket
       const socket = io(URL.SOCKET);
       // Settear socket 
@@ -360,6 +359,10 @@ function App(): React.JSX.Element {
       await AsyncStorage.setItem('isVerified', 'true');
 
       const email = await AsyncStorage.getItem('email');
+
+      await tokensHandler(email);
+
+      const accessToken = await AsyncStorage.getItem('accessToken');
 
       console.log('EMAIL RECIBIDO DEL ASYNC STORAGE:' + email);
 
@@ -420,7 +423,7 @@ function App(): React.JSX.Element {
       setUserRole(player.role);
       await AsyncStorage.setItem("my-role", player.role);
 
-      await getDataAndAsign();
+      await getDataAndAsign(accessToken);
 
       setIsLoggedIn(true);
       setIsSpinner(false);
@@ -446,8 +449,8 @@ function App(): React.JSX.Element {
 
   };
 
-  const getDataAndAsign = async () => {
-    const players = await getAllPlayers();
+  const getDataAndAsign = async (accessToken: string | null) => {
+    const players = await getAllPlayers(accessToken);
     const data = players.data;
     setPlayers(players);
   }

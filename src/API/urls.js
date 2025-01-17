@@ -41,7 +41,6 @@
 export const URL = {
     GET_ALL_PLAYERS: 'http://10.80.128.31:3000/api/players',
     API_PLAYERS:     'http://10.80.128.31:3000/api/players',
-    UPDATE_PLAYER_BY_EMAIL: 'http://10.80.128.31:3000/api/players/email',
     VERIFY_TOKEN:  'http://10.80.128.31:3000/verify-token',
     SOCKET: 'http://10.80.128.31:3000',
     NOTIFICATION: 'http://10.80.128.31:3000/send-notification',
@@ -49,7 +48,7 @@ export const URL = {
     UPDATE_ARTIFACT: 'http://10.80.128.31:3000/api/artifacts',
     GET_MISSIONS: 'http://10.80.128.31:3000/api/missions',
     GET_ACCESS_TOKEN: 'http://10.80.128.31:3000/api/players/generate-access-token',
-    GET_REFRESH_TOKEN: 'http://10.80.128.31:3000/api/refresh-token'
+    GET_REFRESH_TOKEN: 'http://10.80.128.31:3000/api/players/refresh-token'
 }
 
 

@@ -3,11 +3,14 @@ import { URL } from '../../src/API/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const axiosInstance = axios.create({
-    baseURL: URL.API_PLAYERS,
     headers: {
         'Content-Type': 'application/json',
     },
 });
+
+
+
+
 
 axiosInstance.interceptors.response.use(
     response => response,
@@ -17,7 +20,7 @@ axiosInstance.interceptors.response.use(
 
             if (refreshToken === null) {
                 try {
-                    const { data } = await axios.post('/refresh-token', { refreshToken });
+                    const { data } = await axios.post(`${URL.GET_REFRESH_TOKEN}`, { refreshToken });
                     AsyncStorage.setItem('accessToken', data.accessToken);
                     error.config.headers['Authorization'] = `Bearer ${data.accessToken}`;
                     return axiosInstance(error.config);

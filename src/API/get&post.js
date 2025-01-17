@@ -1,53 +1,57 @@
+import axios from 'axios';
 import { URL } from "./urls";
+import axiosInstance from "../../components/utils/axiosInstance";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const searchAndIfDontExistPost = async (playerData) => {
 
     const email = playerData.email;
     const { _id, ...data } = playerData;
 
+    const accessToken = await AsyncStorage.getItem('accessToken');
+
     try {
-        const response = await fetch(`${URL.API_PLAYERS}/${email}`);
+        const response = await axiosInstance.get(`${URL.API_PLAYERS}/${email}`, {
+            headers: {
+                'authorization': `Bearer ${accessToken}`,
+            }
+        });
 
-        const responseJSON = await response.json();
+        if(response.status === 200){
+            console.log(`El correo ${email} ya está registrado`);
+            
+            const updatedPlayerData = await updateNewAtributtes(response.data, playerData);
 
-        if(response.ok){
-                console.log(`El correo ${email} ya está registrado`);
-                
-                const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
-                
-                const player = await updatePlayerByEmail(updatedPlayerData.data);
+            console.log(`Player PATCH on our database`);
+            
+            const player = await updatePlayerByEmail(updatedPlayerData.data);
 
-                return player;
+            console.log(`Player UPDATED from our database`);
 
-        }else if(response.status === 400){
+            return player;
 
-            const res   = await fetch(`${URL.API_PLAYERS}`, {
-                method: 'POST',
+        } else if(response.status === 400){
+
+            const res = await axiosInstance.post(`${URL.API_PLAYERS}`,{
                 headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(data)
+                    'authorization': `Bearer ${accessToken}`,
+                }
             });
 
-            
-            if(!res.ok) throw new Error(`Error al insertar el player`);
+            if(res.status !== 200) throw new Error(`Error al insertar el player`);
 
-            const { data: player } = await res.json();
+            const player = res.data;
             console.log(`Player insertado correctamente ${JSON.stringify(player)}`);
 
             return player;
-        }else {
-
+        } else {
             throw new Error("Error al comprobar el correo");
-        
         }
 
-    } 
-    catch (error){
-
-        console.error(error.message);
+    } catch (error) {
+        console.error('Error: ', error);
+        throw error;
     }
-
 }
 
 export const updatePlayerByEmail = async (data) => {
