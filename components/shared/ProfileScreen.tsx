@@ -9,6 +9,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import * as CONSTANTS from "../../src/constants";
 import RestScreen from '../acolyteScreen/RestScreen';
+import ConnectionScreen from '../mortimerScreen/connectionsScreen';
+import HealingScreen from '../mortimerScreen/healingScreen';
 
 const {width, height} = Dimensions.get('window');
 
@@ -116,6 +118,20 @@ const ProfileScreen = () => {
                                 <Tab.Screen
                                     name="Rest"
                                     component={RestScreen}
+                                    options={{
+                                        tabBarIcon: ({ focused }) => (
+                                            <Icon 
+                                                source={require('../../assets/icons/statsIcon.png')}
+                                                focused={focused}                                        
+                                            />
+                                        ),
+                                    }}
+                                />
+                            )}
+                             {player.role === 'MORTIMER' && (
+                                <Tab.Screen
+                                    name="Heal"
+                                    component={HealingScreen}
                                     options={{
                                         tabBarIcon: ({ focused }) => (
                                             <Icon 

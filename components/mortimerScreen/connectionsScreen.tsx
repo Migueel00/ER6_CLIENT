@@ -123,24 +123,21 @@ const ConnectionScreen = () => {
                     <ColoredText color="red">OUTSIDE</ColoredText> the Lab
                 </KaotikaFontHeads>
 
-                <KaotikaFontHeads>Click on an avatar if you want to heal the Acolyte{' '}
-                </KaotikaFontHeads>
                 <PlayersList>
                     {players
                         .filter((player: any) => player.role === 'ACOLYTE' && !player.isBetrayer)
                         .map((player: any) => (
                             <PlayerItem key={player.id}>
-                                <TouchableOpacity 
-                                    onPress={() => hanldeOpenModal(player)}>
+
                                     <Avatar source={{ uri: player.avatar }} />
-                                </TouchableOpacity>
+
                                 <KaotikaFont2>{player.nickname}</KaotikaFont2>
-                                <Icon
+                                <ConnectionIcon
                                     name={player.isInsideLab ? 'circle' : 'circle-o'}
                                     size={width * 0.07}
                                     color={player.isInsideLab ? 'green' : 'red'}
                                 />
-                                <IllCursedText>{getTextDetail(player)}</IllCursedText>
+
                             </PlayerItem>
                         ))}
                 </PlayersList>
@@ -153,17 +150,22 @@ const ConnectionScreen = () => {
     );
 };
 
+const ConnectionIcon = styled(Icon)`
+    margin-left: ${height * 0.02}px;
+    
+`
+
 const ColoredText = styled.Text<{ color: string }>`
     font-family: KochAltschrift;
     color: ${(props) => props.color};
-    font-size: ${width * 0.08}px;
+    font-size: ${height * 0.04}px;
 `;
 
 const IllCursedText = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.08}px;
+    font-size: ${height * 0.08}px;
     color: red;
-    margin-left: ${width * 0.05}px;
+    margin-left: ${height * 0.05}px;
 `;
 
 const BackgroundImage = styled.ImageBackground`
@@ -184,18 +186,18 @@ const Container = styled.View`
 
 const LabTitle = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.1}px;
+    font-size: ${height * 0.04}px;
     color: white;
     text-decoration-line: underline;
-    margin-bottom:  ${width * 0.02}px;
+    margin-bottom:  ${height * 0.01}px;
 `;
 
 
 const KaotikaFontHeads = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${width * 0.09}px;
+    font-size: ${height * 0.04}px;
     color: white;
-    margin-bottom:  ${width * 0.02}px;
+    margin-bottom:  ${height * 0.02}px;
     align-items: center;
     text-align: center;
     background-color: rgba(0,0,0,0.7);
@@ -213,9 +215,9 @@ const KaotikaFont2 = styled.Text`
     color: white;
     margin-vertical: 5px;
     text-align: left;
-    margin-left: 5px;
-    width: 40%;
-    font-size: ${width * 0.05}px;
+    margin-left: ${width * 0.02}px;
+    width: 65%;
+    font-size: ${height * 0.04}px;
 `;
 
 const PlayersList = styled.View`
