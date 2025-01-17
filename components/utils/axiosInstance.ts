@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { URL } from '../../src/API/urls';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const axiosInstance = axios.create({
     baseURL: URL.API_PLAYERS,
@@ -12,12 +13,12 @@ axiosInstance.interceptors.response.use(
     response => response,
     async error => {
         if (error.response?.status === 401) {
-            const refreshToken = localStorage.getItem('refreshToken');
+            const refreshToken = AsyncStorage.getItem('refreshToken');
 
-            if (refreshToken) {
+            if (refreshToken === null) {
                 try {
                     const { data } = await axios.post('/refresh-token', { refreshToken });
-                    localStorage.setItem('accessToken', data.accessToken);
+                    AsyncStorage.setItem('accessToken', data.accessToken);
                     error.config.headers['Authorization'] = `Bearer ${data.accessToken}`;
                     return axiosInstance(error.config);
                 } catch (refreshError) {

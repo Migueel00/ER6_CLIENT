@@ -170,30 +170,44 @@ function App(): React.JSX.Element {
     requestUserPermission();
     onMessageReceivedService();
     //onNotificationOpenedApp();
-    
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get('/some-protected-endpoint');
-        console.log('Data:', response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
 
-    fetchData();
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axiosInstance.get('/generate-access-token');
+    //     console.log('Data:', response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // };
+
+    // fetchData();
   }, []);
 
-  const tokensHandler = async() => {
+  const tokensHandler = async () => {
     try {
-      const accessToken = AsyncStorage.getItem('accessToken');
-      if(accessToken === null){
-        const { data } = await axios.post(`${URL.GET_ACCESS_TOKEN}`);
-        await AsyncStorage.setItem('accessToken', data.accessToken);
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const email = await AsyncStorage.getItem('email');
+
+      if (accessToken === null || accessToken != null) {
+        console.log("SE VA A GENERAR EL ACCESS TOKEN");
+        console.log("URL: ", URL.GET_ACCESS_TOKEN);
+        console.log("userEmail: ", email);
+
+        const { data } = await axios.post(`${URL.GET_ACCESS_TOKEN}/${email}`);
+        
+        await AsyncStorage.setItem('accessToken', data.data);
         console.log("SUCCESSFULL");
+        console.log(data.data); 
+
+      } else {
+        console.log("ACCESTOKEN ALREADY EXISTS");
+        console.log(accessToken);
+
       }
     }
-    catch (error){
+    catch (error) {
       console.error('Error handling tokens: ', error);
+      console.log("Error with tokens");
     }
   }
 
@@ -307,6 +321,8 @@ function App(): React.JSX.Element {
     try {
       setIsSpinner(true);
       setError(null);
+      console.log('EMPIEZA EL BUTTON PRESS');
+
       await tokensHandler();
       // Iniciar socket
       const socket = io(URL.SOCKET);
@@ -370,7 +386,7 @@ function App(): React.JSX.Element {
       setProfileAttributes(profileDataAttr);
 
       const playerDataToPost = profileData.data;
-      
+
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
       playerDataToPost.location = "HOME";
