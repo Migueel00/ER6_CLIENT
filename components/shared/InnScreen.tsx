@@ -114,14 +114,13 @@ const InnScreen = () => {
 
     const angelo = players?.find(player => player.role === 'ANGELO');
 
-  
-
     useEffect(() => {
         socket.on('IsCaptured', (updatedPlayer: Player) => {
             const updatedPlayers = players?.map(player =>
                 player.role === 'ANGELO' ? { ...player, isCaptured: updatedPlayer.isCaptured } : player
             );
             setPlayers(updatedPlayers);
+            setShowAngelo(false);
         });
 
         return () => {
@@ -183,7 +182,6 @@ const InnScreen = () => {
 
     const handleAngeloPress = () => {
         console.log("Angelo clicked!");
-        setShowAngelo(false);
         Vibration.vibrate(200);
 
         const value = {
