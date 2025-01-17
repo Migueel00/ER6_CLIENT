@@ -12,7 +12,7 @@ import { patchPlayerWithUserID } from '../../src/API/get&post';
 
 const { height, width } = Dimensions.get('window');
 
-const ConnectionScreen = () => {
+const HealingScreen = () => {
     const appContext = useContext(AppContext);
     const mortimerContext = useContext(MortimerContext);
     const players = appContext?.players!;
@@ -117,27 +117,25 @@ const ConnectionScreen = () => {
                 handleHealButton={handleHealButton}    
             />
             <Container>
-                <LabTitle>LABORATORY</LabTitle>
-                <KaotikaFontHeads>Below you have checkmarked who's{' '}
-                    <ColoredText color="green">INSIDE</ColoredText> or{' '}
-                    <ColoredText color="red">OUTSIDE</ColoredText> the Lab
+              
+                <KaotikaFontHeads>Click on an avatar if you want to heal the Acolyte{' '}
                 </KaotikaFontHeads>
-
                 <PlayersList>
                     {players
                         .filter((player: any) => player.role === 'ACOLYTE' && !player.isBetrayer)
                         .map((player: any) => (
                             <PlayerItem key={player.id}>
-
+                                <TouchableOpacity 
+                                    onPress={() => hanldeOpenModal(player)}>
                                     <Avatar source={{ uri: player.avatar }} />
-
+                                </TouchableOpacity>
                                 <KaotikaFont2>{player.nickname}</KaotikaFont2>
-                                <ConnectionIcon
+                                <Icon
                                     name={player.isInsideLab ? 'circle' : 'circle-o'}
                                     size={width * 0.07}
                                     color={player.isInsideLab ? 'green' : 'red'}
                                 />
-
+                                <IllCursedText>{getTextDetail(player)}</IllCursedText>
                             </PlayerItem>
                         ))}
                 </PlayersList>
@@ -150,22 +148,17 @@ const ConnectionScreen = () => {
     );
 };
 
-const ConnectionIcon = styled(Icon)`
-    margin-left: ${height * 0.02}px;
-    
-`
-
 const ColoredText = styled.Text<{ color: string }>`
     font-family: KochAltschrift;
     color: ${(props) => props.color};
-    font-size: ${height * 0.04}px;
+    font-size: ${width * 0.08}px;
 `;
 
 const IllCursedText = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${height * 0.08}px;
+    font-size: ${width * 0.08}px;
     color: red;
-    margin-left: ${height * 0.05}px;
+    margin-left: ${width * 0.05}px;
 `;
 
 const BackgroundImage = styled.ImageBackground`
@@ -186,18 +179,18 @@ const Container = styled.View`
 
 const LabTitle = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${height * 0.04}px;
+    font-size: ${width * 0.1}px;
     color: white;
     text-decoration-line: underline;
-    margin-bottom:  ${height * 0.01}px;
+    margin-bottom:  ${width * 0.02}px;
 `;
 
 
 const KaotikaFontHeads = styled.Text`
     font-family: KochAltschrift;
-    font-size: ${height * 0.04}px;
+    font-size: ${width * 0.09}px;
     color: white;
-    margin-bottom:  ${height * 0.02}px;
+    margin-bottom:  ${width * 0.02}px;
     align-items: center;
     text-align: center;
     background-color: rgba(0,0,0,0.7);
@@ -215,9 +208,9 @@ const KaotikaFont2 = styled.Text`
     color: white;
     margin-vertical: 5px;
     text-align: left;
-    margin-left: ${width * 0.02}px;
-    width: 65%;
-    font-size: ${height * 0.04}px;
+    margin-left: 5px;
+    width: 40%;
+    font-size: ${width * 0.05}px;
 `;
 
 const PlayersList = styled.View`
@@ -262,4 +255,4 @@ const StyledButton = styled(TouchableOpacity)`
     border-radius: ${width * 0.4}px;
 `;
 
-export default ConnectionScreen;
+export default HealingScreen;
