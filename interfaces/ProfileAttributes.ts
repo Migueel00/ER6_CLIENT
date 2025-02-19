@@ -6,4 +6,6 @@ export default interface ProfileAttributes {
     charisma: number;
     constitution: number;
     strength: number;
-};
+}
+
+

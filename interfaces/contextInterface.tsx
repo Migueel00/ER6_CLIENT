@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
-import Artifact from './ArtifactsInterface';
-import { Player } from './Player';
 import Ingredient from '../components/potions/ingredient';
+import Artifact from './ArtifactsInterface';
+import { Player } from './Player/Player';
 export interface ContextInterface {
   userRole: string,
   userEmail: string,

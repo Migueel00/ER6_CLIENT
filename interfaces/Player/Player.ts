@@ -1,4 +1,5 @@
-import Curse from '../components/potions/curse';
+import Curse from '../../components/potions/curse';
+import { Inventory } from './Inventory';
 
 export interface Player {
   _id: string,
@@ -37,5 +38,6 @@ export interface Player {
     constitution: number,
     resistence: number
   }
-  curses: Curse[]
+  curses: Curse[],
+  inventory: Inventory
 }
