@@ -1,7 +1,7 @@
-import Curse from "../components/potions/curse";
-import Artifact from "./ArtifactsInterface"
-import { Dispatch, SetStateAction } from "react"
-
+import { Dispatch, SetStateAction } from 'react';
+import Artifact from './ArtifactsInterface';
+import { Player } from './Player';
+import Ingredient from '../components/potions/ingredient';
 export interface ContextInterface {
   userRole: string,
   userEmail: string,
@@ -33,55 +33,3 @@ export interface ContextInterface {
   setAreArtifactsValidated: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface Player {
-  _id: string,
-  socketId: string,
-  email: string,
-  nickname: string,
-  isInsideLab: boolean,
-  isInsideTower: boolean,
-  isInsideHall: boolean,
-  isBetrayer: boolean,
-  isCaptured: boolean,
-  isArrested: boolean,
-  avatar: string,
-  id: string,
-  role: string,
-  location: string,
-  putridPlague: boolean,
-  epicWeakness: boolean,
-  medularApocalypse: boolean,
-  ethazium: boolean,
-  attributes: {
-    insanity: number,
-    strength: number,
-    dexterity: number,
-    resistence: number,
-    charisma: number,
-    intelligence: number,
-    constitution: number
-  },
-  modifiedAttributes: {
-    insanity: number,
-    strength: number,
-    dexterity: number,
-    charisma: number,
-    intelligence: number,
-    constitution: number,
-    resistence: number
-  }
-  curses: Curse[]
-  ingredients: Ingredient[]
-}
-
-export interface Ingredient {
-  _id: string,
-  name: string,
-  description: string,
-  value: number,
-  effects: string[],
-  type: string,
-  key: string,
-  image: string,
-  qty: number
-}

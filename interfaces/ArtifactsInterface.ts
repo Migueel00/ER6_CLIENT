@@ -11,4 +11,4 @@ export default interface Artifact {
     },
     _id: string,
     avatar: string
-}
+};
