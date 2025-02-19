@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Dimensions, SafeAreaView, Text } from 'react-native';
+import { Dimensions, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import AppContext from '../../helpers/context';
 
@@ -32,7 +32,7 @@ const Equipment = () => {
                     ...inventory.rings,
                     ...inventory.shields,
                     ...inventory.weapons,
-                    ...player.ingredients
+                    ...inventory.ingredients,
                 ];
 
                 if (items.length === 0) {

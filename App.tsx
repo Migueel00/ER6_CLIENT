@@ -1,31 +1,29 @@
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import LoadSpinner from './components/utils/loadSpinner';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import React, { useEffect, useRef, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, ImageBackground, TouchableOpacity, Dimensions, PermissionsAndroid } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, ImageBackground, LogBox, PermissionsAndroid, SafeAreaView, ScrollView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import Toast from 'react-native-toast-message';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import io, { Socket } from 'socket.io-client';
-import { searchAndIfDontExistPost } from "./src/API/get&post";
-import { getAllPlayers } from './src/API/getAllPlayers';
+import SignInScreen from './components/SignIn';
 import MainScreens from './components/mainScreens';
-import { LogBox } from 'react-native';
+import { onMessageReceivedService } from './components/notifications/notificationService';
+import Ingredient from './components/potions/ingredient';
+import LoadSpinner from './components/utils/loadSpinner';
 import AppContext from './helpers/context';
+import Artifact from './interfaces/ArtifactsInterface';
 import ProfileAttributes from './interfaces/ProfileAttributes';
 import { Player } from './interfaces/contextInterface';
-import Ingredient from './components/potions/ingredient';
+import { searchAndIfDontExistPost } from './src/API/get&post';
+import { getAllPlayers } from './src/API/getAllPlayers';
 import { getIngredientsAndFilter, getParchmentIngredients } from './src/API/getIngredients';
-import { URL } from './src/API/urls';
-import { requestUserPermission, onNotificationOpenedApp, onMessageReceivedService } from './components/notifications/notificationService';
-import { Alert } from 'react-native';
-import SignInScreen from './components/SignIn';
-import Toast from 'react-native-toast-message';
-import { toastConfig } from './src/constants';
-import Artifact from './interfaces/ArtifactsInterface';
 import { getALlMissions } from './src/API/missions';
+import { URL } from './src/API/urls';
+import { toastConfig } from './src/constants';
 
 GoogleSignin.configure({
   webClientId: '946196140711-ej1u0hl0ccr7bnln9vq4lelucmqjuup7.apps.googleusercontent.com',
@@ -37,9 +35,9 @@ function App(): React.JSX.Element {
 
   const [isVerified, setIsVerified] = useState(false); // -> no se usa isVerified?
   const isDarkMode = useColorScheme() === 'dark';
-  const [userSocket, setUserSocket] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>("");
+  const [userSocket, setUserSocket] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [userRole, setUserRole] = useState<string>('');
   const [profileAttributes, setProfileAttributes] = useState<ProfileAttributes>({
     intelligence: 0,
     dexterity: 0,
@@ -54,7 +52,7 @@ function App(): React.JSX.Element {
   const [socket, setSocket] = useState<Socket | null>(null);  // Usa la tipificación correcta para Socket.IO
   const [players, setPlayers] = useState<Player[]>([]);
   const [player, setPlayer] = useState<Player>();
-  const [location, setLocation] = useState<string>("");
+  const [location, setLocation] = useState<string>('');
   const [ingredients, setIngredients] = useState<Ingredient[] | any>([]);
   const [cleanseIngredients, setCleanseIngredients] = useState<Ingredient[] | any>([]);
   const [parchmentState, setParchmentState] = useState<boolean>(true);
@@ -65,7 +63,7 @@ function App(): React.JSX.Element {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [areArtifactsValidated, setAreArtifactsValidated] = useState<boolean>(false);
   const [missions, setMissions] = useState<any>([]);
-  const [spinnerText, setSpinnerText] = useState<string>("Loading...");
+  const [spinnerText, setSpinnerText] = useState<string>('Loading...');
 
   const checkLoginStatus = async () => {
     const email = await AsyncStorage.getItem('email');
@@ -89,8 +87,8 @@ function App(): React.JSX.Element {
         },
         body: JSON.stringify({
           fcmToken: fcmToken,
-          title: "Bienvenido a KAOTIKA",
-          body: "¡Gracias por unirte a la aventura!",
+          title: 'Bienvenido a KAOTIKA',
+          body: '¡Gracias por unirte a la aventura!',
         }),
       });
 
@@ -113,20 +111,20 @@ function App(): React.JSX.Element {
         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("Permiso de notificaciones concedido");
+          console.log('Permiso de notificaciones concedido');
         } else {
-          console.log("Permiso de notificaciones denegado");
+          console.log('Permiso de notificaciones denegado');
         }
       } else {
-        console.log("El usuario ya tiene el permiso de notificaciones activado");
+        console.log('El usuario ya tiene el permiso de notificaciones activado');
       }
     } catch (error) {
-      console.error("Error al solicitar permiso de notificaciones:", error);
+      console.error('Error al solicitar permiso de notificaciones:', error);
     }
   }
 
   async function requestUserPermission() {
-    console.log("PIDIENDO PERMISOS PARA NOTIFICACIONES");
+    console.log('PIDIENDO PERMISOS PARA NOTIFICACIONES');
 
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -187,7 +185,7 @@ function App(): React.JSX.Element {
       setCleanseIngredients(newIngredients);
 
     } catch (error) {
-      console.error("Error fetching ingredients:", error);
+      console.error('Error fetching ingredients:', error);
     }
   };
 
@@ -197,7 +195,7 @@ function App(): React.JSX.Element {
 
 
   const verifyUser = async () => {
-    console.log("USUARIO NO VERIFICADO, PROCEDE A VERIFICAR");
+    console.log('USUARIO NO VERIFICADO, PROCEDE A VERIFICAR');
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
@@ -206,7 +204,7 @@ function App(): React.JSX.Element {
     //const email = 'oskar.calvo@aeg.eus';
     //const email = 'classcraft.daw2@aeg.eus'
     const email = userInfo.data?.user.email;
-    //const email = "miguelangel.rojas@ikasle.aeg.eus";
+    //const email = "asier.arguinchona@ikasle.aeg.eus";
 
     const googleIdToken = userInfo.data?.idToken;
 
@@ -248,7 +246,7 @@ function App(): React.JSX.Element {
     } else {
       throw new Error(fireBaseResult.error || 'Error al verificar el token');
     }
-  }
+  };
 
   const handleSockets = (socket: any) => {
     // Conectar al socket
@@ -265,15 +263,15 @@ function App(): React.JSX.Element {
     // Desconexion
     socket.on('disconnect', () => {
       console.log('Desconectado del servidor de Socket ');
-    })
+    });
 
     // Limpiar la conexion al desmontar el componente
     return () => {
       socket.off('connect');
       socket.off('disconnect');
       socket.disconnect();
-    }
-  }
+    };
+  };
 
   const handleButtonPress = async () => {
 
@@ -282,7 +280,7 @@ function App(): React.JSX.Element {
       setError(null);
       // Iniciar socket
       const socket = io(URL.SOCKET);
-      // Settear socket 
+      // Settear socket
       setSocket(socket);
       // Funcion gestionar sockets
       handleSockets(socket);
@@ -293,13 +291,13 @@ function App(): React.JSX.Element {
 
       const isVerified = await AsyncStorage.getItem('isVerified');
 
-      console.log("IS VERIFIED?" + isVerified);
+      console.log('IS VERIFIED?' + isVerified);
 
       setSpinnerText('Retrieving FCM Token...');
 
       const FCMToken = await getFCMToken();
 
-      console.log("FCM TOKEN AFTER RETRIEVING");
+      console.log('FCM TOKEN AFTER RETRIEVING');
       console.log(FCMToken);
 
       setSpinnerText('Requesting permissions...');
@@ -332,20 +330,20 @@ function App(): React.JSX.Element {
         throw new Error('Error en la solicitud a la API');
       }
       else {
-        setSpinnerText("Succesfully retrieved player data!");
-        console.log("Succesfully connected with Kaotika API");
+        setSpinnerText('Succesfully retrieved player data!');
+        console.log('Succesfully connected with Kaotika API');
 
       }
 
       const profileData = await response.json();
-      const profileDataAttr = profileData.data.attributes
+      const profileDataAttr = profileData.data.attributes;
       setProfileAttributes(profileDataAttr);
 
       const playerDataToPost = profileData.data;
-      
+
       playerDataToPost.socketId = socket?.id;
       playerDataToPost.fcmToken = FCMToken;
-      playerDataToPost.location = "HOME";
+      playerDataToPost.location = 'HOME';
 
       const missions = await getALlMissions();
       setMissions(missions);
@@ -363,18 +361,18 @@ function App(): React.JSX.Element {
         setAreArtifactsValidated(false);
       }
 
-      setSpinnerText("Updating player in our database...");
+      setSpinnerText('Updating player in our database...');
 
       const player = await searchAndIfDontExistPost(playerDataToPost);
 
-      setSpinnerText("Player updated!");
+      setSpinnerText('Player updated!');
       setLocation(player.location);
 
       //player.role = "MORTIMER";
       setPlayer(player);
       await fetchIngredients(player.role);
       setUserRole(player.role);
-      await AsyncStorage.setItem("my-role", player.role);
+      await AsyncStorage.setItem('my-role', player.role);
 
       await getDataAndAsign();
 
@@ -406,7 +404,7 @@ function App(): React.JSX.Element {
     const players = await getAllPlayers();
     const data = players.data;
     setPlayers(players);
-  }
+  };
 
   return (
     <AppContext.Provider
@@ -480,7 +478,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     paddingTop: 20,
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   kaotika: {
     color: 'white', // Color blanco para "Kati" y "ka"
@@ -495,7 +493,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'rgba(230, 140, 0, 0.7)',
     marginTop: height * 0.55,
-    borderRadius: 20
+    borderRadius: 20,
   },
   imageBackground: {
     flex: 1, // Esto hace que el ImageBackground ocupe todo el espacio
@@ -515,7 +513,7 @@ const styles = StyleSheet.create({
     fontFamily: 'KochAltschrift',
     fontSize: 40,
     color: 'white',
-  }
+  },
 });
 
 //Warning hide
