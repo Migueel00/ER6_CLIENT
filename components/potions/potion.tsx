@@ -1,4 +1,4 @@
-import { Modifiers } from "./curse";
+import { Modifiers } from './curse';
 
 export default class Potion {
     name: string;
@@ -9,7 +9,7 @@ export default class Potion {
     }
 
     static failed(): Potion {
-        return new FailedPotion("Failed Potion", 0);
+        return new FailedPotion('Failed Potion', 0);
     }
 }
 
@@ -25,7 +25,7 @@ export class Antidote extends Potion {
 
     constructor( modifiers: Modifiers, _id: string, name: string, description: string, type: string, antidote_effects: string[]) {
         super(name);
-        
+
         this.modifiers = modifiers;
         this._id = _id;
         this.name = name;
@@ -48,7 +48,7 @@ export class Poison extends Potion {
 
     constructor( modifiers: Modifiers, _id: string, name: string, description: string, type: string, poison_effects: string[]) {
         super(name);
-        
+
         this.modifiers = modifiers;
         this._id = _id;
         this.name = name;
@@ -113,15 +113,15 @@ export class Stench extends Potion {
 
     constructor(name: string, modifier_value: number) {
         super(name);
-        this.modifier_value = modifier_value;
+        this.modifier_value = -modifier_value;
     }
 }
 
 // Poción fallida
 export class FailedPotion extends Potion {
 
-    modifier_value: number
-    
+    modifier_value: number;
+
     constructor(name: string, modifier_value: number) {
         super(name);
         this.modifier_value = modifier_value;
@@ -131,8 +131,7 @@ export class FailedPotion extends Potion {
 // Poción fallida
 export class PurificationPotion extends Potion {
 
-    modifier_value: number
-    
+    modifier_value: number;
     constructor(name: string, modifier_value: number) {
         super(name);
         this.modifier_value = modifier_value;
