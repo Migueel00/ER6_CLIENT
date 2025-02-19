@@ -38,21 +38,16 @@ const CONSTANTS = {
 const PotionCreator = () => {
     const appContext = useContext(AppContext);
     const player = appContext?.player!;
-    
-    useEffect(() => {
-        console.log('Player inventory:', player.inventory);
-    }, []);
 
     const [selectedIngredient, setSelectedIngredient] = useState<{ name: string, effects: string }>({ name: '', effects: '' });
     const [selectedIngredientArray, setSelectedIngredientArray] = useState<Ingredient[]>([]);
     const context = useContext(AppContext);
     const [potionFactory, setPotionFactory] = useState<Cauldron | null>();
     const [curses, setCurses] = useState(require('../../../fakedata/fake-curses.json'));
-
     const [createdPotion, setCreatedPotion] = useState<Potion | null>();
     const [ingredients, setIngredients] = useState<Ingredient[] | any>(context?.ingredients || []);
     const [playerIngredients, setPlayerIngredients] = useState<Ingredient[] | any>(player.inventory.ingredients || []);
-    const [playerIngredientsCopy, setPlayerIngredientsCopy] = useState<Ingredient[] | any>(player?.inventory.ingredients|| []);
+    const [playerIngredientsCopy, setPlayerIngredientsCopy] = useState<Ingredient[] | any>(player?.inventory.ingredients || []);
     const [potionModalVisible, setPotionModalVisible] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
     const [showCreatePotionButton, setShowCreatePotionButton] = useState(true);
@@ -118,7 +113,7 @@ const PotionCreator = () => {
     const handleLongPress = (ingredient: Ingredient) => {
 
         if (selectedIngredientArray.length < 4) {
-            if(ingredient.qty > 0) {
+            if (ingredient.qty > 0) {
                 ToastAndroid.show(ingredient.name + ' added', ToastAndroid.SHORT);
                 Vibration.vibrate(100);
                 console.log('Ingrediente seleccionado');
@@ -152,16 +147,16 @@ const PotionCreator = () => {
             console.log('Creating potion and patching player in DB');
 
             const patchJSON = {
-              ingredients: filteredPlayerIngredientsForPatch,
+                ingredients: filteredPlayerIngredientsForPatch,
             };
 
-            const updatedPlayer = await patchPlayerWithUserID(player._id, patchJSON);
+            await patchPlayerWithUserID(player._id, patchJSON);
 
             setCreatingPotion(false);
 
-          } catch (error) {
+        } catch (error) {
             console.error('Error handling square press:', error);
-          }
+        }
     };
 
     useEffect(() => {
@@ -283,13 +278,6 @@ const PotionCreator = () => {
 };
 
 //STYLED COMPONENTS
-const FilterIcon = styled.Image`
-    width: ${CONSTANTS.WIDTH * 0.15}px; 
-    height: ${CONSTANTS.WIDTH * 0.13}px; 
-    tint-color: white;
-    resize-mode: contain;
-`;
-
 const Container = styled.View`
     flex: 1;
     padding-bottom: 0px;
