@@ -1,4 +1,4 @@
-import { URL } from "./urls";
+import { URL } from './urls';
 
 export const searchAndIfDontExistPost = async (playerData) => {
 
@@ -12,9 +12,9 @@ export const searchAndIfDontExistPost = async (playerData) => {
 
         if(response.ok){
                 console.log(`El correo ${email} ya está registrado`);
-                
-                const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData)
-                
+
+                const updatedPlayerData = await updateNewAtributtes(responseJSON, playerData);
+
                 const player = await updatePlayerByEmail(updatedPlayerData.data);
 
                 return player;
@@ -26,11 +26,11 @@ export const searchAndIfDontExistPost = async (playerData) => {
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
 
-            
-            if(!res.ok) throw new Error(`Error al insertar el player`);
+
+            if(!res.ok) {throw new Error('Error al insertar el player');}
 
             const { data: player } = await res.json();
             console.log(`Player insertado correctamente ${JSON.stringify(player)}`);
@@ -38,17 +38,17 @@ export const searchAndIfDontExistPost = async (playerData) => {
             return player;
         }else {
 
-            throw new Error("Error al comprobar el correo");
-        
+            throw new Error('Error al comprobar el correo');
+
         }
 
-    } 
+    }
     catch (error){
 
         console.error(error.message);
     }
 
-}
+};
 
 export const updatePlayerByEmail = async (data) => {
     const email = data.email;
@@ -57,26 +57,26 @@ export const updatePlayerByEmail = async (data) => {
 
     try {
         const response = await fetch(`${URL.UPDATE_PLAYER_BY_EMAIL}/${email}`, {
-            method: "PATCH",
+            method: 'PATCH',
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(updateData)
+            body: JSON.stringify(updateData),
         });
 
-        if (!response.ok) throw new Error(`Error ${response.status}: ${errorText}`); // Lanzar un error con el código y texto de la respuesta
-        
+        if (!response.ok) {throw new Error(`Error ${response.status}`);} // Lanzar un error con el código y texto de la respuesta
+
 
         // Parsear la respuesta JSON solo si fue exitosa
         const { data: player } = await response.json();
         return player;
 
     } catch (error) {
-        
-        console.error("Error al actualizar el player", error);
+
+        console.error('Error al actualizar el player', error);
         throw error;
     }
-}
+};
 
 export const searchAndChangeIsInsideLabState = async (qrValue) => {
 
@@ -89,7 +89,7 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
 
         // Cambiamos el estado de isInsideLab
         const json = {
-            "isInsideLab": !insideLabState
+            'isInsideLab': !insideLabState,
         };
 
         await patchPlayerWithUserID(userID, json);
@@ -97,7 +97,7 @@ export const searchAndChangeIsInsideLabState = async (qrValue) => {
     } catch (error) {
         console.error(error.message);
     }
-}
+};
 
 export const getPlayerInsideLabState = async (userEmail) => {
         // Primero, obtenemos los datos del jugador para saber el estado actual de isInsideLab
@@ -116,7 +116,7 @@ export const getPlayerInsideLabState = async (userEmail) => {
     const playerData = await playerResponse.json();
 
     return playerData.data.isInsideLab;
-}
+};
 
 export const patchPlayerWithUserID = async (userID, patchJSON) => {
     // Ahora hacemos la petición PATCH para actualizar el estado
@@ -137,10 +137,10 @@ export const patchPlayerWithUserID = async (userID, patchJSON) => {
     // console.log(json);
 
     return json.data;
-}
+};
 
 export const updateNewAtributtes = async (responseJSON, playerData) => {
-    
+
     const newPlayerData = playerData;
 
     const newAtributtes = ['isInsideLab', 'isInsideTower', 'fcmToken', 'location', 'isInsideHall', 'isBetrayer', 'isCaptured', 'isArrested', 'curses', 'ingredients'];
@@ -149,12 +149,12 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
         if (attr in responseJSON.data) {
             if(attr === 'fcmToken')
             {
-                console.log("EXISTE FCM TOKEN");
+                console.log('EXISTE FCM TOKEN');
                 console.log(playerData[attr]);
                 newPlayerData[attr] = playerData[attr];
             }
             else if(attr === 'isBetrayer') {
-                newPlayerData[attr] = playerData[attr];   
+                newPlayerData[attr] = playerData[attr];
             }
             else
             {
@@ -168,12 +168,12 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
             {
                 newPlayerData[attr] = false;
             }
-        
+
         }
     });
 
     console.log('isBetrayer after forEach: ' + newPlayerData.isBetrayer);
-    
+
     let newObj = {};
 
     newObj.data = {};
@@ -183,11 +183,11 @@ export const updateNewAtributtes = async (responseJSON, playerData) => {
 
     return newObj;
 
-}
+};
 
 module.exports = {
     searchAndIfDontExistPost,
     searchAndChangeIsInsideLabState,
     patchPlayerWithUserID,
     getPlayerInsideLabState,
-} 
+};

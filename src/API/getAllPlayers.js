@@ -1,4 +1,4 @@
-import { URL } from "./urls";
+import { URL } from './urls';
 
 export const getAllPlayers = async () => {
     try {
@@ -6,7 +6,7 @@ export const getAllPlayers = async () => {
 
         // Validar si la respuesta es exitosa
         if (!res.ok) {
-            console.error("UN ERROR INESPERADO A OCURRIDO");
+            console.error('UN ERROR INESPERADO A OCURRIDO');
             return []; // Devuelve un array vacío en caso de error
         }
 
@@ -15,7 +15,7 @@ export const getAllPlayers = async () => {
 
         // console.log('GET ALL PLAYERS RESPONSE');
         //console.log(players.data);
-        
+
         // if (!players || !Array.isArray(players)) {
         //     console.error("La respuesta del servidor no es un array válido.");
         //     return []; // Devuelve un array vacío si los datos no son válidos
@@ -28,13 +28,13 @@ export const getAllPlayers = async () => {
 
         // console.log('ALL PLAYERS FILTERED');
         // console.log(filteredPlayers);
-        
-        
+
+
 
         return filteredPlayers;
 
     } catch (error) {
-        console.error("Error general: ", error);
+        console.error('Error general: ', error);
         return []; // Devuelve un array vacío en caso de excepción
     }
 };
